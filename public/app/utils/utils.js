@@ -6,7 +6,7 @@ define(['jquery'], function ($) {
             url: url,
             method: method,
             data: data,
-            contentType: "application/json"
+            contentType: 'application/json'
         }).done(doneFunk)
             .fail(failFunk)
             .always(alwaysFunk);

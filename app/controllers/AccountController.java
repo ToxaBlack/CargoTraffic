@@ -31,7 +31,7 @@ public class AccountController extends Controller {
         return ok(Json.toJson(getAccountData(user)));
     }
 
-    @BodyParser.Of(BodyParser.TolerantJson.class)
+    @BodyParser.Of(BodyParser.Json.class)
     public Result updateAccount() throws ControllerException {
         User oldUser = (User) Http.Context.current().args.get("user");
 
@@ -50,6 +50,28 @@ public class AccountController extends Controller {
         }
 
     }
+
+    @BodyParser.Of(BodyParser.Json.class)
+    public Result updatePassword() throws ControllerException {
+        User oldUser = (User) Http.Context.current().args.get("user");
+
+        JsonNode json = request().body().asJson();
+        if(json == null) {
+            return badRequest("Expecting Json data");
+        } else {
+            LOGGER.debug("API update password  for user = {}", oldUser.toString());
+            try {
+                userService.update(updateAccount(oldUser, json));
+            } catch (ServiceException e) {
+                LOGGER.error("error = {}", e);
+                throw  new ControllerException(e.getMessage(), e);
+            }
+            return ok();
+        }
+
+    }
+
+
 
     private User updateAccount(User oldUser, JsonNode json) {
         oldUser.username = json.findPath("username").textValue();

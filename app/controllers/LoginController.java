@@ -29,7 +29,7 @@ public class LoginController extends Controller {
 
 
     @SubjectNotPresent
-    @BodyParser.Of(BodyParser.TolerantJson.class)
+    @BodyParser.Of(BodyParser.Json.class)
     public Result login() throws ControllerException {
         JsonNode json = request().body().asJson();
         String username = json.findPath("user").textValue();
