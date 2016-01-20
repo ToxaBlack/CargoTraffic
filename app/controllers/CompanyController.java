@@ -3,17 +3,16 @@ package controllers;
 import be.objectify.deadbolt.java.actions.Group;
 import be.objectify.deadbolt.java.actions.Restrict;
 import be.objectify.deadbolt.java.actions.SubjectPresent;
-import com.fasterxml.jackson.databind.JsonNode;
 import models.Company;
 import play.Logger;
 import play.libs.Json;
-import play.mvc.BodyParser;
 import play.mvc.Controller;
 import play.mvc.Http;
 import play.mvc.Result;
 import service.CompanyService;
 import service.ServiceException;
 
+import javax.inject.Inject;
 import java.util.List;
 import java.util.Map;
 
@@ -21,6 +20,9 @@ import java.util.Map;
 @SubjectPresent
 public class CompanyController extends Controller {
     private static final Logger.ALogger LOGGER = Logger.of(CompanyController.class);
+
+    @Inject
+    CompanyService companyService;
 
 
     @Restrict({@Group("SYS_ADMIN")})
@@ -34,7 +36,7 @@ public class CompanyController extends Controller {
 
         List<Company> companyList;
         try {
-            companyList = CompanyService.getCompanies(id, companiesCount, isAscOrder);
+            companyList = companyService.getCompanies(id, companiesCount, isAscOrder);
         } catch (ServiceException e) {
             LOGGER.error("error = {}", e);
             throw new ControllerException(e.getMessage(), e);

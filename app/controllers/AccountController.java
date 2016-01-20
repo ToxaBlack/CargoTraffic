@@ -13,12 +13,17 @@ import play.mvc.Result;
 import service.ServiceException;
 import service.UserService;
 
+import javax.inject.Inject;
+
 /**
  * Created by Anton Chernov on 1/3/2016.
  */
 @SubjectPresent
 public class AccountController extends Controller {
     private static final Logger.ALogger LOGGER = Logger.of(AccountController.class);
+
+    @Inject
+    UserService userService;
 
     public Result getAccount() throws ControllerException {
         User user = (User) Http.Context.current().args.get("user");
@@ -36,7 +41,7 @@ public class AccountController extends Controller {
         } else {
             LOGGER.debug("API update account data for user = {}", oldUser.toString());
             try {
-                UserService.update(updateAccount(oldUser, json));
+                userService.update(updateAccount(oldUser, json));
             } catch (ServiceException e) {
                 LOGGER.error("error = {}", e);
                 throw  new ControllerException(e.getMessage(), e);

@@ -15,12 +15,18 @@ import security.TokenController;
 import service.ServiceException;
 import service.UserService;
 
+import javax.inject.Inject;
+
 /**
  * Created by Anton Chernov on 12/30/2015.
  */
 
 public class LoginController extends Controller {
     private static final Logger.ALogger LOGGER = Logger.of(LoginController.class);
+
+    @Inject
+    UserService userService;
+
 
     @SubjectNotPresent
     @BodyParser.Of(BodyParser.TolerantJson.class)
@@ -32,7 +38,7 @@ public class LoginController extends Controller {
 
         User user;
         try {
-            user = UserService.findByName(username);
+            user = userService.findByName(username);
         } catch (ServiceException e) {
             LOGGER.error("error = {}", e);
             throw new ControllerException(e.getMessage(), e);

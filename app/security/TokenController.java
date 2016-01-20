@@ -27,6 +27,7 @@ public class TokenController {
     private static final int tokenLive = 3600;
     private static final String COOKIE_NAME = "access_token";
 
+
     public static void setToken(User user, String host, Http.Response response) {
         LOGGER.debug("Set cookie token for user = {} id = {}", user.username, user.id);
         response.setCookie(
@@ -69,7 +70,7 @@ public class TokenController {
                 .setSigningKey(DatatypeConverter.parseBase64Binary(KEY))
                 .parseClaimsJws(token).getBody();
 
-        User user = UserService.find(Long.parseLong(claims.getId()));
+        User user = (new UserService()).find(Long.parseLong(claims.getId()));
 
         LOGGER.debug("Validate token for user = {} id = {}", user.username, user.id);
 
