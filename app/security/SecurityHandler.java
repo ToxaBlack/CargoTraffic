@@ -19,6 +19,7 @@ import static play.mvc.Results.forbidden;
 public class SecurityHandler implements DeadboltHandler {
     private static final Logger.ALogger LOGGER = Logger.of(SecurityHandler.class);
 
+
     @Override
     public F.Promise<Optional<Result>> beforeAuthCheck(Http.Context context) {
         LOGGER.debug("Before check");

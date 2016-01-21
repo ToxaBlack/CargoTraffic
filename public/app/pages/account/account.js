@@ -1,25 +1,37 @@
-define(['app/utils/utils', "knockout", "text!./account.html"], function (utils, ko, accountTemplate) {
+define(['app/service/accountService', 'app/service/navService', "knockout", "text!./account.html"], function (accountService, navService, ko, accountTemplate) {
     "use strict";
 
     function accountViewModel() {
         var self = this;
         self.account = ko.observable({});
-        self.save = function() {
-            utils.ajax("api/account", "PUT", JSON.stringify(self.account()),
+        self.save = function () {
+            accountService.update(self.account(),
                 function (data) {
-                    utils.goTo("account");
+                    navService.mainPage();
                 },
-                function () {
-                    utils.goTo("error");
+                function (data) {
+                    switch (data.status) {
+                        case 403:
+                            navService.navigateTo("login");
+                            break;
+                        default:
+                            navService.navigateTo("error");
+                    }
                 });
         };
 
-        utils.ajax("api/account", "GET", {},
+        accountService.get(
             function (data) {
                 self.account(data);
             },
-            function () {
-                utils.goTo("error");
+            function (data) {
+                switch (data.status) {
+                    case 403:
+                        navService.navigateTo("login");
+                        break;
+                    default:
+                        navService.navigateTo("error");
+                }
             });
 
         return self;

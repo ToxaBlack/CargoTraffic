@@ -1,4 +1,4 @@
-define(['app/utils/utils', "knockout", "text!./login.html"], function (utils, ko, loginTemplate) {
+define(['app/service/authService', 'app/service/navService', "knockout", "text!./login.html"], function (authService, navService, ko, loginTemplate) {
     "use strict";
 
     function loginViewModel() {
@@ -7,12 +7,11 @@ define(['app/utils/utils', "knockout", "text!./login.html"], function (utils, ko
         self.password = ko.observable();
         self.error = ko.observable();
         self.login = function (root) {
-            utils.ajax("api/login", "POST", JSON.stringify({user: self.user(), password: self.password()}),
-
+            authService.login(self.user(), self.password(),
                 function (data) {
                     self.error("");
                     root.roles(data);
-                    utils.goTo("account");
+                    navService.navigateTo("account");
                 },
                 function (data) {
                     self.error("Invalid login or password");

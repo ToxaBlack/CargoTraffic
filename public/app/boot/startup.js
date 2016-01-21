@@ -1,4 +1,4 @@
-define(['app/utils/utils', 'knockout', 'router', 'bootstrap', 'knockout-projections'], function (util, ko, router) {
+define(['app/service/startupService', 'app/service/navService', 'knockout', 'router', 'bootstrap'], function (startupService, navService, ko, router) {
     "use strict";
 
     ko.components.register('navbar', {require: 'app/components/navbar/navbar'});
@@ -13,15 +13,15 @@ define(['app/utils/utils', 'knockout', 'router', 'bootstrap', 'knockout-projecti
     var roles = ko.observableArray([]);
 
 
-    util.ajax("api/roles", "GET", {},
+    startupService.roles(
         function (data) {
             roles(data);
             if (window.location.pathname === "/")
-                util.goTo("account");
+                navService.navigateTo("account");
 
         }, function () {
             if (window.location.pathname === "/")
-                util.goTo("login");
+                navService.navigateTo("login");
         }, function () {
             ko.applyBindings({
                 route: router.currentRoute,
