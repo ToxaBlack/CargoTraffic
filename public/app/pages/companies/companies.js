@@ -10,7 +10,7 @@ define(['app/utils/utils', "knockout", "jquery", "text!./companies.html"], funct
         self.allChecked = false;
         self.COMPANIES_PER_PAGE = 3;
 
-        utils.ajax("api/companies", "GET", {"id": "1", "companies": "4", "ascOrder": "true"},
+        utils.send("api/companies", "GET", {"id": "1", "companies": "4", "ascOrder": "true"},
             function (data) {
                 if (data.length === self.COMPANIES_PER_PAGE + 1) {
                     self.hasNextPage(true);
@@ -28,7 +28,7 @@ define(['app/utils/utils', "knockout", "jquery", "text!./companies.html"], funct
         self.nextPage = function () {
             if (!self.hasNextPage()) return;
             var nextPageFirstCompanyId = self.companies()[self.companies().length - 1].id + 1;
-            utils.ajax("api/companies", "GET",
+            utils.send("api/companies", "GET",
                 {"id": nextPageFirstCompanyId, "companies": "4", "ascOrder": "true"},
                 function (data) {
                     if (data.length === self.COMPANIES_PER_PAGE + 1) {
@@ -48,7 +48,7 @@ define(['app/utils/utils', "knockout", "jquery", "text!./companies.html"], funct
 
         self.previousPage = function () {
             if (!self.hasPreviousPage()) return;
-            utils.ajax("api/companies", "GET",
+            utils.send("api/companies", "GET",
                 {"id": self.companies()[0].id, "companies": "4", "ascOrder": "false"},
                 function (data) {
 

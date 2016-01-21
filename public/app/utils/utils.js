@@ -1,11 +1,12 @@
 define(['jquery'], function ($) {
     "use strict";
 
-    function ajax(url, method, data, doneFunk, failFunk, alwaysFunk) {
+    function send(url, method, data, doneFunk, failFunk, alwaysFunk) {
         $.ajax({
             url: url,
             method: method,
-            data: data
+            data: data,
+            contentType: "application/json"
         }).done(doneFunk)
             .fail(failFunk)
             .always(alwaysFunk);
@@ -19,7 +20,7 @@ define(['jquery'], function ($) {
     }
 
     return {
-        ajax: ajax,
+        send: send,
         goTo: goTo
     };
 });

@@ -1,14 +1,14 @@
-define(['app/utils/utils', "knockout", "text!./navbar.html"], function (utils, ko, navbarTemplate) {
+define(['app/service/authService', 'app/service/navService', "knockout", "text!./navbar.html"], function (authService, navService, ko, navbarTemplate) {
     "use strict";
 
     function navbarViewModel() {
         var self = this;
 
         self.logout = function (root) {
-            utils.ajax("api/logout", "POST", {},
+            authService.logout(
                 function (data) {
                     root.roles([]);
-                    utils.goTo("login");
+                    navService.navigateTo("login");
                 })
         };
 

@@ -1,13 +1,10 @@
 package models;
 
 import be.objectify.deadbolt.core.models.*;
-import be.objectify.deadbolt.core.models.Role;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import org.hibernate.Hibernate;
 import play.data.validation.Constraints;
 
 import javax.persistence.*;
-import java.util.Date;
 import java.util.List;
 
 /**

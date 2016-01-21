@@ -5,7 +5,7 @@
 # REST API
 POST        /api/login            controllers.LoginController.login()
 POST        /api/logout           controllers.LoginController.logout()
-GET        /api/roles            controllers.LoginController.roles()
+GET         /api/roles            controllers.LoginController.roles()
 
 
 GET         /api/companies        controllers.CompanyController.companies()

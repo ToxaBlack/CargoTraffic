@@ -1,4 +1,4 @@
-define(["jquery", "knockout", "crossroads", "historyjs"], function ($, ko, crossroads) {
+define(["jquery", "knockout", "crossroads", "history"], function ($, ko, crossroads) {
     "use strict";
 
     return new Router({
