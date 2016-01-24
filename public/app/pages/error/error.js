@@ -1,4 +1,5 @@
-define(['app/utils/utils', "knockout", "text!./error.html"], function (utils, ko, errorTemplate) {
+define(['app/utils/utils', "knockout", "text!./error.html"],
+    function (utils, ko, errorTemplate) {
     "use strict";
 
     function errorViewModel() {

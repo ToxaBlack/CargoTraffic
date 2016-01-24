@@ -11,6 +11,7 @@ GET         /api/roles            controllers.LoginController.roles()
 GET         /api/companies        controllers.CompanyController.companies()
 GET         /api/account          controllers.AccountController.getAccount()
 PUT         /api/account          controllers.AccountController.updateAccount()
+PUT         /api/password          controllers.AccountController.updatePassword()
 
 
 

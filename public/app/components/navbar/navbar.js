@@ -1,4 +1,5 @@
-define(['app/service/authService', 'app/service/navService', "knockout", "text!./navbar.html"], function (authService, navService, ko, navbarTemplate) {
+define(['app/service/authService', 'app/service/navService', "knockout", "text!./navbar.html"],
+    function (authService, navService, ko, navbarTemplate) {
     "use strict";
 
     function navbarViewModel() {

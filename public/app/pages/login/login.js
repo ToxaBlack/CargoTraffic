@@ -1,4 +1,5 @@
-define(['app/service/authService', 'app/service/navService', "knockout", "text!./login.html"], function (authService, navService, ko, loginTemplate) {
+define(['app/service/authService', 'app/service/navService', "knockout", "text!./login.html"],
+    function (authService, navService, ko, loginTemplate) {
     "use strict";
 
     function loginViewModel() {

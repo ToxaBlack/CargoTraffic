@@ -1,11 +1,12 @@
-define(['app/service/accountService', 'app/service/navService', "knockout", "text!./account.html"], function (accountService, navService, ko, accountTemplate) {
+define(['app/service/accountService', 'app/service/navService', "knockout", "text!./account.html"],
+    function (accountService, navService, ko, accountTemplate) {
     "use strict";
 
     function accountViewModel() {
         var self = this;
         self.account = ko.observable({});
         self.save = function () {
-            accountService.update(self.account(),
+            accountService.updateAccount(self.account(),
                 function (data) {
                     navService.mainPage();
                 },
