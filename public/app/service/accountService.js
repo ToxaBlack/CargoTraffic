@@ -12,7 +12,7 @@ define(["app/utils/utils"], function(utils) {
                 always
             );
         };
-        var update = function(account, done, error, always) {
+        var updateAccount = function(account, done, error, always) {
             utils.send(
                 "api/account",
                 "PUT",
@@ -23,9 +23,21 @@ define(["app/utils/utils"], function(utils) {
             );
         };
 
+        var updatePassword = function(oldPassword, newPassword, done, error, always) {
+            utils.send(
+                "api/password",
+                "PUT",
+                JSON.stringify({oldPassword: oldPassword, newPassword: newPassword}),
+                done,
+                error,
+                always
+            );
+        };
+
         return {
             get: get,
-            update: update
+            updateAccount: updateAccount,
+            updatePassword: updatePassword
         }
     }
 

@@ -7,11 +7,42 @@
         <encoder>
             <pattern>%date [%level] from %logger in %thread - %message%n%xException</pattern>
         </encoder>
+
+        <rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
+            <FileNamePattern>${application.home}/logs/application.%i.log.zip</FileNamePattern>
+            <MinIndex>1</MinIndex>
+            <MaxIndex>10</MaxIndex>
+        </rollingPolicy>
+
+        <triggeringPolicy
+                class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+            <MaxFileSize>2MB</MaxFileSize>
+        </triggeringPolicy>
+
+    </appender>
+
+    <appender name="FILE_HIBERNATE" class="ch.qos.logback.core.FileAppender">
+        <file>${application.home}/logs/hibernate.log</file>
+        <encoder>
+            <pattern>%date %message%n</pattern>
+        </encoder>
+
+        <rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
+            <FileNamePattern>{application.home}/logs/hibernate.%i.log.zip</FileNamePattern>
+            <MinIndex>1</MinIndex>
+            <MaxIndex>10</MaxIndex>
+        </rollingPolicy>
+
+        <triggeringPolicy
+                class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+            <MaxFileSize>2MB</MaxFileSize>
+        </triggeringPolicy>
+
     </appender>
 
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
-            <pattern>%date [%level] from %logger in %thread - %message%n%xException</pattern>
+            <pattern>%date [%level] from %logger - %message%n%xException</pattern>
         </encoder>
     </appender>
 
@@ -19,14 +50,25 @@
         <appender-ref ref="FILE" />
     </appender>
 
+
     <appender name="ASYNCSTDOUT" class="ch.qos.logback.classic.AsyncAppender">
         <appender-ref ref="STDOUT" />
+    </appender>
+
+    <appender name="ASYNCFILE_HIBERNATE" class="ch.qos.logback.classic.AsyncAppender">
+        <appender-ref ref="FILE_HIBERNATE" />
     </appender>
 
     <logger name="play" level="ERROR" />
     <logger name="controllers" level="DEBUG" />
     <logger name="security" level="DEBUG" />
     <logger name="service" level="DEBUG" />
+
+
+
+    <logger name="org.hibernate.SQL" level="DEBUG" additivity="false">
+        <appender-ref ref="ASYNCFILE_HIBERNATE"/>
+    </logger>
 
 
 

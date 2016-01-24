@@ -1,4 +1,5 @@
-define(['app/utils/utils', "knockout", "jquery", "text!./companies.html"], function (utils, ko, $, listTemplate) {
+define(['app/utils/utils', "knockout", "jquery", "text!./companies.html"],
+    function (utils, ko, $, listTemplate) {
     "use strict";
 
     function companiesViewModel() {
