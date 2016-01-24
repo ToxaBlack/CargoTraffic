@@ -1,6 +1,6 @@
 define(["app/utils/utils"], function(utils) {
     "use strict";
-    function AuthService(){
+    function NavService(){
 
         var navigateTo = function(page) {
             utils.goTo(page);
@@ -16,5 +16,5 @@ define(["app/utils/utils"], function(utils) {
         }
     }
 
-    return new AuthService();
+    return new NavService();
 });

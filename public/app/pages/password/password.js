@@ -1,8 +1,9 @@
-define(['app/service/accountService', 'app/service/navService', "knockout", "text!./password.html"],
-    function (accountService, navService, ko, passwordTemplate) {
+define(['app/service/accountService', 'app/service/navService', 'app/service/barService', "knockout", "text!./password.html"],
+    function (accountService, navService, bar, ko, passwordTemplate) {
     "use strict";
 
     function passwordViewModel() {
+        bar.go(50);
         var self = this;
         self.oldPassword = ko.observable();
         self.newPassword = ko.observable();
@@ -30,6 +31,7 @@ define(['app/service/accountService', 'app/service/navService', "knockout", "tex
             else self.error("Passwords don't match");
         };
 
+        bar.go(100);
         return self;
     }
 

@@ -1,35 +1,36 @@
-define(["app/utils/utils"], function (utils) {
-    "use strict";
-    function NavService() {
+define(["app/utils/utils"],
+    function (utils) {
+        "use strict";
+        function AuthService() {
 
 
-        var login = function (user, password, done, error, always) {
-            utils.send(
-                "api/login",
-                "POST",
-                JSON.stringify({user: user, password: password}),
-                done,
-                error,
-                always
-            );
-        };
+            var login = function (user, password, done, error, always) {
+                utils.send(
+                    "api/login",
+                    "POST",
+                    JSON.stringify({user: user, password: password}),
+                    done,
+                    error,
+                    always
+                );
+            };
 
-        var logout = function (done, error, always) {
-            utils.send(
-                "api/logout",
-                "POST",
-                JSON.stringify({}),
-                done,
-                error,
-                always
-            );
-        };
+            var logout = function (done, error, always) {
+                utils.send(
+                    "api/logout",
+                    "POST",
+                    JSON.stringify({}),
+                    done,
+                    error,
+                    always
+                );
+            };
 
-        return {
-            login: login,
-            logout: logout
+            return {
+                login: login,
+                logout: logout
+            }
         }
-    }
 
-    return new NavService();
-});
+        return new AuthService();
+    });

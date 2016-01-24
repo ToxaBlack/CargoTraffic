@@ -1,26 +1,29 @@
-define(['app/service/authService', 'app/service/navService', "knockout", "text!./login.html"],
-    function (authService, navService, ko, loginTemplate) {
-    "use strict";
+define(['app/service/authService', 'app/service/navService', 'app/service/barService', "knockout", "text!./login.html"],
+    function (authService, navService, bar, ko, loginTemplate) {
+        "use strict";
 
-    function loginViewModel() {
-        var self = this;
-        self.user = ko.observable();
-        self.password = ko.observable();
-        self.error = ko.observable();
-        self.login = function (root) {
-            authService.login(self.user(), self.password(),
-                function (data) {
-                    self.error("");
-                    root.roles(data);
-                    navService.navigateTo("account");
-                },
-                function (data) {
-                    self.error("Invalid login or password");
-                })
+        function loginViewModel() {
+            bar.go(50);
+            var self = this;
+            self.user = ko.observable();
+            self.password = ko.observable();
+            self.error = ko.observable();
+            self.login = function () {
+                authService.login(self.user(), self.password(),
+                    function (data) {
+                        self.error("");
+                        var context = ko.contextFor($("body")[0]);
+                        context.$data.roles(data);
+                        navService.navigateTo("account");
+                    },
+                    function (data) {
+                        self.error("Invalid login or password");
+                    })
+            };
 
-        };
-        return self;
-    }
+            bar.go(100);
+            return self;
+        }
 
-    return {viewModel: loginViewModel, template: loginTemplate};
-});
+        return {viewModel: loginViewModel, template: loginTemplate};
+    });
