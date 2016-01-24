@@ -1,20 +1,21 @@
 define(['app/service/authService', 'app/service/navService', "knockout", "text!./navbar.html"],
     function (authService, navService, ko, navbarTemplate) {
-    "use strict";
+        "use strict";
 
-    function navbarViewModel() {
-        var self = this;
+        function navbarViewModel() {
+            var self = this;
 
-        self.logout = function (root) {
-            authService.logout(
-                function (data) {
-                    root.roles([]);
-                    navService.navigateTo("login");
-                })
-        };
+            self.logout = function () {
+                authService.logout(
+                    function () {
+                        var context = ko.contextFor($("body")[0]);
+                        context.$data.roles([]);
+                        navService.navigateTo("login");
+                    })
+            };
 
-        return self;
-    }
+            return self;
+        }
 
-    return {viewModel: navbarViewModel, template: navbarTemplate};
-});
+        return {viewModel: navbarViewModel, template: navbarTemplate};
+    });

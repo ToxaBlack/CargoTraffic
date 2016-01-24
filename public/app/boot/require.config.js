@@ -8,7 +8,8 @@ var require = {
         "router": "app/boot/router",
         "jquery": "lib/jquery.min",
         "knockout": "lib/knockout",
-        "text": "lib/text"
+        "text": "lib/text",
+        "nanobar": "lib/nanobar.min"
     },
     shim: {
         "bootstrap": {
