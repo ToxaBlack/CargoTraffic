@@ -83,10 +83,11 @@ CREATE TABLE IF NOT EXISTS `cargo_traffic`.`user_role` (
 
 
 # --- !Downs
-DROP TABLE IF EXISTS `cargo_traffic`.`role`;
 DROP TABLE IF EXISTS `cargo_traffic`.`user_role`;
 
 DROP TABLE IF EXISTS `cargo_traffic`.`user`;
+
+DROP TABLE IF EXISTS `cargo_traffic`.`role`;
 
 DROP TABLE IF EXISTS `cargo_traffic`.`address`;
 

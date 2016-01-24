@@ -41,7 +41,7 @@ public class SecurityHandler implements DeadboltHandler {
                 return F.Promise.promise(Optional::empty);
             }
         } catch (Throwable throwable) {
-            LOGGER.debug("Token isn't valid");
+            LOGGER.debug("Token isn't valid", throwable);
             return F.Promise.promise(Optional::empty);
         }
     }
