@@ -5,12 +5,12 @@ define(["jquery", "knockout", "crossroads", "history"], function ($, ko, crossro
         routes: [
             {url: 'login', params: {page: 'login'}},
             {url: 'account', params: {page: 'account'}},
-            {url: 'clients', params: {page: 'clients'}},
+            {url: 'companies', params: {page: 'companies'}},
             {url: 'home', params: {page: 'home'}},
             {url: 'settings', params: {page: 'settings'}},
             {url: 'error', params: {page: 'error'}},
             {url: 'password', params: {page: 'password'}},
-            {url: 'addClient', params: {page: 'addClient'}}
+            {url: 'employees', params: {page: 'employees'}}
         ]
     });
 
