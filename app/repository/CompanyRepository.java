@@ -12,7 +12,7 @@ import java.util.List;
  * Created by Anton Chernov on 1/21/2016.
  */
 public class CompanyRepository {
-    public List<Company> page(long id, int count, boolean ascOrder) {
+    public List<Company> getPage(long id, int count, boolean ascOrder) {
         EntityManager em = JPA.em();
         StringBuilder stringBuilder = new StringBuilder("SELECT c FROM Company c WHERE ");
         if (ascOrder) {

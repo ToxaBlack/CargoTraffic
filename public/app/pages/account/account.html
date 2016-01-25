@@ -1,3 +1,6 @@
+<div class="page-header">
+    <h1>Account</h1>
+</div>
 <div class="form-horizontal">
     <div class="form-group">
         <label class="control-label col-md-2" for="username">Username*:</label>
@@ -5,7 +8,7 @@
         <div class="col-md-10">
             <input type="text" class="form-control" id="username"
                    data-bind="value : account().username"
-                   placeholder="Enter username" maxlength="40">
+                   placeholder="Enter username" maxlength="40" required>
         </div>
     </div>
     <div class="form-group">
@@ -18,12 +21,12 @@
         </div>
     </div>
     <div class="form-group">
-        <label class="control-label col-md-2" for="surname">Surname:</label>
+        <label class="control-label col-md-2" for="surname">Surname*:</label>
 
         <div class="col-md-10">
             <input type="text" class="form-control" id="surname" name="surname"
                    data-bind="value : account().surname"
-                   placeholder="Enter surname" maxlength="40">
+                   placeholder="Enter surname" maxlength="40" required>
         </div>
     </div>
     <div class="form-group">
@@ -54,56 +57,54 @@
                    placeholder="Enter email" maxlength="40">
         </div>
     </div>
+    <hr>
     <div class="form-group">
-        <label class="control-label col-md-2">Address:</label>
-    </div>
-    <div class="form-group">
-        <label class="control-label col-md-3" for="country">Country:</label>
+        <label class="control-label col-md-2" for="country">Country:</label>
 
-        <div class="col-md-9">
+        <div class="col-md-10">
             <input type="text" class="form-control" id="country"
                    data-bind="value : account().country"
                    placeholder="Enter city" maxlength="40">
         </div>
     </div>
     <div class="form-group">
-        <label class="control-label col-md-3" for="city">City:</label>
+        <label class="control-label col-md-2" for="city">City:</label>
 
-        <div class="col-md-9">
+        <div class="col-md-10">
             <input type="text" class="form-control" id="city"
                    data-bind="value : account().city"
                    placeholder="Enter city" maxlength="40">
         </div>
     </div>
     <div class="form-group">
-        <label class="control-label col-md-3" for="street">Street:</label>
+        <label class="control-label col-md-2" for="street">Street:</label>
 
-        <div class="col-md-9">
+        <div class="col-md-10">
             <input type="text" class="form-control" id="street"
                    data-bind="value : account().street"
                    placeholder="Enter street" maxlength="40">
         </div>
     </div>
     <div class="form-group">
-        <label class="control-label col-md-3" for="house">House:</label>
+        <label class="control-label col-md-2" for="house">House:</label>
 
-        <div class="col-md-9">
+        <div class="col-md-10">
             <input type="text" class="form-control" id="house"
                    data-bind="value : account().house"
                    placeholder="Enter street" maxlength="40">
         </div>
     </div>
     <div class="form-group">
-        <label class="control-label col-md-3" for="flat">Flat:</label>
+        <label class="control-label col-md-2" for="flat">Flat:</label>
 
-        <div class="col-md-9">
+        <div class="col-md-10">
             <input type="text" class="form-control" id="flat"
                    data-bind="value : account().flat"
                    placeholder="Enter zip" maxlength="40">
         </div>
     </div>
     <div class="form-group">
-        <button class="btn btn-success pull-right btn-lg" data-bind="click: save">Save</button>
+        <button class="btn btn-success pull-right btn-lg" data-bind="click: update">Update</button>
     </div>
 </div>
 

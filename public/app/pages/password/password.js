@@ -10,7 +10,7 @@ define(['app/service/accountService', 'app/service/navService', 'app/service/bar
         self.confirmPassword = ko.observable();
         self.error = ko.observable();
 
-        self.save = function () {
+        self.update = function () {
             if (self.newPassword() === self.confirmPassword())
                 accountService.updatePassword(self.oldPassword(), self.newPassword(),
                     function (data) {

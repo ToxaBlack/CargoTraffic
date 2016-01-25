@@ -5,10 +5,11 @@ define(['app/service/startupService', 'app/service/navService', 'knockout', 'rou
 
     ko.components.register('login', {require: 'app/pages/login/login'});
     ko.components.register('account', {require: 'app/pages/account/account'});
-    ko.components.register('companies', {require: 'app/pages/companies/companies'});
+    ko.components.register('clients', {require: 'app/pages/clients/clients'});
     ko.components.register('home', {require: 'app/pages/home/home'});
     ko.components.register('error', {require: 'app/pages/error/error'});
     ko.components.register('password', {require: 'app/pages/password/password'});
+    ko.components.register('addClient', {require: 'app/pages/addClient/addClient'});
 
 
     var roles = ko.observableArray([]);

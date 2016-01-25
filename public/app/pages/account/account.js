@@ -6,7 +6,7 @@ define(['app/service/accountService', 'app/service/navService', 'app/service/bar
             bar.go(50);
             var self = this;
             self.account = ko.observable({});
-            self.save = function () {
+            self.update = function () {
                 accountService.updateAccount(self.account(),
                     function (data) {
                         navService.mainPage();
