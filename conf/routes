@@ -8,7 +8,7 @@ POST        /api/logout           controllers.LoginController.logout()
 GET         /api/roles            controllers.LoginController.roles()
 
 
-GET         /api/companies        controllers.CompanyController.companies()
+GET         /api/clients        controllers.ClientsController.getClients()
 GET         /api/account          controllers.AccountController.getAccount()
 PUT         /api/account          controllers.AccountController.updateAccount()
 PUT         /api/password          controllers.AccountController.updatePassword()
