@@ -56,7 +56,7 @@ public class UserRepository {
     }
     public List<User> getUserForEmployeesPage(long companyId, long id, int count, boolean ascOrder) {
         EntityManager em = JPA.em();
-        StringBuilder stringBuilder = new StringBuilder("SELECT u FROM User u WHERE u.company.id = ? AND ");
+        StringBuilder stringBuilder = new StringBuilder("SELECT u FROM User u WHERE u.company.id = ? AND u.deleted = ? AND ");
         if (ascOrder) {
             stringBuilder.append("u.id >= ? ORDER BY u.id ASC");
         } else {
@@ -64,7 +64,8 @@ public class UserRepository {
         }
         Query query = em.createQuery(stringBuilder.toString());
         query.setParameter(1, companyId);
-        query.setParameter(2, id);
+        query.setParameter(2, false);
+        query.setParameter(3, id);
         query.setMaxResults(count);
         List<User> employees = query.getResultList();
         if (!ascOrder)
