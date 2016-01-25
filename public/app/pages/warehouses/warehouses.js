@@ -12,7 +12,6 @@ define(['app/utils/utils', "knockout", "jquery", "text!./warehouses.html"], func
 
         utils.send("api/warehouses", "GET", {"id": "1", "warehouses": self.WAREHOUSES_PER_PAGE + 1, "ascOrder": "true"},
             function (data) {
-                alert("yaz");
                 if (data.length === self.WAREHOUSES_PER_PAGE + 1) {
                     self.hasNextPage(true);
                     data.pop();
