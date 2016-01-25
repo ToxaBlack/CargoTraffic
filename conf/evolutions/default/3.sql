@@ -8,6 +8,12 @@ INSERT INTO `cargo_traffic`.`company` (name) VALUES
   ("TravelInc"),
   ("SomeInc");
 
+INSERT INTO `cargo_traffic`.`warehouse` (name) VALUES
+  ("Торговая сила"),
+  ("IBM"),
+  ("Inc");
+
+
 INSERT INTO `address` (country, city, street, house, flat) VALUES
   ("Belarus", "Minsk", "blabla", "12", "1");
 
@@ -23,6 +29,7 @@ INSERT INTO `role` (name) VALUES
 
 INSERT INTO `user_role` (user_id, role_id) VALUES
   (1, 1),
-  (2, 2);
+  (2, 2),
+  (3, 3);
 
 # --- !Downs

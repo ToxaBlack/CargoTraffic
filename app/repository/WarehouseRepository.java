@@ -15,13 +15,12 @@ public class WarehouseRepository {
         EntityManager em = JPA.em();
         StringBuilder stringBuilder = new StringBuilder("SELECT w FROM Warehouse w WHERE ");
         if (ascOrder) {
-            stringBuilder.append("w.id >= :id AND c.deleted = :deleted ORDER BY w.id ASC");
+            stringBuilder.append("w.id >= :id ORDER BY w.id ASC");
         } else {
-            stringBuilder.append("w.id < :id AND c.deleted = :deleted ORDER BY w.id DESC");
+            stringBuilder.append("w.id < :id ORDER BY w.id DESC");
         }
         Query query = em.createQuery(stringBuilder.toString());
         query.setParameter("id", id);
-        query.setParameter("deleted", false);
         query.setMaxResults(count);
         List<Warehouse> warehouses = query.getResultList();
         if (!ascOrder)

@@ -1,13 +1,13 @@
 <div class="row">
     <div class="col-sm-offset-9">
-        <button type="button" class="btn btn-info" title="Add warehouse">
+        <button type="button" class="btn btn-success" title="Add warehouse" data-bind="click: addWarehouse">
             <span class="glyphicon glyphicon-plus"></span> Add
         </button>
-        <button type="button" class="btn btn-success" title="Edit warehouse">
-            <span class="glyphicon glyphicon-lock"></span> Edit
+        <button type="button" class="btn btn-info" title="Edit warehouse" data-bind="click: editWarehouse">
+            <span class="glyphicon glyphicon-edit"></span> Edit
         </button>
-        <button type="button" class="btn btn-danger" title="Delete warehouse">
-            <span class="glyphicon glyphicon-briefcase"></span> Delete
+        <button type="button" class="btn btn-danger" title="Delete warehouse" data-bind="click: deleteWarehouse">
+            <span class="glyphicon glyphicon-trash"></span> Delete
         </button>
     </div>
 </div>
@@ -16,13 +16,13 @@
         <table class="table table-hover">
             <thead>
                 <tr>
-                    <th><input class="selectAll" type="checkbox" data-bind="checked: checkAll" id="selectAllCheckbox"></th>
+                    <th><input class="selectAll" type="checkbox" data-bind="checkAll" id="selectAllCheckbox"></th>
                     <th>Name</th>
                 </tr>
             </thead>
             <tbody data-bind="foreach: warehouses">
                 <tr>
-                    <td><input class="idCheck" type="checkbox" data-bind="checked: $parent.checkedWarehouse, attr: { value: id }"/></td>
+                    <td><input class="idCheck" type="checkbox" data-bind="$parent.checkedWarehouse, attr: { value: id }"/></td>
                     <td class="link" data-bind="text: name"></td>
                 </tr>
             </tbody>
