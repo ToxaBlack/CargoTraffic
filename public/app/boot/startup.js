@@ -9,7 +9,7 @@ define(['app/service/startupService', 'app/service/navService', 'knockout', 'rou
     ko.components.register('home', {require: 'app/pages/home/home'});
     ko.components.register('error', {require: 'app/pages/error/error'});
     ko.components.register('password', {require: 'app/pages/password/password'});
-
+    ko.components.register('employees', {require: 'app/pages/employees/employees'});
 
     var roles = ko.observableArray([]);
 
