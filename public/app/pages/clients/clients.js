@@ -17,6 +17,7 @@ define(['app/service/navService', 'app/service/clientService', "knockout", 'app/
             }, this);
             self.CLIENTS_PER_PAGE = 10;
 
+
             clientService.list(1, self.CLIENTS_PER_PAGE + 1, true,
                 function (data) {
                     if (data.length === self.CLIENTS_PER_PAGE + 1) {
@@ -112,6 +113,7 @@ define(['app/service/navService', 'app/service/clientService', "knockout", 'app/
                     });
                 }
             });
+
 
             self.addClient = function () {
                 navService.navigateTo("addClient");

@@ -4,6 +4,7 @@ import be.objectify.deadbolt.java.actions.Group;
 import be.objectify.deadbolt.java.actions.Restrict;
 import be.objectify.deadbolt.java.actions.SubjectPresent;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ArrayNode;
 import models.Company;
 import models.User;
 import play.Logger;
@@ -16,8 +17,7 @@ import service.CompanyService;
 import service.ServiceException;
 
 import javax.inject.Inject;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 
 @SubjectPresent
@@ -40,7 +40,7 @@ public class ClientsController extends Controller {
         try {
             companyList = companyService.getCompanies(id, clientsCount, isAscOrder);
         } catch (ServiceException e) {
-            LOGGER.error("error = {}", e);
+            LOGGER.error("error: {}", e);
             throw new ControllerException(e.getMessage(), e);
         }
         return ok(Json.toJson(companyList));
@@ -54,5 +54,53 @@ public class ClientsController extends Controller {
 
         JsonNode json = request().body().asJson();
         return ok();
+    }
+
+    @Restrict({@Group("SYS_ADMIN")})
+    @BodyParser.Of(BodyParser.Json.class)
+    public Result lockClients() throws ControllerException {
+        JsonNode json = request().body().asJson();
+        if (Objects.isNull(json)) {
+            LOGGER.debug("Expecting Json data");
+            return badRequest("Expecting Json data");
+        } else {
+            ArrayNode clientIdsNode = (ArrayNode) json;
+            Iterator<JsonNode> iterator = clientIdsNode.elements();
+            List<Long> clientIds = new ArrayList<>();
+            while (iterator.hasNext()) {
+                clientIds.add(iterator.next().asLong());
+            }
+            try {
+                companyService.lockCompanies(clientIds);
+            } catch (ServiceException e) {
+                LOGGER.error("error: {}", e);
+                throw new ControllerException(e.getMessage(), e);
+            }
+            return ok();
+        }
+    }
+
+    @Restrict({@Group("SYS_ADMIN")})
+    @BodyParser.Of(BodyParser.Json.class)
+    public Result unlockClients() throws ControllerException {
+        JsonNode json = request().body().asJson();
+        if (Objects.isNull(json)) {
+            LOGGER.debug("Expecting Json data");
+            return badRequest("Expecting Json data");
+        } else {
+            ArrayNode clientIdsNode = (ArrayNode) json;
+            Iterator<JsonNode> iterator = clientIdsNode.elements();
+            List<Long> clientIds = new ArrayList<>();
+            while (iterator.hasNext()) {
+                clientIds.add(iterator.next().asLong());
+            }
+            try {
+                companyService.unlockCompanies(clientIds);
+            } catch (ServiceException e) {
+                LOGGER.error("error: {}", e);
+                throw new ControllerException(e.getMessage(), e);
+            }
+            return ok();
+        }
     }
 }
