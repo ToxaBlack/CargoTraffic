@@ -26,4 +26,26 @@ public class WarehouseService {
             throw new ServiceException(throwable.getMessage(), throwable);
         }
     }
+
+    public void deleteWarehouses(List<Long> idWarehouses) {
+        warehouseRepository.deleteWarehouses(idWarehouses);
+    }
+
+    public void addWarehouse(Warehouse warehouse) throws ServiceException {
+        try {
+            JPA.withTransaction(() -> warehouseRepository.addWarehouse(warehouse));
+        } catch (Throwable throwable) {
+            LOGGER.error("Add warehouse with name = {}", warehouse.name);
+            throw new ServiceException(throwable.getMessage(), throwable);
+        }
+    }
+
+    public Warehouse editWarehouse(Warehouse warehouse) throws ServiceException {
+        try {
+            return JPA.withTransaction(() -> warehouseRepository.addWarehouse(warehouse));
+        } catch (Throwable throwable) {
+            LOGGER.error("Add warehouse with name = {}", warehouse.name);
+            throw new ServiceException(throwable.getMessage(), throwable);
+        }
+    }
 }

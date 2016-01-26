@@ -3,12 +3,12 @@ define(['app/utils/utils', "knockout", "jquery", "text!./warehouses.html"], func
 
     function warehousesViewModel() {
         var self = this;
-        self.warehouses = ko.observableArray([]);
-        self.checkedWarehouses = ko.observableArray([]);
+        self.warehouses = ko.observableArray();
+        self.checkedWarehouses = ko.observableArray();
         self.hasNextPage = ko.observable(false);
         self.hasPreviousPage = ko.observable(false);
         self.allChecked = false;
-        self.warehouse = ko.observable();
+        self.warehouseName = ko.observable();
         self.WAREHOUSES_PER_PAGE = 3;
 
         utils.send("api/warehouses", "GET", {"id": "1", "warehouses": self.WAREHOUSES_PER_PAGE + 1, "ascOrder": "true"},
@@ -26,9 +26,18 @@ define(['app/utils/utils', "knockout", "jquery", "text!./warehouses.html"], func
                 utils.goTo("error");
             });
 
+        self.toggleAssociation = function (item) {
+            if (item.Selected() === true) console.log("dissociate item " + item.id());
+            else console.log("associate item " + item.id());
+            item.Selected(!(item.Selected()));
+            return true;
+        };
+
         self.addWarehouse = function() {
-            utils.send("api/warehouses", "POST",
-                {"warehouse": self.warehouse()},
+            alert(JSON.stringify({warehouseName: self.warehouseName()}));
+
+            utils.send("api/addWarehouse", "POST",
+                JSON.stringify({warehouseName: self.warehouseName()}),
                 function (data) {
 
                 },
@@ -42,7 +51,7 @@ define(['app/utils/utils', "knockout", "jquery", "text!./warehouses.html"], func
         };
 
         self.deleteWarehouse = function() {
-            alert("delete");
+            alert(self.checkedWarehouse());
         }
 
         self.isOpen = ko.observable(false);

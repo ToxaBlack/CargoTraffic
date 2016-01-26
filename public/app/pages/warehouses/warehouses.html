@@ -11,19 +11,23 @@
         </button>
     </div>
 </div>
+
 <div class="row">
     <div class="col-sm-12">
         <table class="table table-hover">
             <thead>
                 <tr>
-                    <th><input class="selectAll" type="checkbox" data-bind="checkAll" id="selectAllCheckbox"></th>
+                    <th>
+                        <input class="selectAll" type="checkbox" data-bind="checkAll" id="selectAllCheckbox">
+                    </th>
                     <th>Name</th>
                 </tr>
             </thead>
             <tbody data-bind="foreach: warehouses">
                 <tr>
                     <td>
-                        <input class="idCheck" type="checkbox" data-bind="$parent.checkedWarehouse, attr: { value: id }"/>
+                        <input class="idCheck" type="checkbox"
+                               data-bind="value: id, checked: $root.checkedWarehouses, click: $root.warehouses" />
                     </td>
                     <td class="link" data-bind="text: name"></td>
                 </tr>
@@ -47,7 +51,7 @@
                     <label class="control-label col-sm-4" for="name">Warehouse's name:</label>
                     <div class="col-sm-7">
                         <input  type="text"  id="name"  placeholder="Name of warehouse" class="form-control"
-                                name="name"  data-bind="value: warehouse" required >
+                                name="name"  data-bind="value: warehouseName" required >
                     </div>
                 </div>
             </div>
@@ -60,6 +64,13 @@
 
     </div>
 </div>
+
+Associated Item Ids:
+<div data-bind="foreach: $root.checkedWarehouses">
+    <span data-bind="text: $data"></span>
+    <br/>
+</div>
+
 
 <!-- Pagination -->
 <div class="row text-center">

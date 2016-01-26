@@ -1,8 +1,9 @@
 package repository;
 
-import models.Company;
 import models.Warehouse;
+
 import play.db.jpa.JPA;
+import play.db.jpa.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
@@ -28,18 +29,31 @@ public class WarehouseRepository {
         return warehouses;
     }
 
-    public void deleteWarehouse(long id) {
-
+    public void deleteWarehouses(List<Long> idWarehouses) {
+        for(Long idWarehouse: idWarehouses) {
+            deleteWarehouse(idWarehouse);
+        }
     }
 
-    public void addWarehouse(Warehouse warehouse) {
+    @Transactional
+    private void deleteWarehouse(long id) {
         EntityManager em = JPA.em();
-        StringBuilder stringBuilder = new StringBuilder("SELECT w FROM Warehouse w WHERE ");
-        Query query = em.createQuery(stringBuilder.toString());
-        query.setParameter("warehouse", warehouse);
+        Warehouse reference = em.getReference(Warehouse.class, id);
+        em.remove(reference);
     }
 
-    public void editWarehouse() {
+    public Warehouse addWarehouse(Warehouse warehouse) {
+        EntityManager em = JPA.em();
+        em.persist(warehouse);
+        em.refresh(warehouse);
+        return warehouse;
+         //em.flush();
+    }
 
+    @Transactional
+    public Warehouse editWarehouse(Warehouse warehouse) {
+        EntityManager entityManager = JPA.em();
+        entityManager.merge(warehouse);
+        return warehouse;
     }
 }

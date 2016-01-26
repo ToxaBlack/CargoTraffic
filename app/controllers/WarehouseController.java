@@ -3,9 +3,11 @@ package controllers;
 import be.objectify.deadbolt.java.actions.Group;
 import be.objectify.deadbolt.java.actions.Restrict;
 import be.objectify.deadbolt.java.actions.SubjectPresent;
+import com.fasterxml.jackson.databind.JsonNode;
 import models.Warehouse;
 import play.Logger;
 import play.libs.Json;
+import play.mvc.BodyParser;
 import play.mvc.Controller;
 import play.mvc.Http;
 import play.mvc.Result;
@@ -16,14 +18,12 @@ import javax.inject.Inject;
 import java.util.List;
 import java.util.Map;
 
-
 @SubjectPresent
 public class WarehouseController extends Controller {
     private static final Logger.ALogger LOGGER = Logger.of(WarehouseController.class);
 
     @Inject
     WarehouseService warehouseService;
-
 
     @Restrict({@Group("DISPATCHER")})
     public Result warehouses() throws ControllerException {
@@ -37,14 +37,28 @@ public class WarehouseController extends Controller {
         List<Warehouse> warehouseList;
         try {
             warehouseList = warehouseService.getWarhouses(id, warehousesCount, isAscOrder);
-            System.out.println("id:"+id + ", count:"+ warehousesCount);
-            for(Warehouse w: warehouseList){
-                System.out.println("-"+ w.name);
-            }
         } catch (ServiceException e) {
             LOGGER.error("error = {}", e);
             throw new ControllerException(e.getMessage(), e);
         }
         return ok(Json.toJson(warehouseList));
+    }
+
+    //@Restrict({@Group("DISPATCHER")})
+    @BodyParser.Of(BodyParser.Json.class)
+    public Result addWarehouse() {
+        System.out.println("Привет");
+        JsonNode json = request().body().asJson();
+        String warehouseName = json.findPath("warehouseName").textValue();
+        LOGGER.debug("API add warehouse with name = {}", warehouseName);
+        Warehouse warehouse = new Warehouse();
+        warehouse.name = warehouseName;
+
+        try {
+            warehouseService.addWarehouse(warehouse);
+        } catch (ServiceException e) {
+            e.printStackTrace();
+        }
+        return ok();
     }
 }
