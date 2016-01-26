@@ -9,6 +9,10 @@ CREATE TABLE IF NOT EXISTS `cargo_traffic`.`warehouse` (
   ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4;
 
+INSERT INTO `role` (name) VALUES
+  ("SYS_ADMIN"), ("ADMIN"), ("DISPATCHER"), ("MANAGER"), ("DRIVER");
+
+
 
 # --- !Downs
 DROP TABLE IF EXISTS `cargo_traffic`.`warehouse`;
