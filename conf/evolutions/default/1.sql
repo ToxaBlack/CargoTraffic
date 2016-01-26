@@ -2,7 +2,7 @@
 
 # --- !Ups
 
-CREATE TABLE IF NOT EXISTS `cargo_traffic`.`company` (
+CREATE TABLE IF NOT EXISTS `cargo_traffic`.`Company` (
   `id`      INTEGER(11) UNSIGNED NOT NULL AUTO_INCREMENT UNIQUE,
   `name`    VARCHAR(250)         NOT NULL,
   `deleted` BIT(1)                        DEFAULT FALSE,
@@ -12,7 +12,7 @@ CREATE TABLE IF NOT EXISTS `cargo_traffic`.`company` (
   DEFAULT CHARSET = utf8mb4;
 
 
-CREATE TABLE IF NOT EXISTS `cargo_traffic`.`address` (
+CREATE TABLE IF NOT EXISTS `cargo_traffic`.`Address` (
   `id`      INTEGER(11)  UNSIGNED NOT NULL AUTO_INCREMENT UNIQUE,
   `country` VARCHAR(250),
   `city`    VARCHAR(250),
@@ -25,7 +25,7 @@ CREATE TABLE IF NOT EXISTS `cargo_traffic`.`address` (
   ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4;
 
-CREATE TABLE IF NOT EXISTS `cargo_traffic`.`user` (
+CREATE TABLE IF NOT EXISTS `cargo_traffic`.`User` (
   `id`         INTEGER(11) UNSIGNED NOT NULL AUTO_INCREMENT UNIQUE,
   `username`   VARCHAR(250)         NOT NULL,
   `password`   VARCHAR(250)         NOT NULL,
@@ -41,11 +41,11 @@ CREATE TABLE IF NOT EXISTS `cargo_traffic`.`user` (
   INDEX (`company_id` ASC),
   INDEX (`address_id` ASC),
   FOREIGN KEY (`company_id`)
-  REFERENCES `cargo_traffic`.`company` (`id`)
+  REFERENCES `cargo_traffic`.`Company` (`id`)
     ON DELETE RESTRICT
     ON UPDATE RESTRICT,
   FOREIGN KEY (`address_id`)
-  REFERENCES `cargo_traffic`.`address` (`id`)
+  REFERENCES `cargo_traffic`.`Address` (`id`)
     ON DELETE RESTRICT
     ON UPDATE RESTRICT
 )
@@ -68,7 +68,7 @@ CREATE TABLE IF NOT EXISTS `cargo_traffic`.`user_role` (
   PRIMARY KEY (`user_id`, `role_id`),
   INDEX (`role_id`),
   FOREIGN KEY (`user_id`)
-  REFERENCES `cargo_traffic`.`user` (`id`)
+  REFERENCES `cargo_traffic`.`User` (`id`)
     ON DELETE RESTRICT
     ON UPDATE RESTRICT,
   FOREIGN KEY (`role_id`)
@@ -91,5 +91,3 @@ DROP TABLE IF EXISTS `cargo_traffic`.`user`;
 DROP TABLE IF EXISTS `cargo_traffic`.`address`;
 
 DROP TABLE IF EXISTS `cargo_traffic`.`company`;
-
-

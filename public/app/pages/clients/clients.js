@@ -9,10 +9,15 @@ define(['app/service/navService', 'app/service/clientService', "knockout", 'app/
             self.checkedClients = ko.observableArray([]);
             self.hasNextPage = ko.observable(false);
             self.hasPreviousPage = ko.observable(false);
-            self.allChecked = false;
-            self.CLIENTS_PER_PAGE = 3;
+            self.allChecked = ko.computed(function() {
+                var success = $.grep(self.clients(), function(element,index) {
+                    return $.inArray(element.id.toString(), self.checkedClients()) !== -1;
+                }).length === self.clients().length;
+                return success;
+            }, this);
+            self.CLIENTS_PER_PAGE = 10;
 
-            clientService.list(1, 4, true,
+            clientService.list(1, self.CLIENTS_PER_PAGE + 1, true,
                 function (data) {
                     if (data.length === self.CLIENTS_PER_PAGE + 1) {
                         self.hasNextPage(true);
@@ -40,7 +45,7 @@ define(['app/service/navService', 'app/service/clientService', "knockout", 'app/
             self.nextPage = function () {
                 if (!self.hasNextPage()) return;
                 var nextPageFirstClientId = self.clients()[self.clients().length - 1].id + 1;
-                clientService.list(nextPageFirstClientId, 4, true,
+                clientService.list(nextPageFirstClientId, self.CLIENTS_PER_PAGE + 1, true,
                     function (data) {
                         if (data.length === self.CLIENTS_PER_PAGE + 1) {
                             self.hasNextPage(true);
@@ -65,7 +70,7 @@ define(['app/service/navService', 'app/service/clientService', "knockout", 'app/
 
             self.previousPage = function () {
                 if (!self.hasPreviousPage()) return;
-                clientService.list(self.clients()[0].id, 4, false,
+                clientService.list(self.clients()[0].id, self.CLIENTS_PER_PAGE + 1, false,
                     function (data) {
                         if (data.length === self.CLIENTS_PER_PAGE + 1) {
                             self.hasPreviousPage(true);
@@ -87,17 +92,26 @@ define(['app/service/navService', 'app/service/clientService', "knockout", 'app/
                     });
             };
 
-            self.checkedClient = function () {
-                console.log("checkedClient called");
-                if ($.inArray(this, self.checkedClients()) === -1)
-                    self.checkedClients.push(this);
-                else
-                    self.checkedClients.remove(this);
+            self.getClientStatus = function(isLocked) {
+                return isLocked ? "Locked" : "Unlocked";
             };
 
-            self.checkAll = function () {
 
-            };
+            $('#selectAllCheckbox').on('click', function () {
+                if (!self.allChecked()) {
+                    $.each(self.clients(), function (index, element) {
+                        if ($.inArray(element.id.toString(), self.checkedClients()) === -1) {
+                            self.checkedClients.push(element.id.toString());
+                        }
+                    });
+                } else {
+                    $.each(self.clients(), function (index, element) {
+                        if ($.inArray(element.id.toString(), self.checkedClients()) !== -1) {
+                            self.checkedClients.remove(element.id.toString());
+                        }
+                    });
+                }
+            });
 
             self.addClient = function () {
                 navService.navigateTo("addClient");
