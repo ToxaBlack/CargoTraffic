@@ -22,13 +22,12 @@ public class CompanyRepository {
         EntityManager em = JPA.em();
         StringBuilder stringBuilder = new StringBuilder("SELECT c FROM Company c WHERE ");
         if (ascOrder) {
-            stringBuilder.append("c.id >= ? AND c.deleted = ? ORDER BY c.id ASC");
+            stringBuilder.append("c.id >= ? ORDER BY c.id ASC");
         } else {
-            stringBuilder.append("c.id < ? AND c.deleted = ? ORDER BY c.id DESC");
+            stringBuilder.append("c.id < ? ORDER BY c.id DESC");
         }
         Query query = em.createQuery(stringBuilder.toString());
         query.setParameter(1, id);
-        query.setParameter(2, false);
         query.setMaxResults(count);
         List<Company> companies = query.getResultList();
         if (!ascOrder)
