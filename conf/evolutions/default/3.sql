@@ -3,17 +3,17 @@
 # --- !Ups
 
 
-INSERT INTO `cargo_traffic`.`Company` (name) VALUES
+INSERT INTO `cargo_traffic`.`company` (name) VALUES
   ("TradeCorp"),
   ("TravelInc"),
   ("SomeInc");
 
-INSERT INTO `Address` (country, city, street, house, flat) VALUES
+INSERT INTO `address` (country, city, street, house, flat) VALUES
   ("Belarus", "Minsk", "blabla", "12", "1");
 
 
 
-INSERT INTO `User` (username, password, name, surname, patronymic, email, birthday, company_id, address_id) VALUES
+INSERT INTO `user` (username, password, name, surname, patronymic, email, birthday, company_id, address_id) VALUES
   ("admin", "$2a$12$i1UEuEN99CNIsPfrEAcaeuP0pkLlVvGc2jnrRZqKaX/Osylh10WSG", "tom", "brown", "васильевич", "test@mail.ru", "1994-1-6", 1, 1),
   ("user", "$2a$12$HGlcYAg/Z/IoZj2.D3PgsOqopzoHacNvw4jjpAZSRagmBpOVvz1pm", "tom", "brown", "васильевич", "test@mail.ru", "1994-1-6", 2, 1);
 

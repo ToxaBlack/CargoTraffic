@@ -12,6 +12,7 @@ import java.util.List;
  */
 
 @Entity
+@Table(name = "user")
 public class User implements Subject {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

@@ -1,4 +1,4 @@
-define(['app/service/navService', 'app/service/clientService', "knockout", 'app/service/barService', "jquery", "text!./Clients.html"],
+define(['app/service/navService', 'app/service/clientService', "knockout", 'app/service/barService', "jquery", "text!./clients.html"],
     function (navService, clientService, ko, bar, $, listTemplate) {
         "use strict";
 
