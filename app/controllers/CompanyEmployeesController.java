@@ -27,7 +27,7 @@ public class CompanyEmployeesController extends Controller {
     @Inject
     CompanyEmployeesService companyService;
 
-    @Restrict({@Group("SYS_ADMIN")})
+    @Restrict({@Group("ADMIN")})
     @BodyParser.Of(BodyParser.Json.class)
     public Result addEmployees() {
         User oldUser = (User) Http.Context.current().args.get("user");
@@ -40,7 +40,7 @@ public class CompanyEmployeesController extends Controller {
     }
 
 
-    @Restrict({@Group("SYS_ADMIN")})
+    @Restrict({@Group("ADMIN")})
     public Result getEmployees(Long id, Integer employees, Boolean ascOrder) throws ControllerException {
         Long companyId = ((User) Http.Context.current().args.get("user")).company.id;
         LOGGER.debug("company_id, id, companies, ascOrder: {}, {}, {}, {}", companyId, id, employees, ascOrder);

@@ -5,6 +5,10 @@ define(['app/service/authService', 'app/service/navService', "knockout", "text!.
         function navbarViewModel() {
             var self = this;
 
+            self.mainPage = function () {
+                navService.mainPage();
+            }
+
             self.logout = function () {
                 authService.logout(
                     function () {
