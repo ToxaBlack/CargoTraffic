@@ -9,8 +9,13 @@ define(['app/service/warehouseService', 'app/service/navService', 'app/service/b
             self.checkedWarehouses = ko.observableArray();
             self.hasNextPage = ko.observable(false);
             self.hasPreviousPage = ko.observable(false);
-            self.allChecked = false;
             self.warehouseName = ko.observable();
+            self.allChecked = ko.computed(function() {
+                var success = $.grep(self.warehouses(), function(element,index) {
+                        return $.inArray(element.id.toString(), self.checkedWarehouses()) !== -1;
+                    }).length === self.warehouses().length;
+                return success;
+            }, this);
             self.WAREHOUSES_PER_PAGE = 3;
 
             warehouseService.list(1, self.WAREHOUSES_PER_PAGE + 1, true,
@@ -37,13 +42,6 @@ define(['app/service/warehouseService', 'app/service/navService', 'app/service/b
                     bar.go(100);
                 });
 
-
-            self.toggleAssociation = function (item) {
-                if (item.Selected() === true) console.log("dissociate item " + item.id());
-                else console.log("associate item " + item.id());
-                item.Selected(!(item.Selected()));
-                return true;
-            };
 
             self.addWarehouse = function () {
                 warehouseService.add(self.warehouseName(),
@@ -135,6 +133,22 @@ define(['app/service/warehouseService', 'app/service/navService', 'app/service/b
                     });
 
             };
+
+            $('#selectAllCheckbox').on('click', function () {
+                if (!self.allChecked()) {
+                    $.each(self.warehouses(), function (index, element) {
+                        if ($.inArray(element.id.toString(), self.checkedWarehouses()) === -1) {
+                            self.checkedWarehouses.push(element.id.toString());
+                        }
+                    });
+                } else {
+                    $.each(self.warehouses(), function (index, element) {
+                        if ($.inArray(element.id.toString(), self.checkedWarehouses()) !== -1) {
+                            self.checkedWarehouses.remove(element.id.toString());
+                        }
+                    });
+                }
+            });
 
             return self;
         }
