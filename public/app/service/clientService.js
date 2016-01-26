@@ -26,9 +26,33 @@ define(["app/utils/utils"],
                 );
             };
 
+            var lock = function (clients, done, error, always) {
+                utils.send(
+                    "api/clients/lock",
+                    "PUT",
+                    JSON.stringify(clients),
+                    done,
+                    error,
+                    always
+                );
+            };
+
+            var unlock = function (clients, done, error, always) {
+                utils.send(
+                    "api/clients/unlock",
+                    "PUT",
+                    JSON.stringify(clients),
+                    done,
+                    error,
+                    always
+                );
+            };
+
             return {
                 list: list,
-                add: add
+                add: add,
+                lock: lock,
+                unlock: unlock
             }
         }
 

@@ -114,6 +114,58 @@ define(['app/service/navService', 'app/service/clientService', "knockout", 'app/
                 }
             });
 
+            $('#lockButton').on('click', function() {
+                clientService.lock(self.checkedClients(),
+                    function() {
+                        var auxiliaryArray = self.clients().slice();
+                        $.each(auxiliaryArray, function (index, element) {
+                            if ($.inArray(element.id.toString(), self.checkedClients()) !== -1) {
+                                element.deleted = true;
+                                auxiliaryArray.splice(index, 1);
+                                auxiliaryArray.splice(index, 0, element);
+                            }
+                        });
+                        self.clients([]);
+                        self.clients(auxiliaryArray);
+                        self.checkedClients([]);
+                    },
+                    function (data) {
+                        switch (data.status) {
+                            case 403:
+                                navService.navigateTo("login");
+                                break;
+                            default:
+                                navService.navigateTo("error");
+                        }
+                    });
+            });
+
+            $('#unlockButton').on('click', function() {
+                clientService.unlock(self.checkedClients(),
+                    function() {
+                        var auxiliaryArray = self.clients().slice();
+                        $.each(auxiliaryArray, function (index, element) {
+                            if ($.inArray(element.id.toString(), self.checkedClients()) !== -1) {
+                                element.deleted = false;
+                                auxiliaryArray.splice(index, 1);
+                                auxiliaryArray.splice(index, 0, element);
+                            }
+                        });
+                        self.clients([]);
+                        self.clients(auxiliaryArray);
+                        self.checkedClients([]);
+                    },
+                    function (data) {
+                        switch (data.status) {
+                            case 403:
+                                navService.navigateTo("login");
+                                break;
+                            default:
+                                navService.navigateTo("error");
+                        }
+                    });
+            });
+
 
             self.addClient = function () {
                 navService.navigateTo("addClient");
