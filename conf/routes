@@ -3,26 +3,24 @@
 # ~~~~
 
 # REST API
-POST        /api/login            controllers.LoginController.login()
-POST        /api/logout           controllers.LoginController.logout()
-GET         /api/roles            controllers.LoginController.roles()
+POST        /api/login                 controllers.LoginController.login()
+POST        /api/logout                controllers.LoginController.logout()
+GET         /api/roles                 controllers.LoginController.roles()
 
 
-GET         /api/clients          controllers.ClientsController.getClients()
-PUT         /api/clients/lock     controllers.ClientsController.lockClients()
-PUT         /api/clients/unlock   controllers.ClientsController.unlockClients()
-GET         /api/companies        controllers.CompanyController.companies()
-GET         /api/warehouses       controllers.WarehouseController.warehouses()
-POST        /api/addWarehouse     controllers.WarehouseController.addWarehouse()
-GET         /api/account          controllers.AccountController.getAccount()
-PUT         /api/account          controllers.AccountController.updateAccount()
-PUT         /api/password         controllers.AccountController.updatePassword()
-
+GET         /api/clients               controllers.ClientsController.getClients()
+PUT         /api/clients/lock          controllers.ClientsController.lockClients()
+PUT         /api/clients/unlock        controllers.ClientsController.unlockClients()
+GET         /api/warehouses            controllers.WarehouseController.warehouses()
+POST        /api/warehouse             controllers.WarehouseController.addWarehouse()
+GET         /api/account               controllers.AccountController.getAccount()
+PUT         /api/account               controllers.AccountController.updateAccount()
+PUT         /api/password              controllers.AccountController.updatePassword()
 GET         /api/employees        controllers.CompanyEmployeesController.getEmployees(id :Long, employees :Integer, ascOrder :Boolean )
 POST         /api/employees        controllers.CompanyEmployeesController.addEmployees()
 
 # Map static resources from the /public folder to the /assets URL path
-GET         /assets/*file         controllers.Assets.versioned(path="/public", file: Asset)
+GET         /assets/*file              controllers.Assets.versioned(path="/public", file: Asset)
 
 # Home page
-GET         /$path<.*>            controllers.Application.index(path)
+GET         /$path<.*>                 controllers.Application.index(path)

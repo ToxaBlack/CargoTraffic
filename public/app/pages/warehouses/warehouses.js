@@ -1,4 +1,5 @@
-define(['app/utils/utils', "knockout", "jquery", "text!./warehouses.html"], function (utils, ko, $, listTemplate) {
+define(['app/service/warehouseService', 'app/service/navService', "knockout", "jquery", "text!./warehouses.html"],
+    function (warehouseService, navService, ko, $, listTemplate) {
     "use strict";
 
     function warehousesViewModel() {
@@ -11,7 +12,7 @@ define(['app/utils/utils', "knockout", "jquery", "text!./warehouses.html"], func
         self.warehouseName = ko.observable();
         self.WAREHOUSES_PER_PAGE = 3;
 
-        utils.send("api/warehouses", "GET", {"id": "1", "warehouses": self.WAREHOUSES_PER_PAGE + 1, "ascOrder": "true"},
+        warehouseService.list(1, self.WAREHOUSES_PER_PAGE + 1, true,
             function (data) {
                 if (data.length === self.WAREHOUSES_PER_PAGE + 1) {
                     self.hasNextPage(true);
@@ -23,7 +24,13 @@ define(['app/utils/utils', "knockout", "jquery", "text!./warehouses.html"], func
                 self.warehouses(data);
             },
             function (data) {
-                utils.goTo("error");
+                switch (data.status) {
+                    case 403:
+                        navService.navigateTo("login");
+                        break;
+                    default:
+                        navService.navigateTo("error");
+                }
             });
 
 
@@ -35,16 +42,21 @@ define(['app/utils/utils', "knockout", "jquery", "text!./warehouses.html"], func
         };
 
         self.addWarehouse = function() {
-            utils.send("api/addWarehouse", "POST",
-                JSON.stringify({warehouseName: self.warehouseName()}),
+            warehouseService.add(self.warehouseName(),
                 function () {
                     var dialog = $('#myModal');
                     dialog.modal("hide");
                 },
-                function () {
+                function (data) {
                     var dialog = $('#myModal');
                     dialog.modal("hide");
-                    utils.goTo("error");
+                    switch (data.status) {
+                        case 403:
+                            navService.navigateTo("login");
+                            break;
+                        default:
+                            navService.navigateTo("error");
+                    }
                 });
         };
 
@@ -56,7 +68,7 @@ define(['app/utils/utils', "knockout", "jquery", "text!./warehouses.html"], func
 
         self.deleteWarehouse = function() {
             alert("//TODO");
-        }
+        };
 
         self.isOpen = ko.observable(false);
 
@@ -71,8 +83,7 @@ define(['app/utils/utils', "knockout", "jquery", "text!./warehouses.html"], func
         self.nextPage = function () {
             if (!self.hasNextPage()) return;
             var nextPageFirstWarehouseId = self.warehouses()[self.warehouses().length - 1].id + 1;
-            utils.send("api/warehouses", "GET",
-                {"id": nextPageFirstWarehouseId, "warehouses": self.WAREHOUSES_PER_PAGE + 1, "ascOrder": "true"},
+            warehouseService.list(nextPageFirstWarehouseId, self.WAREHOUSES_PER_PAGE + 1, true,
                 function (data) {
                     if (data.length === self.WAREHOUSES_PER_PAGE + 1) {
                         self.hasNextPage(true);
@@ -84,15 +95,20 @@ define(['app/utils/utils', "knockout", "jquery", "text!./warehouses.html"], func
                     self.warehouses(data);
                 },
                 function (data) {
-                    utils.goTo("error");
+                    switch (data.status) {
+                        case 403:
+                            navService.navigateTo("login");
+                            break;
+                        default:
+                            navService.navigateTo("error");
+                    }
                 });
 
         };
 
         self.previousPage = function () {
             if (!self.hasPreviousPage()) return;
-            utils.send("api/warehouses", "GET",
-                {"id": self.warehouses()[0].id, "warehouses": self.WAREHOUSES_PER_PAGE + 1, "ascOrder": "false"},
+            warehouseService.list(self.warehouses()[0].id,  self.WAREHOUSES_PER_PAGE + 1, false,
                 function (data) {
 
                     if (data.length === self.WAREHOUSES_PER_PAGE + 1) {
@@ -104,8 +120,14 @@ define(['app/utils/utils', "knockout", "jquery", "text!./warehouses.html"], func
                     self.hasNextPage(true);
                     self.warehouses(data);
                 },
-                function () {
-                    utils.goTo("error");
+                function (data) {
+                    switch (data.status) {
+                        case 403:
+                            navService.navigateTo("login");
+                            break;
+                        default:
+                            navService.navigateTo("error");
+                    }
                 });
 
         };
