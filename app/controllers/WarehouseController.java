@@ -16,7 +16,6 @@ import service.WarehouseService;
 
 import javax.inject.Inject;
 import java.util.List;
-import java.util.Map;
 
 @SubjectPresent
 public class WarehouseController extends Controller {
@@ -26,17 +25,13 @@ public class WarehouseController extends Controller {
     WarehouseService warehouseService;
 
     @Restrict({@Group("DISPATCHER")})
-    public Result warehouses() throws ControllerException {
-        final Map<String, String[]> stringMap = request().queryString();
-        Long id = Long.parseLong(stringMap.get("id")[0]);
-        Integer warehousesCount = Integer.parseInt(stringMap.get("warehouses")[0]);
-        Boolean isAscOrder = Boolean.parseBoolean(stringMap.get("ascOrder")[0]);
-        LOGGER.debug("id, warehouses, ascOrder: {}, {}, {}", id, warehousesCount, isAscOrder);
-        LOGGER.debug("API Get warehouse list for user: {}", Http.Context.current().args.get("user").toString());
+    public Result getWarehouses(Long id, Integer warehouses, Boolean ascOrder) throws ControllerException {
+        LOGGER.debug("API Get warehouse list for user: {}; id, warehouses, ascOrder: {}, {}, {}",
+                Http.Context.current().args.get("user").toString(), id, warehouses, ascOrder);
 
         List<Warehouse> warehouseList;
         try {
-            warehouseList = warehouseService.getWarhouses(id, warehousesCount, isAscOrder);
+            warehouseList = warehouseService.getWarhouses(id, warehouses, ascOrder);
         } catch (ServiceException e) {
             LOGGER.error("error = {}", e);
             throw new ControllerException(e.getMessage(), e);
