@@ -11,7 +11,15 @@ INSERT INTO `cargo_traffic`.`company` (name) VALUES
 INSERT INTO `cargo_traffic`.`warehouse` (name) VALUES
   ("Торговая сила"),
   ("IBM"),
-  ("Inc");
+  ("Торговая сила"),
+  ("Склад 4"),
+  ("Склад 5"),
+  ("Склад 6"),
+  ("Склад 7"),
+  ("Склад 8"),
+  ("Склад 9"),
+  ("Склад 10"),
+  ("Склад 11");
 
 
 INSERT INTO `address` (country, city, street, house, flat) VALUES

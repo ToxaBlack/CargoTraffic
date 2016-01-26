@@ -22,7 +22,9 @@
             </thead>
             <tbody data-bind="foreach: warehouses">
                 <tr>
-                    <td><input class="idCheck" type="checkbox" data-bind="$parent.checkedWarehouse, attr: { value: id }"/></td>
+                    <td>
+                        <input class="idCheck" type="checkbox" data-bind="$parent.checkedWarehouse, attr: { value: id }"/>
+                    </td>
                     <td class="link" data-bind="text: name"></td>
                 </tr>
             </tbody>
@@ -34,8 +36,16 @@
 <div class="row text-center">
     <div class="col-lg-12">
         <ul class="pager">
-            <li id="previousPage" data-bind="css: { disabled: hasPreviousPage() == false}, click: previousPage"><a href="">Previous</a></li>
-            <li id="nextPage" data-bind="css: { disabled: hasNextPage() == false}, click: nextPage"><a href="">Next</a></li>
+            <li>
+                <button class="btn btn-primary" data-bind="enable : hasPreviousPage(), click: previousPage">
+                    <span class="glyphicon glyphicon-arrow-left"></span>
+                </button>
+            </li>
+            <li>
+                <button class="btn btn-primary" data-bind="enable: hasNextPage(), click: nextPage">
+                    <span class="glyphicon glyphicon-arrow-right"></span>
+                </button>
+            </li>
         </ul>
     </div>
 </div>

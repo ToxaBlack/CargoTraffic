@@ -50,7 +50,7 @@ define(['app/utils/utils', "knockout", "jquery", "text!./warehouses.html"], func
                         self.hasNextPage(false);
                     }
                     self.hasPreviousPage(true);
-                    self.companies(data);
+                    self.warehouses(data);
                 },
                 function (data) {
                     utils.goTo("error");
@@ -71,7 +71,7 @@ define(['app/utils/utils', "knockout", "jquery", "text!./warehouses.html"], func
                         self.hasPreviousPage(false);
                     }
                     self.hasNextPage(true);
-                    self.companies(data);
+                    self.warehouses(data);
                 },
                 function () {
                     utils.goTo("error");

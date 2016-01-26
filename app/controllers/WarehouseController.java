@@ -37,6 +37,10 @@ public class WarehouseController extends Controller {
         List<Warehouse> warehouseList;
         try {
             warehouseList = warehouseService.getWarhouses(id, warehousesCount, isAscOrder);
+            System.out.println("id:"+id + ", count:"+ warehousesCount);
+            for(Warehouse w: warehouseList){
+                System.out.println("-"+ w.name);
+            }
         } catch (ServiceException e) {
             LOGGER.error("error = {}", e);
             throw new ControllerException(e.getMessage(), e);
