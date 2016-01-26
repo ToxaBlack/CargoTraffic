@@ -49,11 +49,13 @@ define(['app/utils/utils', "knockout", "jquery", "text!./warehouses.html"], func
         };
 
         self.editWarehouse = function() {
-            alert("edit");
+            var dialog = $('#myModal');
+            dialog.modal("show");
+            alert("//TODO");
         };
 
         self.deleteWarehouse = function() {
-            alert(self.checkedWarehouse());
+            alert("//TODO");
         }
 
         self.isOpen = ko.observable(false);
