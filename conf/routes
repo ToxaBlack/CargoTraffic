@@ -19,7 +19,7 @@ PUT         /api/account          controllers.AccountController.updateAccount()
 PUT         /api/password         controllers.AccountController.updatePassword()
 
 GET         /api/employees        controllers.CompanyEmployeesController.getEmployees(id :Long, employees :Integer, ascOrder :Boolean )
-
+POST         /api/employees        controllers.CompanyEmployeesController.addEmployees()
 
 # Map static resources from the /public folder to the /assets URL path
 GET         /assets/*file         controllers.Assets.versioned(path="/public", file: Asset)

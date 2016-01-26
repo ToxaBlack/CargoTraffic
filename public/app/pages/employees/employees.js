@@ -104,6 +104,9 @@ define(['app/service/employeesService','app/service/navService', "knockout", 'ap
             };
 
 
+            self.addEmployee = function () {
+                navService.navigateTo("addEmployee");
+            };
             return self;
         }
 

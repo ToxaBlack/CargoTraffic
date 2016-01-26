@@ -34,10 +34,21 @@ define(["app/utils/utils"],
                 );
             };
 
+            var add = function (employee, done, error) {
+                utils.send(
+                    "api/employees",
+                    "POST",
+                    JSON.stringify(employee),
+                    done,
+                    error
+                );
+            };
+
             return {
                 get: get,
                 toNextPage: toNextPage,
-                toPreviousPage: toPreviousPage
+                toPreviousPage: toPreviousPage,
+                add: add
             }
         }
 

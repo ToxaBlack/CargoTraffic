@@ -2,6 +2,7 @@ package controllers;
 
 import be.objectify.deadbolt.java.actions.Group;
 import be.objectify.deadbolt.java.actions.Restrict;
+import com.fasterxml.jackson.databind.JsonNode;
 import models.User;
 import play.Logger;
 import play.libs.Json;
@@ -14,7 +15,6 @@ import service.ServiceException;
 
 import javax.inject.Inject;
 import java.util.List;
-import java.util.Map;
 
 
 
@@ -26,6 +26,18 @@ public class CompanyEmployeesController extends Controller {
 
     @Inject
     CompanyEmployeesService companyService;
+
+    @Restrict({@Group("SYS_ADMIN")})
+    @BodyParser.Of(BodyParser.Json.class)
+    public Result addEmployees() {
+        User oldUser = (User) Http.Context.current().args.get("user");
+        LOGGER.debug("API add employee", oldUser.toString());
+
+        JsonNode json = request().body().asJson();
+        LOGGER.debug("Our employee: {}", json.toString());
+        return ok();
+        //return play.mvc.Results.TODO;
+    }
 
 
     @Restrict({@Group("SYS_ADMIN")})
