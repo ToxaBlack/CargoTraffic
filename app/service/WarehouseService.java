@@ -42,9 +42,9 @@ public class WarehouseService {
 
     public Warehouse editWarehouse(Warehouse warehouse) throws ServiceException {
         try {
-            return JPA.withTransaction(() -> warehouseRepository.addWarehouse(warehouse));
+            return JPA.withTransaction(() -> warehouseRepository.editWarehouse(warehouse));
         } catch (Throwable throwable) {
-            LOGGER.error("Add warehouse with name = {}", warehouse.name);
+            LOGGER.error("Edit warehouse with name = {}", warehouse.name);
             throw new ServiceException(throwable.getMessage(), throwable);
         }
     }

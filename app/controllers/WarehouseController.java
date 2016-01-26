@@ -44,10 +44,9 @@ public class WarehouseController extends Controller {
         return ok(Json.toJson(warehouseList));
     }
 
-    //@Restrict({@Group("DISPATCHER")})
+    @Restrict({@Group("DISPATCHER")})
     @BodyParser.Of(BodyParser.Json.class)
-    public Result addWarehouse() {
-        System.out.println("Привет");
+    public Result addWarehouse() throws ControllerException {
         JsonNode json = request().body().asJson();
         String warehouseName = json.findPath("warehouseName").textValue();
         LOGGER.debug("API add warehouse with name = {}", warehouseName);
@@ -57,7 +56,8 @@ public class WarehouseController extends Controller {
         try {
             warehouseService.addWarehouse(warehouse);
         } catch (ServiceException e) {
-            e.printStackTrace();
+            LOGGER.error("error = {}", e);
+            throw new ControllerException(e.getMessage(), e);
         }
         return ok();
     }

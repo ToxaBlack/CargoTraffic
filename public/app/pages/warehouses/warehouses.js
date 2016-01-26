@@ -26,6 +26,7 @@ define(['app/utils/utils', "knockout", "jquery", "text!./warehouses.html"], func
                 utils.goTo("error");
             });
 
+
         self.toggleAssociation = function (item) {
             if (item.Selected() === true) console.log("dissociate item " + item.id());
             else console.log("associate item " + item.id());
@@ -34,14 +35,15 @@ define(['app/utils/utils', "knockout", "jquery", "text!./warehouses.html"], func
         };
 
         self.addWarehouse = function() {
-            alert(JSON.stringify({warehouseName: self.warehouseName()}));
-
             utils.send("api/addWarehouse", "POST",
                 JSON.stringify({warehouseName: self.warehouseName()}),
-                function (data) {
-
+                function () {
+                    var dialog = $('#myModal');
+                    dialog.modal("hide");
                 },
                 function () {
+                    var dialog = $('#myModal');
+                    dialog.modal("hide");
                     utils.goTo("error");
                 });
         };
@@ -104,18 +106,6 @@ define(['app/utils/utils', "knockout", "jquery", "text!./warehouses.html"], func
                     utils.goTo("error");
                 });
 
-        };
-
-        self.checkedWarehouse = function () {
-            console.log("checkedWarehouse called");
-            if ($.inArray(this, self.checkedWarehouses()) === -1)
-                self.checkedWarehouses.push(this);
-            else
-                self.checkedWarehouses.remove(this);
-        };
-
-        self.checkAll = function () {
-            console.log("in checkAll");
         };
 
         return self;
