@@ -65,7 +65,9 @@ public class TokenController {
     }
 
     public static boolean validateToken(Http.Context context) throws Throwable {
-        String token = context.request().cookie(COOKIE_NAME).value();
+        String token = context.request()
+                .cookie(COOKIE_NAME)
+                .value();
         Claims claims = Jwts.parser()
                 .setSigningKey(DatatypeConverter.parseBase64Binary(KEY))
                 .parseClaimsJws(token).getBody();

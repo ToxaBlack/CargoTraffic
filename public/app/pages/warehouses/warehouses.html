@@ -1,0 +1,84 @@
+<div class="row">
+    <div class="col-sm-offset-9">
+        <button type="button" class="btn btn-success" title="Add warehouse" data-toggle="modal" data-target="#myModal">
+            <span class="glyphicon glyphicon-plus"></span> Add
+        </button>
+        <button type="button" class="btn btn-info" title="Edit warehouse" data-bind="click: editWarehouse">
+            <span class="glyphicon glyphicon-edit"></span> Edit
+        </button>
+        <button type="button" class="btn btn-danger" title="Delete warehouse" data-bind="click: deleteWarehouse">
+            <span class="glyphicon glyphicon-trash"></span> Delete
+        </button>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-sm-12">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>
+                        <input class="selectAll" type="checkbox" data-bind="checkAll" id="selectAllCheckbox">
+                    </th>
+                    <th>Name</th>
+                </tr>
+            </thead>
+            <tbody data-bind="foreach: warehouses">
+                <tr>
+                    <td>
+                        <input class="idCheck" type="checkbox"
+                               data-bind="value: id, checked: $root.checkedWarehouses, click: $root.warehouses" />
+                    </td>
+                    <td class="link" data-bind="text: name"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+<div id="myModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Warehouse</h4>
+            </div>
+            <div class="modal-body form-horizontal">
+                <div class="form-group">
+                    <label class="control-label col-sm-4" for="name">Warehouse's name:</label>
+                    <div class="col-sm-7">
+                        <input  type="text"  id="name"  placeholder="Name of warehouse" class="form-control"
+                                name="name"  data-bind="value: warehouseName" required >
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-bind="click: addWarehouse">Save</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!-- Pagination -->
+<div class="row text-center">
+    <div class="col-lg-12">
+        <ul class="pager">
+            <li>
+                <button class="btn btn-primary" data-bind="enable : hasPreviousPage(), click: previousPage">
+                    <span class="glyphicon glyphicon-arrow-left"></span>
+                </button>
+            </li>
+            <li>
+                <button class="btn btn-primary" data-bind="enable: hasNextPage(), click: nextPage">
+                    <span class="glyphicon glyphicon-arrow-right"></span>
+                </button>
+            </li>
+        </ul>
+    </div>
+</div>
