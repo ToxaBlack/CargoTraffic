@@ -7,7 +7,7 @@ define(['app/service/clientService', 'app/service/navService', 'app/service/barS
             var self = this;
             self.company = ko.observable({});
             self.admin = ko.observable({});
-            self.confirmPassword = ko.observable({});
+            self.confirmPassword = ko.observable();
             self.add = function () {
                 clientService.add(self.company(), self.admin(),
                     function (data) {
