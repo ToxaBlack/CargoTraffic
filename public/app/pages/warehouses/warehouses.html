@@ -1,6 +1,6 @@
 <div class="row">
     <div class="col-sm-offset-9">
-        <button type="button" class="btn btn-success" title="Add warehouse" data-bind="click: addWarehouse">
+        <button type="button" class="btn btn-success" title="Add warehouse" data-toggle="modal" data-target="#myModal">
             <span class="glyphicon glyphicon-plus"></span> Add
         </button>
         <button type="button" class="btn btn-info" title="Edit warehouse" data-bind="click: editWarehouse">
@@ -29,6 +29,35 @@
                 </tr>
             </tbody>
         </table>
+    </div>
+</div>
+
+
+<div id="myModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Warehouse</h4>
+            </div>
+            <div class="modal-body form-horizontal">
+                <div class="form-group">
+                    <label class="control-label col-sm-4" for="name">Warehouse's name:</label>
+                    <div class="col-sm-7">
+                        <input  type="text"  id="name"  placeholder="Name of warehouse" class="form-control"
+                                name="name"  data-bind="value: warehouse" required >
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-bind="click: addWarehouse">Save</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+
     </div>
 </div>
 

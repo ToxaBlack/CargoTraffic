@@ -27,4 +27,19 @@ public class WarehouseRepository {
             Collections.reverse(warehouses);
         return warehouses;
     }
+
+    public void deleteWarehouse(long id) {
+
+    }
+
+    public void addWarehouse(Warehouse warehouse) {
+        EntityManager em = JPA.em();
+        StringBuilder stringBuilder = new StringBuilder("SELECT w FROM Warehouse w WHERE ");
+        Query query = em.createQuery(stringBuilder.toString());
+        query.setParameter("warehouse", warehouse);
+    }
+
+    public void editWarehouse() {
+
+    }
 }

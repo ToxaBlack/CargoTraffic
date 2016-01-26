@@ -8,6 +8,7 @@ define(['app/utils/utils', "knockout", "jquery", "text!./warehouses.html"], func
         self.hasNextPage = ko.observable(false);
         self.hasPreviousPage = ko.observable(false);
         self.allChecked = false;
+        self.warehouse = ko.observable();
         self.WAREHOUSES_PER_PAGE = 3;
 
         utils.send("api/warehouses", "GET", {"id": "1", "warehouses": self.WAREHOUSES_PER_PAGE + 1, "ascOrder": "true"},
@@ -26,7 +27,14 @@ define(['app/utils/utils', "knockout", "jquery", "text!./warehouses.html"], func
             });
 
         self.addWarehouse = function() {
-            alert("add!");
+            utils.send("api/warehouses", "POST",
+                {"warehouse": self.warehouse()},
+                function (data) {
+
+                },
+                function () {
+                    utils.goTo("error");
+                });
         };
 
         self.editWarehouse = function() {
@@ -36,6 +44,16 @@ define(['app/utils/utils', "knockout", "jquery", "text!./warehouses.html"], func
         self.deleteWarehouse = function() {
             alert("delete");
         }
+
+        self.isOpen = ko.observable(false);
+
+        self.open =function() {
+            this.isOpen(true);
+        };
+
+        self.close = function() {
+            this.isOpen(false);
+        };
 
         self.nextPage = function () {
             if (!self.hasNextPage()) return;
