@@ -1,0 +1,51 @@
+<div class="row">
+    <div class="col-sm-offset-9">
+        <button type="button" class="btn btn-info" title="Add employees">
+            <span class="glyphicon glyphicon-plus"></span> Add
+        </button>
+        <button type="button" class="btn btn-success" title="Lock employees">
+            <span class="glyphicon glyphicon-pencil"></span> Edit
+        </button>
+        <button type="button" class="btn btn-danger" title="Delete employees">
+            <span class="glyphicon glyphicon-trash"></span> Delete
+        </button>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-12">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th><input class="selectAll" type="checkbox" data-bind="checked: checkAll" id="selectAllCheckbox"></th>
+                    <th>Full name</th>
+                    <th>Username</th>
+                    <th>Roles</th>
+                </tr>
+            </thead>
+            <tbody data-bind="foreach: employees">
+                <tr>
+                    <td><input class="idCheck" type="checkbox" data-bind="checked: $parent.checkedEmployee, attr: { value: id }"/></td>
+                    <td class="link" data-bind="text: ko.computed(function() {return name + ' ' + patronymic + ' '+ surname; });"></td>
+                    <td class="link" data-bind="text: username"></td>
+                    <td>
+                    <ul data-bind="foreach: listOfRoles = ko.observableArray(userRoleList)">
+                        <li>
+                            <span data-bind="text: name"></span>
+                        </li>
+                    </ul>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Pagination -->
+<div class="row text-center">
+    <div class="col-lg-12">
+        <ul class="pager">
+            <li id="previousPage" data-bind="css: { disabled: hasPreviousPage() == false}, click: previousPage"><a>Previous</a></li>
+            <li id="nextPage" data-bind="css: { disabled: hasNextPage() == false}, click: nextPage"><a>Next</a></li>
+        </ul>
+    </div>
+</div>

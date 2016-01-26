@@ -2,19 +2,24 @@ package repository;
 
 import models.User;
 import org.apache.commons.collections4.CollectionUtils;
+import play.Logger;
 import play.db.jpa.JPA;
 
 import javax.persistence.EntityManager;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
+import java.util.Collections;
 import java.util.List;
 
 /**
  * Created by Anton Chernov on 1/21/2016.
  */
 public class UserRepository {
+    private static final Logger.ALogger LOGGER = Logger.of(UserRepository.class);
+
     public User find(long id) {
         EntityManager em = JPA.em();
         return em.find(User.class, id);
@@ -49,6 +54,23 @@ public class UserRepository {
         EntityManager em = JPA.em();
         em.merge(user);
     }
-
+    public List<User> getUserForEmployeesPage(long companyId, long id, int count, boolean ascOrder) {
+        EntityManager em = JPA.em();
+        StringBuilder stringBuilder = new StringBuilder("SELECT u FROM User u WHERE u.company.id = ? AND u.deleted = ? AND ");
+        if (ascOrder) {
+            stringBuilder.append("u.id >= ? ORDER BY u.id ASC");
+        } else {
+            stringBuilder.append("u.id < ? ORDER BY u.id DESC");
+        }
+        Query query = em.createQuery(stringBuilder.toString());
+        query.setParameter(1, companyId);
+        query.setParameter(2, false);
+        query.setParameter(3, id);
+        query.setMaxResults(count);
+        List<User> employees = query.getResultList();
+        if (!ascOrder)
+            Collections.reverse(employees);
+        return employees;
+    }
 
 }

@@ -15,6 +15,7 @@ GET         /api/account          controllers.AccountController.getAccount()
 PUT         /api/account          controllers.AccountController.updateAccount()
 PUT         /api/password         controllers.AccountController.updatePassword()
 
+GET         /api/employees        controllers.CompanyEmployeesController.getEmployees(id :Long, employees :Integer, ascOrder :Boolean )
 
 
 # Map static resources from the /public folder to the /assets URL path

@@ -43,6 +43,9 @@ public class User implements Subject {
 
     public String birthday;
 
+    @Constraints.Required
+    public Boolean deleted;
+
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name="user_role",
     joinColumns =
