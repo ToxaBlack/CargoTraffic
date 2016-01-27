@@ -39,6 +39,7 @@ public class User implements Subject {
 
     public String patronymic;
 
+    @Constraints.Required
     public String email;
 
     public String birthday;

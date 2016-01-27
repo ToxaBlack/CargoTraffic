@@ -131,6 +131,7 @@ public class AccountController extends Controller {
         return (validateParam(user.username, 40, true) &&
                 (validateParam(user.name, 40, false)) &&
                 (validateParam(user.surname, 40, true)) &&
+                (validateParam(user.email, 40, true)) &&
                 (validateParam(user.patronymic, 40, false)) &&
                 (validateParam(user.birthday, 40, false)) &&
                 (validateParam(user.address.country, 40, false)) &&

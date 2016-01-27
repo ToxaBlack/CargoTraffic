@@ -29,7 +29,7 @@ INSERT INTO `address` (country, city, street, house, flat) VALUES
 
 
 INSERT INTO `user` (username, password, name, surname, patronymic, email, birthday, company_id, address_id) VALUES
-  ("sys_admin", "$2a$10$nsE/Rt.2CteTvuLVvp64y.PC2y4/lcGGSIODMAvlCsew6stOoWMFi", "poll", "simson", "васильевич", "test@mail.ru", "1994-1-6", 1, 1),
+  ("sys_admin", "$2a$10$nsE/Rt.2CteTvuLVvp64y.PC2y4/lcGGSIODMAvlCsew6stOoWMFi", "poll", "simson", "васильевич", "test@mail.ru", "1994-1-6", NULL, 1),
   ("admin1", "$2a$10$ipSFEtPaAjLraBNNezM5UuZImzmjWdQVbFkGMiTLWjoj3HceSh1cS", "tom", "brown", "васильевич", "test@mail.ru", "1994-1-6", 1, 1),
   ("admin2", "$2a$10$91Y1.6P1D.q67quSRfykuOBvS7NJSHAU.YsXXbLdKeugYcpizvyy.", "bob", "black", "васильевич", "test@mail.ru", "1994-1-6", 2, 1),
   ("admin3", "$2a$10$tNaKU9sTQJXOgqDso7hameAHdruldJEwtXJOmOo89dR7bzFLTuYQG", "robert", "cottrell", "васильевич", "test@mail.ru", "1994-1-6", 3, 1),

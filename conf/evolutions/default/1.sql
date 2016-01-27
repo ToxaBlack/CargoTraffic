@@ -32,7 +32,7 @@ CREATE TABLE IF NOT EXISTS `cargo_traffic`.`user` (
   `name`       VARCHAR(250)         ,
   `surname`    VARCHAR(250)         NOT NULL,
   `patronymic` VARCHAR(250)         ,
-  `email`      VARCHAR(250)         ,
+  `email`      VARCHAR(250)         NOT NULL,
   `birthday`   DATE                 ,
   `company_id` INTEGER(11) UNSIGNED,
   `address_id` INTEGER(11) UNSIGNED ,
