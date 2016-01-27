@@ -18,6 +18,27 @@ define(['app/service/authService', 'app/service/navService', 'app/service/accoun
                     })
             };
 
+            self.showPasswordModal = function () {
+                $('#passwordModal').modal();
+            };
+
+            self.showAccountModal = function () {
+                accountService.get(
+                    function (data) {
+                        self.account(data);
+                    },
+                    function (data) {
+                        switch (data.status) {
+                            case 403:
+                                navService.navigateTo("login");
+                                break;
+                            default:
+                                navService.navigateTo("error");
+                        }
+                    });
+                $('#accountModal').modal();
+            };
+
 
             self.oldPassword = ko.observable();
             self.newPassword = ko.observable();
@@ -46,7 +67,7 @@ define(['app/service/authService', 'app/service/navService', 'app/service/accoun
             };
 
             self.account = ko.observable({});
-            self.update = function () {
+            self.updateAccount = function () {
                 accountService.updateAccount(self.account(),
                     function (data) {
                         navService.mainPage();
@@ -62,24 +83,9 @@ define(['app/service/authService', 'app/service/navService', 'app/service/accoun
                     });
             };
 
-            accountService.get(
-                function (data) {
-                    self.account(data);
-                },
-                function (data) {
-                    switch (data.status) {
-                        case 403:
-                            navService.navigateTo("login");
-                            break;
-                        default:
-                            navService.navigateTo("error");
-                    }
-                });
-
 
             return self;
         }
-
 
 
         return {viewModel: navbarViewModel, template: navbarTemplate};
