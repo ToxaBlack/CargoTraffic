@@ -6,8 +6,6 @@
     <persistence-unit name="defaultPersistenceUnit" transaction-type="RESOURCE_LOCAL">
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
         <non-jta-data-source>cargo_traffic</non-jta-data-source>
-        <class>models.User</class>
-        <class>models.UserRole</class>
         <properties>
             <property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect"/>
             <property name="hibernate.enable_lazy_load_no_trans" value="true" />

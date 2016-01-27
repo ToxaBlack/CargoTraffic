@@ -1,13 +1,20 @@
-define(["jquery", "knockout", "crossroads", "historyjs"], function ($, ko, crossroads) {
+define(["jquery", "knockout", "crossroads", "history"], function ($, ko, crossroads) {
     "use strict";
 
     return new Router({
         routes: [
             {url: 'login', params: {page: 'login'}},
             {url: 'account', params: {page: 'account'}},
+            {url: 'clients', params: {page: 'clients'}},
             {url: 'companies', params: {page: 'companies'}},
+            {url: 'warehouses', params: {page: 'warehouses'}},
             {url: 'home', params: {page: 'home'}},
-            {url: 'settings', params: {page: 'settings'}}
+            {url: 'settings', params: {page: 'settings'}},
+            {url: 'error', params: {page: 'error'}},
+            {url: 'password', params: {page: 'password'}},
+            {url: 'employees', params: {page: 'employees'}},
+            {url: 'addClient', params: {page: 'addClient'}},
+            {url: 'addEmployee', params: {page: 'addEmployee'}}
         ]
     });
 
@@ -29,7 +36,7 @@ define(["jquery", "knockout", "crossroads", "historyjs"], function ($, ko, cross
                         return true;
                     }
                     e.preventDefault();
-                    title = $(this).text();
+                    title = $(document).find("title").text();
                     return History.pushState({
                         urlPath: urlPath
                     }, title, urlPath);

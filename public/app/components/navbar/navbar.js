@@ -1,21 +1,25 @@
-define(['app/utils/utils', "knockout", "text!./navbar.html"], function (utils, ko, navbarTemplate) {
-    "use strict";
+define(['app/service/authService', 'app/service/navService', "knockout", "text!./navbar.html"],
+    function (authService, navService, ko, navbarTemplate) {
+        "use strict";
 
-    function navbarViewModel() {
-        var self = this;
+        function navbarViewModel() {
+            var self = this;
 
-        self.logout = function (root) {
-            utils.ajax("api/logout", "POST", {},
-                function (reply) {
-                    if (reply.status === "SUCCESS") {
-                        root.roles([]);
-                        utils.goTo("login");
-                    }
-                })
-        };
+            self.mainPage = function () {
+                navService.mainPage();
+            }
 
-        return self;
-    }
+            self.logout = function () {
+                authService.logout(
+                    function () {
+                        var context = ko.contextFor($("body")[0]);
+                        context.$data.roles([]);
+                        navService.navigateTo("login");
+                    })
+            };
 
-    return {viewModel: navbarViewModel, template: navbarTemplate};
-});
+            return self;
+        }
+
+        return {viewModel: navbarViewModel, template: navbarTemplate};
+    });

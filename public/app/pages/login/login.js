@@ -1,33 +1,29 @@
-define(['app/utils/utils', "knockout", "text!./login.html"], function (utils, ko, loginTemplate) {
-    "use strict";
+define(['app/service/authService', 'app/service/navService', 'app/service/barService', "knockout", "text!./login.html"],
+    function (authService, navService, bar, ko, loginTemplate) {
+        "use strict";
 
-    function loginViewModel() {
-        var self = this;
-        self.user = ko.observable();
-        self.password = ko.observable();
-        self.error = ko.observable();
-        self.login = function (root) {
-            utils.ajax("api/login", "POST", {user: self.user(), password: self.password()},
-                function (reply) {
-                    switch (reply.status) {
-                        case "SUCCESS":
-                            self.error("");
-                            root.roles(reply.data);
-                            utils.goTo("account");
-                            break;
-                        case "ERROR":
-                            self.error(reply.data);
-                            break;
-                        case "UNAUTHENTICATED":
-                            break;
-                        default:
-                            break;
-                    }
-                })
-        };
-        return self;
-    }
+        function loginViewModel() {
+            bar.go(50);
+            var self = this;
+            self.user = ko.observable();
+            self.password = ko.observable();
+            self.error = ko.observable();
+            self.login = function () {
+                authService.login(self.user(), self.password(),
+                    function (data) {
+                        self.error("");
+                        var context = ko.contextFor($("body")[0]);
+                        context.$data.roles(data);
+                        navService.navigateTo("account");
+                    },
+                    function (data) {
+                        self.error("Invalid login or password");
+                    })
+            };
 
-    return {viewModel: loginViewModel, template: loginTemplate};
-})
-;
+            bar.go(100);
+            return self;
+        }
+
+        return {viewModel: loginViewModel, template: loginTemplate};
+    });

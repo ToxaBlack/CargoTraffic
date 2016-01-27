@@ -1,31 +1,34 @@
-define(['app/utils/utils', 'knockout', 'router', 'bootstrap', 'knockout-projections'], function (util, ko, router) {
+define(['app/service/startupService', 'app/service/navService', 'knockout', 'router', 'bootstrap'], function (startupService, navService, ko, router) {
     "use strict";
 
     ko.components.register('navbar', {require: 'app/components/navbar/navbar'});
 
     ko.components.register('login', {require: 'app/pages/login/login'});
     ko.components.register('account', {require: 'app/pages/account/account'});
+    ko.components.register('clients', {require: 'app/pages/clients/clients'});
     ko.components.register('companies', {require: 'app/pages/companies/companies'});
+    ko.components.register('warehouses', {require: 'app/pages/warehouses/warehouses'});
     ko.components.register('home', {require: 'app/pages/home/home'});
+    ko.components.register('error', {require: 'app/pages/error/error'});
+    ko.components.register('password', {require: 'app/pages/password/password'});
+    ko.components.register('addClient', {require: 'app/pages/addClient/addClient'});
+    ko.components.register('employees', {require: 'app/pages/employees/employees'});
+    ko.components.register('addEmployee', {require: 'app/pages/addEmployee/addEmployee'});
 
 
     var roles = ko.observableArray([]);
 
 
-    if (roles().length === 0)
-        util.ajax("api/roles", "GET", {}, function (reply) {
-
-            if (reply.status === "SUCCESS") {
-                roles(reply.data);
-            }
-
+    startupService.roles(
+        function (data) {
+            roles(data);
             if (window.location.pathname === "/")
-                if (roles().length === 0) {
-                    util.goTo("login");
-                } else {
-                    util.goTo("account");
-                }
+                navService.navigateTo("account");
 
+        }, function () {
+            if (window.location.pathname === "/")
+                navService.navigateTo("login");
+        }, function () {
             ko.applyBindings({
                 route: router.currentRoute,
                 roles: roles

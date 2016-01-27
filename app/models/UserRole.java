@@ -13,7 +13,6 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "role")
 public class UserRole implements Role {
-    @JsonIgnore
     @Id
     public Long id;
 

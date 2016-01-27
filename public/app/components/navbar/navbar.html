@@ -1,21 +1,41 @@
 <header class="navbar navbar-default">
     <div class="container-fluid">
         <div class="navbar-header">
-            <a class="navbar-brand" href="account">Cargo Traffic</a>
+            <a class="navbar-brand" data-bind="click: mainPage">Cargo Traffic</a>
         </div>
         <div>
             <!-- ko if: $root.roles().length !==0  -->
-                <!-- ko foreach: $root.roles() -->
-                    <!-- ko if: name == "SYS_ADMIN"  -->
-                        <ul class="nav navbar-nav">
-                            <li><a href="companies">Companies</a></li>
-                        </ul>
-                    <!-- /ko -->
-                <!-- /ko -->
-            <ul class="nav navbar-nav pull-right">
-                <li><a href="" data-bind="click: function() {logout($root)}">Logout</a></li>
+            <!-- ko foreach: $root.roles() -->
+            <!-- ko if: name == "SYS_ADMIN"  -->
+            <ul class="nav navbar-nav">
+                <li><a href="clients">Clients</a></li>
+            </ul>
+            <!-- /ko -->
+            <!-- ko if: name == "ADMIN"  -->
+            <ul class="nav navbar-nav">
+                <li><a href="employees">Employees</a></li>
+            </ul>
+            <!-- /ko -->
+            <!-- ko if: name == "DISPATCHER"  -->
+            <ul class="nav navbar-nav">
+                <li><a href="warehouses">Warehouses</a></li>
+            </ul>
+            <!-- /ko -->
+            <!-- /ko -->
+            <ul class="nav navbar-nav navbar-right">
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                       aria-expanded="false">Account<span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="account">Change account</a></li>
+                        <li><a href="password">Change password</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li><a data-bind="click: logout">Logout</a></li>
+                    </ul>
+                </li>
             </ul>
             <!-- /ko -->
         </div>
     </div>
+    <div id="bar"></div>
 </header>

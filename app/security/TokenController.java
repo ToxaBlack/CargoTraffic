@@ -27,6 +27,7 @@ public class TokenController {
     private static final int tokenLive = 3600;
     private static final String COOKIE_NAME = "access_token";
 
+
     public static void setToken(User user, String host, Http.Response response) {
         LOGGER.debug("Set cookie token for user = {} id = {}", user.username, user.id);
         response.setCookie(
@@ -64,12 +65,14 @@ public class TokenController {
     }
 
     public static boolean validateToken(Http.Context context) throws Throwable {
-        String token = context.request().cookie(COOKIE_NAME).value();
+        String token = context.request()
+                .cookie(COOKIE_NAME)
+                .value();
         Claims claims = Jwts.parser()
                 .setSigningKey(DatatypeConverter.parseBase64Binary(KEY))
                 .parseClaimsJws(token).getBody();
 
-        User user = UserService.find(Long.parseLong(claims.getId()));
+        User user = (new UserService()).find(Long.parseLong(claims.getId()));
 
         LOGGER.debug("Validate token for user = {} id = {}", user.username, user.id);
 

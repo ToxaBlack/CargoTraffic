@@ -3,6 +3,8 @@
 <html lang="en">
     <head>
         <title>Cargo traffic</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="shortcut icon" type="image/png" href="@routes.Assets.versioned("images/favicon.png")">
         <link rel="stylesheet" media="screen" href="@routes.Assets.versioned("stylesheets/lib/bootstrap.min.css")">
         <link rel="stylesheet" media="screen" href="@routes.Assets.versioned("stylesheets/main.css")">
@@ -13,9 +15,11 @@
         <div class="wrapper">
             <navbar></navbar>
 
-            <main id="page1" class="container" data-bind="component: { name: $root.route().page, params: route }"></main>
+            <main id="page" class="container" data-bind="component: { name: $root.route().page, params: route }"></main>
 
-            @footer()
+            <footer>
+                <p>     © 2016 Cargo Traffic</p>
+            </footer>
         </div>
     </body>
 </html>
