@@ -25,7 +25,7 @@
                 <tr>
                     <td><input class="idCheck" type="checkbox" data-bind="checked: $parent.checkedClients, attr: { value: id }"/></td>
                     <td class="link" data-bind="text: name"></td>
-                    <td class="link" data-bind="text: $parent.getClientStatus(deleted)"></td>
+                    <td class="link" data-bind="text: $parent.getClientStatus(locked)"></td>
                 </tr>
             </tbody>
         </table>

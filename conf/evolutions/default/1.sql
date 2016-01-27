@@ -5,7 +5,7 @@
 CREATE TABLE IF NOT EXISTS `cargo_traffic`.`company` (
   `id`      INTEGER(11) UNSIGNED NOT NULL AUTO_INCREMENT UNIQUE,
   `name`    VARCHAR(250)         NOT NULL,
-  `deleted` BIT(1)                        DEFAULT FALSE,
+  `locked` BIT(1)                        DEFAULT FALSE,
   PRIMARY KEY (`id`)
 )
   ENGINE = InnoDB
