@@ -1,5 +1,6 @@
-define(['app/service/warehouseService', 'app/service/navService', 'app/service/barService', "knockout", "jquery", "text!./warehouses.html"],
-    function (warehouseService, navService, bar, ko, $, listTemplate) {
+define(['app/utils/messageUtil','app/service/warehouseService', 'app/service/navService', 'app/service/barService',
+    "knockout", "jquery", "text!./warehouses.html"],
+    function (message,warehouseService, navService, bar, ko, $, listTemplate) {
         "use strict";
 
         function warehousesViewModel() {
@@ -16,7 +17,7 @@ define(['app/service/warehouseService', 'app/service/navService', 'app/service/b
                     }).length === self.warehouses().length;
                 return success;
             }, this);
-            self.WAREHOUSES_PER_PAGE = 3;
+            self.WAREHOUSES_PER_PAGE = 20;
 
             warehouseService.list(1, self.WAREHOUSES_PER_PAGE + 1, true,
                 function (data) {
@@ -45,13 +46,10 @@ define(['app/service/warehouseService', 'app/service/navService', 'app/service/b
 
             self.addWarehouse = function () {
                 warehouseService.add(self.warehouseName(),
-                    function () {
-                        var dialog = $('#myModal');
-                        dialog.modal("hide");
+                    function (data) {
+                        self.warehouses.push(data);
                     },
                     function (data) {
-                        var dialog = $('#myModal');
-                        dialog.modal("hide");
                         switch (data.status) {
                             case 403:
                                 navService.navigateTo("login");
@@ -59,27 +57,27 @@ define(['app/service/warehouseService', 'app/service/navService', 'app/service/b
                             default:
                                 navService.navigateTo("error");
                         }
+                    },
+                    function () {
+                        var dialog = $('#myModal');
+                        dialog.modal("hide");
+                        self.warehouseName("");
                     });
             };
 
             self.editWarehouse = function () {
+                var countChoosen = self.checkedWarehouses().length;
+                if(! countChoosen || countChoosen > 1) {
+                    var mess = "Please, choose just one warehouse.";
+                    message.createWarningMessage(mess);
+                    return false;
+                }
                 var dialog = $('#myModal');
                 dialog.modal("show");
-                alert("//TODO");
             };
 
             self.deleteWarehouse = function () {
                 alert("//TODO");
-            };
-
-            self.isOpen = ko.observable(false);
-
-            self.open = function () {
-                this.isOpen(true);
-            };
-
-            self.close = function () {
-                this.isOpen(false);
             };
 
             self.nextPage = function () {

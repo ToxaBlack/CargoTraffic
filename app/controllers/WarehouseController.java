@@ -54,6 +54,6 @@ public class WarehouseController extends Controller {
             LOGGER.error("error = {}", e);
             throw new ControllerException(e.getMessage(), e);
         }
-        return ok();
+        return ok(Json.toJson(warehouse));
     }
 }
