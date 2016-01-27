@@ -1,7 +1,7 @@
 <header class="navbar navbar-default">
     <div class="container-fluid">
         <div class="navbar-header">
-            <a class="navbar-brand" href="account">Cargo Traffic</a>
+            <a class="navbar-brand" data-bind="click: mainPage">Cargo Traffic</a>
         </div>
         <div>
             <!-- ko if: $root.roles().length !==0  -->
@@ -9,6 +9,10 @@
             <!-- ko if: name == "SYS_ADMIN"  -->
             <ul class="nav navbar-nav">
                 <li><a href="clients">Clients</a></li>
+            </ul>
+            <!-- /ko -->
+            <!-- ko if: name == "ADMIN"  -->
+            <ul class="nav navbar-nav">
                 <li><a href="employees">Employees</a></li>
             </ul>
             <!-- /ko -->

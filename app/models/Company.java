@@ -20,5 +20,5 @@ public class Company {
     public String name;
 
     @Constraints.Required
-    public Boolean deleted;
+    public Boolean locked;
 }

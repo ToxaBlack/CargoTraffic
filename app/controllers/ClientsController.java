@@ -29,16 +29,12 @@ public class ClientsController extends Controller {
 
 
     @Restrict({@Group("SYS_ADMIN")})
-    public Result getClients() throws ControllerException {
-        final Map<String, String[]> stringMap = request().queryString();
-        Long id = Long.parseLong(stringMap.get("id")[0]);
-        Integer clientsCount = Integer.parseInt(stringMap.get("clients")[0]);
-        Boolean isAscOrder = Boolean.parseBoolean(stringMap.get("ascOrder")[0]);
-        LOGGER.debug("id, clients, ascOrder: {}, {}, {}", id, clientsCount, isAscOrder);
+    public Result getClients(Long id, Integer clients, Boolean ascOrder ) throws ControllerException {
+        LOGGER.debug("id, clients, ascOrder: {}, {}, {}", id, clients, ascOrder);
 
         List<Company> companyList;
         try {
-            companyList = companyService.getCompanies(id, clientsCount, isAscOrder);
+            companyList = companyService.getCompanies(id, clients, ascOrder);
         } catch (ServiceException e) {
             LOGGER.error("error: {}", e);
             throw new ControllerException(e.getMessage(), e);

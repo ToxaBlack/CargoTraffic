@@ -120,7 +120,7 @@ define(['app/service/navService', 'app/service/clientService', "knockout", 'app/
                         var auxiliaryArray = self.clients().slice();
                         $.each(auxiliaryArray, function (index, element) {
                             if ($.inArray(element.id.toString(), self.checkedClients()) !== -1) {
-                                element.deleted = true;
+                                element.locked = true;
                                 auxiliaryArray.splice(index, 1);
                                 auxiliaryArray.splice(index, 0, element);
                             }
@@ -146,7 +146,7 @@ define(['app/service/navService', 'app/service/clientService', "knockout", 'app/
                         var auxiliaryArray = self.clients().slice();
                         $.each(auxiliaryArray, function (index, element) {
                             if ($.inArray(element.id.toString(), self.checkedClients()) !== -1) {
-                                element.deleted = false;
+                                element.locked = false;
                                 auxiliaryArray.splice(index, 1);
                                 auxiliaryArray.splice(index, 0, element);
                             }

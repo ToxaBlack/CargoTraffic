@@ -18,7 +18,7 @@
             <thead>
                 <tr>
                     <th>
-                        <input class="selectAll" type="checkbox" data-bind="checkAll" id="selectAllCheckbox">
+                        <input class="selectAll" type="checkbox" data-bind="checked: allChecked" id="selectAllCheckbox">
                     </th>
                     <th>Name</th>
                 </tr>
@@ -27,7 +27,7 @@
                 <tr>
                     <td>
                         <input class="idCheck" type="checkbox"
-                               data-bind="value: id, checked: $root.checkedWarehouses, click: $root.warehouses" />
+                               data-bind="checked: $parent.checkedWarehouses, attr: { value: id }"/></td>
                     </td>
                     <td class="link" data-bind="text: name"></td>
                 </tr>
