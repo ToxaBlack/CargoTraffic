@@ -168,7 +168,63 @@ define(['app/service/navService', 'app/service/clientService', "knockout", 'app/
 
 
             self.addClient = function () {
-                navService.navigateTo("addClient");
+                $('#addClientModal').modal();
+            };
+
+
+            /*************** Modal-dialog ***************/
+
+
+            self.company = {};
+            self.admin = {};
+            self.company.name = ko.observable();
+            self.admin.surname = ko.observable();
+            self.admin.email = ko.observable();
+
+            self.companyNameRegexp = "^[a-zA-Z0-9_-]{1,250}$";
+            self.surnameRegexp = "^[a-zA-Z]{1,250}$";
+            self.emailRegexp = "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]{1,210}@[a-zA-Z0-9-]{1,30}\.[a-zA-Z0-9-]{2,3}$";
+            self.isCompanyNameCorrect = ko.computed(function() {
+                if (self.company.name())
+                    return (!!self.company.name().match(self.companyNameRegexp));
+                return true;
+            });
+            self.isAdminSurnameCorrect = ko.computed(function() {
+                if (self.admin.surname())
+                    return (!!self.admin.surname().match(self.surnameRegexp));
+                return true;
+            });
+            self.isAdminEmailCorrect = ko.computed(function() {
+                if (self.admin.email())
+                    return (!!self.admin.email().match(self.emailRegexp));
+                return true;
+            });
+            self.isValidated = ko.computed(function() {
+                return self.isCompanyNameCorrect() &&
+                    self.isAdminSurnameCorrect() &&
+                    self.isAdminEmailCorrect() &&
+                    !!self.company.name() &&
+                    !!self.admin.surname() &&
+                    !!self.admin.email();
+            });
+
+
+            self.add = function () {
+                if (!self.isValidated()) return;
+                clientService.add(self.company, self.admin,
+                    function (data) {
+                        $('#addClientModal').modal('toggle');
+                        // TODO push data to self.clients if self.CLIENTS_PER_PAGE < 10
+                    },
+                    function (data) {
+                        switch (data.status) {
+                            case 403:
+                                navService.navigateTo("login");
+                                break;
+                            default:
+                                navService.navigateTo("error");
+                        }
+                    });
             };
 
 

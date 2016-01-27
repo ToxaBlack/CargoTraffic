@@ -47,4 +47,8 @@ public class CompanyService {
             throw new ServiceException(throwable.getMessage(), throwable);
         }
     }
+
+    public void addCompany() throws ServiceException {
+
+    }
 }

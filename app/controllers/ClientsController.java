@@ -63,21 +63,20 @@ public class ClientsController extends Controller {
         if (Objects.isNull(json)) {
             LOGGER.debug("Expecting Json data");
             return badRequest("Expecting Json data");
-        } else {
-            ArrayNode clientIdsNode = (ArrayNode) json;
-            Iterator<JsonNode> iterator = clientIdsNode.elements();
-            List<Long> clientIds = new ArrayList<>();
-            while (iterator.hasNext()) {
-                clientIds.add(iterator.next().asLong());
-            }
-            try {
-                companyService.lockCompanies(clientIds);
-            } catch (ServiceException e) {
-                LOGGER.error("error: {}", e);
-                throw new ControllerException(e.getMessage(), e);
-            }
-            return ok();
         }
+        ArrayNode clientIdsNode = (ArrayNode) json;
+        Iterator<JsonNode> iterator = clientIdsNode.elements();
+        List<Long> clientIds = new ArrayList<>();
+        while (iterator.hasNext()) {
+            clientIds.add(iterator.next().asLong());
+        }
+        try {
+            companyService.lockCompanies(clientIds);
+        } catch (ServiceException e) {
+            LOGGER.error("error: {}", e);
+            throw new ControllerException(e.getMessage(), e);
+        }
+        return ok();
     }
 
     @Restrict({@Group("SYS_ADMIN")})
@@ -87,20 +86,19 @@ public class ClientsController extends Controller {
         if (Objects.isNull(json)) {
             LOGGER.debug("Expecting Json data");
             return badRequest("Expecting Json data");
-        } else {
-            ArrayNode clientIdsNode = (ArrayNode) json;
-            Iterator<JsonNode> iterator = clientIdsNode.elements();
-            List<Long> clientIds = new ArrayList<>();
-            while (iterator.hasNext()) {
-                clientIds.add(iterator.next().asLong());
-            }
-            try {
-                companyService.unlockCompanies(clientIds);
-            } catch (ServiceException e) {
-                LOGGER.error("error: {}", e);
-                throw new ControllerException(e.getMessage(), e);
-            }
-            return ok();
         }
+        ArrayNode clientIdsNode = (ArrayNode) json;
+        Iterator<JsonNode> iterator = clientIdsNode.elements();
+        List<Long> clientIds = new ArrayList<>();
+        while (iterator.hasNext()) {
+            clientIds.add(iterator.next().asLong());
+        }
+        try {
+            companyService.unlockCompanies(clientIds);
+        } catch (ServiceException e) {
+            LOGGER.error("error: {}", e);
+            throw new ControllerException(e.getMessage(), e);
+        }
+        return ok();
     }
 }
