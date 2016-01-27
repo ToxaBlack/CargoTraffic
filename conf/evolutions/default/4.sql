@@ -6,7 +6,8 @@
 INSERT INTO `cargo_traffic`.`company` (name) VALUES
   ("TradeCorp"),
   ("TravelInc"),
-  ("SomeInc");
+  ("SomeInc"),
+  ("Test");
 
 INSERT INTO `cargo_traffic`.`warehouse` (name) VALUES
   ("Торговая сила"),
@@ -32,8 +33,8 @@ INSERT INTO `user` (username, password, name, surname, patronymic, email, birthd
   ("admin1", "$2a$10$ipSFEtPaAjLraBNNezM5UuZImzmjWdQVbFkGMiTLWjoj3HceSh1cS", "tom", "brown", "васильевич", "test@mail.ru", "1994-1-6", 1, 1),
   ("admin2", "$2a$10$91Y1.6P1D.q67quSRfykuOBvS7NJSHAU.YsXXbLdKeugYcpizvyy.", "bob", "black", "васильевич", "test@mail.ru", "1994-1-6", 2, 1),
   ("admin3", "$2a$10$tNaKU9sTQJXOgqDso7hameAHdruldJEwtXJOmOo89dR7bzFLTuYQG", "robert", "cottrell", "васильевич", "test@mail.ru", "1994-1-6", 3, 1),
+  ("dispatcher", "$2a$10$Mgs4qaUzqPIIm8TrkIX0ReeVP/1yENNpywjQ3UwWxWgZfmRFUO0ly", "chris", "richards", "васильевич", "test@mail.ru", "1994-1-6", 2, 1),
   ("manager", "$2a$10$NUbCCT3pBeGnr..Lla7hauWKNpaM.dIalrDUCqeWhKo2DeIZaqUVW", "tom", "brown", "васильевич", "test@mail.ru", "1994-1-6", 2, 1),
-  ("dispatcher", "$2a$04$5oZ0fDHjzb8Nh4nX25V9fOkDOoY/niMbM1oUgs.26v.WOFEsS8c/K", "chris", "richards", "васильевич", "test@mail.ru", "1994-1-6", 2, 1),
   ("driver", "$2a$10$oKnV374KGmKCBOE0CbYiHeSnV3M9HaBpEXK./rForcOh5yYA4wfR.", "chris", "richards", "васильевич", "test@mail.ru", "1994-1-6", 2, 1);
 
 
