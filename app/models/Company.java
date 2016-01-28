@@ -12,8 +12,7 @@ import javax.persistence.*;
 @Table(name = "company")
 public class Company {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Constraints.Required
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     public long id;
 
     @Constraints.Required

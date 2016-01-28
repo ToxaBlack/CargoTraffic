@@ -7,10 +7,10 @@ POST        /api/login                 controllers.LoginController.login()
 POST        /api/logout                controllers.LoginController.logout()
 GET         /api/roles                 controllers.LoginController.roles()
 
-
 GET         /api/clients               controllers.ClientsController.getClients(id :Long, clients :Integer, ascOrder :Boolean)
-PUT         /api/clients/lock          controllers.ClientsController.lockClients()
-PUT         /api/clients/unlock        controllers.ClientsController.unlockClients()
+PUT         /api/clients/lock     controllers.ClientsController.lockClients()
+PUT         /api/clients/unlock   controllers.ClientsController.unlockClients()
+POST        /api/client           controllers.ClientsController.addClient()
 
 GET         /api/warehouses            controllers.WarehouseController.getWarehouses(id :Long, warehouses :Integer, ascOrder :Boolean)
 POST        /api/warehouse             controllers.WarehouseController.addWarehouse()

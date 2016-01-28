@@ -11,8 +11,7 @@ import javax.persistence.*;
 @Table(name = "address")
 public class Address {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Constraints.Required
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     public long id;
 
     public String country;

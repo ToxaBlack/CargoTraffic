@@ -15,11 +15,11 @@ define(["app/utils/utils"],
                 );
             };
 
-            var add = function (client, done, error, always) {
+            var add = function (client, admin, done, error, always) {
                 utils.send(
                     "api/client",
                     "POST",
-                    JSON.stringify(client),
+                    JSON.stringify({client: {name: client.name()}, admin: {surname: admin.surname(), email: admin.email()}}),
                     done,
                     error,
                     always

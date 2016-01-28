@@ -38,7 +38,7 @@ public class LoginController extends Controller {
 
         User user;
         try {
-            user = userService.findByName(username);
+            user = userService.findByUsername(username);
         } catch (ServiceException e) {
             LOGGER.error("error = {}", e);
             throw new ControllerException(e.getMessage(), e);
