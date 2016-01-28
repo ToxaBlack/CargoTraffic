@@ -1,6 +1,5 @@
 package repository;
 
-import models.Company;
 import models.User;
 import org.apache.commons.collections4.CollectionUtils;
 import play.Logger;
@@ -26,7 +25,7 @@ public class UserRepository {
         return em.find(User.class, id);
     }
 
-    public  User findByName(String name) {
+    public User findByUsername(String name) {
         EntityManager em = JPA.em();
         CriteriaBuilder builder = em.getCriteriaBuilder();
         CriteriaQuery<User> query = builder.createQuery(User.class);
@@ -74,7 +73,11 @@ public class UserRepository {
         return employees;
     }
 
-    public void addCompanyAdmin(Company company, User admin) {
-
+    public User addUser(User user) {
+        LOGGER.debug("Adding company admin: {}", user.surname);
+        EntityManager em = JPA.em();
+        em.persist(user);
+        em.refresh(user);
+        return user;
     }
 }

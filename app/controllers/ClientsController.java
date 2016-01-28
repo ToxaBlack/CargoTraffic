@@ -15,7 +15,6 @@ import play.mvc.Http;
 import play.mvc.Result;
 import service.CompanyService;
 import service.ServiceException;
-import service.UserService;
 
 import javax.inject.Inject;
 import java.util.*;
