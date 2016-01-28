@@ -4,7 +4,15 @@
 CREATE TABLE IF NOT EXISTS `cargo_traffic`.`warehouse` (
   `id`      INTEGER(11) UNSIGNED NOT NULL AUTO_INCREMENT UNIQUE,
   `name`    VARCHAR(250)         NOT NULL,
-  PRIMARY KEY (`id`)
+  `address_id` INTEGER(11) UNSIGNED ,
+
+  `deleted`    BIT(1)                        DEFAULT FALSE,
+  PRIMARY KEY (`id`),
+  INDEX (`address_id` ASC),
+  FOREIGN KEY (`address_id`)
+  REFERENCES `cargo_traffic`.`address` (`id`)
+    ON DELETE RESTRICT
+    ON UPDATE RESTRICT
 )
   ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4;

@@ -19,7 +19,7 @@ define(["app/utils/utils"],
                 utils.send(
                     "/api/warehouses/add",
                     "POST",
-                    JSON.stringify({warehouseName: warehouse}),
+                    JSON.stringify({name: warehouse}),
                     done,
                     error,
                     always

@@ -4,6 +4,7 @@ import be.objectify.deadbolt.java.actions.Group;
 import be.objectify.deadbolt.java.actions.Restrict;
 import be.objectify.deadbolt.java.actions.SubjectPresent;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import models.Warehouse;
 import play.Logger;
 import play.libs.Json;
@@ -15,6 +16,7 @@ import service.ServiceException;
 import service.WarehouseService;
 
 import javax.inject.Inject;
+import java.io.IOException;
 import java.util.List;
 
 @SubjectPresent
@@ -41,12 +43,13 @@ public class WarehouseController extends Controller {
 
     @Restrict({@Group("DISPATCHER")})
     @BodyParser.Of(BodyParser.Json.class)
-    public Result addWarehouse() throws ControllerException {
+    public Result addWarehouse() throws ControllerException, IOException {
+        ObjectMapper mapper = new ObjectMapper();
         JsonNode json = request().body().asJson();
-        String warehouseName = json.findPath("warehouseName").textValue();
-        LOGGER.debug("API add warehouse with name = {}", warehouseName);
-        Warehouse warehouse = new Warehouse();
-        warehouse.name = warehouseName;
+        System.out.println(json.toString());
+        Warehouse warehouse =  mapper.readValue(json.toString(), Warehouse.class);
+        //String warehouseName = json.findPath("warehouseName").textValue();
+        LOGGER.debug("API add warehouse with name = {}", warehouse.name);
 
         try {
             warehouseService.addWarehouse(warehouse);

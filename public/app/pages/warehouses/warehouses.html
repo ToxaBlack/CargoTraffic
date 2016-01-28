@@ -21,6 +21,10 @@
                         <input class="selectAll" type="checkbox" data-bind="checked: allChecked" id="selectAllCheckbox">
                     </th>
                     <th>Name</th>
+                    <th>Country</th>
+                    <th>City</th>
+                    <th>Street</th>
+                    <th>House</th>
                 </tr>
             </thead>
             <tbody data-bind="foreach: warehouses">
@@ -30,6 +34,10 @@
                                data-bind="checked: $parent.checkedWarehouses, attr: { value: id}"/></td>
                     </td>
                     <td class="link" data-bind="text: name"></td>
+                    <td data-bind="text: address.country"></td>
+                    <td data-bind="text: address.city"></td>
+                    <td data-bind="text: address.street"></td>
+                    <td data-bind="text: address.house"></td>
                 </tr>
             </tbody>
         </table>
