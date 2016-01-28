@@ -6,7 +6,7 @@ define(["app/utils/utils"],
 
             var list = function (id, numberOfWarehouses, ascOrder, done, error, always) {
                 utils.send(
-                    "api/warehouses",
+                    "api/warehouses/get",
                     "GET",
                     {"id": id, "warehouses": numberOfWarehouses, "ascOrder": ascOrder},
                     done,
@@ -17,7 +17,7 @@ define(["app/utils/utils"],
 
             var add = function (warehouse, done, error, always) {
                 utils.send(
-                    "api/warehouse",
+                    "/api/warehouses/add",
                     "POST",
                     JSON.stringify({warehouseName: warehouse}),
                     done,
@@ -26,11 +26,22 @@ define(["app/utils/utils"],
                 );
             };
 
+            var edit = function (warehouse, done, error, always) {
+                utils.send(
+                    "api/warehouse",
+                    "PUT",
+                    JSON.stringify({warehouseName: warehouse}),
+                    done,
+                    error,
+                    always
+                );
+            };
 
 
             return {
                 list: list,
-                add: add
+                add: add,
+                edit: edit
             }
         }
 

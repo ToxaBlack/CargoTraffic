@@ -12,8 +12,10 @@ GET         /api/clients               controllers.ClientsController.getClients(
 PUT         /api/clients/lock          controllers.ClientsController.lockClients()
 PUT         /api/clients/unlock        controllers.ClientsController.unlockClients()
 
-GET         /api/warehouses            controllers.WarehouseController.getWarehouses(id :Long, warehouses :Integer, ascOrder :Boolean)
-POST        /api/warehouse             controllers.WarehouseController.addWarehouse()
+GET         /api/warehouses/get        controllers.WarehouseController.getWarehouses(id :Long, warehouses :Integer, ascOrder :Boolean)
+POST        /api/warehouses/add        controllers.WarehouseController.addWarehouse()
+#PUT         /api/warehouses/edit       controllers.WarehouseController.editWarehouse()
+#PUT         /api/warehouse/delete      controllers.WarehouseController.deleteWarehouse()
 
 GET         /api/account               controllers.AccountController.getAccount()
 PUT         /api/account               controllers.AccountController.updateAccount()

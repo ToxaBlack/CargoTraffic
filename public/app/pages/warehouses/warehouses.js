@@ -6,6 +6,7 @@ define(['app/utils/messageUtil','app/service/warehouseService', 'app/service/nav
         function warehousesViewModel() {
             bar.go(50);
             var self = this;
+            self.isEdit = false;
             self.warehouses = ko.observableArray();
             self.checkedWarehouses = ko.observableArray();
             self.hasNextPage = ko.observable(false);
@@ -44,40 +45,50 @@ define(['app/utils/messageUtil','app/service/warehouseService', 'app/service/nav
                 });
 
 
-            self.addWarehouse = function () {
-                warehouseService.add(self.warehouseName(),
-                    function (data) {
-                        self.warehouses.push(data);
-                    },
-                    function (data) {
-                        switch (data.status) {
-                            case 403:
-                                navService.navigateTo("login");
-                                break;
-                            default:
-                                navService.navigateTo("error");
-                        }
-                    },
-                    function () {
-                        var dialog = $('#myModal');
-                        dialog.modal("hide");
-                        self.warehouseName("");
-                    });
+            self.saveWarehouse = function () {
+               if(self.isEdit) {
+
+               } else {
+                   warehouseService.add(self.warehouseName(),
+                       function (data) {
+                           self.warehouses.push(data);
+                       },
+                       function (data) {
+                           switch (data.status) {
+                               case 403:
+                                   navService.navigateTo("login");
+                                   break;
+                               default:
+                                   navService.navigateTo("error");
+                           }
+                       },
+                       function () {
+                           $('#myModal').modal("hide");
+                           self.warehouseName("");
+                       });
+               }
             };
 
             self.editWarehouse = function () {
-                var countChoosen = self.checkedWarehouses().length;
-                if(! countChoosen || countChoosen > 1) {
-                    var mess = "Please, choose just one warehouse.";
-                    message.createWarningMessage(mess);
+                var countChosen = self.checkedWarehouses().length;
+                if(! countChosen || countChosen > 1) {
+                    message.createWarningMessage("Please, choose just only one warehouse.");
                     return false;
                 }
-                var dialog = $('#myModal');
-                dialog.modal("show");
+                var editWarehouse = $.grep(self.warehouses(), function(element) {
+                    return element.id == self.checkedWarehouses()[0];
+                });
+                self.warehouseName(editWarehouse[0].name);
+                $('#myModal').modal("show");
+                self.isEdit = true;
             };
 
             self.deleteWarehouse = function () {
-                alert("//TODO");
+                if(! self.checkedWarehouses().length) {
+                    message.createWarningMessage("Please, choose at least one warehouse.");
+                    return false;
+                }
+                alert(self.checkedWarehouses());
             };
 
             self.nextPage = function () {
