@@ -3,7 +3,6 @@ define(["app/utils/utils"],
         "use strict";
         function WarehouseService() {
 
-
             var list = function (id, numberOfWarehouses, ascOrder, done, error, always) {
                 utils.send(
                     "api/warehouses/get",
@@ -15,11 +14,11 @@ define(["app/utils/utils"],
                 );
             };
 
-            var add = function (warehouse, done, error, always) {
+            var add = function (name,country,city,street,house,done, error, always) {
                 utils.send(
                     "/api/warehouses/add",
                     "POST",
-                    JSON.stringify({name: warehouse}),
+                    JSON.stringify({name: name ,address:{country: country, city: city, street: street, house: house}}),
                     done,
                     error,
                     always
@@ -28,15 +27,14 @@ define(["app/utils/utils"],
 
             var edit = function (warehouse, done, error, always) {
                 utils.send(
-                    "api/warehouse",
+                    "/api/warehouses/edit",
                     "PUT",
-                    JSON.stringify({warehouseName: warehouse}),
+                    JSON.stringify({name: name ,address:{country: country, city: city, street: street, house: house}}),
                     done,
                     error,
                     always
                 );
             };
-
 
             return {
                 list: list,

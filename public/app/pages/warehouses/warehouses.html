@@ -49,22 +49,43 @@
 
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">Warehouse</h4>
+                <button type="button" class="close" data-bind="click: closeDialog">&times;</button>
+                <h4 class="modal-title">Warehouse's fields</h4>
             </div>
             <div class="modal-body form-horizontal">
                 <div class="form-group">
+
                     <label class="control-label col-sm-4" for="name">Warehouse's name:</label>
                     <div class="col-sm-7">
-                        <input  type="text"  id="name"  placeholder="Name of warehouse" class="form-control"
-                                name="name"  data-bind="value: warehouseName" required >
+                        <input  type="text" id="name" placeholder="Name of warehouse" class="form-control"
+                                data-bind="value: warehouseName" required >
+                    </div>
+
+                    <label class="control-label col-sm-4" for="country">Country:</label>
+                    <div class="col-sm-7">
+                        <input type="text" id="country" placeholder="Country" class="form-control" data-bind="value: country">
+                    </div>
+
+                    <label class="control-label col-sm-4" for="city">City:</label>
+                    <div class="col-sm-7">
+                        <input type="text" id="city" placeholder="City" class="form-control" data-bind="value: city">
+                    </div>
+
+                    <label class="control-label col-sm-4" for="street">Street:</label>
+                    <div class="col-sm-7">
+                        <input type="text" id="street" placeholder="Street" class="form-control" data-bind="value: street">
+                    </div>
+
+                    <label class="control-label col-sm-4" for="house">House:</label>
+                    <div class="col-sm-7">
+                        <input type="text" id="house"  placeholder="House" class="form-control" data-bind="value: house">
                     </div>
                 </div>
             </div>
 
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-bind="click: saveWarehouse">Save</button>
-                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-default" data-bind="click: closeDialog">Cancel</button>
             </div>
         </div>
 

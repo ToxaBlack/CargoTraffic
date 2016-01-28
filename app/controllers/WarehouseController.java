@@ -48,7 +48,6 @@ public class WarehouseController extends Controller {
         JsonNode json = request().body().asJson();
         System.out.println(json.toString());
         Warehouse warehouse =  mapper.readValue(json.toString(), Warehouse.class);
-        //String warehouseName = json.findPath("warehouseName").textValue();
         LOGGER.debug("API add warehouse with name = {}", warehouse.name);
 
         try {
