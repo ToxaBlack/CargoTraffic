@@ -1,5 +1,6 @@
 package repository;
 
+import models.Company;
 import models.User;
 import org.apache.commons.collections4.CollectionUtils;
 import play.Logger;
@@ -37,7 +38,6 @@ public class UserRepository {
         return null;
     }
 
-
     public List<User> findAll() {
         EntityManager em = JPA.em();
         CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();
@@ -54,6 +54,7 @@ public class UserRepository {
         EntityManager em = JPA.em();
         em.merge(user);
     }
+
     public List<User> getUserForEmployeesPage(long companyId, long id, int count, boolean ascOrder) {
         EntityManager em = JPA.em();
         StringBuilder stringBuilder = new StringBuilder("SELECT u FROM User u WHERE u.company.id = ? AND u.deleted = ? AND ");
@@ -73,4 +74,7 @@ public class UserRepository {
         return employees;
     }
 
+    public void addCompanyAdmin(Company company, User admin) {
+
+    }
 }

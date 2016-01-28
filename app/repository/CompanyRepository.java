@@ -55,4 +55,11 @@ public class CompanyRepository {
         query.executeUpdate();
     }
 
+    public boolean isCompanyAlreadyPresent(Company company) {
+        return false;
+    }
+
+    public Company addCompany(Company company) {
+        return null;
+    }
 }

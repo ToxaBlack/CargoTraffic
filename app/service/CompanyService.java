@@ -1,9 +1,11 @@
 package service;
 
 import models.Company;
+import models.User;
 import play.Logger;
 import play.db.jpa.JPA;
 import repository.CompanyRepository;
+import repository.UserRepository;
 
 import java.util.Arrays;
 import java.util.List;
@@ -13,9 +15,11 @@ public class CompanyService {
     private static final Logger.ALogger LOGGER = Logger.of(CompanyService.class);
 
     private CompanyRepository companyRepository;
+    private UserRepository userRepository;
 
     public CompanyService() {
         companyRepository = new CompanyRepository();
+        userRepository = new UserRepository();
     }
 
     public List<Company> getCompanies(long id, int count, boolean ascOrder) throws ServiceException {
@@ -48,7 +52,21 @@ public class CompanyService {
         }
     }
 
-    public void addCompany() throws ServiceException {
-
+    public Company addClient(Company company, User admin) throws ServiceException {
+        LOGGER.debug("Adding client: {}, {}", company.name, admin.surname);
+        try {
+            return JPA.withTransaction(() -> {
+                boolean isPresent = companyRepository.isCompanyAlreadyPresent(company);
+                if (!isPresent) {
+                    Company savedCompany = companyRepository.addCompany(company);
+                    userRepository.addCompanyAdmin(savedCompany, admin);
+                    return savedCompany;
+                } else
+                    return null;
+            });
+        } catch (Throwable throwable) {
+            LOGGER.error("Unlock companies error: {}", throwable);
+            throw new ServiceException(throwable.getMessage(), throwable);
+        }
     }
 }
