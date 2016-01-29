@@ -1,22 +1,33 @@
-define(['app/service/warehouseService', 'app/service/navService', 'app/service/barService', "knockout", "jquery", "text!./warehouses.html"],
-    function (warehouseService, navService, bar, ko, $, listTemplate) {
+define(['app/utils/messageUtil','app/service/warehouseService', 'app/service/navService', 'app/service/barService',
+        "knockout", "jquery", "text!./warehouses.html"],
+    function (message,warehouseService, navService, bar, ko, $, listTemplate) {
         "use strict";
 
         function warehousesViewModel() {
             bar.go(50);
             var self = this;
+            self.idEdit = -1;
             self.warehouses = ko.observableArray();
             self.checkedWarehouses = ko.observableArray();
             self.hasNextPage = ko.observable(false);
             self.hasPreviousPage = ko.observable(false);
+
+            //Dialog's form
             self.warehouseName = ko.observable();
+            self.country = ko.observable();
+            self.city = ko.observable();
+            self.street = ko.observable();
+            self.house = ko.observable();
+
+
             self.allChecked = ko.computed(function() {
-                var success = $.grep(self.warehouses(), function(element,index) {
+                var success = $.grep(self.warehouses(), function(element) {
                         return $.inArray(element.id.toString(), self.checkedWarehouses()) !== -1;
                     }).length === self.warehouses().length;
                 return success;
             }, this);
-            self.WAREHOUSES_PER_PAGE = 3;
+
+            self.WAREHOUSES_PER_PAGE = 20;
 
             warehouseService.list(1, self.WAREHOUSES_PER_PAGE + 1, true,
                 function (data) {
@@ -30,56 +41,100 @@ define(['app/service/warehouseService', 'app/service/navService', 'app/service/b
                     self.warehouses(data);
                 },
                 function (data) {
-                    switch (data.status) {
-                        case 403:
-                            navService.navigateTo("login");
-                            break;
-                        default:
-                            navService.navigateTo("error");
-                    }
+                    self.catchError(data);
                 },
                 function () {
                     bar.go(100);
                 });
 
 
-            self.addWarehouse = function () {
-                warehouseService.add(self.warehouseName(),
-                    function () {
-                        var dialog = $('#myModal');
-                        dialog.modal("hide");
-                    },
-                    function (data) {
-                        var dialog = $('#myModal');
-                        dialog.modal("hide");
-                        switch (data.status) {
-                            case 403:
-                                navService.navigateTo("login");
-                                break;
-                            default:
-                                navService.navigateTo("error");
-                        }
-                    });
+            self.saveWarehouse = function () {
+                if(self.idEdit != -1) {
+                    warehouseService.edit(self.idEdit, self.warehouseName(), self.country(),self.city(),self.street(), self.house(),
+                        function (data) {
+                            var auxiliaryArray = self.warehouses().slice();
+                            auxiliaryArray.splice(self.editRow,1);
+                            auxiliaryArray.splice(self.editRow,0,data);
+                            self.warehouses(auxiliaryArray);
+                            self.checkedWarehouses([]);
+                        },
+                        function (data) {
+                            self.catchError(data);
+                        },
+                        function () {
+                            self.closeDialog();
+                        });
+                } else {
+                    warehouseService.add(self.warehouseName(), self.country(),self.city(),self.street(), self.house(),
+                        function (data) {
+                            self.warehouses.push(data);
+                        },
+                        function (data) {
+                            self.catchError(data);
+                        },
+                        function () {
+                            self.closeDialog();
+                        });
+                }
             };
 
             self.editWarehouse = function () {
-                var dialog = $('#myModal');
-                dialog.modal("show");
-                alert("//TODO");
+                var countChosen = self.checkedWarehouses().length;
+                if(! countChosen || countChosen > 1) {
+                    message.createWarningMessage("Please, choose just only one warehouse.");
+                    return false;
+                }
+                for (var i = 0; i < self.warehouses().length; i++) {
+                    if (self.warehouses()[i].id == self.checkedWarehouses()[0]) {
+                        self.editRow = i;
+                        var editWarehouse= self.warehouses()[i];
+                        break;
+                    }
+                }
+
+                //Feeling dialog's form
+                self.idEdit = editWarehouse.id;
+                self.warehouseName(editWarehouse.name);
+                self.country(editWarehouse.address.country);
+                self.city(editWarehouse.address.city);
+                self.street(editWarehouse.address.street);
+                self.house(editWarehouse.address.house);
+                $('#myModal').modal("show");
             };
+
+            self.closeDialog = function () {
+                //Clearing dialog's form
+                self.idEdit = -1;
+                self.warehouseName("");
+                self.country("");
+                self.city("");
+                self.street("");
+                self.house("");
+
+                $('#myModal').modal("hide");
+            }
+
 
             self.deleteWarehouse = function () {
-                alert("//TODO");
-            };
-
-            self.isOpen = ko.observable(false);
-
-            self.open = function () {
-                this.isOpen(true);
-            };
-
-            self.close = function () {
-                this.isOpen(false);
+                if(! self.checkedWarehouses().length) {
+                    message.createWarningMessage("Please, choose at least one warehouse.");
+                    return false;
+                }
+                var deletingWarehouse =  $.grep(self.warehouses(), function(element) {
+                    return $.inArray(element.id.toString(), self.checkedWarehouses()) !== -1;
+                });
+                warehouseService.remove(deletingWarehouse,
+                    function () {
+                        self.warehouses.remove( function(item) {
+                            return $.inArray(item.id.toString(), self.checkedWarehouses()) !== -1;
+                        });
+                    },
+                    function (data) {
+                        self.catchError(data);
+                    },
+                    function () {
+                        self.checkedWarehouses([]);
+                    });
             };
 
             self.nextPage = function () {
@@ -97,13 +152,7 @@ define(['app/service/warehouseService', 'app/service/navService', 'app/service/b
                         self.warehouses(data);
                     },
                     function (data) {
-                        switch (data.status) {
-                            case 403:
-                                navService.navigateTo("login");
-                                break;
-                            default:
-                                navService.navigateTo("error");
-                        }
+                        self.catchError(data);
                     });
 
             };
@@ -133,6 +182,16 @@ define(['app/service/warehouseService', 'app/service/navService', 'app/service/b
                     });
 
             };
+
+            self.catchError = function (data) {
+                switch (data.status) {
+                    case 403:
+                        navService.navigateTo("login");
+                        break;
+                    default:
+                        navService.navigateTo("error");
+                }
+            }
 
             $('#selectAllCheckbox').on('click', function () {
                 if (!self.allChecked()) {

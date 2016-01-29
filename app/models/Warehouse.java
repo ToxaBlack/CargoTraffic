@@ -3,6 +3,7 @@ package models;
 import play.data.validation.Constraints;
 
 import javax.persistence.*;
+import java.sql.Date;
 
 
 @Entity
@@ -16,4 +17,10 @@ public class Warehouse {
     @Constraints.Required
     @Column(name ="name")
     public String name;
+
+    @OneToOne( cascade = CascadeType.ALL)
+    public Address address;
+
+    @Constraints.Required
+    public boolean deleted;
 }

@@ -9,23 +9,15 @@ INSERT INTO `cargo_traffic`.`company` (name) VALUES
   ("SomeInc"),
   ("Test");
 
-INSERT INTO `cargo_traffic`.`warehouse` (name) VALUES
-  ("Торговая сила"),
-  ("IBM"),
-  ("Торговая сила"),
-  ("Склад 4"),
-  ("Склад 5"),
-  ("Склад 6"),
-  ("Склад 7"),
-  ("Склад 8"),
-  ("Склад 9"),
-  ("Склад 10"),
-  ("Склад 11");
-
 
 INSERT INTO `address` (country, city, street, house, flat) VALUES
   ("Belarus", "Minsk", "blabla", "12", "1");
 
+INSERT INTO `cargo_traffic`.`warehouse` (name,address_id) VALUES
+  ("Торговая сила",1),
+  ("IBM",1),
+  ("Торговая сила",1),
+  ("Склад 11",1);
 
 
 INSERT INTO `user` (username, password, name, surname, patronymic, email, birthday, company_id, address_id) VALUES

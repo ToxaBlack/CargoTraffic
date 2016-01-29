@@ -14,7 +14,7 @@ import java.util.List;
 public class WarehouseRepository {
     public List<Warehouse> page(long id, int count, boolean ascOrder) {
         EntityManager em = JPA.em();
-        StringBuilder stringBuilder = new StringBuilder("SELECT w FROM Warehouse w WHERE ");
+        StringBuilder stringBuilder = new StringBuilder("SELECT w FROM Warehouse w WHERE w.deleted = FALSE AND ");
         if (ascOrder) {
             stringBuilder.append("w.id >= :id ORDER BY w.id ASC");
         } else {
@@ -29,17 +29,16 @@ public class WarehouseRepository {
         return warehouses;
     }
 
-    public void deleteWarehouses(List<Long> idWarehouses) {
-        for(Long idWarehouse: idWarehouses) {
-            deleteWarehouse(idWarehouse);
+    public void removeWarehouses(List<Warehouse> warehouses) {
+        for(Warehouse warehouse: warehouses) {
+            deleteWarehouse(warehouse);
         }
     }
 
-    @Transactional
-    private void deleteWarehouse(long id) {
+    private void deleteWarehouse(Warehouse warehouse) {
         EntityManager em = JPA.em();
-        Warehouse reference = em.getReference(Warehouse.class, id);
-        em.remove(reference);
+        warehouse.deleted = true;
+        em.merge(warehouse);
     }
 
     public Warehouse addWarehouse(Warehouse warehouse) {
@@ -50,7 +49,6 @@ public class WarehouseRepository {
          //em.flush();
     }
 
-    @Transactional
     public Warehouse editWarehouse(Warehouse warehouse) {
         EntityManager entityManager = JPA.em();
         entityManager.merge(warehouse);
