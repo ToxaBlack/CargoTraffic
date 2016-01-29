@@ -1,6 +1,7 @@
 package repository;
 
 import models.Company;
+import org.apache.commons.collections4.CollectionUtils;
 import play.Logger;
 import play.db.jpa.JPA;
 
@@ -54,4 +55,27 @@ public class CompanyRepository {
         query.executeUpdate();
     }
 
+    public boolean isCompanyAlreadyExists(Company company) {
+        LOGGER.debug("Is company present: {}", company.name);
+        return this.findCompanyByName(company.name) != null;
+    }
+
+    public Company findCompanyByName(String name) {
+        LOGGER.debug("Find company by name: {}", name);
+        EntityManager em = JPA.em();
+        String selectCompanySql = new String("SELECT c FROM Company c WHERE c.name=?");
+        Query query = em.createQuery(selectCompanySql);
+        query.setParameter(1, name);
+        List<Company> companies = query.getResultList();
+        if (CollectionUtils.isNotEmpty(companies)) return companies.get(0);
+        return null;
+    }
+
+    public Company addCompany(Company company) {
+        LOGGER.debug("Adding company: {}", company.name);
+        EntityManager em = JPA.em();
+        em.persist(company);
+        em.refresh(company);
+        return company;
+    }
 }

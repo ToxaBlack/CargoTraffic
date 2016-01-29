@@ -40,10 +40,10 @@ public class UserService {
     }
 
 
-    public User findByName(String name) throws ServiceException {
+    public User findByUsername(String name) throws ServiceException {
         LOGGER.debug("Get user with name = {}", name);
         try {
-            return JPA.withTransaction(() -> userRepository.findByName(name));
+            return JPA.withTransaction(() -> userRepository.findByUsername(name));
         } catch (Throwable throwable) {
             LOGGER.error("Find user name = {}, error = {}", name, throwable);
             throw new ServiceException(throwable.getMessage(), throwable);

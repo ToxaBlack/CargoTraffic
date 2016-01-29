@@ -18,7 +18,7 @@ CREATE TABLE IF NOT EXISTS `cargo_traffic`.`warehouse` (
   DEFAULT CHARSET = utf8mb4;
 
 INSERT INTO `role` (name) VALUES
-  ("SYS_ADMIN"), ("ADMIN"), ("DISPATCHER"), ("MANAGER"), ("DRIVER");
+  ("SYS_ADMIN"), ("ADMIN"), ("DISPATCHER"), ("MANAGER"), ("DRIVER"), ("DIRECTOR");
 
 
 
