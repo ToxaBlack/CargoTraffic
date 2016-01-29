@@ -12,6 +12,7 @@ import play.mvc.BodyParser;
 import play.mvc.Controller;
 import play.mvc.Http;
 import play.mvc.Result;
+import scala.util.parsing.json.JSON;
 import service.ServiceException;
 import service.WarehouseService;
 
@@ -42,16 +43,32 @@ public class WarehouseController extends Controller {
     }
 
     @Restrict({@Group("DISPATCHER")})
-    @BodyParser.Of(BodyParser.Json.class)
     public Result addWarehouse() throws ControllerException, IOException {
         ObjectMapper mapper = new ObjectMapper();
         JsonNode json = request().body().asJson();
-        System.out.println(json.toString());
         Warehouse warehouse =  mapper.readValue(json.toString(), Warehouse.class);
         LOGGER.debug("API add warehouse with name = {}", warehouse.name);
 
         try {
-            warehouseService.addWarehouse(warehouse);
+           warehouse = warehouseService.addWarehouse(warehouse);
+        } catch (ServiceException e) {
+            LOGGER.error("error = {}", e);
+            throw new ControllerException(e.getMessage(), e);
+        }
+        return ok(Json.toJson(warehouse));
+    }
+
+    @Restrict({@Group("DISPATCHER")})
+    public Result editWarehouse() throws ControllerException, IOException {
+
+        ObjectMapper mapper = new ObjectMapper();
+        JsonNode json = request().body().asJson();
+        System.out.println(json.toString());
+        Warehouse warehouse =  mapper.readValue(json.toString(), Warehouse.class);
+        LOGGER.debug("API edit warehouse with name = {}", warehouse.name);
+
+        try {
+           warehouse = warehouseService.editWarehouse(warehouse);
         } catch (ServiceException e) {
             LOGGER.error("error = {}", e);
             throw new ControllerException(e.getMessage(), e);

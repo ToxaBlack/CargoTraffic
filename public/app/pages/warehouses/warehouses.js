@@ -6,7 +6,7 @@ define(['app/utils/messageUtil','app/service/warehouseService', 'app/service/nav
         function warehousesViewModel() {
             bar.go(50);
             var self = this;
-            self.isEdit = false;
+            self.idEdit = -1;
             self.warehouses = ko.observableArray();
             self.checkedWarehouses = ko.observableArray();
             self.hasNextPage = ko.observable(false);
@@ -54,8 +54,27 @@ define(['app/utils/messageUtil','app/service/warehouseService', 'app/service/nav
 
 
             self.saveWarehouse = function () {
-               if(self.isEdit) {
-
+               if(self.idEdit != -1) {
+                   warehouseService.edit(self.idEdit, self.warehouseName(), self.country(),self.city(),self.street(), self.house(),
+                       function (data) {
+                            var auxiliaryArray = self.warehouses().slice();
+                            auxiliaryArray.splice(self.editRow,1);
+                            auxiliaryArray.splice(self.editRow,0,data);
+                            self.warehouses(auxiliaryArray);
+                            self.checkedWarehouses([]);
+                       },
+                       function (data) {
+                           switch (data.status) {
+                               case 403:
+                                   navService.navigateTo("login");
+                                   break;
+                               default:
+                                   navService.navigateTo("error");
+                           }
+                       },
+                       function () {
+                           self.closeDialog();
+                       });
                } else {
                    warehouseService.add(self.warehouseName(), self.country(),self.city(),self.street(), self.house(),
                        function (data) {
@@ -82,23 +101,31 @@ define(['app/utils/messageUtil','app/service/warehouseService', 'app/service/nav
                     message.createWarningMessage("Please, choose just only one warehouse.");
                     return false;
                 }
-                var editWarehouse = $.grep(self.warehouses(), function(element) {
-                    return element.id == self.checkedWarehouses()[0];
-                });
+                for (var i = 0; i < self.warehouses().length; i++) {
+                    if (self.warehouses()[i].id == self.checkedWarehouses()[0]) {
+                        self.editRow = i;
+                        var editWarehouse= self.warehouses()[i];
+                        break;
+                    }
+                }
+
+                //var editWarehouse = $.grep(self.warehouses(), function(element) {
+                //    return element.id == self.checkedWarehouses()[0];
+               // });
 
                 //Feeling dialog's form
-                self.warehouseName(editWarehouse[0].name);
-                self.country(editWarehouse[0].address.country);
-                self.city(editWarehouse[0].address.city);
-                self.street(editWarehouse[0].address.street);
-                self.house(editWarehouse[0].address.house);
-
+                self.idEdit = editWarehouse.id;
+                self.warehouseName(editWarehouse.name);
+                self.country(editWarehouse.address.country);
+                self.city(editWarehouse.address.city);
+                self.street(editWarehouse.address.street);
+                self.house(editWarehouse.address.house);
                 $('#myModal').modal("show");
-                self.isEdit = true;
             };
 
             self.closeDialog = function () {
                 //Clearing dialog's form
+                self.idEdit = -1;
                 self.warehouseName("");
                 self.country("");
                 self.city("");

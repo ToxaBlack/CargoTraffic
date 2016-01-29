@@ -31,9 +31,9 @@ public class WarehouseService {
         warehouseRepository.deleteWarehouses(idWarehouses);
     }
 
-    public void addWarehouse(Warehouse warehouse) throws ServiceException {
+    public Warehouse addWarehouse(Warehouse warehouse) throws ServiceException {
         try {
-            JPA.withTransaction(() -> warehouseRepository.addWarehouse(warehouse));
+            return JPA.withTransaction(() -> warehouseRepository.addWarehouse(warehouse));
         } catch (Throwable throwable) {
             LOGGER.error("Add warehouse with name = {}", warehouse.name);
             throw new ServiceException(throwable.getMessage(), throwable);

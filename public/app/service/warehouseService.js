@@ -25,11 +25,11 @@ define(["app/utils/utils"],
                 );
             };
 
-            var edit = function (warehouse, done, error, always) {
+            var edit = function (id, name,country,city,street,house,done, error, always) {
                 utils.send(
                     "/api/warehouses/edit",
                     "PUT",
-                    JSON.stringify({name: name ,address:{country: country, city: city, street: street, house: house}}),
+                    JSON.stringify({id: id, name: name ,address:{country: country, city: city, street: street, house: house}}),
                     done,
                     error,
                     always

@@ -50,7 +50,6 @@ public class WarehouseRepository {
          //em.flush();
     }
 
-    @Transactional
     public Warehouse editWarehouse(Warehouse warehouse) {
         EntityManager entityManager = JPA.em();
         entityManager.merge(warehouse);

@@ -14,7 +14,7 @@ PUT         /api/clients/unlock        controllers.ClientsController.unlockClien
 
 GET         /api/warehouses/get        controllers.WarehouseController.getWarehouses(id :Long, warehouses :Integer, ascOrder :Boolean)
 POST        /api/warehouses/add        controllers.WarehouseController.addWarehouse()
-#PUT         /api/warehouses/edit       controllers.WarehouseController.editWarehouse()
+PUT         /api/warehouses/edit       controllers.WarehouseController.editWarehouse()
 #PUT         /api/warehouse/delete      controllers.WarehouseController.deleteWarehouse()
 
 GET         /api/account               controllers.AccountController.getAccount()
