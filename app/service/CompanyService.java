@@ -5,6 +5,7 @@ import models.User;
 import models.UserRole;
 import play.Logger;
 import play.db.jpa.JPA;
+import play.mvc.Http;
 import repository.CompanyRepository;
 import repository.UserRepository;
 
@@ -58,7 +59,7 @@ public class CompanyService {
     public Company addClient(Company company, User admin) throws ServiceException {
         LOGGER.debug("Adding client: {}, {}", company.name, admin.surname);
         try {
-            company.deleted = false;
+            company.locked = false;
             admin.deleted = false;
             UserRole userRole = new UserRole();
             userRole.name = "ADMIN";
@@ -67,16 +68,22 @@ public class CompanyService {
             admin.setUserRoleList(userRoles);
             admin.username = accountService.generateUsername(company, admin);
             String password = accountService.generatePassword();
-            // TODO send username and password by email
+            User user = (User) Http.Context.current().args.get("user");
+            EmailAttributes emailAttributes = new EmailAttributes();
+            emailAttributes.setEmailText("Username: " + admin.username +
+                    "\r\nPassword: " + password + "\r\nChange your password for more security.");
+            emailAttributes.setEmailTitle("Login data");
+            emailAttributes.setFromEmail(user.email);
+            emailAttributes.setRecipientEmail(admin.email);
+            EmailService.sendEmail(emailAttributes);
             admin.password = accountService.getPasswordHash(password);
-            LOGGER.debug("addClient: {}, {}, {}", admin.username, password, admin.password);
             return JPA.withTransaction(() -> {
                 boolean isExists = companyRepository.isCompanyAlreadyExists(company);
                 if (!isExists) {
                     companyRepository.addCompany(company);
                     Company savedCompany = companyRepository.findCompanyByName(company.name);
                     admin.company = savedCompany;
-                    userRepository.addUser(admin);
+                    // TODO userRepository.addUser(admin);
                     return savedCompany;
                 } else
                     return null;
