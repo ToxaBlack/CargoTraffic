@@ -1,0 +1,1 @@
+web: target/universal/stage/bin/myapp -DapplyEvolutions.default=true -Ddb.default.driver=com.mysql.jdbc.Driver -Ddb.default.url="jdbc: mysql://b7695a7dae5e8d:16978d74@us-cdbr-iron-east-03.cleardb.net/heroku_bf462c480e6149f?reconnect=true"

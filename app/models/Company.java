@@ -13,6 +13,7 @@ import javax.persistence.*;
 public class Company {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Constraints.Required
     public long id;
 
     @Constraints.Required

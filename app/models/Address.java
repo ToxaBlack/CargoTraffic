@@ -12,6 +12,7 @@ import javax.persistence.*;
 public class Address {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Constraints.Required
     public long id;
 
     public String country;

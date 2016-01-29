@@ -15,13 +15,13 @@ import java.util.List;
 @Table(name = "user")
 public class User implements Subject {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     public Long id;
 
     @ManyToOne
     public Company company;
 
-    @OneToOne( cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL)
     public Address address;
 
     @Constraints.Required
@@ -43,7 +43,6 @@ public class User implements Subject {
 
     public String birthday;
 
-    @Constraints.Required
     public Boolean deleted;
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
@@ -60,7 +59,7 @@ public class User implements Subject {
         return userRoleList;
     }
 
-    public void setUserRoleList(List<UserRole> userRoleList) {
+    public void setRoles(List<UserRole> userRoleList) {
         this.userRoleList = userRoleList;
     }
 

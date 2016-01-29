@@ -28,4 +28,13 @@ public class CompanyEmployeesService {
             throw new ServiceException(throwable.getMessage(), throwable);
         }
     }
+
+    public void addEmployee(User employee) throws ServiceException {
+        try {
+            JPA.withTransaction(() -> userRepository.addUser(employee));
+        } catch (Throwable throwable) {
+            LOGGER.error("Add employee with name = {}", employee.name);
+            throw new ServiceException(throwable.getMessage(), throwable);
+        }
+    }
 }

@@ -1,6 +1,7 @@
 package repository;
 
 import models.User;
+import models.UserRole;
 import org.apache.commons.collections4.CollectionUtils;
 import play.Logger;
 import play.db.jpa.JPA;
@@ -13,6 +14,7 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Created by Anton Chernov on 1/21/2016.
@@ -73,11 +75,22 @@ public class UserRepository {
         return employees;
     }
 
-    public User addUser(User user) {
-        LOGGER.debug("Adding company admin: {}", user.surname);
+    public List<UserRole> getRoleByName(String name){
         EntityManager em = JPA.em();
-        em.persist(user);
-        em.refresh(user);
+        StringBuilder stringBuilder = new StringBuilder("SELECT r FROM UserRole r WHERE r.name = ?");
+        Query query = em.createQuery(stringBuilder.toString());
+        query.setParameter(1, name);
+        return query.getResultList();
+    }
+    public User addUser(User user) {
+        EntityManager em = JPA.em();
+        if(!Objects.isNull(user.userRoleList) && user.userRoleList.size() > 0){
+            List<UserRole> roles = getRoleByName(user.userRoleList.get(0).name);
+            user.setRoles(roles);
+            em.persist(user);
+            em.flush();
+            em.refresh(user);
+        }
         return user;
     }
 }
