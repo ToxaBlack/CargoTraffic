@@ -213,9 +213,14 @@ define(['app/service/navService', 'app/service/clientService', "knockout", 'app/
                 if (!self.isValidated()) return;
                 clientService.add(self.company, self.admin,
                     function (data) {
-                        if (self.CLIENTS_PER_PAGE < 10) {
+                        if (self.clients().length < self.CLIENTS_PER_PAGE) {
                             self.clients.push(data);
+                        } else {
+                            self.hasNextPage(true);
                         }
+                        self.company.name(null);
+                        self.admin.surname(null);
+                        self.admin.email(null);
                     },
                     function (data) {
                         switch (data.status) {

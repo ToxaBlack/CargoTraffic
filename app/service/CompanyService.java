@@ -61,21 +61,9 @@ public class CompanyService {
         try {
             company.locked = false;
             admin.deleted = false;
-            UserRole userRole = new UserRole();
-            userRole.name = "ADMIN";
-            List<UserRole> userRoles = new ArrayList<>();
-            userRoles.add(userRole);
-            admin.setRoles(userRoles);
+            setAdminRole(admin);
             admin.username = accountService.generateUsername(company, admin);
             String password = accountService.generatePassword();
-            User user = (User) Http.Context.current().args.get("user");
-            EmailAttributes emailAttributes = new EmailAttributes();
-            emailAttributes.setEmailText("Username: " + admin.username +
-                    "\r\nPassword: " + password + "\r\nChange your password for more security.");
-            emailAttributes.setEmailTitle("Login data");
-            emailAttributes.setFromEmail(user.email);
-            emailAttributes.setRecipientEmail(admin.email);
-            EmailService.sendEmail(emailAttributes);
             admin.password = accountService.getPasswordHash(password);
             return JPA.withTransaction(() -> {
                 boolean isExists = companyRepository.isCompanyAlreadyExists(company);
@@ -84,6 +72,7 @@ public class CompanyService {
                     Company savedCompany = companyRepository.findCompanyByName(company.name);
                     admin.company = savedCompany;
                     userRepository.addUser(admin);
+                    notifyRegisteredAdmin(admin, password);
                     return savedCompany;
                 } else
                     return null;
@@ -92,5 +81,24 @@ public class CompanyService {
             LOGGER.error("Unlock companies error: {}", throwable);
             throw new ServiceException(throwable.getMessage(), throwable);
         }
+    }
+
+    private void setAdminRole(User admin) {
+        UserRole userRole = new UserRole();
+        userRole.name = "ADMIN";
+        List<UserRole> userRoles = new ArrayList<>();
+        userRoles.add(userRole);
+        admin.setRoles(userRoles);
+    }
+
+    private void notifyRegisteredAdmin(User admin, String password) throws ServiceException {
+        User user = (User) Http.Context.current().args.get("user");
+        EmailAttributes emailAttributes = new EmailAttributes();
+        emailAttributes.setEmailText("Username: " + admin.username +
+                "\r\nPassword: " + password + "\r\nChange your password for more security.");
+        emailAttributes.setEmailTitle("Login data");
+        emailAttributes.setFromEmail(user.email);
+        emailAttributes.setRecipientEmail(admin.email);
+        EmailService.sendEmail(emailAttributes);
     }
 }
