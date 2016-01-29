@@ -65,7 +65,7 @@ public class CompanyService {
             userRole.name = "ADMIN";
             List<UserRole> userRoles = new ArrayList<>();
             userRoles.add(userRole);
-            admin.setUserRoleList(userRoles);
+            admin.setRoles(userRoles);
             admin.username = accountService.generateUsername(company, admin);
             String password = accountService.generatePassword();
             User user = (User) Http.Context.current().args.get("user");
@@ -83,7 +83,7 @@ public class CompanyService {
                     companyRepository.addCompany(company);
                     Company savedCompany = companyRepository.findCompanyByName(company.name);
                     admin.company = savedCompany;
-                    // TODO userRepository.addUser(admin);
+                    userRepository.addUser(admin);
                     return savedCompany;
                 } else
                     return null;

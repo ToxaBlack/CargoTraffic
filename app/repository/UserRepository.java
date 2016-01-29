@@ -82,6 +82,7 @@ public class UserRepository {
         query.setParameter(1, name);
         return query.getResultList();
     }
+
     public User addUser(User user) {
         EntityManager em = JPA.em();
         if(!Objects.isNull(user.userRoleList) && user.userRoleList.size() > 0){

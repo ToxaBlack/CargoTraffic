@@ -213,8 +213,9 @@ define(['app/service/navService', 'app/service/clientService', "knockout", 'app/
                 if (!self.isValidated()) return;
                 clientService.add(self.company, self.admin,
                     function (data) {
-                        $('#addClientModal').modal('toggle');
-                        // TODO push data to self.clients if self.CLIENTS_PER_PAGE < 10
+                        if (self.CLIENTS_PER_PAGE < 10) {
+                            self.clients.push(data);
+                        }
                     },
                     function (data) {
                         switch (data.status) {
@@ -224,7 +225,10 @@ define(['app/service/navService', 'app/service/clientService', "knockout", 'app/
                             default:
                                 navService.navigateTo("error");
                         }
-                    });
+                    },
+                    function () {
+                        $('#addClientModal').modal('toggle');
+                    })
             };
 
 
