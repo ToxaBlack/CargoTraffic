@@ -7,7 +7,7 @@ define(['app/service/employeesService', 'app/service/navService', 'app/service/b
             var self = this;
             self.employee = ko.observable({});
             self.confirmPassword = ko.observable();
-            self.rolesList = ko.observableArray(['Admin','Dispatcher','Manager','Driver','Boss']);
+            self.rolesList = ko.observableArray(['Admin','Dispatcher','Manager','Driver','Director']);
             self.addEmployee = function () {
                 employeesService.add(
                     self.employee(),
