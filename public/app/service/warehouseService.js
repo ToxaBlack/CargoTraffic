@@ -36,7 +36,19 @@ define(["app/utils/utils"],
                 );
             };
 
+            var remove = function (warehouses,done, error, always) {
+                utils.send(
+                    "/api/warehouses/remove",
+                    "PUT",
+                    JSON.stringify({array:warehouses }),
+                    done,
+                    error,
+                    always
+                );
+            };
+
             return {
+                remove: remove,
                 list: list,
                 add: add,
                 edit: edit

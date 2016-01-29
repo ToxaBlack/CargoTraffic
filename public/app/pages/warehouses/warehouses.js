@@ -1,5 +1,5 @@
 define(['app/utils/messageUtil','app/service/warehouseService', 'app/service/navService', 'app/service/barService',
-    "knockout", "jquery", "text!./warehouses.html"],
+        "knockout", "jquery", "text!./warehouses.html"],
     function (message,warehouseService, navService, bar, ko, $, listTemplate) {
         "use strict";
 
@@ -21,11 +21,12 @@ define(['app/utils/messageUtil','app/service/warehouseService', 'app/service/nav
 
 
             self.allChecked = ko.computed(function() {
-                var success = $.grep(self.warehouses(), function(element,index) {
+                var success = $.grep(self.warehouses(), function(element) {
                         return $.inArray(element.id.toString(), self.checkedWarehouses()) !== -1;
                     }).length === self.warehouses().length;
                 return success;
             }, this);
+
             self.WAREHOUSES_PER_PAGE = 20;
 
             warehouseService.list(1, self.WAREHOUSES_PER_PAGE + 1, true,
@@ -40,13 +41,7 @@ define(['app/utils/messageUtil','app/service/warehouseService', 'app/service/nav
                     self.warehouses(data);
                 },
                 function (data) {
-                    switch (data.status) {
-                        case 403:
-                            navService.navigateTo("login");
-                            break;
-                        default:
-                            navService.navigateTo("error");
-                    }
+                    self.catchError(data);
                 },
                 function () {
                     bar.go(100);
@@ -54,45 +49,33 @@ define(['app/utils/messageUtil','app/service/warehouseService', 'app/service/nav
 
 
             self.saveWarehouse = function () {
-               if(self.idEdit != -1) {
-                   warehouseService.edit(self.idEdit, self.warehouseName(), self.country(),self.city(),self.street(), self.house(),
-                       function (data) {
+                if(self.idEdit != -1) {
+                    warehouseService.edit(self.idEdit, self.warehouseName(), self.country(),self.city(),self.street(), self.house(),
+                        function (data) {
                             var auxiliaryArray = self.warehouses().slice();
                             auxiliaryArray.splice(self.editRow,1);
                             auxiliaryArray.splice(self.editRow,0,data);
                             self.warehouses(auxiliaryArray);
                             self.checkedWarehouses([]);
-                       },
-                       function (data) {
-                           switch (data.status) {
-                               case 403:
-                                   navService.navigateTo("login");
-                                   break;
-                               default:
-                                   navService.navigateTo("error");
-                           }
-                       },
-                       function () {
-                           self.closeDialog();
-                       });
-               } else {
-                   warehouseService.add(self.warehouseName(), self.country(),self.city(),self.street(), self.house(),
-                       function (data) {
-                           self.warehouses.push(data);
-                       },
-                       function (data) {
-                           switch (data.status) {
-                               case 403:
-                                   navService.navigateTo("login");
-                                   break;
-                               default:
-                                   navService.navigateTo("error");
-                           }
-                       },
-                       function () {
-                           self.closeDialog();
-                       });
-               }
+                        },
+                        function (data) {
+                            self.catchError(data);
+                        },
+                        function () {
+                            self.closeDialog();
+                        });
+                } else {
+                    warehouseService.add(self.warehouseName(), self.country(),self.city(),self.street(), self.house(),
+                        function (data) {
+                            self.warehouses.push(data);
+                        },
+                        function (data) {
+                            self.catchError(data);
+                        },
+                        function () {
+                            self.closeDialog();
+                        });
+                }
             };
 
             self.editWarehouse = function () {
@@ -108,10 +91,6 @@ define(['app/utils/messageUtil','app/service/warehouseService', 'app/service/nav
                         break;
                     }
                 }
-
-                //var editWarehouse = $.grep(self.warehouses(), function(element) {
-                //    return element.id == self.checkedWarehouses()[0];
-               // });
 
                 //Feeling dialog's form
                 self.idEdit = editWarehouse.id;
@@ -141,7 +120,21 @@ define(['app/utils/messageUtil','app/service/warehouseService', 'app/service/nav
                     message.createWarningMessage("Please, choose at least one warehouse.");
                     return false;
                 }
-                alert(self.checkedWarehouses());
+                var deletingWarehouse =  $.grep(self.warehouses(), function(element) {
+                    return $.inArray(element.id.toString(), self.checkedWarehouses()) !== -1;
+                });
+                warehouseService.remove(deletingWarehouse,
+                    function () {
+                        self.warehouses.remove( function(item) {
+                            return $.inArray(item.id.toString(), self.checkedWarehouses()) !== -1;
+                        });
+                    },
+                    function (data) {
+                        self.catchError(data);
+                    },
+                    function () {
+                        self.checkedWarehouses([]);
+                    });
             };
 
             self.nextPage = function () {
@@ -159,13 +152,7 @@ define(['app/utils/messageUtil','app/service/warehouseService', 'app/service/nav
                         self.warehouses(data);
                     },
                     function (data) {
-                        switch (data.status) {
-                            case 403:
-                                navService.navigateTo("login");
-                                break;
-                            default:
-                                navService.navigateTo("error");
-                        }
+                        self.catchError(data);
                     });
 
             };
@@ -195,6 +182,16 @@ define(['app/utils/messageUtil','app/service/warehouseService', 'app/service/nav
                     });
 
             };
+
+            self.catchError = function (data) {
+                switch (data.status) {
+                    case 403:
+                        navService.navigateTo("login");
+                        break;
+                    default:
+                        navService.navigateTo("error");
+                }
+            }
 
             $('#selectAllCheckbox').on('click', function () {
                 if (!self.allChecked()) {

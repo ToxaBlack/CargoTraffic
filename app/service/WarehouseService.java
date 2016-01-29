@@ -27,8 +27,8 @@ public class WarehouseService {
         }
     }
 
-    public void deleteWarehouses(List<Long> idWarehouses) {
-        warehouseRepository.deleteWarehouses(idWarehouses);
+    public void removeWarehouses(List<Warehouse> warehouses) {
+        JPA.withTransaction(() -> warehouseRepository.removeWarehouses(warehouses));
     }
 
     public Warehouse addWarehouse(Warehouse warehouse) throws ServiceException {
