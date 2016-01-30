@@ -24,6 +24,8 @@ public class CompanyService {
     private UserRepository userRepository;
     @Inject
     private AccountService accountService;
+    @Inject
+    private EmailService emailService;
 
 
     public List<Company> getCompanies(long id, int count, boolean ascOrder) throws ServiceException {
@@ -78,7 +80,7 @@ public class CompanyService {
                     return null;
             });
         } catch (Throwable throwable) {
-            LOGGER.error("Unlock companies error: {}", throwable);
+            LOGGER.error("Adding client error: {}", throwable);
             throw new ServiceException(throwable.getMessage(), throwable);
         }
     }
@@ -99,6 +101,6 @@ public class CompanyService {
         emailAttributes.setEmailTitle("Login data");
         emailAttributes.setFromEmail(user.email);
         emailAttributes.setRecipientEmail(admin.email);
-        EmailService.sendEmail(emailAttributes);
+        emailService.sendEmail(emailAttributes);
     }
 }
