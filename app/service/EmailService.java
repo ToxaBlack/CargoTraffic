@@ -1,23 +1,24 @@
 package service;
 
-import org.apache.commons.mail.EmailAttachment;
 import play.libs.mailer.Email;
-import play.libs.mailer.MailerPlugin;
+import play.libs.mailer.MailerClient;
 
-
-import java.io.File;
+import javax.inject.Inject;
 
 /**
  * Created by dmitriy on 29.1.16.
  */
 public class EmailService {
 
-    public static void sendEmail(EmailAttributes emailAttributes) throws ServiceException {
+    @Inject
+    private MailerClient mailerClient;
+
+    public void sendEmail(EmailAttributes emailAttributes) throws ServiceException {
         Email email = new Email()
                 .setSubject(emailAttributes.getEmailTitle())
                 .setFrom(emailAttributes.getFromEmail())
                 .addTo(emailAttributes.getRecipientEmail())
                 .setBodyText(emailAttributes.getEmailText());
-        MailerPlugin.send(email);
+        mailerClient.send(email);
     }
 }
