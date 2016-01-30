@@ -5,6 +5,7 @@ import play.Logger;
 import play.db.jpa.JPA;
 import repository.UserRepository;
 
+import javax.inject.Inject;
 import java.util.List;
 
 /**
@@ -13,11 +14,8 @@ import java.util.List;
 public class CompanyEmployeesService {
     private static final Logger.ALogger LOGGER = Logger.of(CompanyEmployeesService.class);
 
+    @Inject
     private UserRepository userRepository;
-
-    public CompanyEmployeesService() {
-        userRepository = new UserRepository();
-    }
 
     public List<User> getCompanyEmployees(long companyId, long id, int count,  boolean ascOrder) throws ServiceException {
         LOGGER.debug("Get company employees list: {}, {}, {}", id, count, ascOrder);

@@ -6,16 +6,14 @@ import play.Logger;
 import play.db.jpa.JPA;
 import repository.WarehouseRepository;
 
+import javax.inject.Inject;
 import java.util.List;
 
 public class WarehouseService {
     private static final Logger.ALogger LOGGER = Logger.of(WarehouseService.class);
 
+    @Inject
     private WarehouseRepository warehouseRepository;
-
-    public WarehouseService() {
-        warehouseRepository = new WarehouseRepository();
-    }
 
     public List<Warehouse> getWarhouses(long id, int count, boolean ascOrder) throws ServiceException {
         LOGGER.debug("Get warehouse list: {}, {}, {}", id, count, ascOrder);
