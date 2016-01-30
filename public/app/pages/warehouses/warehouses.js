@@ -31,10 +31,9 @@ define(['app/utils/messageUtil','app/service/warehouseService', 'app/service/nav
             self.allChecked = ko.computed(function() {
                 var success = $.grep(self.warehouses(), function(element) {
                         return $.inArray(element.id.toString(), self.checkedWarehouses()) !== -1;
-                    }).length === self.warehouses().length;
+                    }).length === self.recordCount();
                 return success;
             }, this);
-
 
             self.showWarehouses = function () {
                 warehouseService.list(1, self.warehousesPerPage() + 1, true,
@@ -136,13 +135,13 @@ define(['app/utils/messageUtil','app/service/warehouseService', 'app/service/nav
                 });
                 warehouseService.remove(deletingWarehouse,
                     function () {
-                        var id = self.warehouses()[0].id;
                         self.warehouses.remove( function(item) {
                             return $.inArray(item.id.toString(), self.checkedWarehouses()) !== -1;
                         });
                         if( self.recordCount() === 0) {
                             //Pass id of first row to jump on previous page
-                            self.previousPage(id);
+                            self.lastId = self.warehouses()[0].id;
+                            self.previousPage();
                         }
                     },
                     function (data) {
@@ -173,12 +172,13 @@ define(['app/utils/messageUtil','app/service/warehouseService', 'app/service/nav
 
             };
 
-            self.previousPage = function (lastId) {
+            self.previousPage = function () {
                 if (!self.hasPreviousPage()) return;
 
                 //Check case, when user have deleted all rows in table
-                if(lastId) {
-                    var id = lastId;
+                if(self.lastId) {
+                    var id = self.lastId;
+                    self.lastId = null;
                 } else {
                     var id = self.warehouses()[0].id;
                 }
