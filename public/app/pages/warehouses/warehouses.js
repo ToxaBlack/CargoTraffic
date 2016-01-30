@@ -27,26 +27,32 @@ define(['app/utils/messageUtil','app/service/warehouseService', 'app/service/nav
                 return success;
             }, this);
 
-            self.WAREHOUSES_PER_PAGE = 20;
+            self.warehousesPerPage = ko.observable(10);
+            self.warehousesPerPage.subscribe( function() {
+                self.showWarehouses();
+            });
 
-            warehouseService.list(1, self.WAREHOUSES_PER_PAGE + 1, true,
-                function (data) {
-                    if (data.length === self.WAREHOUSES_PER_PAGE + 1) {
-                        self.hasNextPage(true);
-                        data.pop();
-                    } else {
-                        self.hasNextPage(false);
-                    }
-                    self.hasPreviousPage(false);
-                    self.warehouses(data);
-                },
-                function (data) {
-                    self.catchError(data);
-                },
-                function () {
-                    bar.go(100);
-                });
+            self.showWarehouses = function () {
+                warehouseService.list(1, self.warehousesPerPage() + 1, true,
+                    function (data) {
+                        if (data.length === self.warehousesPerPage() + 1) {
+                            self.hasNextPage(true);
+                            data.pop();
+                        } else {
+                            self.hasNextPage(false);
+                        }
+                        self.hasPreviousPage(false);
+                        self.warehouses(data);
+                    },
+                    function (data) {
+                        self.catchError(data);
+                    },
+                    function () {
+                        bar.go(100);
+                    });
+            };
 
+            self.showWarehouses();
 
             self.saveWarehouse = function () {
                 if(self.idEdit != -1) {
@@ -112,7 +118,7 @@ define(['app/utils/messageUtil','app/service/warehouseService', 'app/service/nav
                 self.house("");
 
                 $('#myModal').modal("hide");
-            }
+            };
 
 
             self.deleteWarehouse = function () {
@@ -140,9 +146,9 @@ define(['app/utils/messageUtil','app/service/warehouseService', 'app/service/nav
             self.nextPage = function () {
                 if (!self.hasNextPage()) return;
                 var nextPageFirstWarehouseId = self.warehouses()[self.warehouses().length - 1].id + 1;
-                warehouseService.list(nextPageFirstWarehouseId, self.WAREHOUSES_PER_PAGE + 1, true,
+                warehouseService.list(nextPageFirstWarehouseId, self.warehousesPerPage() + 1, true,
                     function (data) {
-                        if (data.length === self.WAREHOUSES_PER_PAGE + 1) {
+                        if (data.length === self.warehousesPerPage() + 1) {
                             self.hasNextPage(true);
                             data.pop();
                         } else {
@@ -159,10 +165,10 @@ define(['app/utils/messageUtil','app/service/warehouseService', 'app/service/nav
 
             self.previousPage = function () {
                 if (!self.hasPreviousPage()) return;
-                warehouseService.list(self.warehouses()[0].id, self.WAREHOUSES_PER_PAGE + 1, false,
+                warehouseService.list(self.warehouses()[0].id, self.warehousesPerPage() + 1, false,
                     function (data) {
 
-                        if (data.length === self.WAREHOUSES_PER_PAGE + 1) {
+                        if (data.length === self.warehousesPerPage() + 1) {
                             self.hasPreviousPage(true);
                             data.shift();
                         } else {
@@ -172,13 +178,7 @@ define(['app/utils/messageUtil','app/service/warehouseService', 'app/service/nav
                         self.warehouses(data);
                     },
                     function (data) {
-                        switch (data.status) {
-                            case 403:
-                                navService.navigateTo("login");
-                                break;
-                            default:
-                                navService.navigateTo("error");
-                        }
+                        self.catchError(data);
                     });
 
             };
@@ -191,7 +191,7 @@ define(['app/utils/messageUtil','app/service/warehouseService', 'app/service/nav
                     default:
                         navService.navigateTo("error");
                 }
-            }
+            };
 
             $('#selectAllCheckbox').on('click', function () {
                 if (!self.allChecked()) {
