@@ -1,4 +1,7 @@
 <div class="row">
+    <div class="col-xs-1 selectContainer">
+        <select class="form-control" data-bind='options: [10, 20], value: warehousesPerPage'> </select>
+    </div>
     <div class="col-sm-offset-9">
         <button type="button" class="btn btn-success" title="Add warehouse" data-toggle="modal" data-target="#myModal">
             <span class="glyphicon glyphicon-plus"></span> Add
@@ -16,29 +19,29 @@
     <div class="col-sm-12">
         <table class="table table-hover">
             <thead>
-                <tr>
-                    <th>
-                        <input class="selectAll" type="checkbox" data-bind="checked: allChecked" id="selectAllCheckbox">
-                    </th>
-                    <th>Name</th>
-                    <th>Country</th>
-                    <th>City</th>
-                    <th>Street</th>
-                    <th>House</th>
-                </tr>
+            <tr>
+                <th>
+                    <input class="selectAll" type="checkbox" data-bind="checked: allChecked" id="selectAllCheckbox">
+                </th>
+                <th>Name</th>
+                <th>Country</th>
+                <th>City</th>
+                <th>Street</th>
+                <th>House</th>
+            </tr>
             </thead>
             <tbody data-bind="foreach: warehouses">
-                <tr>
-                    <td>
-                        <input class="idCheck" type="checkbox"
-                               data-bind="checked: $parent.checkedWarehouses, attr: { value: id}"/></td>
-                    </td>
-                    <td class="link" data-bind="text: name"></td>
-                    <td data-bind="text: address.country"></td>
-                    <td data-bind="text: address.city"></td>
-                    <td data-bind="text: address.street"></td>
-                    <td data-bind="text: address.house"></td>
-                </tr>
+            <tr>
+                <td>
+                    <input class="idCheck" type="checkbox"
+                           data-bind="checked: $parent.checkedWarehouses, attr: { value: id}"/></td>
+                </td>
+                <td class="link" data-bind="text: name"></td>
+                <td data-bind="text: address.country"></td>
+                <td data-bind="text: address.city"></td>
+                <td data-bind="text: address.street"></td>
+                <td data-bind="text: address.house"></td>
+            </tr>
             </tbody>
         </table>
     </div>

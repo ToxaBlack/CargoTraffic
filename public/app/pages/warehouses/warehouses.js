@@ -19,34 +19,43 @@ define(['app/utils/messageUtil','app/service/warehouseService', 'app/service/nav
             self.street = ko.observable();
             self.house = ko.observable();
 
+            self.warehousesPerPage = ko.observable(10);
+            self.warehousesPerPage.subscribe( function() {
+                self.showWarehouses();
+            });
+
+            self.recordCount = ko.computed(function (){
+                return self.warehouses().length
+            },this);
 
             self.allChecked = ko.computed(function() {
                 var success = $.grep(self.warehouses(), function(element) {
                         return $.inArray(element.id.toString(), self.checkedWarehouses()) !== -1;
-                    }).length === self.warehouses().length;
+                    }).length === self.recordCount();
                 return success;
             }, this);
 
-            self.WAREHOUSES_PER_PAGE = 20;
+            self.showWarehouses = function () {
+                warehouseService.list(1, self.warehousesPerPage() + 1, true,
+                    function (data) {
+                        if (data.length === self.warehousesPerPage() + 1) {
+                            self.hasNextPage(true);
+                            data.pop();
+                        } else {
+                            self.hasNextPage(false);
+                        }
+                        self.hasPreviousPage(false);
+                        self.warehouses(data);
+                    },
+                    function (data) {
+                        self.catchError(data);
+                    },
+                    function () {
+                        bar.go(100);
+                    });
+            };
 
-            warehouseService.list(1, self.WAREHOUSES_PER_PAGE + 1, true,
-                function (data) {
-                    if (data.length === self.WAREHOUSES_PER_PAGE + 1) {
-                        self.hasNextPage(true);
-                        data.pop();
-                    } else {
-                        self.hasNextPage(false);
-                    }
-                    self.hasPreviousPage(false);
-                    self.warehouses(data);
-                },
-                function (data) {
-                    self.catchError(data);
-                },
-                function () {
-                    bar.go(100);
-                });
-
+            self.showWarehouses();
 
             self.saveWarehouse = function () {
                 if(self.idEdit != -1) {
@@ -67,7 +76,9 @@ define(['app/utils/messageUtil','app/service/warehouseService', 'app/service/nav
                 } else {
                     warehouseService.add(self.warehouseName(), self.country(),self.city(),self.street(), self.house(),
                         function (data) {
-                            self.warehouses.push(data);
+                            if (self.recordCount() != self.warehousesPerPage()) {
+                                self.warehouses.push(data);
+                            } else self.hasNextPage(true);
                         },
                         function (data) {
                             self.catchError(data);
@@ -91,7 +102,6 @@ define(['app/utils/messageUtil','app/service/warehouseService', 'app/service/nav
                         break;
                     }
                 }
-
                 //Feeling dialog's form
                 self.idEdit = editWarehouse.id;
                 self.warehouseName(editWarehouse.name);
@@ -112,7 +122,7 @@ define(['app/utils/messageUtil','app/service/warehouseService', 'app/service/nav
                 self.house("");
 
                 $('#myModal').modal("hide");
-            }
+            };
 
 
             self.deleteWarehouse = function () {
@@ -125,9 +135,15 @@ define(['app/utils/messageUtil','app/service/warehouseService', 'app/service/nav
                 });
                 warehouseService.remove(deletingWarehouse,
                     function () {
+                        //Pass id of first row
+                        self.lastId = self.warehouses()[0].id;
+
                         self.warehouses.remove( function(item) {
                             return $.inArray(item.id.toString(), self.checkedWarehouses()) !== -1;
                         });
+                        if( self.recordCount() === 0) {
+                            self.previousPage();
+                        }
                     },
                     function (data) {
                         self.catchError(data);
@@ -140,9 +156,9 @@ define(['app/utils/messageUtil','app/service/warehouseService', 'app/service/nav
             self.nextPage = function () {
                 if (!self.hasNextPage()) return;
                 var nextPageFirstWarehouseId = self.warehouses()[self.warehouses().length - 1].id + 1;
-                warehouseService.list(nextPageFirstWarehouseId, self.WAREHOUSES_PER_PAGE + 1, true,
+                warehouseService.list(nextPageFirstWarehouseId, self.warehousesPerPage() + 1, true,
                     function (data) {
-                        if (data.length === self.WAREHOUSES_PER_PAGE + 1) {
+                        if (data.length === self.warehousesPerPage() + 1) {
                             self.hasNextPage(true);
                             data.pop();
                         } else {
@@ -159,26 +175,28 @@ define(['app/utils/messageUtil','app/service/warehouseService', 'app/service/nav
 
             self.previousPage = function () {
                 if (!self.hasPreviousPage()) return;
-                warehouseService.list(self.warehouses()[0].id, self.WAREHOUSES_PER_PAGE + 1, false,
-                    function (data) {
 
-                        if (data.length === self.WAREHOUSES_PER_PAGE + 1) {
+                //Check case, when user have deleted all rows in table
+                if(self.lastId) {
+                    var id = self.lastId;
+                } else {
+                    id = self.warehouses()[0].id;
+                }
+
+                warehouseService.list(id, self.warehousesPerPage() + 1, false,
+                    function (data) {
+                        if (data.length === self.warehousesPerPage() + 1) {
                             self.hasPreviousPage(true);
                             data.shift();
                         } else {
                             self.hasPreviousPage(false);
                         }
-                        self.hasNextPage(true);
+                        if(!self.lastId) self.hasNextPage(true);
+                        self.lastId = null;
                         self.warehouses(data);
                     },
                     function (data) {
-                        switch (data.status) {
-                            case 403:
-                                navService.navigateTo("login");
-                                break;
-                            default:
-                                navService.navigateTo("error");
-                        }
+                        self.catchError(data);
                     });
 
             };
@@ -191,7 +209,7 @@ define(['app/utils/messageUtil','app/service/warehouseService', 'app/service/nav
                     default:
                         navService.navigateTo("error");
                 }
-            }
+            };
 
             $('#selectAllCheckbox').on('click', function () {
                 if (!self.allChecked()) {

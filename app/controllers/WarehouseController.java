@@ -10,12 +10,10 @@ import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Http;
 import play.mvc.Result;
-import scala.collection.JavaConversions$;
 import service.ServiceException;
 import service.WarehouseService;
 
 import javax.inject.Inject;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,6 +26,7 @@ public class WarehouseController extends Controller {
 
     @Restrict({@Group("DISPATCHER")})
     public Result getWarehouses(Long id, Integer warehouses, Boolean ascOrder) throws ControllerException {
+        System.out.println("count:"+warehouses);
         LOGGER.debug("API Get warehouse list for user: {}; id, warehouses, ascOrder: {}, {}, {}",
                 Http.Context.current().args.get("user").toString(), id, warehouses, ascOrder);
 
