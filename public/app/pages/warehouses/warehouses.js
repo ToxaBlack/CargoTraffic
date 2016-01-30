@@ -135,12 +135,13 @@ define(['app/utils/messageUtil','app/service/warehouseService', 'app/service/nav
                 });
                 warehouseService.remove(deletingWarehouse,
                     function () {
+                        //Pass id of first row
+                        self.lastId = self.warehouses()[0].id;
+
                         self.warehouses.remove( function(item) {
                             return $.inArray(item.id.toString(), self.checkedWarehouses()) !== -1;
                         });
                         if( self.recordCount() === 0) {
-                            //Pass id of first row to jump on previous page
-                            self.lastId = self.warehouses()[0].id;
                             self.previousPage();
                         }
                     },
@@ -178,9 +179,8 @@ define(['app/utils/messageUtil','app/service/warehouseService', 'app/service/nav
                 //Check case, when user have deleted all rows in table
                 if(self.lastId) {
                     var id = self.lastId;
-                    self.lastId = null;
                 } else {
-                    var id = self.warehouses()[0].id;
+                    id = self.warehouses()[0].id;
                 }
 
                 warehouseService.list(id, self.warehousesPerPage() + 1, false,
@@ -191,7 +191,8 @@ define(['app/utils/messageUtil','app/service/warehouseService', 'app/service/nav
                         } else {
                             self.hasPreviousPage(false);
                         }
-                        if(!lastId) self.hasNextPage(true);
+                        if(!self.lastId) self.hasNextPage(true);
+                        self.lastId = null;
                         self.warehouses(data);
                     },
                     function (data) {
