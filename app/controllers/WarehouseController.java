@@ -10,12 +10,10 @@ import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Http;
 import play.mvc.Result;
-import scala.collection.JavaConversions$;
 import service.ServiceException;
 import service.WarehouseService;
 
 import javax.inject.Inject;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 

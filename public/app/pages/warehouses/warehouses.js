@@ -19,6 +19,14 @@ define(['app/utils/messageUtil','app/service/warehouseService', 'app/service/nav
             self.street = ko.observable();
             self.house = ko.observable();
 
+            self.warehousesPerPage = ko.observable(10);
+            self.warehousesPerPage.subscribe( function() {
+                self.showWarehouses();
+            });
+
+            self.recordCount = ko.computed(function (){
+                return self.warehouses().length
+            },this);
 
             self.allChecked = ko.computed(function() {
                 var success = $.grep(self.warehouses(), function(element) {
@@ -27,10 +35,6 @@ define(['app/utils/messageUtil','app/service/warehouseService', 'app/service/nav
                 return success;
             }, this);
 
-            self.warehousesPerPage = ko.observable(10);
-            self.warehousesPerPage.subscribe( function() {
-                self.showWarehouses();
-            });
 
             self.showWarehouses = function () {
                 warehouseService.list(1, self.warehousesPerPage() + 1, true,
@@ -73,7 +77,9 @@ define(['app/utils/messageUtil','app/service/warehouseService', 'app/service/nav
                 } else {
                     warehouseService.add(self.warehouseName(), self.country(),self.city(),self.street(), self.house(),
                         function (data) {
-                            self.warehouses.push(data);
+                            if (self.recordCount() != self.warehousesPerPage()) {
+                                self.warehouses.push(data);
+                            } else self.hasNextPage(true);
                         },
                         function (data) {
                             self.catchError(data);
@@ -97,7 +103,6 @@ define(['app/utils/messageUtil','app/service/warehouseService', 'app/service/nav
                         break;
                     }
                 }
-
                 //Feeling dialog's form
                 self.idEdit = editWarehouse.id;
                 self.warehouseName(editWarehouse.name);
@@ -131,9 +136,14 @@ define(['app/utils/messageUtil','app/service/warehouseService', 'app/service/nav
                 });
                 warehouseService.remove(deletingWarehouse,
                     function () {
+                        var id = self.warehouses()[0].id;
                         self.warehouses.remove( function(item) {
                             return $.inArray(item.id.toString(), self.checkedWarehouses()) !== -1;
                         });
+                        if( self.recordCount() === 0) {
+                            //Pass id of first row to jump on previous page
+                            self.previousPage(id);
+                        }
                     },
                     function (data) {
                         self.catchError(data);
@@ -163,18 +173,25 @@ define(['app/utils/messageUtil','app/service/warehouseService', 'app/service/nav
 
             };
 
-            self.previousPage = function () {
+            self.previousPage = function (lastId) {
                 if (!self.hasPreviousPage()) return;
-                warehouseService.list(self.warehouses()[0].id, self.warehousesPerPage() + 1, false,
-                    function (data) {
 
+                //Check case, when user have deleted all rows in table
+                if(lastId) {
+                    var id = lastId;
+                } else {
+                    var id = self.warehouses()[0].id;
+                }
+
+                warehouseService.list(id, self.warehousesPerPage() + 1, false,
+                    function (data) {
                         if (data.length === self.warehousesPerPage() + 1) {
                             self.hasPreviousPage(true);
                             data.shift();
                         } else {
                             self.hasPreviousPage(false);
                         }
-                        self.hasNextPage(true);
+                        if(!lastId) self.hasNextPage(true);
                         self.warehouses(data);
                     },
                     function (data) {
