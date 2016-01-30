@@ -13,6 +13,7 @@ define(['app/service/employeesService','app/service/navService', "knockout", 'ap
             self.EMPLOYEES_PER_PAGE = 10;
 
             employeesService.get(
+                self.EMPLOYEES_PER_PAGE + 1,
                 function (data) {
                     if (data.length === self.EMPLOYEES_PER_PAGE + 1) {
                         self.hasNextPage(true);
@@ -42,6 +43,7 @@ define(['app/service/employeesService','app/service/navService', "knockout", 'ap
                 var nextPageFirstCompanyId = self.employees()[self.employees().length - 1].id + 1;
                 employeesService.toNextPage(
                     nextPageFirstCompanyId,
+                    self.EMPLOYEES_PER_PAGE + 1,
                     function (data) {
                         if (data.length === self.EMPLOYEES_PER_PAGE + 1) {
                             self.hasNextPage(true);
@@ -68,6 +70,7 @@ define(['app/service/employeesService','app/service/navService', "knockout", 'ap
             self.previousPage = function () {
                 if (!self.hasPreviousPage()) return;
                 employeesService.toPreviousPage(
+                    self.EMPLOYEES_PER_PAGE + 1,
                     self.employees()[0].id,
                     function (data) {
                         if (data.length === self.EMPLOYEES_PER_PAGE + 1) {
@@ -113,4 +116,3 @@ define(['app/service/employeesService','app/service/navService', "knockout", 'ap
 
         return {viewModel: employeesViewModel, template: listTemplate};
     });
-
