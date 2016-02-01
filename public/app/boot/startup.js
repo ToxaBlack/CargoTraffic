@@ -8,6 +8,7 @@ define(['app/service/startupService', 'app/service/navService', 'knockout', 'rou
     ko.components.register('clients', {require: 'app/pages/clients/clients'});
     ko.components.register('companies', {require: 'app/pages/companies/companies'});
     ko.components.register('warehouses', {require: 'app/pages/warehouses/warehouses'});
+    ko.components.register('ttn',{require:'app/pages/ttn/ttn'});
     ko.components.register('home', {require: 'app/pages/home/home'});
     ko.components.register('error', {require: 'app/pages/error/error'});
     ko.components.register('employees', {require: 'app/pages/employees/employees'});

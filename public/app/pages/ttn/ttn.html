@@ -1,0 +1,38 @@
+<div class="page-header">
+<h1>Create TTN</h1>
+</div>
+<div class="form-horizontal">
+    <div class="form-group">
+        <label class="control-label col-md-3" for="from">Point of departure*:</label>
+        <div class="col-md-5">
+            <input type="text" class="form-control" id="from"
+                   placeholder="Click to choose departure" maxlength="40" required readonly data-toggle="modal" data-target="#warehouses">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-md-3" for="to">Point of destination*:</label>
+        <div class="col-md-5">
+            <input type="text" class="form-control" id="to"
+                   placeholder="Click to choose destination" maxlength="40" required readonly data-toggle="modal" data-target="#warehouses">
+        </div>
+    </div>
+</div>
+<div id="warehouses" class="modal fade"  role="dialog">
+    <div class="modal-dialog" style="width: 1000px">
+
+        <div class="modal-content" style="width: 1000px">
+            <div class="modal-header">
+                <button type="button" class="close" data-bind="click: closeDialog">&times;</button>
+                <h4 class="modal-title">Warehouses</h4>
+            </div>
+
+            <warehouses></warehouses>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-bind="click: choose">Choose</button>
+                <button type="button" class="btn btn-default" data-bind="click: closeDialog">Cancel</button>
+            </div>
+        </div>
+
+    </div>
+</div>
