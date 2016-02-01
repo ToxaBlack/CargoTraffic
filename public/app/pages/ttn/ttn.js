@@ -1,6 +1,6 @@
 
-define(['app/service/navService', 'app/service/barService', "knockout", 'jquery',"text!./ttn.html",'app/pages/warehouses/warehouses'],
-    function (navService, bar, ko, $,ttnTemplate, warehouses) {
+define(['app/service/navService', 'app/service/barService', "knockout", 'jquery',"text!./ttn.html"],
+    function (navService, bar, ko, $,ttnTemplate) {
         "use strict";
 
         function ttnViewModel() {
@@ -8,11 +8,12 @@ define(['app/service/navService', 'app/service/barService', "knockout", 'jquery'
             var self = this;
             self.DialogVisible = ko.observable(false);
             self.closeDialog = function () {
-                $('#warehouses').modal("hide");
+                $('#warehouses-popup').modal("hide");
             };
 
             self.choose = function() {
-                alert(warehouses.viewModel().checkedWarehouses);
+                var context = ko.contextFor($("#warehouses")[0]);
+                alert(context.$data.checkedWarehouses());
             };
 
             bar.go(100);
