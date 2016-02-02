@@ -12,6 +12,7 @@ import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
@@ -56,9 +57,9 @@ public class UserRepository {
         em.merge(user);
     }
 
-    public List<User> getUserForEmployeesPage(long companyId, long id, int count, boolean ascOrder) {
+    public List<User> getList(long companyId, long id, int count, boolean ascOrder) {
         EntityManager em = JPA.em();
-        StringBuilder stringBuilder = new StringBuilder("SELECT u FROM User u WHERE u.company.id = ? AND u.deleted = ? AND ");
+        StringBuilder stringBuilder = new StringBuilder("SELECT u FROM User u WHERE u.company.id = ? AND u.deleted = false AND ");
         if (ascOrder) {
             stringBuilder.append("u.id >= ? ORDER BY u.id ASC");
         } else {
@@ -66,13 +67,12 @@ public class UserRepository {
         }
         Query query = em.createQuery(stringBuilder.toString());
         query.setParameter(1, companyId);
-        query.setParameter(2, false);
-        query.setParameter(3, id);
+        query.setParameter(2, id);
         query.setMaxResults(count);
-        List<User> employees = query.getResultList();
+        List<User> users = query.getResultList();
         if (!ascOrder)
-            Collections.reverse(employees);
-        return employees;
+            Collections.reverse(users);
+        return users;
     }
 
     public List<UserRole> getRoleByName(String name){
@@ -93,5 +93,28 @@ public class UserRepository {
             em.refresh(user);
         }
         return user;
+    }
+
+    public void removeUser(List<Long> ids) {
+        LOGGER.debug("Remove employees: {}", Arrays.toString(ids.toArray()));
+        EntityManager em = JPA.em();
+        StringBuilder stringBuilder = new StringBuilder("UPDATE User u SET u.deleted = true WHERE u.id in (");
+        for (Long id : ids) {
+            stringBuilder.append(id);
+            stringBuilder.append(",");
+        }
+        stringBuilder.deleteCharAt(stringBuilder.length() - 1);
+        stringBuilder.append(")");
+        Query query = em.createQuery(stringBuilder.toString());
+        query.executeUpdate();
+    }
+
+    public User getUser(long id) {
+        EntityManager em = JPA.em();
+        StringBuilder stringBuilder = new StringBuilder("SELECT u FROM User u WHERE u.id = ? AND u.deleted = false");
+        Query query = em.createQuery(stringBuilder.toString());
+        query.setParameter(1, id);
+        List<User> users = query.getResultList();
+        return (CollectionUtils.isNotEmpty(users)) ? users.get(0) : null;
     }
 }

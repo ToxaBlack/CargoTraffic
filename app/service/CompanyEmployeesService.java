@@ -1,10 +1,12 @@
 package service;
 
 import models.User;
+import models.UserRole;
 import play.Logger;
 import play.db.jpa.JPA;
 import repository.UserRepository;
 
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -19,21 +21,47 @@ public class CompanyEmployeesService {
         userRepository = new UserRepository();
     }
 
-    public List<User> getCompanyEmployees(long companyId, long id, int count,  boolean ascOrder) throws ServiceException {
-        LOGGER.debug("Get company employees list: {}, {}, {}", id, count, ascOrder);
+    public List<User> getEmployees(long companyId, long id, int count,  boolean ascOrder) throws ServiceException {
         try {
-            return JPA.withTransaction(() -> userRepository.getUserForEmployeesPage(companyId, id, count, ascOrder));
+            return JPA.withTransaction(() -> userRepository.getList(companyId, id, count, ascOrder));
         } catch (Throwable throwable) {
             LOGGER.error("Get list error = {}", throwable);
             throw new ServiceException(throwable.getMessage(), throwable);
         }
     }
 
+    public User getEmployee(long id) throws ServiceException {
+        try {
+            return JPA.withTransaction(() -> userRepository.getUser(id));
+        } catch (Throwable throwable) {
+            LOGGER.error("Get list error = {}", throwable);
+            throw new ServiceException(throwable.getMessage(), throwable);
+        }
+    }
     public void addEmployee(User employee) throws ServiceException {
         try {
             JPA.withTransaction(() -> userRepository.addUser(employee));
         } catch (Throwable throwable) {
             LOGGER.error("Add employee with name = {}", employee.name);
+            throw new ServiceException(throwable.getMessage(), throwable);
+        }
+    }
+
+    public void removeEmployees(List<Long> ids) throws ServiceException {
+        try {
+            JPA.withTransaction(() -> userRepository.removeUser(ids));
+        } catch (Throwable throwable) {
+            LOGGER.error("Remove employees error: {}", throwable);
+            throw new ServiceException(throwable.getMessage(), throwable);
+        }
+    }
+    public void updateEmployee(User employee) throws ServiceException {
+        try {
+            List<UserRole> roles = JPA.withTransaction(() -> userRepository.getRoleByName(employee.userRoleList.get(0).name));
+            employee.setRoles(roles);
+            JPA.withTransaction(() -> userRepository.update(employee));
+        } catch (Throwable throwable) {
+            LOGGER.error("Update employees error: {}", throwable);
             throw new ServiceException(throwable.getMessage(), throwable);
         }
     }
