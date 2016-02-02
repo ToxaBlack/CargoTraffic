@@ -36,6 +36,5 @@ public class Vehicle {
     @ManyToOne
     public User driver;
 
-    @Constraints.Required
     public Boolean deleted;
 }
