@@ -42,6 +42,7 @@ public class WarehouseController extends Controller {
     @Restrict({@Group("DISPATCHER")})
     public Result addWarehouse() throws ControllerException {
         JsonNode json = request().body().asJson();
+        System.out.println("YAZ:"+json.toString());
         Warehouse warehouse =  Json.fromJson(json, Warehouse.class);
         LOGGER.debug("API add warehouse with name = {}", warehouse.name);
         try {

@@ -57,8 +57,6 @@ define(['app/service/navService', 'app/service/barService', "knockout", 'jquery'
             ]);
 
 
-
-
             bar.go(100);
             return self;
         }
