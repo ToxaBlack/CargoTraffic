@@ -39,4 +39,20 @@ INSERT INTO `user_role` (user_id, role_id) VALUES
   (6, 4),
   (7, 5);
 
+INSERT INTO `vehicle_type` (`name`) VALUES
+  ("Box"),
+  ("Refrigerator"),
+  ("Tank");
+
+INSERT INTO `vehicle_fuel` (`name`, `cost`) VALUES
+  ("Diesel", "25.03"),
+  ("Bio-diesel", "22.34"),
+  ("Petrol-95", "20.45"),
+  ("Petrol-98", "21.23");
+
+INSERT INTO `vehicle` (`license_plate`, `products_weight`, `fuel_consumption`, `company_id`, `vehicle_type_id`, `vehicle_fuel_id`) VALUES
+  ("1234-AB", 1234.3, 15.3, 1, 2, 3),
+  ("6543-QW", 2345.6, 20.5, 1, 2, 1),
+  ("4567-RT", 3456.75, 17.8, 2, 3, 4);
+
 # --- !Downs

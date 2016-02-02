@@ -32,7 +32,6 @@ public class User implements Subject {
     @Constraints.Required
     public String surname;
 
-
     @Constraints.Required
     public String password;
 
