@@ -126,6 +126,7 @@ public class CompanyEmployeesController extends Controller {
         return ok(Json.toJson(UserDTO.getUser(user)));
     }
 
+    @Restrict({@Group("ADMIN")})
     @BodyParser.Of(BodyParser.Json.class)
     public Result updateEmployee() throws ControllerException {
         User oldUser = (User) Http.Context.current().args.get("user");
@@ -141,7 +142,7 @@ public class CompanyEmployeesController extends Controller {
                 userDTO = converter.convertJsonToEmployeeDTO(json.toString(), userDTO);
                 user = converter.convertUserDTOToUser(userDTO, user);
                 user.id = Long.parseLong(userDTO.id);
-                user.company.id = 2;// oldUser.company.id;
+                user.company.id = oldUser.company.id;
                 companyService.updateEmployee(user);
             } catch (ServiceException | IOException e) {
                 LOGGER.error("error = {}", e);
