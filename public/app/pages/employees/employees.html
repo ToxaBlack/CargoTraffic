@@ -1,12 +1,12 @@
 <div class="row">
     <div class="col-sm-offset-9">
-        <button type="button" class="btn btn-info" title="Add employees" data-bind="click: addEmployee">
+        <button type="button" id="addButton" class="btn btn-info" title="Add employees">
             <span class="glyphicon glyphicon-plus"></span> Add
         </button>
         <button type="button" class="btn btn-success" title="Lock employees">
             <span class="glyphicon glyphicon-pencil"></span> Edit
         </button>
-        <button type="button" class="btn btn-danger" title="Delete employees">
+        <button type="button" id="removeButton" class="btn btn-danger" title="Delete employees" >
             <span class="glyphicon glyphicon-trash"></span> Delete
         </button>
     </div>
@@ -16,7 +16,7 @@
         <table class="table table-hover">
             <thead>
                 <tr>
-                    <th><input class="selectAll" type="checkbox" data-bind="checked: checkAll" id="selectAllCheckbox"></th>
+                    <th><input class="selectAll" type="checkbox" data-bind="checked: allChecked" id="selectAllCheckbox"></th>
                     <th>Full name</th>
                     <th>Username</th>
                     <th>Roles</th>
@@ -24,8 +24,15 @@
             </thead>
             <tbody data-bind="foreach: employees">
                 <tr>
-                    <td><input class="idCheck" type="checkbox" data-bind="checked: $parent.checkedEmployee, attr: { value: id }"/></td>
-                    <td class="link" data-bind="text: ko.computed(function() {return name + ' ' + patronymic + ' '+ surname; });"></td>
+                    <td><input class="idCheck" type="checkbox" data-bind="checked: $parent.checkedEmployees, attr: { value: id }"/></td>
+                    <td>
+                  <!--      <a data-bind="text: ko.computed(function() {return name + ' ' + patronymic + ' '+ surname; }),
+                                   attr: { href: 'addEmployee?id=' + id }"> </a> -->
+                        <button type="button" class="btn btn-link"
+                                data-bind="text: ko.computed(function() {return name + ' ' + patronymic + ' '+ surname; }),
+                                           click: $parent.onLink, attr: { value: id } ">
+                        </button>
+                    </td>
                     <td class="link" data-bind="text: username"></td>
                     <td>
                     <ul data-bind="foreach: listOfRoles = ko.observableArray(userRoleList)">
@@ -49,3 +56,141 @@
         </ul>
     </div>
 </div>
+
+<!-- Modal -->
+
+<div id="editModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Change employee</h4>
+            </div>
+            <div class="modal-body form-horizontal">
+                <div class="form-group">
+                    <label class="control-label col-md-3" for="username">Username*:</label>
+
+                    <div class="col-md-9">
+                        <input type="text" class="form-control" id="username"
+                               data-bind="value : edit().username"
+                               placeholder="Enter username" maxlength="40" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-md-3" for="name">Name:</label>
+
+                    <div class="col-md-9">
+                        <input type="text" class="form-control" id="name" name="name"
+                               data-bind="value :  edit().name"
+                               placeholder="Enter first name" maxlength="40">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-md-3" for="surname">Surname*:</label>
+
+                    <div class="col-md-9">
+                        <input type="text" class="form-control" id="surname" name="surname"
+                               data-bind="value :  edit().surname"
+                               placeholder="Enter surname" maxlength="40" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-md-3" for="patronymic">Patronymic:</label>
+
+                    <div class="col-md-9">
+                        <input type="text" class="form-control" id="patronymic"
+                               data-bind="value :  edit().patronymic"
+                               placeholder="Enter patronymic" maxlength="40">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-md-3" for="birthDate">Date of
+                        birth:</label>
+
+                    <div class="col-md-9">
+                        <input type="text" class="form-control" id="birthDate"
+                               data-bind="value :  edit().birthday"
+                               placeholder="Enter date of birth yyyy-mm-dd">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-md-3" for="email">Email*:</label>
+
+                    <div class="col-md-9">
+                        <input type="text" class="form-control" id="email"
+                               data-bind="value :  edit().email"
+                               placeholder="Enter email" maxlength="40" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-md-3" for="role" >Role</label>
+                    <div class="col-sm-9">
+                        <select id="role" name="role" class="form-control"
+                                data-bind="
+                                    options: rolesList,
+                                    value: edit().roles,
+                                    selectedOptions: selectedRole,
+                                    valueAllowUnset: true"></select>
+                    </div>
+                </div>
+                <hr>
+                <div class="form-group">
+                    <label class="control-label col-md-3" for="country">Country:</label>
+
+                    <div class="col-md-9">
+                        <input type="text" class="form-control" id="country"
+                               data-bind="value :  edit().country"
+                               placeholder="Enter city" maxlength="40">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-md-3" for="city">City:</label>
+
+                    <div class="col-md-9">
+                        <input type="text" class="form-control" id="city"
+                               data-bind="value :  edit().city"
+                               placeholder="Enter city" maxlength="40">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-md-3" for="street">Street:</label>
+
+                    <div class="col-md-9">
+                        <input type="text" class="form-control" id="street"
+                               data-bind="value :  edit().street"
+                               placeholder="Enter street" maxlength="40">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-md-3" for="house">House:</label>
+
+                    <div class="col-md-9">
+                        <input type="text" class="form-control" id="house"
+                               data-bind="value :  edit().house"
+                               placeholder="Enter street" maxlength="40">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-md-3" for="flat">Flat:</label>
+
+                    <div class="col-md-9">
+                        <input type="text" class="form-control" id="flat"
+                               data-bind="value :  edit().flat"
+                               placeholder="Enter zip" maxlength="40">
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal"  data-bind="click: updateEmployee">Update</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+

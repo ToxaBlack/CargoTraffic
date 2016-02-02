@@ -3,6 +3,7 @@ package controllers;
 import be.objectify.deadbolt.java.actions.Group;
 import be.objectify.deadbolt.java.actions.Restrict;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ArrayNode;
 import dto.Converter;
 import dto.UserDTO;
 import models.User;
@@ -20,6 +21,7 @@ import service.ServiceException;
 import javax.inject.Inject;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
 
@@ -39,7 +41,6 @@ public class CompanyEmployeesController extends Controller {
         User oldUser = (User) Http.Context.current().args.get("user");
         LOGGER.debug("API add employee", oldUser.toString());
         JsonNode json = request().body().asJson();
-        //LOGGER.debug("Our employee: {}", json.toString());
         if (Objects.isNull(json)) {
             LOGGER.debug("Expecting Json data");
             return badRequest("Expecting Json data");
@@ -72,14 +73,14 @@ public class CompanyEmployeesController extends Controller {
 
     @Restrict({@Group("ADMIN")})
     public Result getEmployees(Long id, Integer employees, Boolean ascOrder) throws ControllerException {
-        if(id == null || employees == null || ascOrder == null || id <= 0 || employees <= 0) {
+        if (id == null || employees == null || ascOrder == null || id <= 0 || employees <= 0) {
             return badRequest("Bad parameters at getEmployees()");
         }
         Long companyId = ((User) Http.Context.current().args.get("user")).company.id;
         LOGGER.debug("company_id, id, companies, ascOrder: {}, {}, {}, {}", companyId, id, employees, ascOrder);
         List<User> companyList;
         try {
-            companyList = companyService.getCompanyEmployees(companyId, id, employees, ascOrder);
+            companyList = companyService.getEmployees(companyId, id, employees, ascOrder);
         } catch (ServiceException e) {
             LOGGER.error("error = {}", e);
             throw new ControllerException(e.getMessage(), e);
@@ -87,32 +88,69 @@ public class CompanyEmployeesController extends Controller {
         return ok(Json.toJson(companyList));
     }
 
-    /*private UserDTO fillEmployee(UserDTO user, String json){
-        Converter converter = new Converter();
-        try {
-            user = converter.convertJsonToEmployeeDTO(json, user);
-        } catch (IOException e) {
-            LOGGER.error("error = {}", e);
+    @Restrict({@Group("ADMIN")})
+    @BodyParser.Of(BodyParser.Json.class)
+    public Result removeEmployees() throws ControllerException {
+        JsonNode json = request().body().asJson();
+        if (Objects.isNull(json)) {
+            return badRequest("Expecting Json data");
         }
-        return user;
-    }*/
-    private boolean validateAccountData(User user) {
-        return (validateParam(user.username, 40, true) &&
-                (validateParam(user.name, 40, false)) &&
-                (validateParam(user.surname, 40, true)) &&
-                (validateParam(user.email, 40, true)) &&
-                (validateParam(user.patronymic, 40, false)) &&
-                (validateParam(user.birthday, 40, false)) &&
-                (validateParam(user.address.country, 40, false)) &&
-                (validateParam(user.address.city, 40, false)) &&
-                (validateParam(user.address.street, 40, false)) &&
-                (validateParam(user.address.house, 40, false)) &&
-                (validateParam(user.address.flat, 40, false)));
+        ArrayNode idsNode = (ArrayNode) json;
+        Iterator<JsonNode> iterator = idsNode.elements();
+        List<Long> clientIds = new ArrayList<>();
+        while (iterator.hasNext()) {
+            clientIds.add(iterator.next().asLong());
+        }
+        try {
+            companyService.removeEmployees(clientIds);
+        } catch (ServiceException e) {
+            LOGGER.error("error: {}", e);
+            throw new ControllerException(e.getMessage(), e);
+        }
+        return ok();
     }
-    private boolean validateParam(String string, int maxLength, boolean checkEmpty) {
-        if (checkEmpty) {
-            if (StringUtils.isNotBlank(string) && string.length() <= maxLength) return true;
-        } else if (!Objects.isNull(string) && string.length() <= maxLength) return true;
-        return false;
+
+    @Restrict({@Group("ADMIN")})
+    public Result getEmployee(Long id) throws ControllerException {
+        if (id == null || id <= 0) {
+            return badRequest("Bad parameters at getEmployee()");
+        }
+        LOGGER.debug("Get employee with id {},", id);
+        User user;
+        try {
+            user = companyService.getEmployee(id);
+            user.password = null;
+        } catch (ServiceException e) {
+            LOGGER.error("error = {}", e);
+            throw new ControllerException(e.getMessage(), e);
+        }
+        return ok(Json.toJson(UserDTO.getUser(user)));
+    }
+
+    @Restrict({@Group("ADMIN")})
+    @BodyParser.Of(BodyParser.Json.class)
+    public Result updateEmployee() throws ControllerException {
+        User oldUser = (User) Http.Context.current().args.get("user");
+        JsonNode json = request().body().asJson();
+        if (Objects.isNull(json)) {
+            LOGGER.debug("Expecting Json data");
+            return badRequest("Expecting Json data");
+        } else {
+            UserDTO userDTO = new UserDTO();
+            Converter converter = new Converter();
+            try {
+                User user = new User();
+                userDTO = converter.convertJsonToEmployeeDTO(json.toString(), userDTO);
+                user = converter.convertUserDTOToUser(userDTO, user);
+                user.id = Long.parseLong(userDTO.id);
+                user.company.id = oldUser.company.id;
+                companyService.updateEmployee(user);
+            } catch (ServiceException | IOException e) {
+                LOGGER.error("error = {}", e);
+                throw new ControllerException(e.getMessage(), e);
+            }
+            return ok();
+        }
+
     }
 }

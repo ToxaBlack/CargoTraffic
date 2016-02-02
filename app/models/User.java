@@ -32,7 +32,6 @@ public class User implements Subject {
     @Constraints.Required
     public String surname;
 
-
     @Constraints.Required
     public String password;
 
@@ -51,7 +50,7 @@ public class User implements Subject {
             {@JoinColumn(name="user_id")},
     inverseJoinColumns =
             {@JoinColumn(name="role_id")})
-    @Constraints.Required
+   // @Constraints.Required
     public List<UserRole> userRoleList;
 
     @Override
