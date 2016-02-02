@@ -89,7 +89,7 @@ define(['app/utils/messageUtil','app/service/warehouseService', 'app/service/nav
                 }
             };
 
-            self.editWarehouse = function () {
+            self.getChosenWarehouse = function () {
                 var countChosen = self.checkedWarehouses().length;
                 if(! countChosen || countChosen > 1) {
                     message.createWarningMessage("Please, choose just only one warehouse.");
@@ -102,6 +102,11 @@ define(['app/utils/messageUtil','app/service/warehouseService', 'app/service/nav
                         break;
                     }
                 }
+                return editWarehouse;
+            };
+
+            self.editWarehouse = function () {
+                var editWarehouse = self.getChosenWarehouse();
                 //Feeling dialog's form
                 self.idEdit = editWarehouse.id;
                 self.warehouseName(editWarehouse.name);

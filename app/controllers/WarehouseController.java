@@ -26,7 +26,6 @@ public class WarehouseController extends Controller {
 
     @Restrict({@Group("DISPATCHER")})
     public Result getWarehouses(Long id, Integer warehouses, Boolean ascOrder) throws ControllerException {
-        System.out.println("count:"+warehouses);
         LOGGER.debug("API Get warehouse list for user: {}; id, warehouses, ascOrder: {}, {}, {}",
                 Http.Context.current().args.get("user").toString(), id, warehouses, ascOrder);
 

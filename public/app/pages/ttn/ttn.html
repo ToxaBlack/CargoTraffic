@@ -3,17 +3,27 @@
 </div>
 <div class="form-horizontal">
     <div class="form-group">
+        <label class="control-label col-md-3" for="date">Date of creating:</label>
+        <div class="col-md-7">
+            <input type="text" class="form-control" id="date"
+                   maxlength="40" readonly
+                   data-bind="value: new Date()">
+        </div>
+    </div>
+    <div class="form-group">
         <label class="control-label col-md-3" for="from">Point of departure*:</label>
-        <div class="col-md-5">
+        <div class="col-md-7">
             <input type="text" class="form-control" id="from"
-                   placeholder="Click to choose departure" maxlength="40" required readonly data-toggle="modal" data-target="#warehouses-popup">
+                   placeholder="Click to choose departure" maxlength="40" required readonly
+                   data-bind="click: openModal.bind($data,'from'), value: from().name">
         </div>
     </div>
     <div class="form-group">
         <label class="control-label col-md-3" for="to">Point of destination*:</label>
-        <div class="col-md-5">
+        <div class="col-md-7">
             <input type="text" class="form-control" id="to"
-                   placeholder="Click to choose destination" maxlength="40" required readonly data-toggle="modal" data-target="#warehouses-popup">
+                   placeholder="Click to choose destination" maxlength="40" required readonly
+                   data-bind="click: openModal.bind($data,'to'),value: to().name">
         </div>
     </div>
 </div>
@@ -35,4 +45,22 @@
         </div>
 
     </div>
+</div>
+
+<table class="table table-hover">
+    <thead><tr>
+        <th>Goods name</th><th>Quantity</th><th></th>
+    </tr></thead>
+    <tbody data-bind="foreach: goods">
+    <tr>
+        <td><input data-bind="value: name" /></td>
+        <td><input data-bind="value: quantity"></td>
+        <td><button class="btn btn-danger"  data-bind="click: $parent.removeGoods">&times;</button></td>
+    </tr>
+    </tbody>
+</table>
+<button class="btn btn-default" data-bind="click: addGoods">Add goods</button>
+<hr>
+<div class="form-group">
+    <button class="btn btn-success pull-right btn-lg">Create TTN</button>
 </div>
