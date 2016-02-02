@@ -44,11 +44,46 @@ define(["app/utils/utils"],
                 );
             };
 
+            var remove = function (ids, done, error, always) {
+                utils.send(
+                    "api/employees/remove",
+                    "PUT",
+                    JSON.stringify(ids),
+                    done,
+                    error,
+                    always
+                );
+            };
+
+            var getUser = function (id, done, error) {
+                utils.send(
+                    "api/employees/details",
+                    "GET",
+                    {"id": id},
+                    done,
+                    error
+                );
+            };
+
+            var update = function (date, done, error) {
+                utils.send(
+                    "api/employees/update",
+                    "PUT",
+                    JSON.stringify(date),
+                    done,
+                    error
+                );
+            };
+
+
             return {
                 get: get,
+                getUser: getUser,
                 toNextPage: toNextPage,
                 toPreviousPage: toPreviousPage,
-                add: add
+                add: add,
+                remove: remove,
+                update: update
             }
         }
 
