@@ -40,8 +40,7 @@ public class Converter {
             role.name = userDTO.roles.toUpperCase();
             user.userRoleList.add(role);
         }
-       // if(StringUtils.isNotEmpty(userDTO.password)) user.password = BCrypt.hashpw(userDTO.password, BCrypt.gensalt());
-        user.password = BCrypt.hashpw(userDTO.password, BCrypt.gensalt());
+        if(StringUtils.isNotEmpty(userDTO.password)) user.password = BCrypt.hashpw(userDTO.password, BCrypt.gensalt());
         user.company = new Company();
         user.deleted = false;
         return user;

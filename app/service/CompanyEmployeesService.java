@@ -2,6 +2,7 @@ package service;
 
 import models.User;
 import models.UserRole;
+import org.apache.commons.collections4.CollectionUtils;
 import play.Logger;
 import play.db.jpa.JPA;
 import repository.UserRepository;
@@ -58,6 +59,8 @@ public class CompanyEmployeesService {
     }
     public void updateEmployee(User employee) throws ServiceException {
         try {
+            List<String> password = JPA.withTransaction(()->userRepository.getPassword(employee.id));
+            employee.password = (CollectionUtils.isNotEmpty(password)) ? password.get(0) : null;
             List<UserRole> roles = JPA.withTransaction(() -> userRepository.getRoleByName(employee.userRoleList.get(0).name));
             employee.setRoles(roles);
             JPA.withTransaction(() -> userRepository.update(employee));

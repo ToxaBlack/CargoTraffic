@@ -117,4 +117,12 @@ public class UserRepository {
         List<User> users = query.getResultList();
         return (CollectionUtils.isNotEmpty(users)) ? users.get(0) : null;
     }
+
+    public List<String> getPassword(Long id){
+        EntityManager em = JPA.em();
+        StringBuilder stringBuilder = new StringBuilder("SELECT password FROM User u WHERE u.id = ?");
+        Query query = em.createQuery(stringBuilder.toString());
+        query.setParameter(1, id);
+        return query.getResultList();
+    }
 }

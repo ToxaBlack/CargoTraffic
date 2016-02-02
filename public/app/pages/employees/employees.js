@@ -157,6 +157,7 @@ define(['app/service/employeesService','app/service/navService', "knockout", 'ap
                     function (data) {
                         self.edit(data);
                         self.edit().id = id.id;
+                        self.edit().password = id.password;
                         self.selectedRole.push(id.userRoleList[0].name.toLowerCase());
                         $('#editModal').modal();
                     },

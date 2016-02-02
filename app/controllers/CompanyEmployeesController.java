@@ -119,6 +119,7 @@ public class CompanyEmployeesController extends Controller {
         User user;
         try {
             user = companyService.getEmployee(id);
+            user.password = null;
         } catch (ServiceException e) {
             LOGGER.error("error = {}", e);
             throw new ControllerException(e.getMessage(), e);
