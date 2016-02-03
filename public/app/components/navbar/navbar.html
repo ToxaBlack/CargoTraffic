@@ -33,12 +33,12 @@
             <ul class="nav navbar-nav navbar-right">
                 <li class="dropdown">
                     <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-                       aria-expanded="false">Account<span class="caret"></span></a>
+                       aria-expanded="true">Account<span class="caret"></span></a>
                     <ul class="dropdown-menu">
-                        <li><a data-bind="click: showAccountModal">Change account</a></li>
-                        <li><a data-bind="click: showPasswordModal">Change password</a></li>
+                        <li><a href data-bind="click: showAccountModal">Change account</a></li>
+                        <li><a href data-bind="click: showPasswordModal">Change password</a></li>
                         <li role="separator" class="divider"></li>
-                        <li><a data-bind="click: logout">Logout</a></li>
+                        <li><a href data-bind="click: logout">Logout</a></li>
                     </ul>
                 </li>
             </ul>
