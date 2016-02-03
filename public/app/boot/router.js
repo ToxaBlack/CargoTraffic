@@ -54,6 +54,7 @@ define(["jquery", "knockout", "crossroads", "history"], function ($, ko, crossro
 
     function routeCrossRoads() {
         var State = History.getState();
+        $('.modal-backdrop').remove();
 
         if (State.data.urlPath) {
             return crossroads.parse(State.data.urlPath);
