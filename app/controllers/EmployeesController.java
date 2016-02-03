@@ -4,22 +4,19 @@ import be.objectify.deadbolt.java.actions.Group;
 import be.objectify.deadbolt.java.actions.Restrict;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
-import dto.Converter;
-import dto.UserDTO;
+import dto.AccountDTO;
+import dto.EmployeeDTO;
 import models.User;
-import models.UserRole;
-import org.apache.commons.lang3.StringUtils;
 import play.Logger;
 import play.libs.Json;
 import play.mvc.BodyParser;
 import play.mvc.Controller;
 import play.mvc.Http;
 import play.mvc.Result;
-import service.CompanyEmployeesService;
+import service.EmployeesService;
 import service.ServiceException;
 
 import javax.inject.Inject;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -29,11 +26,11 @@ import java.util.Objects;
 /**
  * Created by Olga on 25.01.2016.
  */
-public class CompanyEmployeesController extends Controller {
-    private static final Logger.ALogger LOGGER = Logger.of(CompanyEmployeesController.class);
+public class EmployeesController extends Controller {
+    private static final Logger.ALogger LOGGER = Logger.of(EmployeesController.class);
 
     @Inject
-    CompanyEmployeesService companyService;
+    EmployeesService employeeService;
 
     @Restrict({@Group("ADMIN")})
     @BodyParser.Of(BodyParser.Json.class)
@@ -45,26 +42,19 @@ public class CompanyEmployeesController extends Controller {
             LOGGER.debug("Expecting Json data");
             return badRequest("Expecting Json data");
         } else {
-            UserDTO userDTO = new UserDTO();
-            Converter converter = new Converter();
-            try {
-                userDTO = converter.convertJsonToEmployeeDTO(json.toString(), userDTO);
-                User user = new User();
-                user = converter.convertUserDTOToUser(userDTO, user);
-                user.company.id = oldUser.company.id;
+            EmployeeDTO userDTO = Json.fromJson(json, EmployeeDTO.class);
+            User user = new User();
+            user = EmployeeDTO.getUser(userDTO, user);
+            user.company.id = oldUser.company.id;
                 /*if (!validateAccountData(user)) {
                     LOGGER.debug("Account data not valid");
                     return badRequest("Account data not valid");
                 }*/
-                try {
-                    companyService.addEmployee(user);
-                } catch (ServiceException e) {
-                    LOGGER.error("error = {}", e);
-                    throw new ControllerException(e.getMessage(), e);
-                }
-            } catch (IOException e) {
-                LOGGER.debug("Error converting json to UserDTO ");
-                return badRequest("Bad account data");
+            try {
+                employeeService.addEmployee(user);
+            } catch (ServiceException e) {
+                LOGGER.error("error = {}", e);
+                throw new ControllerException(e.getMessage(), e);
             }
         }
         return ok();
@@ -80,7 +70,7 @@ public class CompanyEmployeesController extends Controller {
         LOGGER.debug("company_id, id, companies, ascOrder: {}, {}, {}, {}", companyId, id, employees, ascOrder);
         List<User> companyList;
         try {
-            companyList = companyService.getEmployees(companyId, id, employees, ascOrder);
+            companyList = employeeService.getEmployees(companyId, id, employees, ascOrder);
         } catch (ServiceException e) {
             LOGGER.error("error = {}", e);
             throw new ControllerException(e.getMessage(), e);
@@ -102,7 +92,7 @@ public class CompanyEmployeesController extends Controller {
             clientIds.add(iterator.next().asLong());
         }
         try {
-            companyService.removeEmployees(clientIds);
+            employeeService.removeEmployees(clientIds);
         } catch (ServiceException e) {
             LOGGER.error("error: {}", e);
             throw new ControllerException(e.getMessage(), e);
@@ -118,13 +108,13 @@ public class CompanyEmployeesController extends Controller {
         LOGGER.debug("Get employee with id {},", id);
         User user;
         try {
-            user = companyService.getEmployee(id);
+            user = employeeService.getEmployee(id);
             user.password = null;
         } catch (ServiceException e) {
             LOGGER.error("error = {}", e);
             throw new ControllerException(e.getMessage(), e);
         }
-        return ok(Json.toJson(UserDTO.getUser(user)));
+        return ok(Json.toJson(AccountDTO.getAccount(user)));
     }
 
     @Restrict({@Group("ADMIN")})
@@ -136,16 +126,14 @@ public class CompanyEmployeesController extends Controller {
             LOGGER.debug("Expecting Json data");
             return badRequest("Expecting Json data");
         } else {
-            UserDTO userDTO = new UserDTO();
-            Converter converter = new Converter();
             try {
                 User user = new User();
-                userDTO = converter.convertJsonToEmployeeDTO(json.toString(), userDTO);
-                user = converter.convertUserDTOToUser(userDTO, user);
+                EmployeeDTO userDTO = Json.fromJson(json, EmployeeDTO.class);;
+                user = EmployeeDTO.getUser(userDTO, user);
                 user.id = Long.parseLong(userDTO.id);
                 user.company.id = oldUser.company.id;
-                companyService.updateEmployee(user);
-            } catch (ServiceException | IOException e) {
+                employeeService.updateEmployee(user);
+            } catch (ServiceException e) {
                 LOGGER.error("error = {}", e);
                 throw new ControllerException(e.getMessage(), e);
             }

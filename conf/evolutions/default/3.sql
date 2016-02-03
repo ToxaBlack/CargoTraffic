@@ -43,8 +43,8 @@ CREATE TABLE IF NOT EXISTS `cargo_traffic`.`vehicle_fuel` (
 
 CREATE TABLE IF NOT EXISTS `cargo_traffic`.`vehicle` (
   `id` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `vehicle_producer` VARCHAR(250) NOT NULL,
-  `vehicle_model` VARCHAR(250) NOT NULL,
+  `vehicle_producer` VARCHAR(250) NOT NULL DEFAULT "",
+  `vehicle_model` VARCHAR(250) NOT NULL DEFAULT "",
   `license_plate` VARCHAR(250) NOT NULL,
   `products_weight` DOUBLE(10,2) UNSIGNED NOT NULL,
   `fuel_consumption` DOUBLE(10,2) UNSIGNED NOT NULL,
