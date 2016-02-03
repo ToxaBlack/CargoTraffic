@@ -2,7 +2,6 @@ package controllers;
 
 import be.objectify.deadbolt.java.actions.SubjectPresent;
 import com.fasterxml.jackson.databind.JsonNode;
-import dto.Converter;
 import models.User;
 import org.apache.commons.lang3.StringUtils;
 import org.mindrot.jbcrypt.BCrypt;
@@ -14,7 +13,7 @@ import play.mvc.Http;
 import play.mvc.Result;
 import service.ServiceException;
 import service.UserService;
-import testDTO.models.AccountDTO;
+import dto.AccountDTO;
 
 import javax.inject.Inject;
 import java.io.IOException;
@@ -30,8 +29,6 @@ public class AccountController extends Controller {
     @Inject
     UserService userService;
 
-    @Inject
-    Converter converter;
 
     public Result getAccount() throws ControllerException, IOException {
         User user = (User) Http.Context.current().args.get("user");

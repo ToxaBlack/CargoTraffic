@@ -1,4 +1,4 @@
-package testDTO.models;
+package dto;
 
 import models.Address;
 import models.User;

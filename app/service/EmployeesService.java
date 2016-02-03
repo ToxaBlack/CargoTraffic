@@ -13,13 +13,13 @@ import java.util.List;
 /**
  * Created by Olga on 25.01.2016.
  */
-public class CompanyEmployeesService {
-    private static final Logger.ALogger LOGGER = Logger.of(CompanyEmployeesService.class);
+public class EmployeesService {
+    private static final Logger.ALogger LOGGER = Logger.of(EmployeesService.class);
 
     @Inject
     private UserRepository userRepository;
 
-    public CompanyEmployeesService() {
+    public EmployeesService() {
         userRepository = new UserRepository();
     }
 
