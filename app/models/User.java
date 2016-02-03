@@ -16,13 +16,12 @@ import java.util.List;
 public class User implements Subject {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Constraints.Required
     public Long id;
 
-    @OneToOne( cascade = CascadeType.ALL)
+    @ManyToOne
     public Company company;
 
-    @OneToOne( cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL)
     public Address address;
 
     @Constraints.Required
@@ -33,30 +32,34 @@ public class User implements Subject {
     @Constraints.Required
     public String surname;
 
-
     @Constraints.Required
     public String password;
 
     public String patronymic;
 
+    @Constraints.Required
     public String email;
 
     public String birthday;
 
-    @Constraints.Required
     public Boolean deleted;
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinTable(name="user_role",
     joinColumns =
             {@JoinColumn(name="user_id")},
     inverseJoinColumns =
             {@JoinColumn(name="role_id")})
+   // @Constraints.Required
     public List<UserRole> userRoleList;
 
     @Override
     public List<UserRole> getRoles() {
         return userRoleList;
+    }
+
+    public void setRoles(List<UserRole> userRoleList) {
+        this.userRoleList = userRoleList;
     }
 
     @JsonIgnore

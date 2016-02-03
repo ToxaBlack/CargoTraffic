@@ -8,10 +8,12 @@ define(['app/service/startupService', 'app/service/navService', 'knockout', 'rou
     ko.components.register('clients', {require: 'app/pages/clients/clients'});
     ko.components.register('companies', {require: 'app/pages/companies/companies'});
     ko.components.register('warehouses', {require: 'app/pages/warehouses/warehouses'});
+    ko.components.register('ttn',{require:'app/pages/ttn/ttn'});
+    ko.components.register('filledTTNs',{require:'app/pages/filledTTNs/filledTTNs'});
+    ko.components.register('ttnForManager',{require:'app/pages/ttnForManager/ttnForManager'});
+    ko.components.register('waybill',{require:'app/pages/waybill/waybill'});
     ko.components.register('home', {require: 'app/pages/home/home'});
     ko.components.register('error', {require: 'app/pages/error/error'});
-    ko.components.register('password', {require: 'app/pages/password/password'});
-    ko.components.register('addClient', {require: 'app/pages/addClient/addClient'});
     ko.components.register('employees', {require: 'app/pages/employees/employees'});
     ko.components.register('addEmployee', {require: 'app/pages/addEmployee/addEmployee'});
 

@@ -6,16 +6,14 @@ import play.Logger;
 import play.db.jpa.JPA;
 import repository.WarehouseRepository;
 
+import javax.inject.Inject;
 import java.util.List;
 
 public class WarehouseService {
     private static final Logger.ALogger LOGGER = Logger.of(WarehouseService.class);
 
+    @Inject
     private WarehouseRepository warehouseRepository;
-
-    public WarehouseService() {
-        warehouseRepository = new WarehouseRepository();
-    }
 
     public List<Warehouse> getWarhouses(long id, int count, boolean ascOrder) throws ServiceException {
         LOGGER.debug("Get warehouse list: {}, {}, {}", id, count, ascOrder);
@@ -27,13 +25,13 @@ public class WarehouseService {
         }
     }
 
-    public void deleteWarehouses(List<Long> idWarehouses) {
-        warehouseRepository.deleteWarehouses(idWarehouses);
+    public void removeWarehouses(List<Warehouse> warehouses) {
+        JPA.withTransaction(() -> warehouseRepository.removeWarehouses(warehouses));
     }
 
-    public void addWarehouse(Warehouse warehouse) throws ServiceException {
+    public Warehouse addWarehouse(Warehouse warehouse) throws ServiceException {
         try {
-            JPA.withTransaction(() -> warehouseRepository.addWarehouse(warehouse));
+            return JPA.withTransaction(() -> warehouseRepository.addWarehouse(warehouse));
         } catch (Throwable throwable) {
             LOGGER.error("Add warehouse with name = {}", warehouse.name);
             throw new ServiceException(throwable.getMessage(), throwable);

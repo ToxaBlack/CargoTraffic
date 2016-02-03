@@ -3,32 +3,32 @@ define(["app/utils/utils"],
         "use strict";
         function EmployeesService() {
 
-            var get = function (done, error, always) {
+            var get = function (count, done, error, always) {
                 utils.send(
                     "api/employees",
                     "GET",
-                    {"id": "1", "employees": "10", "ascOrder": "true"},
+                    {"id": "1", "employees": count, "ascOrder": "true"},
                     done,
                     error,
                     always
                 );
             };
 
-            var toNextPage = function (nextPageFirstCompanyId, done, error) {
+            var toNextPage = function (nextPageFirstCompanyId, count, done, error) {
                 utils.send(
                     "api/employees",
                     "GET",
-                    {"id": nextPageFirstCompanyId, "employees": "10", "ascOrder": "true"},
+                    {"id": nextPageFirstCompanyId, "employees": count, "ascOrder": "true"},
                     done,
                     error
                 );
             };
 
-            var toPreviousPage = function(date, done, error){
+            var toPreviousPage = function(count, date, done, error){
                 utils.send(
                     "api/employees",
                     "GET",
-                    {"id": date, "employees": "10", "ascOrder": "false"},
+                    {"id": date, "employees": count, "ascOrder": "false"},
                     done,
                     error
                 );
@@ -44,11 +44,46 @@ define(["app/utils/utils"],
                 );
             };
 
+            var remove = function (ids, done, error, always) {
+                utils.send(
+                    "api/employees/remove",
+                    "PUT",
+                    JSON.stringify(ids),
+                    done,
+                    error,
+                    always
+                );
+            };
+
+            var getUser = function (id, done, error) {
+                utils.send(
+                    "api/employees/details",
+                    "GET",
+                    {"id": id},
+                    done,
+                    error
+                );
+            };
+
+            var update = function (date, done, error) {
+                utils.send(
+                    "api/employees/update",
+                    "PUT",
+                    JSON.stringify(date),
+                    done,
+                    error
+                );
+            };
+
+
             return {
                 get: get,
+                getUser: getUser,
                 toNextPage: toNextPage,
                 toPreviousPage: toPreviousPage,
-                add: add
+                add: add,
+                remove: remove,
+                update: update
             }
         }
 

@@ -47,9 +47,37 @@ public class ClientsController extends Controller {
     public Result addClient() throws ControllerException {
         User oldUser = (User) Http.Context.current().args.get("user");
         LOGGER.debug("API add client", oldUser.toString());
-
         JsonNode json = request().body().asJson();
-        return ok();
+        if (Objects.isNull(json)) {
+            LOGGER.debug("Expecting Json data");
+            return badRequest("Expecting Json data");
+        }
+        JsonNode clientNode = json.findPath("client");
+        JsonNode adminNode = json.findPath("admin");
+        if (Objects.isNull(clientNode) && Objects.isNull(adminNode)) {
+            LOGGER.debug("Incorrect Json format");
+            return badRequest("Incorrect Json format");
+        }
+        Company company;
+        User admin;
+        try {
+            company = Json.fromJson(clientNode, Company.class);
+            admin = Json.fromJson(adminNode, User.class);
+        } catch (RuntimeException e) {
+            LOGGER.debug("Incorrect Json format");
+            return badRequest("Incorrect Json format");
+        }
+        Company savedCompany = null;
+        try {
+            savedCompany = companyService.addClient(company, admin);
+        } catch (ServiceException e) {
+            LOGGER.error("error: {}", e);
+            throw new ControllerException(e.getMessage(), e);
+        }
+        if (Objects.isNull(savedCompany)) {
+            return status(409, "Company already exists.");
+        }
+        return ok(Json.toJson(savedCompany));
     }
 
     @Restrict({@Group("SYS_ADMIN")})
@@ -59,21 +87,20 @@ public class ClientsController extends Controller {
         if (Objects.isNull(json)) {
             LOGGER.debug("Expecting Json data");
             return badRequest("Expecting Json data");
-        } else {
-            ArrayNode clientIdsNode = (ArrayNode) json;
-            Iterator<JsonNode> iterator = clientIdsNode.elements();
-            List<Long> clientIds = new ArrayList<>();
-            while (iterator.hasNext()) {
-                clientIds.add(iterator.next().asLong());
-            }
-            try {
-                companyService.lockCompanies(clientIds);
-            } catch (ServiceException e) {
-                LOGGER.error("error: {}", e);
-                throw new ControllerException(e.getMessage(), e);
-            }
-            return ok();
         }
+        ArrayNode clientIdsNode = (ArrayNode) json;
+        Iterator<JsonNode> iterator = clientIdsNode.elements();
+        List<Long> clientIds = new ArrayList<>();
+        while (iterator.hasNext()) {
+            clientIds.add(iterator.next().asLong());
+        }
+        try {
+            companyService.lockCompanies(clientIds);
+        } catch (ServiceException e) {
+            LOGGER.error("error: {}", e);
+            throw new ControllerException(e.getMessage(), e);
+        }
+        return ok();
     }
 
     @Restrict({@Group("SYS_ADMIN")})
@@ -83,20 +110,19 @@ public class ClientsController extends Controller {
         if (Objects.isNull(json)) {
             LOGGER.debug("Expecting Json data");
             return badRequest("Expecting Json data");
-        } else {
-            ArrayNode clientIdsNode = (ArrayNode) json;
-            Iterator<JsonNode> iterator = clientIdsNode.elements();
-            List<Long> clientIds = new ArrayList<>();
-            while (iterator.hasNext()) {
-                clientIds.add(iterator.next().asLong());
-            }
-            try {
-                companyService.unlockCompanies(clientIds);
-            } catch (ServiceException e) {
-                LOGGER.error("error: {}", e);
-                throw new ControllerException(e.getMessage(), e);
-            }
-            return ok();
         }
+        ArrayNode clientIdsNode = (ArrayNode) json;
+        Iterator<JsonNode> iterator = clientIdsNode.elements();
+        List<Long> clientIds = new ArrayList<>();
+        while (iterator.hasNext()) {
+            clientIds.add(iterator.next().asLong());
+        }
+        try {
+            companyService.unlockCompanies(clientIds);
+        } catch (ServiceException e) {
+            LOGGER.error("error: {}", e);
+            throw new ControllerException(e.getMessage(), e);
+        }
+        return ok();
     }
 }

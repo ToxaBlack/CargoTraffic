@@ -7,21 +7,25 @@ POST        /api/login                 controllers.LoginController.login()
 POST        /api/logout                controllers.LoginController.logout()
 GET         /api/roles                 controllers.LoginController.roles()
 
-
 GET         /api/clients               controllers.ClientsController.getClients(id :Long, clients :Integer, ascOrder :Boolean)
-PUT         /api/clients/lock          controllers.ClientsController.lockClients()
-PUT         /api/clients/unlock        controllers.ClientsController.unlockClients()
+PUT         /api/clients/lock     controllers.ClientsController.lockClients()
+PUT         /api/clients/unlock   controllers.ClientsController.unlockClients()
+POST        /api/client           controllers.ClientsController.addClient()
 
-GET         /api/warehouses            controllers.WarehouseController.getWarehouses(id :Long, warehouses :Integer, ascOrder :Boolean)
-POST        /api/warehouse             controllers.WarehouseController.addWarehouse()
+GET         /api/warehouses/get        controllers.WarehouseController.getWarehouses(id :Long, warehouses :Integer, ascOrder :Boolean)
+POST        /api/warehouses/add        controllers.WarehouseController.addWarehouse()
+PUT         /api/warehouses/edit       controllers.WarehouseController.editWarehouse()
+PUT         /api/warehouses/remove      controllers.WarehouseController.removeWarehouse()
 
 GET         /api/account               controllers.AccountController.getAccount()
 PUT         /api/account               controllers.AccountController.updateAccount()
 PUT         /api/password              controllers.AccountController.updatePassword()
 
-GET         /api/employees             controllers.CompanyEmployeesController.getEmployees(id :Long, employees :Integer, ascOrder :Boolean )
-POST        /api/employees             controllers.CompanyEmployeesController.addEmployees()
-
+GET         /api/employees             controllers.EmployeesController.getEmployees(id :Long, employees :Integer, ascOrder :Boolean )
+POST        /api/employees             controllers.EmployeesController.addEmployees()
+PUT         /api/employees/remove      controllers.EmployeesController.removeEmployees()
+GET         /api/employees/details     controllers.EmployeesController.getEmployee(id: Long)
+PUT         /api/employees/update      controllers.EmployeesController.updateEmployee()
 # Map static resources from the /public folder to the /assets URL path
 GET         /assets/*file              controllers.Assets.versioned(path="/public", file: Asset)
 

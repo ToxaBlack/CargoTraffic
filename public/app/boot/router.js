@@ -8,13 +8,15 @@ define(["jquery", "knockout", "crossroads", "history"], function ($, ko, crossro
             {url: 'clients', params: {page: 'clients'}},
             {url: 'companies', params: {page: 'companies'}},
             {url: 'warehouses', params: {page: 'warehouses'}},
+            {url:  'ttn',params:{page:'ttn'}},
             {url: 'home', params: {page: 'home'}},
+            {url: 'filledTTNs', params:{page: 'filledTTNs'}},
+            {url: 'ttnForManager', params:{page: 'ttnForManager'}},
+            {url: 'waybill', params:{page: 'waybill'}},
             {url: 'settings', params: {page: 'settings'}},
             {url: 'error', params: {page: 'error'}},
-            {url: 'password', params: {page: 'password'}},
             {url: 'employees', params: {page: 'employees'}},
-            {url: 'addClient', params: {page: 'addClient'}},
-            {url: 'addEmployee', params: {page: 'addEmployee'}}
+            {url: 'addEmployee', params: {page: 'addEmployee'}},
         ]
     });
 

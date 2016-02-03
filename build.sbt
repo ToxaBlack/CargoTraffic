@@ -18,7 +18,8 @@ libraryDependencies ++= Seq(
   "org.apache.commons" % "commons-collections4" % "4.1",
   "be.objectify" %% "deadbolt-java" % "2.4.3",
   "io.jsonwebtoken" % "jjwt" % "0.6.0",
-  "de.svenkubiak" % "jBCrypt" % "0.4"
+  "de.svenkubiak" % "jBCrypt" % "0.4",
+  "com.typesafe.play" %% "play-mailer" % "4.0.0-M1"
 )
 
 routesGenerator := InjectedRoutesGenerator
