@@ -11,7 +11,7 @@ define(['app/service/vehiclesService','app/service/navService', "knockout", 'app
             self.VEHICLES_PER_PAGE = 10;
             self.edit =  ko.observableArray([]);
             self.vehicleTypes = ko.observableArray(['Box','Refrigerator','Tank']);
-            self.selectedType = ko.observableArray();
+            self.selectedType = ko.observable();
 
             self.checkedVehicles = ko.observableArray([]);
             self.allChecked = ko.computed(function () {
@@ -23,7 +23,6 @@ define(['app/service/vehiclesService','app/service/navService', "knockout", 'app
 
             vehiclesService.list(1, self.VEHICLES_PER_PAGE + 1, true,
                 function (data) {
-                    console.log(data);
                     if (data.length === self.VEHICLES_PER_PAGE + 1) {
                         self.hasNextPage(true);
                         data.pop();
@@ -119,7 +118,9 @@ define(['app/service/vehiclesService','app/service/navService', "knockout", 'app
             });
 
             self.addVehicle = function () {
-                $('#vehicleModal').modal();          //TODO make modal dialog
+                self.edit([]);
+                self.selectedType(self.vehicleTypes()[0]);
+                $('#vehicleModal').modal();
             };
 
             self.deleteVehicles = function () {
@@ -136,7 +137,6 @@ define(['app/service/vehiclesService','app/service/navService', "knockout", 'app
                         self.vehicles([]);
                         self.vehicles(tempArray);
                         self.checkedVehicles([]);
-                        //window.location.reload();
                     },
                     function (data) {
                         switch (data.status) {
@@ -157,25 +157,6 @@ define(['app/service/vehiclesService','app/service/navService', "knockout", 'app
                         $('#vehicleModal').modal();
                     }
                 });
-                /*vehiclesService.getUser(
-                    vehicle.id,
-                    function (data) {
-                        self.edit(data);
-                        self.edit().id = vehicle.id;
-                        self.edit().password = vehicle.password;
-                        self.selectedRole.push(vehicle.userRoleList[0].name.toLowerCase());
-                        $('#editModal').modal();
-                    },
-                    function (data) {
-                        switch (data.status) {
-                            case 403:
-                                navService.navigateTo("login");
-                                break;
-                            default:
-                                navService.navigateTo("error");
-                        }
-                    }
-                );*/
             };
 
             self.updateVehicle = function () {
@@ -183,8 +164,7 @@ define(['app/service/vehiclesService','app/service/navService', "knockout", 'app
                     self.edit(),
                     function (data) {
                         self.edit([]);
-                        self.selectedRole([]);
-                        //window.location.reload();
+                        self.selectedType(self.vehicleTypes()[0]);
                     },
                     function (data) {
                         switch (data.status) {
