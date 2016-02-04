@@ -22,10 +22,16 @@ public class Vehicle {
     public String vehicleModel;
 
     @Constraints.Required
+    public Double productsConstraintValue;
+
+    @Constraints.Required
     public String licensePlate;
 
     @Constraints.Required
     public Double fuelConsumption;
+
+    @Constraints.Required
+    public Double fuelName;
 
     @Constraints.Required
     public Double fuelCost;
@@ -33,7 +39,7 @@ public class Vehicle {
     @Constraints.Required
     public String vehicleType;
 
-    @ManyToOne
+    @Transient
     public User driver;
 
     public Boolean deleted;
