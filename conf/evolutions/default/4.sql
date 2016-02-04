@@ -21,6 +21,7 @@ CREATE TABLE `cargo_traffic`.`product` (
   `name` VARCHAR(45) NOT NULL,
   `measure_unit_id` INT(11) UNSIGNED NULL,
   `storage_type_id` INT(11) UNSIGNED NULL,
+  `status` ENUM('ACCEPTED','VERIFICATION_COMPLETED', 'DELIVERED', 'LOST'),
   `deleted` BIT(1) NULL DEFAULT FALSE,
   PRIMARY KEY (`id`),
   UNIQUE INDEX `id_UNIQUE` (`id` ASC),
