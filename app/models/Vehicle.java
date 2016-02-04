@@ -31,7 +31,7 @@ public class Vehicle {
     public Double fuelConsumption;
 
     @Constraints.Required
-    public Double fuelName;
+    public String fuelName;
 
     @Constraints.Required
     public Double fuelCost;

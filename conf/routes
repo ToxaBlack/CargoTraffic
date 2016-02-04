@@ -27,9 +27,10 @@ PUT         /api/employees/remove      controllers.CompanyEmployeesController.re
 GET         /api/employees/details     controllers.CompanyEmployeesController.getEmployee(id: Long)
 PUT         /api/employees/update      controllers.CompanyEmployeesController.updateEmployee()
 
-GET         /api/vehicles              controllers.VehicleController.getVehicles(id :Long, vehicles :Integer, ascOrder :Boolean )
-POST        /api/vehicles              controllers.VehicleController.addVehicle()
-PUT         /api/vehicles              controllers.VehicleController.updateVehicle()
+GET         /api/vehicles              controllers.VehiclesController.getVehicles(id :Long, vehicles :Integer, ascOrder :Boolean )
+POST        /api/vehicle               controllers.VehiclesController.addVehicle()
+PUT         /api/vehicle               controllers.VehiclesController.updateVehicle()
+DELETE      /api/vehicles              controllers.VehiclesController.deleteVehicles()
 # Map static resources from the /public folder to the /assets URL path
 GET         /assets/*file              controllers.Assets.versioned(path="/public", file: Asset)
 

@@ -15,6 +15,7 @@ import service.ServiceException;
 import service.VehicleService;
 
 import javax.inject.Inject;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -28,8 +29,8 @@ import static play.mvc.Results.ok;
  */
 
 @SubjectPresent
-public class VehicleController {
-    private static final Logger.ALogger LOGGER = Logger.of(VehicleController.class);
+public class VehiclesController {
+    private static final Logger.ALogger LOGGER = Logger.of(VehiclesController.class);
 
     @Inject
     VehicleService vehicleService;
@@ -37,13 +38,27 @@ public class VehicleController {
     @Restrict({@Group("ADMIN")})
     public Result getVehicles(Long id, Integer count, Boolean ascOrder) throws ControllerException {
         LOGGER.debug("id, count, ascOrder: {}, {}, {}", id, count, ascOrder);
-        List<Vehicle> vehicleList;
+        /*List<Vehicle> vehicleList;
         try {
             vehicleList = vehicleService.getVehicles(id, count, ascOrder);
         } catch (ServiceException e) {
             LOGGER.error("error: {}", e);
             throw new ControllerException(e.getMessage(), e);
         }
+        return ok(Json.toJson(vehicleList));*/
+        Vehicle vehicle = new Vehicle();
+        vehicle.id = 1;
+        vehicle.deleted = false;
+        vehicle.fuelConsumption = 15.3;
+        vehicle.fuelCost = 12000.0;
+        vehicle.fuelName = "Diesel";
+        vehicle.licensePlate = "1234-AB";
+        vehicle.productsConstraintValue = 1200.5;
+        vehicle.vehicleModel = "A123";
+        vehicle.vehicleProducer = "Man";
+        vehicle.vehicleType = "Refrigerator";
+        List<Vehicle> vehicleList = new ArrayList<>();
+        vehicleList.add(vehicle);
         return ok(Json.toJson(vehicleList));
     }
 
@@ -109,5 +124,10 @@ public class VehicleController {
             throw new ControllerException(e.getMessage(), e);
         }
         return ok(Json.toJson(updatedVehicle));
+    }
+
+    @Restrict({@Group("ADMIN")})
+    public Result deleteVehicles() throws ControllerException {
+        return null;
     }
 }

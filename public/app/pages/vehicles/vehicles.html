@@ -1,0 +1,140 @@
+<div class="row">
+    <div class="col-sm-offset-9">
+        <button type="button" id="addButton" class="btn btn-info" title="Add vehicle" data-bind="click: addVehicle">
+            <span class="glyphicon glyphicon-plus"></span> Add
+        </button>
+        <button type="button" class="btn btn-success" title="Edit vehicle">
+            <span class="glyphicon glyphicon-pencil"></span> Edit
+        </button>
+        <button type="button" id="removeButton" class="btn btn-danger" title="Delete vehicle" data-bind="click: deleteVehicles">
+            <span class="glyphicon glyphicon-trash"></span> Delete
+        </button>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-12">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th><input class="selectAll" type="checkbox" data-bind="checked: allChecked" id="selectAllCheckbox"></th>
+                    <th>Model</th>
+                    <th>Fuel type/consumption</th>
+                    <th>Products constraint</th>
+                </tr>
+            </thead>
+            <tbody data-bind="foreach: vehicles">
+                <tr>
+                    <td><input class="idCheck" type="checkbox" data-bind="checked: $parent.checkedVehicles, attr: { value: id }"/></td>
+                    <td>
+                        <a data-bind="text: ko.computed(function() {return vehicleProducer + ' ' + vehicleModel; }),
+                                           click: $parent.onLink, attr: { value: id } "></a>
+                    </td>
+                    <td class="link" data-bind="text: ko.computed(function() {return fuelName + '/' + fuelConsumption + ' liters'; })"></td>
+                    <td class="link" data-bind="text: productsConstraintValue + ' kg'"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Pagination -->
+<div class="row text-center">
+    <div class="col-lg-12">
+        <ul class="pager">
+            <li id="previousPage" data-bind="css: { disabled: hasPreviousPage() == false}, click: previousPage"><a>Previous</a></li>
+            <li id="nextPage" data-bind="css: { disabled: hasNextPage() == false}, click: nextPage"><a>Next</a></li>
+        </ul>
+    </div>
+</div>
+
+
+<!----------- Modal-dialog ----------->
+
+<div id="vehicleModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Change vehicle</h4>
+            </div>
+            <div class="modal-body form-horizontal">
+                <div class="form-group">
+                    <label class="control-label col-md-3" for="vehicleProducer">Producer*:</label>
+
+                    <div class="col-md-9">
+                        <input type="text" class="form-control" id="vehicleProducer"
+                               data-bind="value : edit().vehicleProducer"
+                               placeholder="Enter producer" maxlength="250">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-md-3" for="vehicleModel">Model*:</label>
+
+                    <div class="col-md-9">
+                        <input type="text" class="form-control" id="vehicleModel"
+                               data-bind="value :  edit().vehicleModel"
+                               placeholder="Enter model" maxlength="250">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-md-3" for="licensePlate">License plate*:</label>
+
+                    <div class="col-md-9">
+                        <input type="text" class="form-control" id="licensePlate"
+                               data-bind="value :  edit().licensePlate"
+                               placeholder="Enter license plate" maxlength="250">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-md-3" for="productsConstraint">Products constraint*:</label>
+
+                    <div class="col-md-9">
+                        <input type="text" class="form-control" id="productsConstraint"
+                               data-bind="value :  edit().productsConstraintValue"
+                               placeholder="Enter products constraint" maxlength="250">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-md-3" for="fuelName">Fuel name*:</label>
+
+                    <div class="col-md-9">
+                        <input type="text" class="form-control" id="fuelName"
+                               data-bind="value :  edit().fuelName"
+                               placeholder="Enter fuel name" maxlength="250">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-md-3" for="fuelConsumption">Fuel consumption*:</label>
+
+                    <div class="col-md-9">
+                        <input type="text" class="form-control" id="fuelConsumption"
+                               data-bind="value :  edit().fuelConsumption"
+                               placeholder="Enter fuel consumption" maxlength="250">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-md-3" for="vehicleType" >Vehicle type*:</label>
+                    <div class="col-sm-9">
+                        <select id="vehicleType" name="role" class="form-control"
+                                data-bind="
+                                    options: vehicleTypes,
+                                    value: edit().vehicleType,
+                                    selectedOptions: selectedType,
+                                    valueAllowUnset: false"></select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal"  data-bind="click: updateVehicle">Update</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+
