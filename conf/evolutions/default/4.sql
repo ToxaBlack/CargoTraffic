@@ -43,9 +43,10 @@ CREATE TABLE `cargo_traffic`.`product_in_packing_list` (
   `product_id` INT(11) UNSIGNED NOT NULL ,
   `price` INT(11) NULL ,
   `count` INT(11) NULL ,
+  `status` ENUM('ACCEPTED','VERIFICATION_COMPLETED','DELIVERED','LOST'),
   `deleted` BIT(1) NULL DEFAULT FALSE ,
   PRIMARY KEY (`id`)  COMMENT '',
-  INDEX `packing_list_idx` (`packing_list_id` ASC)  ,
+  INDEX `packing_list_idx` (`packing_list_id` ASC) ,
   INDEX `product_idx` (`product_id` ASC) ,
   FOREIGN KEY (`packing_list_id`)
   REFERENCES `cargo_traffic`.`packing_list` (`id`)
