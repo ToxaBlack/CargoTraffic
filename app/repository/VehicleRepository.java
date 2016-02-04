@@ -1,12 +1,17 @@
 package repository;
 
+import models.Company;
 import models.Vehicle;
+import models.VehicleFuel;
+import models.VehicleType;
 import play.Logger;
 import play.db.jpa.JPA;
 
 import javax.persistence.EntityManager;
+import javax.persistence.Query;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -18,23 +23,24 @@ public class VehicleRepository {
 
 
     public List<Vehicle> getVehicles(long id, int count, boolean ascOrder, long companyId) {
-        LOGGER.debug("Get page: {}, {}, {}", id, count, ascOrder);
+        LOGGER.debug("Get vehicles: {}, {}, {}", id, count, ascOrder);
         EntityManager em = JPA.em();
 
-        Vehicle vehicle = new Vehicle();
-        vehicle.id = 1;
-        vehicle.deleted = false;
-        vehicle.fuelConsumption = 15.3;
-        vehicle.fuelCost = 12000.0;
-        vehicle.fuelName = "Diesel";
-        vehicle.licensePlate = "1234-AB";
-        vehicle.productsConstraintValue = 1200.5;
-        vehicle.vehicleModel = "A123";
-        vehicle.vehicleProducer = "Man";
-        vehicle.vehicleType = "Refrigerator";
-        List<Vehicle> vehicleList = new ArrayList<>();
-        vehicleList.add(vehicle);
-        return vehicleList;
+        StringBuilder stringBuilder = new StringBuilder("SELECT v FROM Vehicle v LEFT JOIN FETCH v.vehicleFuel " +
+                "LEFT JOIN FETCH v.vehicleType LEFT JOIN FETCH v.company WHERE ");
+        if (ascOrder) {
+            stringBuilder.append("v.id >= ? AND v.company.id = ? ORDER BY v.id ASC");
+        } else {
+            stringBuilder.append("v.id < ?  AND v.company.id = ? ORDER BY v.id DESC");
+        }
+        Query query = em.createQuery(stringBuilder.toString());
+        query.setParameter(1, id);
+        query.setParameter(2, companyId);
+        query.setMaxResults(count);
+        List<Vehicle> vehicles = query.getResultList();
+        if (!ascOrder)
+            Collections.reverse(vehicles);
+        return vehicles;
     }
 
     public Vehicle updateVehicle(Vehicle vehicle) {
