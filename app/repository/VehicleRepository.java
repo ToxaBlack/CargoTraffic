@@ -1,14 +1,12 @@
 package repository;
 
-import models.Company;
 import models.Vehicle;
 import play.Logger;
 import play.db.jpa.JPA;
 
 import javax.persistence.EntityManager;
-import javax.persistence.Query;
+import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -23,10 +21,23 @@ public class VehicleRepository {
         LOGGER.debug("Get page: {}, {}, {}", id, count, ascOrder);
         EntityManager em = JPA.em();
 
-        return null;
+        Vehicle vehicle = new Vehicle();
+        vehicle.id = 1;
+        vehicle.deleted = false;
+        vehicle.fuelConsumption = 15.3;
+        vehicle.fuelCost = 12000.0;
+        vehicle.fuelName = "Diesel";
+        vehicle.licensePlate = "1234-AB";
+        vehicle.productsConstraintValue = 1200.5;
+        vehicle.vehicleModel = "A123";
+        vehicle.vehicleProducer = "Man";
+        vehicle.vehicleType = "Refrigerator";
+        List<Vehicle> vehicleList = new ArrayList<>();
+        vehicleList.add(vehicle);
+        return vehicleList;
     }
 
-    public Vehicle updateVehicle(Vehicle vehicle, long companyId) {
+    public Vehicle updateVehicle(Vehicle vehicle) {
         LOGGER.debug("Update vehicle: {}", vehicle.licensePlate);
         EntityManager em = JPA.em();
         return null;
@@ -38,5 +49,11 @@ public class VehicleRepository {
         em.persist(vehicle);
         em.refresh(vehicle);
         return vehicle;
+    }
+
+    public Vehicle deleteVehicles(List<Long> vehicleIds) {
+        LOGGER.debug("Delete vehicles: {}", Arrays.toString(vehicleIds.toArray()));
+        EntityManager em = JPA.em();
+        return null;
     }
 }

@@ -8,6 +8,7 @@ import play.mvc.Http;
 import repository.VehicleRepository;
 
 import javax.inject.Inject;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -52,12 +53,20 @@ public class VehicleService {
         User oldUser = (User) Http.Context.current().args.get("user");
         LOGGER.debug("API update vehicle: {}, {}", oldUser.toString(), vehicle.licensePlate);
         try {
-            return JPA.withTransaction(() -> {
-                User user = (User) Http.Context.current().args.get("user");
-                return vehicleRepository.updateVehicle(vehicle, user.company.id);
-            });
+            return JPA.withTransaction(() -> vehicleRepository.updateVehicle(vehicle));
         } catch (Throwable throwable) {
             LOGGER.error("Update vehicle error: {}", throwable);
+            throw new ServiceException(throwable.getMessage(), throwable);
+        }
+    }
+
+    public Vehicle deleteVehicles(List<Long> vehicleIds) throws ServiceException {
+        User oldUser = (User) Http.Context.current().args.get("user");
+        LOGGER.debug("API delete vehicles: {}, {}", oldUser.toString(), Arrays.toString(vehicleIds.toArray()));
+        try {
+            return JPA.withTransaction(() -> vehicleRepository.deleteVehicles(vehicleIds));
+        } catch (Throwable throwable) {
+            LOGGER.error("Delete vehicles error: {}", throwable);
             throw new ServiceException(throwable.getMessage(), throwable);
         }
     }

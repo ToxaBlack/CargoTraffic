@@ -4,6 +4,7 @@ import be.objectify.deadbolt.java.actions.Group;
 import be.objectify.deadbolt.java.actions.Restrict;
 import be.objectify.deadbolt.java.actions.SubjectPresent;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ArrayNode;
 import models.User;
 import models.Vehicle;
 import play.Logger;
@@ -15,9 +16,7 @@ import service.ServiceException;
 import service.VehicleService;
 
 import javax.inject.Inject;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 import static play.mvc.Controller.request;
 import static play.mvc.Results.badRequest;
@@ -38,27 +37,13 @@ public class VehiclesController {
     @Restrict({@Group("ADMIN")})
     public Result getVehicles(Long id, Integer count, Boolean ascOrder) throws ControllerException {
         LOGGER.debug("id, count, ascOrder: {}, {}, {}", id, count, ascOrder);
-        /*List<Vehicle> vehicleList;
+        List<Vehicle> vehicleList;
         try {
             vehicleList = vehicleService.getVehicles(id, count, ascOrder);
         } catch (ServiceException e) {
             LOGGER.error("error: {}", e);
             throw new ControllerException(e.getMessage(), e);
         }
-        return ok(Json.toJson(vehicleList));*/
-        Vehicle vehicle = new Vehicle();
-        vehicle.id = 1;
-        vehicle.deleted = false;
-        vehicle.fuelConsumption = 15.3;
-        vehicle.fuelCost = 12000.0;
-        vehicle.fuelName = "Diesel";
-        vehicle.licensePlate = "1234-AB";
-        vehicle.productsConstraintValue = 1200.5;
-        vehicle.vehicleModel = "A123";
-        vehicle.vehicleProducer = "Man";
-        vehicle.vehicleType = "Refrigerator";
-        List<Vehicle> vehicleList = new ArrayList<>();
-        vehicleList.add(vehicle);
         return ok(Json.toJson(vehicleList));
     }
 
@@ -128,6 +113,24 @@ public class VehiclesController {
 
     @Restrict({@Group("ADMIN")})
     public Result deleteVehicles() throws ControllerException {
-        return null;
+        JsonNode json = request().body().asJson();
+        if (Objects.isNull(json)) {
+            LOGGER.debug("Expecting Json data");
+            return badRequest("Expecting Json data");
+        }
+        ArrayNode vehicleIdsNode = (ArrayNode) json;
+        Iterator<JsonNode> iterator = vehicleIdsNode.elements();
+        List<Long> vehicleIds = new ArrayList<>();
+        while (iterator.hasNext()) {
+            vehicleIds.add(iterator.next().asLong());
+        }
+        LOGGER.debug("Delete vehicles id: {}", Arrays.toString(vehicleIds.toArray()));
+        try {
+            vehicleService.deleteVehicles(vehicleIds);
+        } catch (ServiceException e) {
+            LOGGER.error("error: {}", e);
+            throw new ControllerException(e.getMessage(), e);
+        }
+        return ok();
     }
 }
