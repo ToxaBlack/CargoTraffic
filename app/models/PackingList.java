@@ -1,6 +1,6 @@
 package models;
 
-import models.enums.PackingListStatus;
+import models.statuses.PackingListStatus;
 import play.data.validation.Constraints;
 
 import javax.persistence.*;

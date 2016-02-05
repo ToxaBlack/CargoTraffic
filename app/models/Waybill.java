@@ -1,6 +1,6 @@
 package models;
 
-import models.enums.WaybillStatus;
+import models.statuses.WaybillStatus;
 import play.data.validation.Constraints;
 
 import javax.persistence.*;
