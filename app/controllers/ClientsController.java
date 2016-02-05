@@ -94,6 +94,7 @@ public class ClientsController extends Controller {
         while (iterator.hasNext()) {
             clientIds.add(iterator.next().asLong());
         }
+        LOGGER.debug("Lock clients id: {}", Arrays.toString(clientIds.toArray()));
         try {
             companyService.lockCompanies(clientIds);
         } catch (ServiceException e) {
@@ -117,6 +118,7 @@ public class ClientsController extends Controller {
         while (iterator.hasNext()) {
             clientIds.add(iterator.next().asLong());
         }
+        LOGGER.debug("Unlock clients id: {}", Arrays.toString(clientIds.toArray()));
         try {
             companyService.unlockCompanies(clientIds);
         } catch (ServiceException e) {
