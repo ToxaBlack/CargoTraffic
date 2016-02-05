@@ -1,10 +1,7 @@
 <div class="row">
     <div class="col-sm-offset-9">
-        <button type="button" id="addButton" class="btn btn-info" title="Add vehicle" data-bind="click: addVehicle">
+        <button type="button" id="addButton" class="btn btn-info" title="Add vehicle" data-bind="click: addVehicleDialog">
             <span class="glyphicon glyphicon-plus"></span> Add
-        </button>
-        <button type="button" class="btn btn-success" title="Edit vehicle">
-            <span class="glyphicon glyphicon-pencil"></span> Edit
         </button>
         <button type="button" id="removeButton" class="btn btn-danger" title="Delete vehicle" data-bind="click: deleteVehicles">
             <span class="glyphicon glyphicon-trash"></span> Delete
@@ -65,7 +62,7 @@
 
                     <div class="col-md-9">
                         <input type="text" class="form-control" id="vehicleProducer"
-                               data-bind="value : edit().vehicleProducer"
+                               data-bind="value : modalDialogVehicle().vehicleProducer"
                                placeholder="Enter producer" maxlength="250">
                     </div>
                 </div>
@@ -74,7 +71,7 @@
 
                     <div class="col-md-9">
                         <input type="text" class="form-control" id="vehicleModel"
-                               data-bind="value :  edit().vehicleModel"
+                               data-bind="value :  modalDialogVehicle().vehicleModel"
                                placeholder="Enter model" maxlength="250">
                     </div>
                 </div>
@@ -83,7 +80,7 @@
 
                     <div class="col-md-9">
                         <input type="text" class="form-control" id="licensePlate"
-                               data-bind="value :  edit().licensePlate"
+                               data-bind="value :  modalDialogVehicle().licensePlate"
                                placeholder="Enter license plate" maxlength="250">
                     </div>
                 </div>
@@ -92,7 +89,7 @@
 
                     <div class="col-md-9">
                         <input type="text" class="form-control" id="productsConstraint"
-                               data-bind="value :  edit().productsConstraintValue"
+                               data-bind="value :  modalDialogVehicle().productsConstraintValue"
                                placeholder="Enter products constraint" maxlength="250">
                     </div>
                 </div>
@@ -101,7 +98,7 @@
 
                     <div class="col-md-9">
                         <input type="text" class="form-control" id="fuelName"
-                               data-bind="value :  edit().vehicleFuel.fuelName"
+                               data-bind="value :  modalDialogVehicle().vehicleFuel.fuelName"
                                placeholder="Enter fuel name" maxlength="250">
                     </div>
                 </div>
@@ -110,17 +107,17 @@
 
                     <div class="col-md-9">
                         <input type="text" class="form-control" id="fuelConsumption"
-                               data-bind="value :  edit().fuelConsumption"
+                               data-bind="value :  modalDialogVehicle().fuelConsumption"
                                placeholder="Enter fuel consumption" maxlength="250">
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="control-label col-md-3" for="vehicleType" >Vehicle type*:</label><br/>
+                    <label class="control-label col-md-3" for="vehicleType" >Vehicle type*:</label>
                     <div class="col-sm-9">
                         <select id="vehicleType" name="role" class="form-control"
                                 data-bind="
                                     options: vehicleTypes,
-                                    value: edit().vehicleType.vehicleType,
+                                    value: modalDialogVehicle().vehicleType.vehicleType,
                                     selectedOptions: selectedType,
                                     valueAllowUnset: false"></select>
                     </div>
@@ -128,7 +125,7 @@
             </div>
 
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal"  data-bind="click: updateVehicle">Update</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal"  data-bind="text: submitDialogButtonName, click: dialogSubmit"></button>
                 <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
             </div>
         </div>
