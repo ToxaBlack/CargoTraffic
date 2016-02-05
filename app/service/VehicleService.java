@@ -2,9 +2,11 @@ package service;
 
 import models.User;
 import models.Vehicle;
+import models.VehicleType;
 import play.Logger;
 import play.db.jpa.JPA;
 import play.mvc.Http;
+import repository.CompanyRepository;
 import repository.VehicleRepository;
 
 import javax.inject.Inject;
@@ -20,9 +22,11 @@ public class VehicleService {
 
     @Inject
     VehicleRepository vehicleRepository;
+    @Inject
+    CompanyRepository companyRepository;
 
     public List<Vehicle> getVehicles(Long id, Integer count, Boolean ascOrder) throws ServiceException {
-        LOGGER.debug("id, count, ascOrder: {}, {}, {}", id, count, ascOrder);
+        LOGGER.debug("Get vehicles id, count, ascOrder: {}, {}, {}", id, count, ascOrder);
         try {
             return JPA.withTransaction(() -> {
                 User user = (User) Http.Context.current().args.get("user");
@@ -40,7 +44,10 @@ public class VehicleService {
         try {
             return JPA.withTransaction(() -> {
                 User user = (User) Http.Context.current().args.get("user");
-                return vehicleRepository.addVehicle(vehicle, user.company.id);
+                vehicle.vehicleType = vehicleRepository.getVehicleTypeByName(vehicle.vehicleType.vehicleType);
+                vehicle.vehicleFuel = vehicleRepository.getVehicleFuelByName(vehicle.vehicleFuel.fuelName);
+                vehicle.company = companyRepository.findCompanyByName(user.company.name);
+                return vehicleRepository.addVehicle(vehicle);
             });
         } catch (Throwable throwable) {
             LOGGER.error("Adding vehicle error: {}", throwable);
@@ -53,18 +60,22 @@ public class VehicleService {
         User oldUser = (User) Http.Context.current().args.get("user");
         LOGGER.debug("API update vehicle: {}, {}", oldUser.toString(), vehicle.licensePlate);
         try {
-            return JPA.withTransaction(() -> vehicleRepository.updateVehicle(vehicle));
+            return JPA.withTransaction(() -> {
+                vehicle.vehicleType = vehicleRepository.getVehicleTypeByName(vehicle.vehicleType.vehicleType);
+                vehicle.vehicleFuel = vehicleRepository.getVehicleFuelByName(vehicle.vehicleFuel.fuelName);
+                return vehicleRepository.updateVehicle(vehicle);
+            });
         } catch (Throwable throwable) {
             LOGGER.error("Update vehicle error: {}", throwable);
             throw new ServiceException(throwable.getMessage(), throwable);
         }
     }
 
-    public Vehicle deleteVehicles(List<Long> vehicleIds) throws ServiceException {
+    public void deleteVehicles(List<Long> vehicleIds) throws ServiceException {
         User oldUser = (User) Http.Context.current().args.get("user");
         LOGGER.debug("API delete vehicles: {}, {}", oldUser.toString(), Arrays.toString(vehicleIds.toArray()));
         try {
-            return JPA.withTransaction(() -> vehicleRepository.deleteVehicles(vehicleIds));
+            JPA.withTransaction(() -> vehicleRepository.deleteVehicles(vehicleIds));
         } catch (Throwable throwable) {
             LOGGER.error("Delete vehicles error: {}", throwable);
             throw new ServiceException(throwable.getMessage(), throwable);
