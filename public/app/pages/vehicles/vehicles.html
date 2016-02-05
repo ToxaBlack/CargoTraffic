@@ -94,12 +94,16 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="control-label col-md-3" for="fuelName">Fuel name*:</label>
-
-                    <div class="col-md-9">
-                        <input type="text" class="form-control" id="fuelName"
-                               data-bind="value :  modalDialogVehicle().vehicleFuel.fuelName"
-                               placeholder="Enter fuel name" maxlength="250">
+                    <div>
+                        <label class="control-label col-md-3" for="fuelName">Fuel name*:</label>
+                    </div>
+                    <div class="col-sm-9">
+                        <select id="fuelName" name="role" class="form-control"
+                                data-bind="
+                                    options: vehicleFuels,
+                                    value: modalDialogVehicle().vehicleFuel.fuelName,
+                                    selectedOptions: selectedFuel,
+                                    valueAllowUnset: false"></select>
                     </div>
                 </div>
                 <div class="form-group">
@@ -112,7 +116,9 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="control-label col-md-3" for="vehicleType" >Vehicle type*:</label>
+                    <div>
+                        <label class="control-label col-md-3" for="vehicleType" >Vehicle type*:</label>
+                    </div>
                     <div class="col-sm-9">
                         <select id="vehicleType" name="role" class="form-control"
                                 data-bind="

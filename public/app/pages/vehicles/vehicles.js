@@ -10,6 +10,8 @@ define(['app/service/vehiclesService','app/service/navService', "knockout", 'app
             self.hasPreviousPage = ko.observable(false);
             self.VEHICLES_PER_PAGE = 10;
             self.modalDialogVehicle =  ko.observable({'vehicleFuel':{}, 'vehicleType':{}, 'company':{}});
+            self.vehicleFuels = ko.observableArray(['Diesel','Bio-diesel','Petrol-95', 'Petrol-98']);
+            self.selectedFuel = ko.observable();
             self.vehicleTypes = ko.observableArray(['Box','Refrigerator','Tank']);
             self.selectedType = ko.observable();
             self.submitDialogButtonName = ko.observable("");
@@ -121,6 +123,7 @@ define(['app/service/vehiclesService','app/service/navService', "knockout", 'app
             self.addVehicleDialog = function () {
                 self.modalDialogVehicle({'vehicleFuel':{}, 'vehicleType':{}, 'company':{}});
                 self.selectedType(self.vehicleTypes()[0]);
+                self.selectedFuel(self.vehicleFuels()[0]);
                 self.submitDialogButtonName("Add");
                 $('#vehicleModal').modal();
             };
@@ -189,6 +192,7 @@ define(['app/service/vehiclesService','app/service/navService', "knockout", 'app
                         self.vehicles(auxiliaryArray);
                         self.modalDialogVehicle({'vehicleFuel':{}, 'vehicleType':{}, 'company':{}});
                         self.selectedType(self.vehicleTypes()[0]);
+                        self.selectedFuel(self.vehicleFuels()[0]);
                     },
                     function (data) {
                         switch (data.status) {
@@ -212,6 +216,7 @@ define(['app/service/vehiclesService','app/service/navService', "knockout", 'app
                         }
                         self.modalDialogVehicle({'vehicleFuel':{}, 'vehicleType':{}, 'company':{}});
                         self.selectedType(self.vehicleTypes()[0]);
+                        self.selectedFuel(self.vehicleFuels()[0]);
                     },
                     function (data) {
                         switch (data.status) {
