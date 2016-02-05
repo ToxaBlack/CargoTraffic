@@ -126,8 +126,6 @@ define(['app/service/vehiclesService','app/service/navService', "knockout", 'app
             };
 
             self.deleteVehicles = function () {
-                console.log(self.checkedVehicles());
-                console.log(JSON.stringify(self.checkedVehicles()));
                 vehiclesService.remove(
                     self.checkedVehicles(),
                     function () {
@@ -135,6 +133,7 @@ define(['app/service/vehiclesService','app/service/navService', "knockout", 'app
                         $.each(tempArray, function (index, element) {
                             if ($.inArray(element.id.toString(), self.checkedVehicles()) !== -1) {
                                 tempArray.splice(index, 1);
+                                return;
                             }
                         });
                         self.vehicles([]);
@@ -206,7 +205,7 @@ define(['app/service/vehiclesService','app/service/navService', "knockout", 'app
                 vehiclesService.add(
                     self.modalDialogVehicle(),
                     function (vehicle) {
-                        if (self.vehicles() < self.VEHICLES_PER_PAGE) {
+                        if (self.vehicles().length < self.VEHICLES_PER_PAGE) {
                             self.vehicles.push(vehicle);
                         } else {
                             self.hasNextPage(true);
