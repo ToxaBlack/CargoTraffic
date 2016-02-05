@@ -47,6 +47,7 @@ public class VehicleService {
                 vehicle.vehicleType = vehicleRepository.getVehicleTypeByName(vehicle.vehicleType.vehicleType);
                 vehicle.vehicleFuel = vehicleRepository.getVehicleFuelByName(vehicle.vehicleFuel.fuelName);
                 vehicle.company = companyRepository.findCompanyByName(user.company.name);
+                vehicle.deleted = false;
                 return vehicleRepository.addVehicle(vehicle);
             });
         } catch (Throwable throwable) {
