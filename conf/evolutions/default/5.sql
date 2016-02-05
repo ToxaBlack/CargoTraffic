@@ -50,9 +50,9 @@ INSERT INTO `vehicle_fuel` (`name`, `cost`) VALUES
   ("Petrol-95", "20.45"),
   ("Petrol-98", "21.23");
 
-INSERT INTO `vehicle` (`license_plate`, `products_weight`, `fuel_consumption`, `company_id`, `vehicle_type_id`, `vehicle_fuel_id`) VALUES
-  ("1234-AB", 1234.3, 15.3, 1, 2, 3),
-  ("6543-QW", 2345.6, 20.5, 1, 2, 1),
-  ("4567-RT", 3456.75, 17.8, 2, 3, 4);
+INSERT INTO `vehicle` (`vehicle_producer`, `vehicle_model`, `license_plate`, `products_constraint`, `fuel_consumption`, `company_id`, `vehicle_type_id`, `vehicle_fuel_id`, `deleted`) VALUES
+  ("Man", "A123", "1234-AB", 1234.3, 15.3, 1, 2, 3, 0),
+  ("Man", "B234", "6543-QW", 2345.6, 20.5, 1, 2, 1, 0),
+  ("Man", "C345", "4567-RT", 3456.75, 17.8, 2, 3, 4, 0);
 
 # --- !Downs
