@@ -9,7 +9,7 @@ define(['app/service/vehiclesService','app/service/navService', "knockout", 'app
             self.hasNextPage = ko.observable(false);
             self.hasPreviousPage = ko.observable(false);
             self.VEHICLES_PER_PAGE = 10;
-            self.edit =  ko.observableArray([]);
+            self.edit =  ko.observable({'vehicleFuel':{}, 'vehicleType':{}, 'company':{}});
             self.vehicleTypes = ko.observableArray(['Box','Refrigerator','Tank']);
             self.selectedType = ko.observable();
 
@@ -23,6 +23,7 @@ define(['app/service/vehiclesService','app/service/navService', "knockout", 'app
 
             vehiclesService.list(1, self.VEHICLES_PER_PAGE + 1, true,
                 function (data) {
+                    console.log(data[0].vehicleFuel.fuelName);
                     if (data.length === self.VEHICLES_PER_PAGE + 1) {
                         self.hasNextPage(true);
                         data.pop();
@@ -118,7 +119,7 @@ define(['app/service/vehiclesService','app/service/navService', "knockout", 'app
             });
 
             self.addVehicle = function () {
-                self.edit([]);
+                self.edit({'vehicleFuel':{}, 'vehicleType':{}, 'company':{}});
                 self.selectedType(self.vehicleTypes()[0]);
                 $('#vehicleModal').modal();
             };
@@ -163,7 +164,7 @@ define(['app/service/vehiclesService','app/service/navService', "knockout", 'app
                 vehiclesService.update(
                     self.edit(),
                     function (data) {
-                        self.edit([]);
+                        self.edit({'vehicleFuel':{}, 'vehicleType':{}, 'company':{}});
                         self.selectedType(self.vehicleTypes()[0]);
                     },
                     function (data) {

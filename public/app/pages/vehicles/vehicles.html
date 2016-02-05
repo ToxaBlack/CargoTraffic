@@ -29,7 +29,7 @@
                         <a data-bind="text: ko.computed(function() {return vehicleProducer + ' ' + vehicleModel; }),
                                            click: $parent.onLink, attr: { value: id } "></a>
                     </td>
-                    <td class="link" data-bind="text: ko.computed(function() {return fuelName + '/' + fuelConsumption + ' liters'; })"></td>
+                    <td class="link" data-bind="text: ko.computed(function() {return vehicleFuel.fuelName + '/' + fuelConsumption + ' liters'; })"></td>
                     <td class="link" data-bind="text: productsConstraintValue + ' kg'"></td>
                 </tr>
             </tbody>
@@ -101,7 +101,7 @@
 
                     <div class="col-md-9">
                         <input type="text" class="form-control" id="fuelName"
-                               data-bind="value :  edit().fuelName"
+                               data-bind="value :  edit().vehicleFuel.fuelName"
                                placeholder="Enter fuel name" maxlength="250">
                     </div>
                 </div>
@@ -120,7 +120,7 @@
                         <select id="vehicleType" name="role" class="form-control"
                                 data-bind="
                                     options: vehicleTypes,
-                                    value: edit().vehicleType,
+                                    value: edit().vehicleType.vehicleType,
                                     selectedOptions: selectedType,
                                     valueAllowUnset: false"></select>
                     </div>
