@@ -27,9 +27,9 @@ public class VehicleRepository {
         StringBuilder stringBuilder = new StringBuilder("SELECT v FROM Vehicle v LEFT JOIN FETCH v.vehicleFuel " +
                 "LEFT JOIN FETCH v.vehicleType LEFT JOIN FETCH v.company WHERE ");
         if (ascOrder) {
-            stringBuilder.append("v.id >= ? AND v.company.id = ? ORDER BY v.id ASC");
+            stringBuilder.append("v.id >= ? AND v.company.id = ? AND v.deleted = false ORDER BY v.id ASC");
         } else {
-            stringBuilder.append("v.id < ?  AND v.company.id = ? ORDER BY v.id DESC");
+            stringBuilder.append("v.id < ?  AND v.company.id = ? AND v.deleted = false ORDER BY v.id DESC");
         }
         Query query = em.createQuery(stringBuilder.toString());
         query.setParameter(1, id);
