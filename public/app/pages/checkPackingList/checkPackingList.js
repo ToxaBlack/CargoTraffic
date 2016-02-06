@@ -1,4 +1,4 @@
-define(['app/service/navService', 'app/service/barService', "knockout", 'jquery',"text!./ttnForManager.html"],
+define(['app/service/navService', 'app/service/barService', "knockout", 'jquery',"text!./checkPackingList.html"],
 
     function (navService, bar, ko, $,ttnTemplate) {
         "use strict";
