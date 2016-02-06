@@ -57,44 +57,44 @@
         <!-- Modal content-->
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <button type="button" class="close" data-bind="click: cancel">&times;</button>
                 <h4 class="modal-title">Change password</h4>
             </div>
-            <div class="modal-body form-horizontal">
+            <form id="passwordForm" class="modal-body form-horizontal">
                 <div class="form-group">
                     <label class="control-label col-md-3" for="old-password">Old password*:</label>
 
                     <div class="col-md-9">
-                        <input type="password" class="form-control" id="old-password"
+                        <input type="password" class="form-control" id="old-password" name="oldPassword"
                                data-bind="value : oldPassword"
                                maxlength="40" required>
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label class="control-label col-md-3" for="password">New password*:</label>
+                    <label class="control-label col-md-3" for="new-password">New password*:</label>
 
                     <div class="col-md-9">
-                        <input type="password" class="form-control" id="password"
+                        <input type="password" class="form-control" id="new-password" name="newPassword"
                                data-bind="value : newPassword"
                                maxlength="40" required>
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label class="control-label col-md-3" for="confirm-password">Confirm new password*:</label>
+                    <label class="control-label col-md-3" for="confirmPassword">Confirm new password*:</label>
 
                     <div class="col-md-9">
-                        <input type="password" class="form-control" id="confirm-password"
+                        <input type="password" class="form-control" id="confirmPassword" name="confirmPassword"
                                data-bind="value : confirmPassword"
                                maxlength="40" required>
                     </div>
                 </div>
-            </div>
+            </form>
 
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-bind="click: updatePassword" data-dismiss="modal">Update</button>
-                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-default" data-bind="click: updatePassword">Update</button>
+                <button type="button" class="btn btn-default" data-bind="click: cancel">Cancel</button>
             </div>
         </div>
 
@@ -108,19 +108,10 @@
         <!-- Modal content-->
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">Change password</h4>
+                <button type="button" class="close" data-bind="click: cancel">&times;</button>
+                <h4 class="modal-title">Change account</h4>
             </div>
-            <div class="modal-body form-horizontal">
-                <div class="form-group">
-                    <label class="control-label col-md-3" for="username">Username*:</label>
-
-                    <div class="col-md-9">
-                        <input type="text" class="form-control" id="username"
-                               data-bind="value : account().username"
-                               placeholder="Enter username" maxlength="40" required>
-                    </div>
-                </div>
+            <form id="accountForm"  class="modal-body form-horizontal">
                 <div class="form-group">
                     <label class="control-label col-md-3" for="name">Name:</label>
 
@@ -153,7 +144,7 @@
                         birth:</label>
 
                     <div class="col-md-9">
-                        <input type="text" class="form-control" id="birthDate"
+                        <input type="text" class="form-control" id="birthDate" name="birthDate"
                                data-bind="value : account().birthday"
                                placeholder="Enter date of birth yyyy-mm-dd">
                     </div>
@@ -162,7 +153,7 @@
                     <label class="control-label col-md-3" for="email">Email*:</label>
 
                     <div class="col-md-9">
-                        <input type="text" class="form-control" id="email"
+                        <input type="text" class="form-control" id="email" name="email"
                                data-bind="value : account().email"
                                placeholder="Enter email" maxlength="40" required>
                     </div>
@@ -213,11 +204,11 @@
                                placeholder="Enter zip" maxlength="40">
                     </div>
                 </div>
-            </div>
+            </form>
 
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-bind="click: updateAccount" data-dismiss="modal">Update</button>
-                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-default" data-bind="click: updateAccount">Update</button>
+                <button type="button" class="btn btn-default" data-bind="click: cancel">Cancel</button>
             </div>
         </div>
 
