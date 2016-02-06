@@ -36,7 +36,7 @@ public class VehiclesController {
 
     @Restrict({@Group("ADMIN")})
     public Result getVehicles(Long id, Integer count, Boolean ascOrder) throws ControllerException {
-        LOGGER.debug("id, count, ascOrder: {}, {}, {}", id, count, ascOrder);
+        LOGGER.debug("Get vehicles id, count, ascOrder: {}, {}, {}", id, count, ascOrder);
         List<Vehicle> vehicleList;
         try {
             vehicleList = vehicleService.getVehicles(id, count, ascOrder);
@@ -52,15 +52,10 @@ public class VehiclesController {
     public Result addVehicle() throws ControllerException {
         User oldUser = (User) Http.Context.current().args.get("user");
         LOGGER.debug("API add vehicle", oldUser.toString());
-        JsonNode json = request().body().asJson();
-        if (Objects.isNull(json)) {
+        JsonNode vehicleNode = request().body().asJson();
+        if (Objects.isNull(vehicleNode)) {
             LOGGER.debug("Expecting Json data");
             return badRequest("Expecting Json data");
-        }
-        JsonNode vehicleNode = json.findPath("vehicle");
-        if (Objects.isNull(vehicleNode)) {
-            LOGGER.debug("Incorrect Json format");
-            return badRequest("Incorrect Json format");
         }
         Vehicle vehicle;
         try {
@@ -84,15 +79,10 @@ public class VehiclesController {
     public Result updateVehicle() throws ControllerException {
         User oldUser = (User) Http.Context.current().args.get("user");
         LOGGER.debug("API update vehicle", oldUser.toString());
-        JsonNode json = request().body().asJson();
-        if (Objects.isNull(json)) {
+        JsonNode vehicleNode = request().body().asJson();
+        if (Objects.isNull(vehicleNode)) {
             LOGGER.debug("Expecting Json data");
             return badRequest("Expecting Json data");
-        }
-        JsonNode vehicleNode = json.findPath("vehicle");
-        if (Objects.isNull(vehicleNode)) {
-            LOGGER.debug("Incorrect Json format");
-            return badRequest("Incorrect Json format");
         }
         Vehicle vehicle;
         try {
@@ -101,18 +91,19 @@ public class VehiclesController {
             LOGGER.debug("Incorrect Json format");
             return badRequest("Incorrect Json format");
         }
-        Vehicle updatedVehicle;
         try {
-            updatedVehicle = vehicleService.updateVehicle(vehicle);
+            vehicleService.updateVehicle(vehicle);
         } catch (ServiceException e) {
             LOGGER.error("error: {}", e);
             throw new ControllerException(e.getMessage(), e);
         }
-        return ok(Json.toJson(updatedVehicle));
+        return ok(Json.toJson(vehicle));
     }
 
     @Restrict({@Group("ADMIN")})
     public Result deleteVehicles() throws ControllerException {
+        User oldUser = (User) Http.Context.current().args.get("user");
+        LOGGER.debug("API delete vehicle", oldUser.toString());
         JsonNode json = request().body().asJson();
         if (Objects.isNull(json)) {
             LOGGER.debug("Expecting Json data");

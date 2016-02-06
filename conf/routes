@@ -30,7 +30,7 @@ PUT         /api/employees/update      controllers.EmployeesController.updateEmp
 GET         /api/vehicles              controllers.VehiclesController.getVehicles(id :Long, vehicles :Integer, ascOrder :Boolean )
 POST        /api/vehicle               controllers.VehiclesController.addVehicle()
 PUT         /api/vehicle               controllers.VehiclesController.updateVehicle()
-DELETE      /api/vehicles              controllers.VehiclesController.deleteVehicles()
+PUT         /api/vehicles/delete       controllers.VehiclesController.deleteVehicles()
 # Map static resources from the /public folder to the /assets URL path
 GET         /assets/*file              controllers.Assets.versioned(path="/public", file: Asset)
 

@@ -1,7 +1,8 @@
-define(['app/service/startupService', 'app/service/navService', 'knockout', 'router', 'bootstrap'], function (startupService, navService, ko, router) {
-    "use strict";
+define(['app/service/startupService', 'app/service/navService', 'knockout', 'router', 'bootstrap', 'validation'],
+    function (startupService, navService, ko, router) {
+        "use strict";
 
-    ko.components.register('navbar', {require: 'app/components/navbar/navbar'});
+        ko.components.register('navbar', {require: 'app/components/navbar/navbar'});
 
     ko.components.register('login', {require: 'app/pages/login/login'});
     ko.components.register('account', {require: 'app/pages/account/account'});
@@ -19,24 +20,25 @@ define(['app/service/startupService', 'app/service/navService', 'knockout', 'rou
     ko.components.register('vehicles', {require: 'app/pages/vehicles/vehicles'});
 
 
-    var roles = ko.observableArray([]);
+        var roles = ko.observableArray([]);
 
+        startupService.init()
 
-    startupService.roles(
-        function (data) {
-            roles(data);
-            if (window.location.pathname === "/")
-                navService.navigateTo("account");
+        startupService.roles(
+            function (data) {
+                roles(data);
+                if (window.location.pathname === "/")
+                    navService.navigateTo("account");
 
-        }, function () {
-            if (window.location.pathname === "/")
-                navService.navigateTo("login");
-        }, function () {
-            ko.applyBindings({
-                route: router.currentRoute,
-                roles: roles
+            }, function () {
+                if (window.location.pathname === "/")
+                    navService.navigateTo("login");
+            }, function () {
+                ko.applyBindings({
+                    route: router.currentRoute,
+                    roles: roles
+                });
             });
-        });
 
 
-});
+    });

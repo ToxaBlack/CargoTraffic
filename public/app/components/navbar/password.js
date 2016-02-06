@@ -2,6 +2,9 @@ define(['app/service/accountService', 'app/service/navService', "knockout"],
     function (accountService, navService, ko) {
         "use strict";
 
+
+        var validator;
+
         function PasswordViewModel() {
             var self = this;
             self.oldPassword = ko.observable();
@@ -10,7 +13,9 @@ define(['app/service/accountService', 'app/service/navService', "knockout"],
             self.error = ko.observable();
 
             self.updatePassword = function () {
-                if (self.newPassword() === self.confirmPassword())
+                if (validate()) {
+                    $('#passwordModal').modal('hide');
+                    validator.resetForm();
                     accountService.updatePassword(self.oldPassword(), self.newPassword(),
                         function (data) {
                             navService.mainPage();
@@ -27,8 +32,30 @@ define(['app/service/accountService', 'app/service/navService', "knockout"],
                                     navService.navigateTo("error");
                             }
                         });
-                else self.error("Passwords don't match");
+                }
             };
+
+            self.cancel = function() {
+                $('#passwordModal').modal('hide');
+                if (validator) validator.resetForm();
+            };
+        }
+
+        function validate() {
+            validator = $('#passwordForm').validate({
+                rules: {
+                    confirmPassword: {
+                        equalTo: '#new-password'
+                    }
+                },
+                messages: {
+                    confirmPassword: {
+                        equalTo: "Please enter same password"
+                    }
+                }
+            });
+
+            return validator.form();
         }
 
         return new PasswordViewModel();
