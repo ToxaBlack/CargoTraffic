@@ -1,7 +1,7 @@
 <header class="navbar navbar-default">
     <div class="container-fluid">
         <div class="navbar-header">
-            <a href class="navbar-brand" data-bind="click: mainPage">Cargo Traffic</a>
+            <a role="button" class="navbar-brand" data-bind="click: mainPage">Cargo Traffic</a>
         </div>
         <div>
             <!-- ko if: $root.roles().length !==0  -->
@@ -38,10 +38,10 @@
                     <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
                        aria-expanded="true">Account<span class="caret"></span></a>
                     <ul class="dropdown-menu">
-                        <li><a href data-bind="click: showAccountModal">Change account</a></li>
-                        <li><a href data-bind="click: showPasswordModal">Change password</a></li>
+                        <li><a role="button" data-bind="click: showAccountModal">Change account</a></li>
+                        <li><a role="button" data-bind="click: showPasswordModal">Change password</a></li>
                         <li role="separator" class="divider"></li>
-                        <li><a href data-bind="click: logout">Logout</a></li>
+                        <li><a role="button" data-bind="click: logout">Logout</a></li>
                     </ul>
                 </li>
             </ul>
