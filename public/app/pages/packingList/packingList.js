@@ -11,16 +11,18 @@ define(['app/service/packingListService','app/service/navService' ,'app/service/
             self.price = price;
         }
 
-        function ttnViewModel() {
+        function packingViewModel() {
 
             bar.go(50);
             var self = this;
             self.units = ko.observableArray(["Kilogram","Liter","Square meter","Piece"]);
 
-            self.packingList = ko.observable({date:{}, to:{}, from:{}, products:[]});
+            self.packingList = ko.observable();
 
-            //self.products = ko.observableArray();
-            self.products = ko.observableArray([
+            self.packingList.date = new Date();
+            self.packingList.to = ko.observable({name:""});
+            self.packingList.from = ko.observable({name:""});
+            self.packingList.products = ko.observableArray([
                 new Goods("Конфеты 'Аленка'", 100,5),
                 new Goods("Хлеб 'Бородинский'", 500,3),
                 new Goods("Водка 'First Potemkin'", 250,1)
@@ -32,30 +34,27 @@ define(['app/service/packingListService','app/service/navService' ,'app/service/
                 context.$data.checkedWarehouses([]);
             };
 
-            self.to = ko.observable({name:""});
-            self.from = ko.observable({name:""});
-
             self.openModal = function (param) {
                 $('#warehouses-popup').modal("show");
                 self.warehousePoint = param ;
             };
 
             self.addGoods = function() {
-                self.products.push(new Goods());
+                self.packingList.products.push(new Goods());
             };
 
             self.removeGoods = function(goods) {
-                self.products.remove(goods)
+                self.packingList.products.remove(goods)
             };
 
             self.choose = function() {
                 var context = ko.contextFor($("#warehouses")[0]);
                 switch(self.warehousePoint) {
                     case 'from' :
-                        self.from(context.$data.getChosenWarehouse());
+                        self.packingList.from(context.$data.getChosenWarehouse());
                         break;
                     case 'to' :
-                        self.to(context.$data.getChosenWarehouse());
+                        self.packingList.to(context.$data.getChosenWarehouse());
                         break;
                     default: return false;
                 }
@@ -64,9 +63,9 @@ define(['app/service/packingListService','app/service/navService' ,'app/service/
             };
 
             self.create = function() {
-                alert(self.products()[3].unit);
+                alert(JSON.stringify( self.packingList.to() ));
                 //packingListService.save(
-                //    self.products(),
+                //    self.packingList(),
                 //    function (data) {
                 //        navService.navigateTo("account");
                 //    },
@@ -86,5 +85,5 @@ define(['app/service/packingListService','app/service/navService' ,'app/service/
             return self;
         }
 
-        return {viewModel: ttnViewModel, template: ttnTemplate};
+        return {viewModel: packingViewModel, template: ttnTemplate};
     });
