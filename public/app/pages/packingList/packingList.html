@@ -47,6 +47,7 @@
     </div>
 </div>
 
+<!-- ko if: packingList.products().length > 0-->
 <table class="table table-hover">
     <thead><tr>
         <th>Goods name</th><th>Quantity</th><th>Units</th><th>Price</th><th></th>
@@ -70,6 +71,7 @@
     </tr>
     </tbody>
 </table>
+<!-- /ko -->
 <button class="btn btn-default" data-bind="click: addGoods">Add goods</button>
 <hr>
 <div class="form-group">
