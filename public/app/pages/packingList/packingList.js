@@ -3,13 +3,13 @@ define(['app/service/packingListService','app/service/navService' ,'app/service/
     function (packingListService, navService ,bar, ko, $,ttnTemplate) {
         "use strict";
 
-        function Goods(name, quantity,price) {
+        function Goods() {
             var self = this;
-            self.name =  name;
-            self.quantity = quantity;
-            self.unit = null;
-            self.storage = null;
-            self.price = price;
+            self.name = ko.observable();
+            self.quantity = ko.observable();
+            self.unit = ko.observable();
+            self.storage = ko.observable();
+            self.price = ko.observable();
         }
 
         function packingViewModel() {
@@ -19,6 +19,17 @@ define(['app/service/packingListService','app/service/navService' ,'app/service/
             self.units = ko.observableArray(["Kilogram","Liter","Square meter","Pieces"]);
             self.packingList =  ko.observable({"issueDate":new Date(), "destinationWarehouse": ko.observable({name:""}),
                 "departureWarehouse":ko.observable({name:""}), "products":ko.observableArray()});
+
+            self.actionEnable = ko.computed(function() {
+                var flag = true;
+                ko.utils.arrayForEach(self.packingList().products(), function(item) {
+                    if(!(item.name() && item.quantity() && item.unit() && item.storage() && item.price()) ) {
+                        flag = false;
+                        return false;
+                    }
+                });
+                return flag;
+            }, this);
 
             self.closeDialog = function () {
                 $('#warehouses-popup').modal("hide");
