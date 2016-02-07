@@ -7,7 +7,7 @@ define(["app/utils/utils"],
                 utils.send(
                     "api/packingList",
                     "POST",
-                    JSON.stringify({"from": from, "to": to, "products": products, "date": date }),
+                    JSON.stringify({"departureWarehouse": from, "destinationWarehouse": to, "products": products, "issueDate": date }),
                     done,
                     error,
                     always
