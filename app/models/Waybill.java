@@ -23,11 +23,6 @@ public class Waybill {
 
     public Date arrivalDate;
 
-    @ManyToOne
-    public Warehouse departureWarehouse;
-
-    @ManyToOne
-    public Warehouse destinationWarehouse;
 
     @OneToOne
     public PackingList packingList;

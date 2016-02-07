@@ -19,7 +19,6 @@ public class PackingList {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     public long id;
 
-    @Constraints.Required
     public String listNumber;
 
     @Constraints.Required
@@ -28,20 +27,15 @@ public class PackingList {
     @ManyToOne
     public User dispatcher;
 
-    @Constraints.Required
-    public PackingListStatus status;
+    @ManyToOne
+    public Warehouse departureWarehouse;
 
+    @ManyToOne
+    public Warehouse destinationWarehouse;
+
+    public PackingListStatus status;
 
     @OneToMany(mappedBy = "packingList", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Set<ProductInPackingList> productsInPackingList;
 
-    /*@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinTable(name="product_in_packing_list",
-            joinColumns =
-                    {@JoinColumn(name="packing_list_id")},
-            inverseJoinColumns =
-                    {@JoinColumn(name="product_id")})
-    public Set<Product> products;
-
-*/
 }

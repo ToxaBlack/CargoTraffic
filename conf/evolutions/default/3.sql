@@ -7,9 +7,13 @@ CREATE TABLE IF NOT EXISTS `cargo_traffic`.`packing_list` (
   `number` VARCHAR(250) NOT NULL,
   `issue_date` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `dispatcher` INT(11) UNSIGNED NOT NULL,
+  `departure_warehouse` INT(11) UNSIGNED NOT NULL,
+  `destination_warehouse` INT(11) UNSIGNED NOT NULL,
   `status` VARCHAR(250) NULL DEFAULT NULL,
   `company_id` INT(11) UNSIGNED NOT NULL,
   PRIMARY KEY (`id`),
+  INDEX (`departure_warehouse` ASC),
+  INDEX (`destination_warehouse` ASC),
   INDEX (`dispatcher` ASC),
   INDEX (`company_id` ASC),
   FOREIGN KEY (`dispatcher`)
@@ -18,6 +22,14 @@ CREATE TABLE IF NOT EXISTS `cargo_traffic`.`packing_list` (
     ON UPDATE RESTRICT,
   FOREIGN KEY (`company_id`)
   REFERENCES `cargo_traffic`.`company` (`id`)
+    ON DELETE RESTRICT
+    ON UPDATE RESTRICT,
+     FOREIGN KEY (`departure_warehouse`)
+  REFERENCES `cargo_traffic`.`warehouse` (`id`)
+    ON DELETE RESTRICT
+    ON UPDATE RESTRICT,
+  FOREIGN KEY (`destination_warehouse`)
+  REFERENCES `cargo_traffic`.`warehouse` (`id`)
     ON DELETE RESTRICT
     ON UPDATE RESTRICT)
   ENGINE = InnoDB
@@ -77,27 +89,15 @@ CREATE TABLE IF NOT EXISTS `cargo_traffic`.`waybill` (
   `issue_date` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `departure_date` TIMESTAMP NULL DEFAULT NULL,
   `status` VARCHAR(250) NOT NULL,
-  `departure_warehouse` INT(11) UNSIGNED NOT NULL,
-  `destination_warehouse` INT(11) UNSIGNED NOT NULL,
   `packing_list_id` INT(11) UNSIGNED NOT NULL,
   `manager` INT(11) UNSIGNED NOT NULL,
   `company_id` INT(11) UNSIGNED NOT NULL,
   PRIMARY KEY (`id`),
-  INDEX (`departure_warehouse` ASC),
-  INDEX (`destination_warehouse` ASC),
   INDEX (`packing_list_id` ASC),
   INDEX (`manager` ASC),
   INDEX (`company_id` ASC),
   FOREIGN KEY (`packing_list_id`)
   REFERENCES `cargo_traffic`.`packing_list` (`id`)
-    ON DELETE RESTRICT
-    ON UPDATE RESTRICT,
-  FOREIGN KEY (`departure_warehouse`)
-  REFERENCES `cargo_traffic`.`warehouse` (`id`)
-    ON DELETE RESTRICT
-    ON UPDATE RESTRICT,
-  FOREIGN KEY (`destination_warehouse`)
-  REFERENCES `cargo_traffic`.`warehouse` (`id`)
     ON DELETE RESTRICT
     ON UPDATE RESTRICT,
   FOREIGN KEY (`manager`)
