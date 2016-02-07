@@ -1,16 +1,8 @@
-define(['app/service/packingListService','app/service/navService' ,'app/service/barService', "knockout", 'jquery',"text!./packingList.html"],
+define(['app/service/packingListService','app/service/navService' ,'app/service/barService', "knockout",
+    'jquery',"app/models/models","text!./packingList.html"],
 
-    function (packingListService, navService ,bar, ko, $,ttnTemplate) {
+    function (packingListService, navService ,bar, ko, $,models,ttnTemplate) {
         "use strict";
-
-        function Goods() {
-            var self = this;
-            self.name = ko.observable();
-            self.quantity = ko.observable();
-            self.unit = ko.observable();
-            self.storage = ko.observable();
-            self.price = ko.observable();
-        }
 
         function packingViewModel() {
 
@@ -20,7 +12,7 @@ define(['app/service/packingListService','app/service/navService' ,'app/service/
             self.packingList =  {"issueDate":new Date(), "destinationWarehouse": ko.observable({name:""}),
                 "departureWarehouse":ko.observable({name:""}), "products":ko.observableArray()};
 
-            self.actionEnable = ko.computed(function() {
+            self.addEnable = ko.computed(function() {
                 var flag = true;
                 ko.utils.arrayForEach(self.packingList.products(), function(item) {
                     if(!(item.name() && item.quantity() && item.unit() && item.storage() && item.price()) ) {
@@ -29,6 +21,11 @@ define(['app/service/packingListService','app/service/navService' ,'app/service/
                     }
                 });
                 return flag;
+            }, this);
+
+            self.createEnable = ko.computed(function() {
+                return self.addEnable() && self.packingList.destinationWarehouse().name &&
+                    self.packingList.departureWarehouse().name && self.packingList.products().length > 0;
             }, this);
 
             self.closeDialog = function () {
@@ -43,7 +40,7 @@ define(['app/service/packingListService','app/service/navService' ,'app/service/
             };
 
             self.addGoods = function() {
-                self.packingList.products.push(new Goods());
+                self.packingList.products.push(new models.Goods());
             };
 
             self.removeGoods = function(goods) {
