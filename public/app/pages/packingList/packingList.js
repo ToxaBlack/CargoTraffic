@@ -1,33 +1,32 @@
-define(['app/service/packingListService','app/service/navService' ,'app/service/barService', "knockout", 'jquery',"text!./packingList.html"],
+define(['app/service/packingListService','app/service/navService' ,'app/service/barService', "knockout",
+    'jquery',"app/models/models","text!./packingList.html"],
 
-    function (packingListService, navService ,bar, ko, $,ttnTemplate) {
+    function (packingListService, navService ,bar, ko, $,models,ttnTemplate) {
         "use strict";
-
-        function Goods(name, quantity,price) {
-            var self = this;
-            self.name =  name;
-            self.quantity = quantity;
-            self.unit = null;
-            self.storage = null;
-            self.price = price;
-        }
 
         function packingViewModel() {
 
             bar.go(50);
             var self = this;
             self.units = ko.observableArray(["Kilogram","Liter","Square meter","Pieces"]);
+            self.packingList =  {"issueDate":new Date(), "destinationWarehouse": ko.observable({name:""}),
+                "departureWarehouse":ko.observable({name:""}), "products":ko.observableArray()};
 
-            self.packingList = ko.observable();
+            self.addEnable = ko.computed(function() {
+                var flag = true;
+                ko.utils.arrayForEach(self.packingList.products(), function(item) {
+                    if(!(item.name() && item.quantity() && item.unit() && item.storage() && item.price()) ) {
+                        flag = false;
+                        return false;
+                    }
+                });
+                return flag;
+            }, this);
 
-            self.packingList.date = new Date();
-            self.packingList.to = ko.observable({name:""});
-            self.packingList.from = ko.observable({name:""});
-            self.packingList.products = ko.observableArray([
-                new Goods("Конфеты 'Аленка'", 100,5),
-                new Goods("Хлеб 'Бородинский'", 500,3),
-                new Goods("Водка 'First Potemkin'", 250,1)
-            ]);
+            self.createEnable = ko.computed(function() {
+                return self.addEnable() && self.packingList.destinationWarehouse().name &&
+                    self.packingList.departureWarehouse().name && self.packingList.products().length > 0;
+            }, this);
 
             self.closeDialog = function () {
                 $('#warehouses-popup').modal("hide");
@@ -41,7 +40,7 @@ define(['app/service/packingListService','app/service/navService' ,'app/service/
             };
 
             self.addGoods = function() {
-                self.packingList.products.push(new Goods());
+                self.packingList.products.push(new models.Goods());
             };
 
             self.removeGoods = function(goods) {
@@ -52,10 +51,10 @@ define(['app/service/packingListService','app/service/navService' ,'app/service/
                 var context = ko.contextFor($("#warehouses")[0]);
                 switch(self.warehousePoint) {
                     case 'from' :
-                        self.packingList.from(context.$data.getChosenWarehouse());
+                        self.packingList.departureWarehouse(context.$data.getChosenWarehouse());
                         break;
                     case 'to' :
-                        self.packingList.to(context.$data.getChosenWarehouse());
+                        self.packingList.destinationWarehouse(context.$data.getChosenWarehouse());
                         break;
                     default: return false;
                 }
@@ -64,11 +63,9 @@ define(['app/service/packingListService','app/service/navService' ,'app/service/
             };
 
             self.create = function() {
+                alert(ko.toJSON(self.packingList));
                 packingListService.save(
-                    self.packingList.to(),
-                    self.packingList.from(),
-                    self.packingList.products(),
-                    self.packingList.date,
+                    ko.toJSON(self.packingList),
                     function (data) {
                         navService.navigateTo("account");
                     },
