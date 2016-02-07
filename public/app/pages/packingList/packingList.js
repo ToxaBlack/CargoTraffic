@@ -8,6 +8,7 @@ define(['app/service/packingListService','app/service/navService' ,'app/service/
             self.name =  name;
             self.quantity = quantity;
             self.unit = null;
+            self.storage = null;
             self.price = price;
         }
 
