@@ -10,19 +10,25 @@ import javax.persistence.*;
 @Entity
 @Table(name = "product_in_packing_list")
 public class ProductInPackingList {
+    @Id
+    @GeneratedValue
+    public Long id;
 
     @ManyToOne(cascade = CascadeType.ALL)
-    @Column(name = "product_id", nullable = false)
+    @JoinColumn(name = "product_id", nullable = false)
     public Product product;
 
     @ManyToOne
-    @Column(name = "packing_list_id", nullable = false)
+    @JoinColumn(name = "packing_list_id", nullable = false)
     public PackingList packingList;
 
+    @Column(name = "price", nullable = false, insertable = true, updatable = true)
     public Long price;
+
+    @Column(name = "count", nullable = false, insertable = true, updatable = true)
     public Long count;
 
-    @Column(name = "status", nullable = false)
+    @Column(name = "status")
     @Enumerated(EnumType.STRING)
     public ProductStatus status;
 

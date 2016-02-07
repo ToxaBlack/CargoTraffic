@@ -63,7 +63,8 @@ define(['app/service/packingListService','app/service/navService' ,'app/service/
             };
 
             self.create = function() {
-               // alert(JSON.stringify( self.packingList.to() ));
+                alert(JSON.stringify( self.packingList.to() ));
+                alert(JSON.stringify(self.packingList()));
                 packingListService.save(
                     self.packingList(),
                     function (data) {

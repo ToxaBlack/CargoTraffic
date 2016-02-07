@@ -15,11 +15,11 @@ public class Product {
     public String name;
 
     @ManyToOne
-    @Column(name = "measure_unit_id")
+    @JoinColumn(name = "measure_unit_id")
     public MeasureUnit measureUnit;
 
     @ManyToOne
-    @Column(name = "storage_type_id")
+    @JoinColumn(name = "storage_type_id")
     public StorageType storageType;
 
     public Boolean deleted;
