@@ -64,20 +64,21 @@ define(['app/service/packingListService','app/service/navService' ,'app/service/
 
             self.create = function() {
                 alert(JSON.stringify( self.packingList.to() ));
-                //packingListService.save(
-                //    self.packingList(),
-                //    function (data) {
-                //        navService.navigateTo("account");
-                //    },
-                //    function (data) {
-                //        switch (data.status) {
-                //            case 403:
-                //                navService.navigateTo("login");
-                //                break;
-                //            default:
-                //                navService.navigateTo("error");
-                //        }
-                //    });
+                alert(JSON.stringify(self.packingList()));
+                packingListService.save(
+                    self.packingList(),
+                    function (data) {
+                        navService.navigateTo("account");
+                    },
+                    function (data) {
+                        switch (data.status) {
+                            case 403:
+                                navService.navigateTo("login");
+                                break;
+                            default:
+                                navService.navigateTo("error");
+                        }
+                    });
             };
 
 

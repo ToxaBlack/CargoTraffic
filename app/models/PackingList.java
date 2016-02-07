@@ -5,6 +5,8 @@ import play.data.validation.Constraints;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
+import java.util.Set;
 
 /**
  * Created by dmitriy on 1.2.16.
@@ -28,4 +30,18 @@ public class PackingList {
 
     @Constraints.Required
     public PackingListStatus status;
+
+
+    @OneToMany(mappedBy = "packingList", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private Set<ProductInPackingList> productsInPackingList;
+
+    /*@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinTable(name="product_in_packing_list",
+            joinColumns =
+                    {@JoinColumn(name="packing_list_id")},
+            inverseJoinColumns =
+                    {@JoinColumn(name="product_id")})
+    public Set<Product> products;
+
+*/
 }

@@ -39,8 +39,8 @@ DEFAULT CHARACTER SET = utf8mb4;
 
 CREATE TABLE `cargo_traffic`.`product_in_packing_list` (
   `id` INT(11) NOT NULL AUTO_INCREMENT,
-  `packing_list_id` INT(11) UNSIGNED NOT NULL ,
   `product_id` INT(11) UNSIGNED NOT NULL ,
+  `packing_list_id` INT(11) UNSIGNED NOT NULL ,
   `price` INT(11) NULL ,
   `count` INT(11) NULL ,
   `status` ENUM('ACCEPTED','VERIFICATION_COMPLETED','DELIVERED','LOST'),
