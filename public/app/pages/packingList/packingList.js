@@ -17,12 +17,12 @@ define(['app/service/packingListService','app/service/navService' ,'app/service/
             bar.go(50);
             var self = this;
             self.units = ko.observableArray(["Kilogram","Liter","Square meter","Pieces"]);
-            self.packingList =  ko.observable({"issueDate":new Date(), "destinationWarehouse": ko.observable({name:""}),
-                "departureWarehouse":ko.observable({name:""}), "products":ko.observableArray()});
+            self.packingList =  {"issueDate":new Date(), "destinationWarehouse": ko.observable({name:""}),
+                "departureWarehouse":ko.observable({name:""}), "products":ko.observableArray()};
 
             self.actionEnable = ko.computed(function() {
                 var flag = true;
-                ko.utils.arrayForEach(self.packingList().products(), function(item) {
+                ko.utils.arrayForEach(self.packingList.products(), function(item) {
                     if(!(item.name() && item.quantity() && item.unit() && item.storage() && item.price()) ) {
                         flag = false;
                         return false;
@@ -43,21 +43,21 @@ define(['app/service/packingListService','app/service/navService' ,'app/service/
             };
 
             self.addGoods = function() {
-                self.packingList().products.push(new Goods());
+                self.packingList.products.push(new Goods());
             };
 
             self.removeGoods = function(goods) {
-                self.packingList().products.remove(goods)
+                self.packingList.products.remove(goods)
             };
 
             self.choose = function() {
                 var context = ko.contextFor($("#warehouses")[0]);
                 switch(self.warehousePoint) {
                     case 'from' :
-                        self.packingList().departureWarehouse(context.$data.getChosenWarehouse());
+                        self.packingList.departureWarehouse(context.$data.getChosenWarehouse());
                         break;
                     case 'to' :
-                        self.packingList().destinationWarehouse(context.$data.getChosenWarehouse());
+                        self.packingList.destinationWarehouse(context.$data.getChosenWarehouse());
                         break;
                     default: return false;
                 }
@@ -66,9 +66,9 @@ define(['app/service/packingListService','app/service/navService' ,'app/service/
             };
 
             self.create = function() {
-                alert(ko.toJSON(self.packingList()));
+                alert(ko.toJSON(self.packingList));
                 packingListService.save(
-                    ko.toJSON(self.packingList()),
+                    ko.toJSON(self.packingList),
                     function (data) {
                         navService.navigateTo("account");
                     },
