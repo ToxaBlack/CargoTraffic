@@ -66,7 +66,10 @@ define(['app/service/packingListService','app/service/navService' ,'app/service/
                 alert(JSON.stringify( self.packingList.to() ));
                 alert(JSON.stringify(self.packingList()));
                 packingListService.save(
-                    self.packingList(),
+                    self.packingList.to(),
+                    self.packingList.from(),
+                    self.packingList.products(),
+                    self.packingList.date(),
                     function (data) {
                         navService.navigateTo("account");
                     },

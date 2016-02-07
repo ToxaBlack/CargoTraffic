@@ -3,11 +3,11 @@ define(["app/utils/utils"],
         "use strict";
         function PackingListService() {
 
-            var save = function (packingList, done, error, always) {
+            var save = function (to,from,products,date,done, error, always) {
                 utils.send(
                     "api/packingList",
                     "POST",
-                    JSON.stringify(packingList),
+                    JSON.stringify({"from": from, "to": to, "products": products, "date": date }),
                     done,
                     error,
                     always
