@@ -15,7 +15,7 @@ define(['app/service/packingListService','app/service/navService' ,'app/service/
 
             bar.go(50);
             var self = this;
-            self.units = ko.observableArray(["Kilogram","Liter","Square meter","Piece"]);
+            self.units = ko.observableArray(["Kilogram","Liter","Square meter","Pieces"]);
 
             self.packingList = ko.observable();
 
@@ -63,8 +63,6 @@ define(['app/service/packingListService','app/service/navService' ,'app/service/
             };
 
             self.create = function() {
-                //alert(JSON.stringify( self.packingList.to() ));
-               // alert(JSON.stringify(self.packingList()));
                 packingListService.save(
                     self.packingList.to(),
                     self.packingList.from(),

@@ -14,11 +14,11 @@ public class Product {
     public Long id;
     public String name;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "measure_unit_id")
     public MeasureUnit measureUnit;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "storage_type_id")
     public StorageType storageType;
 

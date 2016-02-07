@@ -3,7 +3,10 @@ package controllers;
 import be.objectify.deadbolt.java.actions.Group;
 import be.objectify.deadbolt.java.actions.Restrict;
 import com.fasterxml.jackson.databind.JsonNode;
+import dto.PackingListDTO;
+import models.PackingList;
 import models.User;
+import models.statuses.PackingListStatus;
 import play.Logger;
 import play.mvc.Controller;
 import play.libs.Json;
@@ -36,12 +39,17 @@ public class PackingListController extends Controller {
             return badRequest("Expecting Json data");
         } else {
             LOGGER.debug("Packing list: {}", json.toString());
-           /* try {
+            PackingListDTO packingListDTO = Json.fromJson(json, PackingListDTO.class);
+            PackingList packingList = PackingListDTO.getPackingList(packingListDTO);
+            packingList.dispatcher = oldUser;
+            packingList.status = PackingListStatus.CREATED;
 
+            try {
+                service.addPackingList(packingList);
             } catch (ServiceException e) {
                 LOGGER.error("error = {}", e);
                 throw new ControllerException(e.getMessage(), e);
-            }*/
+            }
         }
         return ok();
     }

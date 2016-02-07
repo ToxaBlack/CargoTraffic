@@ -19,8 +19,6 @@ public class PackingList {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     public long id;
 
-    public String listNumber;
-
     @Constraints.Required
     public Date issueDate;
 
@@ -33,9 +31,11 @@ public class PackingList {
     @ManyToOne
     public Warehouse destinationWarehouse;
 
+    @Column(name = "status")
+    @Enumerated(EnumType.STRING)
     public PackingListStatus status;
 
     @OneToMany(mappedBy = "packingList", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    private Set<ProductInPackingList> productsInPackingList;
+    public Set<ProductInPackingList> productsInPackingList;
 
 }

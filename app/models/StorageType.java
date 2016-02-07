@@ -14,6 +14,10 @@ public class StorageType {
     public Long id;
     public String type;
 
+    public StorageType(String type) {
+        this.type = type;
+    }
+
     @Override
     public String toString() {
         return type;

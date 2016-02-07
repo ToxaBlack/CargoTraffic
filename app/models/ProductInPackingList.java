@@ -14,11 +14,11 @@ public class ProductInPackingList {
     @GeneratedValue
     public Long id;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "product_id", nullable = false)
     public Product product;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "packing_list_id", nullable = false)
     public PackingList packingList;
 

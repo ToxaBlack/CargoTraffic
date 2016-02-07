@@ -14,6 +14,10 @@ public class MeasureUnit {
     public Long id;
     public String name;
 
+    public MeasureUnit(String name) {
+        this.name = name;
+    }
+
     @Override
     public String toString() {
         return name;

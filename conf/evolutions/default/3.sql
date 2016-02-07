@@ -4,12 +4,11 @@
 
 CREATE TABLE IF NOT EXISTS `cargo_traffic`.`packing_list` (
   `id` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `number` VARCHAR(250) NOT NULL,
   `issue_date` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `dispatcher` INT(11) UNSIGNED NOT NULL,
   `departure_warehouse` INT(11) UNSIGNED NOT NULL,
   `destination_warehouse` INT(11) UNSIGNED NOT NULL,
-  `status` VARCHAR(250) NULL DEFAULT NULL,
+  `status` ENUM('CREATED', 'CHECKED', 'DELIVERED', 'REJECTED'),
   `company_id` INT(11) UNSIGNED NOT NULL,
   PRIMARY KEY (`id`),
   INDEX (`departure_warehouse` ASC),
