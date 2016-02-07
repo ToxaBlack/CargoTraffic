@@ -48,24 +48,17 @@
 </div>
 
 <!-- ko if: packingList.products().length > 0-->
+<p><strong style="color: #1b6d85">*Choose unit and type storage according to general principles</strong><p>
 <table class="table table-hover">
     <thead><tr>
-        <th>Goods name</th><th>Quantity</th><th>Units</th><th>Price</th><th></th>
+        <th>Goods name</th><th>Quantity</th><th>Unit</th><th>Storage</th><th>Price</th><th></th>
     </tr></thead>
     <tbody data-bind="foreach: packingList.products">
     <tr>
         <td><input data-bind="value: name" /></td>
         <td><input data-bind="value: quantity"></td>
-        <td>
-            <select  name="role" class="form-control"
-                     data-bind="
-                                    options: $parent.units,
-                                    value: unit,
-                                    optionsCaption: 'Select an unit...',
-                                    valueAllowUnset: false">
-
-            </select>
-        </td>
+        <td> <input data-bind="value: unit"> </td>
+        <td> <input data-bind="value: storage"> </td>
         <td><input data-bind="value: price"></td>
         <td><button class="btn btn-danger"  data-bind="click: $parent.removeGoods">&times;</button></td>
     </tr>
