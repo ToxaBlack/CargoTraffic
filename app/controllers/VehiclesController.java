@@ -34,7 +34,7 @@ public class VehiclesController {
     @Inject
     VehicleService vehicleService;
 
-    @Restrict({@Group("ADMIN")})
+    @Restrict({@Group("ADMIN"),@Group("MANAGER")})
     public Result getVehicles(Long id, Integer count, Boolean ascOrder) throws ControllerException {
         LOGGER.debug("Get vehicles id, count, ascOrder: {}, {}, {}", id, count, ascOrder);
         List<Vehicle> vehicleList;

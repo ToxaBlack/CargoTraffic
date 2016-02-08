@@ -14,12 +14,14 @@ import java.util.List;
 public class PackingListRepository {
     private static final Logger.ALogger LOGGER = Logger.of(PackingListRepository.class);
 
+
     public PackingList savePackingList(PackingList packingList) {
         EntityManager em = JPA.em();
-        for(ProductInPackingList product: packingList.productsInPackingList){
+        //TODO
+        /*for(ProductInPackingList product: packingList.productsInPackingList){
             product.product.measureUnit = getMeasureUnit( product.product.measureUnit.name).get(0);
             product.product.storageType = getStorageType( product.product.storageType.type).get(0);
-        }
+        }*/
         em.persist(packingList);
         em.flush();
         em.refresh(packingList);

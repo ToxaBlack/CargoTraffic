@@ -19,8 +19,9 @@ define(['app/service/navService', 'app/service/barService', "knockout", 'jquery'
                 new TTN(46, new Date()),
                 new TTN(49, new Date())
             ]);
+
             self.toTTN = function () {
-                 window.location.href = 'ttnForManager';
+                 navService.navigateTo('checkPackingList');
             };
             bar.go(100);
             return self;

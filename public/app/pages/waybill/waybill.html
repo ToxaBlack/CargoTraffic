@@ -13,15 +13,29 @@
     <div class="form-group">
         <label class="control-label col-md-3" for="driver">Driver *:</label>
         <div class="col-md-7">
-            <input type="text" class="form-control" id="driver"
-                   placeholder="Choose driver" maxlength="40" required data-bind="value: driver">
+            <select class="form-control" id="driver" required
+                    data-bind="options: drivers,
+                     optionsValue: Id,
+                     value: driver,
+                     optionsText: driverFullName,
+                     visible: drivers().length > 0,
+                     optionsCaption: 'Choose driver'">
+            </select>
+            <div class="form-control" id="noDrivers" data-bind="visible: drivers().length == 0" readonly>Connecting to server</div>
         </div>
     </div>
     <div class="form-group">
-        <label class="control-label col-md-3" for="to">Car*:</label>
+        <label class="control-label col-md-3" for="vehicle">Car*:</label>
         <div class="col-md-7">
-            <input type="text" class="form-control" id="to"
-                   placeholder="Choose car" maxlength="40" required readonly data-bind="value: car">
+            <select class="form-control" id="vehicle" required
+                    data-bind="options: vehicles,
+                     optionsValue: Id,
+                     value: vehicle,
+                     optionsText: vehicleFullName,
+                     visible: vehicles().length > 0,
+                     optionsCaption: 'Choose vehicle'">
+            </select>
+            <div class="form-control" id="noVehicles" data-bind="visible: vehicles().length == 0" readonly>Connecting to server</div>
         </div>
     </div>
 </div>
