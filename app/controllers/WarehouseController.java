@@ -16,6 +16,7 @@ import service.WarehouseService;
 import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @SubjectPresent
 public class WarehouseController extends Controller {
@@ -42,39 +43,83 @@ public class WarehouseController extends Controller {
     @Restrict({@Group("DISPATCHER")})
     public Result addWarehouse() throws ControllerException {
         JsonNode json = request().body().asJson();
-        System.out.println("YAZ:"+json.toString());
-        Warehouse warehouse =  Json.fromJson(json, Warehouse.class);
-        LOGGER.debug("API add warehouse with name = {}", warehouse.name);
+        if (Objects.isNull(json)) {
+            LOGGER.debug("Expecting Json data");
+            return badRequest("Expecting Json data");
+        }
+
+        Warehouse warehouse;
         try {
-           warehouse = warehouseService.addWarehouse(warehouse);
+            warehouse = Json.fromJson(json, Warehouse.class);
+        } catch(RuntimeException e) {
+            LOGGER.debug("Incorrect Json format");
+            return badRequest("Incorrect Json format");
+        }
+
+        LOGGER.debug("API add warehouse with name = {}", warehouse.name);
+
+        try {
+            warehouse = warehouseService.addWarehouse(warehouse);
         } catch (ServiceException e) {
             LOGGER.error("error = {}", e);
             throw new ControllerException(e.getMessage(), e);
         }
+
         return ok(Json.toJson(warehouse));
     }
 
     @Restrict({@Group("DISPATCHER")})
     public Result editWarehouse() throws ControllerException {
         JsonNode json = request().body().asJson();
-        Warehouse warehouse =  Json.fromJson(json, Warehouse.class);
-        LOGGER.debug("API edit warehouse with name = {}", warehouse.name);
+
+        if (Objects.isNull(json)) {
+            LOGGER.debug("Expecting Json data");
+            return badRequest("Expecting Json data");
+        }
+
+        Warehouse warehouse;
         try {
-           warehouse = warehouseService.editWarehouse(warehouse);
+            warehouse = Json.fromJson(json, Warehouse.class);
+        } catch(RuntimeException e) {
+            LOGGER.debug("Incorrect Json format");
+            return badRequest("Incorrect Json format");
+        }
+
+        LOGGER.debug("API edit warehouse with name = {}", warehouse.name);
+
+        try {
+            warehouse = warehouseService.editWarehouse(warehouse);
         } catch (ServiceException e) {
             LOGGER.error("error = {}", e);
             throw new ControllerException(e.getMessage(), e);
         }
+
         return ok(Json.toJson(warehouse));
     }
 
     @Restrict({@Group("DISPATCHER")})
     public Result removeWarehouse() throws ControllerException {
         JsonNode json = request().body().asJson();
-        List<Warehouse> warehouses = new ArrayList<>();
-        for (JsonNode item : json.withArray("array")) {
-            warehouses.add(Json.fromJson(item, Warehouse.class));
+
+        if (Objects.isNull(json)) {
+            LOGGER.debug("Expecting Json data");
+            return badRequest("Expecting Json data");
         }
+
+        LOGGER.debug("API delete warehouses");
+
+        List<Warehouse> warehouses = new ArrayList<>();
+        Warehouse warehouse;
+        for (JsonNode item : json.withArray("array")) {
+            try {
+                warehouse = Json.fromJson(item, Warehouse.class);
+            } catch(RuntimeException e) {
+                LOGGER.debug("Incorrect Json format");
+                return badRequest("Incorrect Json format");
+            }
+            warehouses.add(warehouse);
+        }
+
         warehouseService.removeWarehouses(warehouses);
         return ok();
     }

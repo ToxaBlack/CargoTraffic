@@ -1,5 +1,5 @@
 define(['app/service/packingListService','app/service/navService' ,'app/service/barService', "knockout",
-    'jquery',"app/models/models","text!./packingList.html"],
+        'jquery',"app/models/models","text!./packingList.html"],
 
     function (packingListService, navService ,bar, ko, $,models,ttnTemplate) {
         "use strict";
@@ -13,9 +13,14 @@ define(['app/service/packingListService','app/service/navService' ,'app/service/
                 "departureWarehouse":ko.observable({name:""}), "products":ko.observableArray()};
 
             self.addEnable = ko.computed(function() {
-                var flag = true;
+                var flag = true, MAX_NUMBER = 99999999999;
                 ko.utils.arrayForEach(self.packingList.products(), function(item) {
-                    if(!(item.name() && item.quantity() && item.unit() && item.storage() && item.price()) ) {
+                    var count = item.quantity(),
+                        price = item.price(),
+                        fillFields = item.name() && count && item.unit() && item.storage() && price,
+                        correctNumbers = 0 < count && count < MAX_NUMBER && 0 < price && price < MAX_NUMBER;
+
+                    if(!(fillFields && correctNumbers)) {
                         flag = false;
                         return false;
                     }

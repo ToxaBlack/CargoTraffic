@@ -12,7 +12,7 @@ import java.util.List;
 
 
 public class WarehouseRepository {
-    public List<Warehouse> page(long id, int count, boolean ascOrder) {
+    public List<Warehouse> getWarehouses(long id, int count, boolean ascOrder) {
         EntityManager em = JPA.em();
         StringBuilder stringBuilder = new StringBuilder("SELECT w FROM Warehouse w WHERE w.deleted = FALSE AND ");
         if (ascOrder) {

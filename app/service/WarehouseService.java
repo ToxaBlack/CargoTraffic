@@ -18,7 +18,7 @@ public class WarehouseService {
     public List<Warehouse> getWarhouses(long id, int count, boolean ascOrder) throws ServiceException {
         LOGGER.debug("Get warehouse list: {}, {}, {}", id, count, ascOrder);
         try {
-            return JPA.withTransaction(() -> warehouseRepository.page(id, count, ascOrder));
+            return JPA.withTransaction(() -> warehouseRepository.getWarehouses(id, count, ascOrder));
         } catch (Throwable throwable) {
             LOGGER.error("Get list error = {}", throwable);
             throw new ServiceException(throwable.getMessage(), throwable);
