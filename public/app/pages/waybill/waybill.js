@@ -19,6 +19,7 @@ define(['app/service/employeesService', 'app/service/vehiclesService','app/servi
             vehiclesService.list(1, MAX_COUNT, true,
                 function (data) {
                     self.vehicles(data);
+                    if(self.vehicles().length == 0) $("#noVehicles").text("No vehicles in your company");
                 },
                 function (data) {
                     switch (data.status) {
@@ -37,7 +38,7 @@ define(['app/service/employeesService', 'app/service/vehiclesService','app/servi
             employeesService.getDrivers(
                 function (data) {
                     self.drivers(data);
-                    console.log(self.drivers());
+                    if(self.drivers().length == 0) $("#noDrivers").text("No drivers in your company");
                 },
                 function (data) {
                     switch (data.status) {
