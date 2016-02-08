@@ -48,7 +48,7 @@ define(['app/utils/messageUtil','app/service/warehouseService', 'app/service/nav
                         self.warehouses(data);
                     },
                     function (data) {
-                        self.catchError(data);
+                        navService.catchError(data);
                     },
                     function () {
                         bar.go(100);
@@ -68,7 +68,7 @@ define(['app/utils/messageUtil','app/service/warehouseService', 'app/service/nav
                             self.checkedWarehouses([]);
                         },
                         function (data) {
-                            self.catchError(data);
+                            navService.catchError(data);
                         },
                         function () {
                             self.closeDialog();
@@ -81,7 +81,7 @@ define(['app/utils/messageUtil','app/service/warehouseService', 'app/service/nav
                             } else self.hasNextPage(true);
                         },
                         function (data) {
-                            self.catchError(data);
+                            navService.catchError(data);
                         },
                         function () {
                             self.closeDialog();
@@ -151,7 +151,7 @@ define(['app/utils/messageUtil','app/service/warehouseService', 'app/service/nav
                         }
                     },
                     function (data) {
-                        self.catchError(data);
+                        navService.catchError(data);
                     },
                     function () {
                         self.checkedWarehouses([]);
@@ -173,7 +173,7 @@ define(['app/utils/messageUtil','app/service/warehouseService', 'app/service/nav
                         self.warehouses(data);
                     },
                     function (data) {
-                        self.catchError(data);
+                        navService.catchError(data);
                     });
 
             };
@@ -201,19 +201,9 @@ define(['app/utils/messageUtil','app/service/warehouseService', 'app/service/nav
                         self.warehouses(data);
                     },
                     function (data) {
-                        self.catchError(data);
+                        navService.catchError(data);
                     });
 
-            };
-
-            self.catchError = function (data) {
-                switch (data.status) {
-                    case 403:
-                        navService.navigateTo("login");
-                        break;
-                    default:
-                        navService.navigateTo("error");
-                }
             };
 
             $('#selectAllCheckbox').on('click', function () {
