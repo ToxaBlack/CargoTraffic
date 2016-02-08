@@ -75,6 +75,16 @@ public class UserRepository {
         return users;
     }
 
+    public List<User> getDrivers(long companyId) {
+        EntityManager em = JPA.em();
+        StringBuilder stringBuilder = new StringBuilder("SELECT u FROM User u JOIN u.userRoleList role WHERE u.company.id = ? " +
+                "AND u.deleted = false AND role.name = 'DRIVER'");
+        Query query = em.createQuery(stringBuilder.toString());
+        query.setParameter(1, companyId);
+        List<User> users = query.getResultList();
+        return users;
+    }
+
     public List<UserRole> getRoleByName(String name){
         EntityManager em = JPA.em();
         StringBuilder stringBuilder = new StringBuilder("SELECT r FROM UserRole r WHERE r.name = ?");

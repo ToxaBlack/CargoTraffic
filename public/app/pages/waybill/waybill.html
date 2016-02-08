@@ -14,8 +14,12 @@
         <label class="control-label col-md-3" for="driver">Driver *:</label>
         <div class="col-md-7">
             <select class="form-control" id="driver" required
-                    data-bind="options: $parent.drivers, value: driver, optionsText:'driverFullName',
-                     visible: drivers().length > 0">
+                    data-bind="options: drivers,
+                     optionsValue: Id,
+                     value: driver,
+                     optionsText: driverFullName,
+                     visible: drivers().length > 0,
+                     optionsCaption: 'Choose driver'">
             </select>
             <div class="form-control" data-bind="visible: drivers().length == 0" readonly>No drivers in your company</div>
         </div>
@@ -25,11 +29,11 @@
         <div class="col-md-7">
             <select class="form-control" id="vehicle" required
                     data-bind="options: vehicles,
-                     optionsValue: vehicleId,
+                     optionsValue: Id,
                      value: vehicle,
                      optionsText: vehicleFullName,
                      visible: vehicles().length > 0,
-                     optionsCaption: 'Choose...'">
+                     optionsCaption: 'Choose vehicle'">
             </select>
             <div class="form-control " data-bind="visible: vehicles().length == 0" readonly>No vehicles in your company</div>
         </div>
