@@ -1,8 +1,6 @@
 package models;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 /**
  * Created by Olga on 07.02.2016.
@@ -11,6 +9,7 @@ import javax.persistence.Table;
 @Table(name = "measure_unit")
 public class MeasureUnit {
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     public Long id;
     public String name;
 

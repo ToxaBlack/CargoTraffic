@@ -3,8 +3,10 @@ package models;
 import models.statuses.PackingListStatus;
 import play.data.validation.Constraints;
 
+import javax.annotation.concurrent.Immutable;
 import javax.persistence.*;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -17,21 +19,20 @@ import java.util.Set;
 public class PackingList {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    public long id;
+    public Long id;
 
-    @Constraints.Required
     @Column(name = "issue_date")
     public Date issueDate;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "dispatcher")
     public User dispatcher;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "departure_warehouse")
     public Warehouse departureWarehouse;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "destination_warehouse")
     public Warehouse destinationWarehouse;
 
@@ -39,7 +40,10 @@ public class PackingList {
     @Enumerated(EnumType.STRING)
     public PackingListStatus status;
 
-    @OneToMany(mappedBy = "packingList", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    public Set<ProductInPackingList> productsInPackingList;
+    @OneToMany(mappedBy = "packingList")
+    public Set<ProductInPackingList> productsInPackingList = new HashSet<>();
 
+    public Set<ProductInPackingList> getProductsInPackingList() {
+        return productsInPackingList;
+    }
 }

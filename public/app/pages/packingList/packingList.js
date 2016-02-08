@@ -63,7 +63,7 @@ define(['app/service/packingListService','app/service/navService' ,'app/service/
             };
 
             self.create = function() {
-                alert(ko.toJSON(self.packingList));
+               // alert(ko.toJSON(self.packingList));
                 packingListService.save(
                     ko.toJSON(self.packingList),
                     function (data) {

@@ -17,7 +17,7 @@ ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4;
 
 CREATE TABLE `cargo_traffic`.`product` (
-  `id` INT(11) UNSIGNED NOT NULL,
+  `id` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(45) NOT NULL,
   `measure_unit_id` INT(11) UNSIGNED NULL,
   `storage_type_id` INT(11) UNSIGNED NULL,
@@ -38,14 +38,13 @@ ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4;
 
 CREATE TABLE `cargo_traffic`.`product_in_packing_list` (
-  `id` INT(11) NOT NULL AUTO_INCREMENT,
   `product_id` INT(11) UNSIGNED NOT NULL ,
   `packing_list_id` INT(11) UNSIGNED NOT NULL ,
   `price` INT(11) NULL ,
   `count` INT(11) NULL ,
   `status` ENUM('ACCEPTED','VERIFICATION_COMPLETED','DELIVERED','LOST'),
   `deleted` BIT(1) NULL DEFAULT FALSE ,
-  PRIMARY KEY (`id`)  COMMENT '',
+  PRIMARY KEY (`product_id`, `packing_list_id`) ,
   INDEX `packing_list_idx` (`packing_list_id` ASC) ,
   INDEX `product_idx` (`product_id` ASC) ,
   FOREIGN KEY (`packing_list_id`)

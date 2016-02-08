@@ -5,6 +5,7 @@ import be.objectify.deadbolt.java.actions.Restrict;
 import com.fasterxml.jackson.databind.JsonNode;
 import dto.PackingListDTO;
 import models.PackingList;
+import models.ProductInPackingList;
 import models.User;
 import models.statuses.PackingListStatus;
 import play.Logger;
@@ -18,6 +19,7 @@ import service.ServiceException;
 
 import javax.inject.Inject;
 import java.util.Objects;
+import java.util.Set;
 
 /**
  * Created by Olga on 07.02.2016.
@@ -43,9 +45,10 @@ public class PackingListController extends Controller {
             PackingList packingList = PackingListDTO.getPackingList(packingListDTO);
             packingList.dispatcher = oldUser;
             packingList.status = PackingListStatus.CREATED;
-
+            Set<ProductInPackingList> products = packingList.productsInPackingList;
+            packingList.productsInPackingList = null;
             try {
-                service.addPackingList(packingList);
+                service.addPackingList(packingList, products);
             } catch (ServiceException e) {
                 LOGGER.error("error = {}", e);
                 throw new ControllerException(e.getMessage(), e);
