@@ -29,8 +29,8 @@ public class PackingListDTO {
 
             productInPackingList.product = new Product();
             productInPackingList.product.deleted = false;
-            productInPackingList.product.measureUnit = new MeasureUnit(productDTO.unit);
-            productInPackingList.product.storageType = new StorageType(productDTO.storage);
+            productInPackingList.product.measureUnit = new MeasureUnit(productDTO.unit.toUpperCase());
+            productInPackingList.product.storageType = new StorageType(productDTO.storage.toUpperCase());
             productInPackingList.product.name = productDTO.name;
 
             productInPackingList.count = productDTO.quantity;

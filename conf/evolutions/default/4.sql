@@ -60,10 +60,10 @@ ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4;
 
 INSERT INTO `measure_unit` (name) VALUES
-  ("KILOGRAM"), ("LITER"), ("SQUARE_METER"), ("PIECES");
+  ('KILOGRAM'), ('LITER'), ('SQUARE_METER'), ('PIECES');
 
 INSERT INTO `storage_type` (type) VALUES
-  ("REFRIGERATOR"), ("TANK"), ("BOXCAR");
+  ('REFRIGERATOR'), ('TANK'), ('BOXCAR');
 # --- !Downs
 DROP TABLE IF EXISTS `cargo_traffic`.`product_in_packing_list`;
 DROP TABLE IF EXISTS `cargo_traffic`.`product`;

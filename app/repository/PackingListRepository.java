@@ -1,6 +1,6 @@
 package repository;
 
-import models.PackingList;
+import models.*;
 import play.Logger;
 import play.db.jpa.JPA;
 import javax.persistence.EntityManager;
@@ -16,8 +16,29 @@ public class PackingListRepository {
 
     public PackingList savePackingList(PackingList packingList) {
         EntityManager em = JPA.em();
-
+        for(ProductInPackingList product: packingList.productsInPackingList){
+            product.product.measureUnit = getMeasureUnit( product.product.measureUnit.name).get(0);
+            product.product.storageType = getStorageType( product.product.storageType.type).get(0);
+        }
+        em.persist(packingList);
+        em.flush();
+        em.refresh(packingList);
         return packingList;
+    }
+
+    public List<MeasureUnit> getMeasureUnit(String name){
+        EntityManager em = JPA.em();
+        StringBuilder stringBuilder = new StringBuilder("SELECT u FROM MeasureUnit u WHERE u.name = ?");
+        Query query = em.createQuery(stringBuilder.toString());
+        query.setParameter(1, name);
+        return query.getResultList();
+    }
+    public List<StorageType> getStorageType(String type){
+        EntityManager em = JPA.em();
+        StringBuilder stringBuilder = new StringBuilder("SELECT t FROM StorageType t WHERE t.type = ?");
+        Query query = em.createQuery(stringBuilder.toString());
+        query.setParameter(1, type);
+        return query.getResultList();
     }
     public List<PackingList> getForCheckPackingLists(long id, int count, boolean ascOrder) {
         EntityManager em = JPA.em();

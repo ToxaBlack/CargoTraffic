@@ -14,6 +14,9 @@ public class MeasureUnit {
     public Long id;
     public String name;
 
+    public MeasureUnit() {
+    }
+
     public MeasureUnit(String name) {
         this.name = name;
     }
