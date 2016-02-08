@@ -7,7 +7,7 @@
         <div class="col-md-7">
             <input type="text" class="form-control" id="date"
                    maxlength="40" readonly
-                   data-bind="value: packingList.date">
+                   data-bind="value: packingList.issueDate">
         </div>
     </div>
     <div class="form-group">
@@ -15,7 +15,7 @@
         <div class="col-md-7">
             <input type="text" class="form-control" id="from"
                    placeholder="Click to choose departure" maxlength="40" required readonly
-                   data-bind="click: openModal.bind($data,'from'), value: packingList.from().name">
+                   data-bind="click: openModal.bind($data,'from'), value: packingList.departureWarehouse().name">
         </div>
     </div>
     <div class="form-group">
@@ -23,7 +23,7 @@
         <div class="col-md-7">
             <input type="text" class="form-control" id="to"
                    placeholder="Click to choose destination" maxlength="40" required readonly
-                   data-bind="click: openModal.bind($data,'to'),value: packingList.to().name">
+                   data-bind="click: openModal.bind($data,'to'),value: packingList.destinationWarehouse().name">
         </div>
     </div>
 </div>
@@ -65,8 +65,10 @@
     </tbody>
 </table>
 <!-- /ko -->
-<button class="btn btn-default" data-bind="click: addGoods">Add goods</button>
+<button class="btn btn-default" data-bind="click: addGoods,  enable: addEnable">Add goods</button>
 <hr>
 <div class="form-group">
-    <button class="btn btn-success pull-right btn-lg" data-bind="click: create">Create list</button>
+    <button class="btn btn-success pull-right btn-lg" data-bind="click: create, enable: createEnable">
+        Create list
+    </button>
 </div>
