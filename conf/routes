@@ -26,6 +26,7 @@ POST        /api/employees             controllers.EmployeesController.addEmploy
 PUT         /api/employees/remove      controllers.EmployeesController.removeEmployees()
 GET         /api/employees/details     controllers.EmployeesController.getEmployee(id: Long)
 PUT         /api/employees/update      controllers.EmployeesController.updateEmployee()
+GET         /api/drivers               controllers.EmployeesController.getDrivers()
 
 GET         /api/vehicles              controllers.VehiclesController.getVehicles(id :Long, vehicles :Integer, ascOrder :Boolean )
 POST        /api/vehicle               controllers.VehiclesController.addVehicle()
