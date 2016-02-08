@@ -1,6 +1,6 @@
-define(['app/service/employeesService', 'app/service/vehiclesService','app/service/navService', 'app/service/barService', "knockout", 'jquery',"text!./waybill.html"],
+define(['app/service/accountService', 'app/service/employeesService', 'app/service/vehiclesService','app/service/navService', 'app/service/barService', "knockout", 'jquery',"text!./waybill.html"],
 
-    function (employeesService, vehiclesService, navService, bar, ko, $, waybillTemplate) {
+    function (accountService, employeesService, vehiclesService, navService, bar, ko, $, waybillTemplate) {
         "use strict";
 
         function waybillViewModel() {
@@ -15,7 +15,32 @@ define(['app/service/employeesService', 'app/service/vehiclesService','app/servi
             self.vehicle = ko.observable();
             self.vehicleFullName = function(vehicle) {return vehicle.vehicleProducer + ' ' + vehicle.vehicleModel + ' ' + vehicle.licensePlate;};
             self.Id = function(smth) {return smth.id;};
-            //self.vehicleFullName = function(){ko.computed(function(vehicle) {return vehicle.vehicleProducer + ' ' + vehicle.vehicleModel; },self);};
+
+            self.manager = ko.observable("");
+            self.managerFullName = function() {
+                return self.manager().username + ', ' + self.manager().name + ' ' + self.manager().surname;};
+            
+
+            accountService.get(
+                function (data) {
+                    self.manager(data);
+                    console.log(JSON.stringify(data));
+                    console.log(manager);
+                },
+                function (data) {
+                    switch (data.status) {
+                        case 403:
+                            navService.navigateTo("login");
+                            break;
+                        default:
+                            navService.navigateTo("error");
+                    }
+                },
+                function () {
+                    bar.go(100);
+                }
+            );
+
             vehiclesService.list(1, MAX_COUNT, true,
                 function (data) {
                     self.vehicles(data);
