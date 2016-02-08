@@ -37,7 +37,7 @@ public class PackingListRepository {
     public List<PackingList> getPackingLists(long id, int count, boolean ascOrder, Long companyId) {
         LOGGER.debug("Get packingLists: {}, {}, {}", id, count, ascOrder);
         EntityManager em = JPA.em();
-        StringBuilder stringBuilder = new StringBuilder("SELECT pl FROM PackingList pl WHERE pl.status = 'СREATED' AND ");
+        StringBuilder stringBuilder = new StringBuilder("SELECT pl FROM PackingList pl WHERE pl.status = 'CREATED' AND ");
         if (ascOrder) {
             stringBuilder.append("pl.id >= ? AND pl.dispatcher.company.id = ? ORDER BY pl.id ASC");
         } else {
