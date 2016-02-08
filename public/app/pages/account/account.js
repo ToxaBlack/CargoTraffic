@@ -12,13 +12,7 @@ define(['app/service/accountService', 'app/service/navService', 'app/service/bar
                         navService.mainPage();
                     },
                     function (data) {
-                        switch (data.status) {
-                            case 403:
-                                navService.navigateTo("login");
-                                break;
-                            default:
-                                navService.navigateTo("error");
-                        }
+                        navService.catchError(data);
                     });
             };
 
@@ -27,13 +21,7 @@ define(['app/service/accountService', 'app/service/navService', 'app/service/bar
                     self.account(data);
                 },
                 function (data) {
-                    switch (data.status) {
-                        case 403:
-                            navService.navigateTo("login");
-                            break;
-                        default:
-                            navService.navigateTo("error");
-                    }
+                    navService.catchError(data);
                 },
                 function () {
                     bar.go(100);

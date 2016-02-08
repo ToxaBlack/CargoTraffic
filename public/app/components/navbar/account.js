@@ -18,13 +18,7 @@ define(['app/service/accountService', 'app/service/navService', "knockout"],
                             navService.mainPage();
                         },
                         function (data) {
-                            switch (data.status) {
-                                case 403:
-                                    navService.navigateTo("login");
-                                    break;
-                                default:
-                                    navService.navigateTo("error");
-                            }
+                            navService.catchError(data);
                         });
                 }
             };
