@@ -20,15 +20,19 @@ public class PackingList {
     public long id;
 
     @Constraints.Required
+    @Column(name = "issue_date")
     public Date issueDate;
 
     @ManyToOne
+    @JoinColumn(name = "dispatcher")
     public User dispatcher;
 
     @ManyToOne
+    @JoinColumn(name = "departure_warehouse")
     public Warehouse departureWarehouse;
 
     @ManyToOne
+    @JoinColumn(name = "destination_warehouse")
     public Warehouse destinationWarehouse;
 
     @Column(name = "status")

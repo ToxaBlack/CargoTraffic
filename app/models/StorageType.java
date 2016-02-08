@@ -14,6 +14,9 @@ public class StorageType {
     public Long id;
     public String type;
 
+    public StorageType() {
+    }
+
     public StorageType(String type) {
         this.type = type;
     }

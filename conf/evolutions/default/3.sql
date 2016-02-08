@@ -9,21 +9,15 @@ CREATE TABLE IF NOT EXISTS `cargo_traffic`.`packing_list` (
   `departure_warehouse` INT(11) UNSIGNED NOT NULL,
   `destination_warehouse` INT(11) UNSIGNED NOT NULL,
   `status` ENUM('CREATED', 'CHECKED', 'DELIVERED', 'REJECTED'),
-  `company_id` INT(11) UNSIGNED NOT NULL,
   PRIMARY KEY (`id`),
   INDEX (`departure_warehouse` ASC),
   INDEX (`destination_warehouse` ASC),
   INDEX (`dispatcher` ASC),
-  INDEX (`company_id` ASC),
   FOREIGN KEY (`dispatcher`)
   REFERENCES `cargo_traffic`.`user` (`id`)
     ON DELETE RESTRICT
     ON UPDATE RESTRICT,
-  FOREIGN KEY (`company_id`)
-  REFERENCES `cargo_traffic`.`company` (`id`)
-    ON DELETE RESTRICT
-    ON UPDATE RESTRICT,
-     FOREIGN KEY (`departure_warehouse`)
+  FOREIGN KEY (`departure_warehouse`)
   REFERENCES `cargo_traffic`.`warehouse` (`id`)
     ON DELETE RESTRICT
     ON UPDATE RESTRICT,
