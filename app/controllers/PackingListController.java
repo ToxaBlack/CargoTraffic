@@ -17,6 +17,7 @@ import service.PackingListService;
 import service.ServiceException;
 
 import javax.inject.Inject;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -54,4 +55,19 @@ public class PackingListController extends Controller {
         return ok();
     }
 
+
+    @Restrict({@Group("MANAGER")})
+    @BodyParser.Of(BodyParser.Json.class)
+    public Result getPackingLists(Long id, Integer count, Boolean ascOrder) throws ControllerException {
+        User oldUser = (User) Http.Context.current().args.get("user");
+        LOGGER.debug("API get packingLists: {}, {}, {}, {}", oldUser.toString(), id, count, ascOrder);
+        List<PackingList> packingList;
+        try {
+            packingList = service.getPackingLists(id, count, ascOrder);
+        } catch (ServiceException e) {
+            LOGGER.error("error = {}", e);
+            throw new ControllerException(e.getMessage(), e);
+        }
+        return ok(Json.toJson(packingList));
+    }
 }

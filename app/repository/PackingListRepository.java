@@ -19,16 +19,20 @@ public class PackingListRepository {
 
         return packingList;
     }
-    public List<PackingList> getForCheckPackingLists(long id, int count, boolean ascOrder) {
+
+
+    public List<PackingList> getPackingLists(long id, int count, boolean ascOrder, Long companyId) {
+        LOGGER.debug("Get packingLists: {}, {}, {}", id, count, ascOrder);
         EntityManager em = JPA.em();
         StringBuilder stringBuilder = new StringBuilder("SELECT pl FROM PackingList pl WHERE pl.status = 'СREATED' AND ");
         if (ascOrder) {
-            stringBuilder.append("pl.id >= :id ORDER BY pl.id ASC");
+            stringBuilder.append("pl.id >= ? AND pl.dispatcher.company.id = ? ORDER BY pl.id ASC");
         } else {
-            stringBuilder.append("pl.id < :id ORDER BY pl.id DESC");
+            stringBuilder.append("pl.id < ? AND pl.dispatcher.company.id = ? ORDER BY pl.id DESC");
         }
         Query query = em.createQuery(stringBuilder.toString());
-        query.setParameter("id", id);
+        query.setParameter(1, id);
+        query.setParameter(2, companyId);
         query.setMaxResults(count);
         List<PackingList> packingLists = query.getResultList();
         if (!ascOrder)

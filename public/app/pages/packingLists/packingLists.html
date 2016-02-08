@@ -5,10 +5,10 @@
             <th>Number</th><th>Date of creating</th>
         </tr>
         </thead>
-        <tbody data-bind="foreach: ttns">
+        <tbody data-bind="foreach: packingLists">
         <tr>
-            <td  class="link" data-bind="text: id, click: $parent.toTTN"></td>
-            <td  class="link" data-bind="text: createDate, click: $parent.toTTN"></td>
+            <td  class="link" data-bind="text: id, click: $parent.toPackingList"></td>
+            <td  class="link" data-bind="text: createDate, click: $parent.toPackingList"></td>
         </tr>
         </tbody>
     </table>
