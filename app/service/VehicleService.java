@@ -2,7 +2,6 @@ package service;
 
 import models.User;
 import models.Vehicle;
-import models.VehicleType;
 import play.Logger;
 import play.db.jpa.JPA;
 import play.mvc.Http;

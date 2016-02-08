@@ -1,15 +1,32 @@
-<div class="col-sm-12">
-    <table class="table table-hover">
-        <thead>
-        <tr>
-            <th>Number</th><th>Date of creating</th>
-        </tr>
-        </thead>
-        <tbody data-bind="foreach: ttns">
-        <tr>
-            <td  class="link" data-bind="text: id, click: $parent.toTTN"></td>
-            <td  class="link" data-bind="text: createDate, click: $parent.toTTN"></td>
-        </tr>
-        </tbody>
-    </table>
+<div class="row">
+    <div class="col-sm-12">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>Number</th>
+                    <th>Date of creating</th>
+                    <th>Dispatcher full name</th>
+                    <th>Warehouse address</th>
+                </tr>
+            </thead>
+            <tbody class="cursor-hand" data-bind="foreach: packingLists">
+                <tr data-bind="click: $parent.toPackingList">
+                    <td  class="link" data-bind="text: id"></td>
+                    <td  class="link" data-bind="text: issueDate"></td>
+                    <td  class="link" data-bind="text: ko.computed(function() {return dispatcher.surname + ' ' + dispatcher.name + ' ' + dispatcher.patronymic; })"></td>
+                    <td  class="link" data-bind="text: ko.computed(function() {return departureWarehouse.address.country + ', ' + departureWarehouse.address.city + ' city, ' + departureWarehouse.address.street + ' st., ' + departureWarehouse.address.house; })"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Pagination -->
+<div class="row text-center">
+    <div class="col-lg-12">
+        <ul class="pager">
+            <li id="previousPage" data-bind="css: { disabled: hasPreviousPage() == false}, click: previousPage"><a>Previous</a></li>
+            <li id="nextPage" data-bind="css: { disabled: hasNextPage() == false}, click: nextPage"><a>Next</a></li>
+        </ul>
+    </div>
 </div>
