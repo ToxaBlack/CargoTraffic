@@ -51,9 +51,9 @@ define(['app/service/vehiclesService','app/service/navService', "knockout", 'app
 
             self.nextPage = function () {
                 if (!self.hasNextPage()) return;
-                var nextPageFirstCompanyId = self.vehicles()[self.vehicles().length - 1].id + 1;
+                var nextPageFirstVehicleId = self.vehicles()[self.vehicles().length - 1].id + 1;
                 vehiclesService.list(
-                    nextPageFirstCompanyId,
+                    nextPageFirstVehicleId,
                     self.VEHICLES_PER_PAGE + 1,
                     true,
                     function (data) {
