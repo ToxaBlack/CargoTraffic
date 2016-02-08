@@ -57,36 +57,43 @@ define(['app/utils/messageUtil','app/service/warehouseService', 'app/service/nav
 
             self.showWarehouses();
 
+            //  $("#warehouseForm").validate();
+
             self.saveWarehouse = function () {
-                if(self.idEdit != -1) {
-                    warehouseService.edit(self.idEdit, self.warehouseName(), self.country(),self.city(),self.street(), self.house(),
-                        function (data) {
-                            var auxiliaryArray = self.warehouses().slice();
-                            auxiliaryArray.splice(self.editRow,1);
-                            auxiliaryArray.splice(self.editRow,0,data);
-                            self.warehouses(auxiliaryArray);
-                            self.checkedWarehouses([]);
-                        },
-                        function (data) {
-                            navService.catchError(data);
-                        },
-                        function () {
-                            self.closeDialog();
-                        });
-                } else {
-                    warehouseService.add(self.warehouseName(), self.country(),self.city(),self.street(), self.house(),
-                        function (data) {
-                            if (self.recordCount() != self.warehousesPerPage()) {
-                                self.warehouses.push(data);
-                            } else self.hasNextPage(true);
-                        },
-                        function (data) {
-                            navService.catchError(data);
-                        },
-                        function () {
-                            self.closeDialog();
-                        });
+                if( $("#warehouseForm").valid()){
+                    if(self.idEdit != -1) {
+                        warehouseService.edit(self.idEdit, self.warehouseName(), self.country(),self.city(),self.street(), self.house(),
+                            function (data) {
+                                var auxiliaryArray = self.warehouses().slice();
+                                auxiliaryArray.splice(self.editRow,1);
+                                auxiliaryArray.splice(self.editRow,0,data);
+                                self.warehouses(auxiliaryArray);
+                                self.checkedWarehouses([]);
+                            },
+                            function (data) {
+                                navService.catchError(data);
+                            },
+                            function () {
+                                self.closeDialog();
+                            });
+                    } else {
+                        $("#warehouseForm").validate(
+                            warehouseService.add(self.warehouseName(), self.country(),self.city(),self.street(), self.house(),
+                                function (data) {
+                                    if (self.recordCount() != self.warehousesPerPage()) {
+                                        self.warehouses.push(data);
+                                    } else self.hasNextPage(true);
+                                },
+                                function (data) {
+                                    navService.catchError(data);
+                                },
+                                function () {
+                                    self.closeDialog();
+                                })
+                        );
+                    }
                 }
+
             };
 
             self.getChosenWarehouse = function () {
@@ -105,6 +112,7 @@ define(['app/utils/messageUtil','app/service/warehouseService', 'app/service/nav
                 return editWarehouse;
             };
 
+            $("#warehouseForm").validate();
             self.editWarehouse = function () {
                 var editWarehouse = self.getChosenWarehouse();
                 //Feeling dialog's form
@@ -114,7 +122,7 @@ define(['app/utils/messageUtil','app/service/warehouseService', 'app/service/nav
                 self.city(editWarehouse.address.city);
                 self.street(editWarehouse.address.street);
                 self.house(editWarehouse.address.house);
-                $('#myModal').modal("show");
+                $('#warehouseModal').modal("show");
             };
 
             self.closeDialog = function () {
@@ -126,7 +134,7 @@ define(['app/utils/messageUtil','app/service/warehouseService', 'app/service/nav
                 self.street("");
                 self.house("");
 
-                $('#myModal').modal("hide");
+                $('#warehouseModal').modal("hide");
             };
 
 
