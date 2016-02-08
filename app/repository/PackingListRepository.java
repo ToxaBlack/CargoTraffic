@@ -1,10 +1,12 @@
 package repository;
 
 import models.PackingList;
+import org.apache.commons.collections4.CollectionUtils;
 import play.Logger;
 import play.db.jpa.JPA;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -35,6 +37,8 @@ public class PackingListRepository {
         query.setParameter(2, companyId);
         query.setMaxResults(count);
         List<PackingList> packingLists = query.getResultList();
+        if (CollectionUtils.isEmpty(packingLists))
+            return new ArrayList<>();
         if (!ascOrder)
             Collections.reverse(packingLists);
         return packingLists;
