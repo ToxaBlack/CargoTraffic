@@ -39,6 +39,16 @@ public class UserService {
         }
     }
 
+    public void save(User user) throws ServiceException {
+        LOGGER.debug("Save user = {}", user.username);
+        try {
+            JPA.withTransaction(() -> userRepository.addUser(user));
+        } catch (Throwable throwable) {
+            LOGGER.error("Add user with name = {}", user.name);
+            throw new ServiceException(throwable.getMessage(), throwable);
+        }
+    }
+
 
     public User findByUsername(String name) throws ServiceException {
         LOGGER.debug("Get user with name = {}", name);
