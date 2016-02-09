@@ -8,7 +8,7 @@ define(['app/service/vehiclesService','app/service/navService', "knockout", 'app
             self.vehicles = ko.observableArray([]);
             self.hasNextPage = ko.observable(false);
             self.hasPreviousPage = ko.observable(false);
-            self.VEHICLES_PER_PAGE = 10;
+            self.VEHICLES_PER_PAGE = 1;
             self.modalDialogVehicle =  ko.observable({'vehicleFuel':{}, 'vehicleType':{}, 'company':{}});
             self.vehicleFuels = ko.observableArray(['Diesel','Bio-diesel','Petrol-95', 'Petrol-98']);
             self.selectedFuel = ko.observable();
@@ -36,20 +36,14 @@ define(['app/service/vehiclesService','app/service/navService', "knockout", 'app
                     self.vehicles(data);
                 },
                 function (data) {
-                    switch (data.status) {
-                        case 403:
-                            navService.navigateTo("login");
-                            break;
-                        default:
-                            navService.navigateTo("error");
-                    }
+                    navService.catchError(data);
                 },
                 function () {
                     bar.go(100);
                 }
             );
 
-            self.nextPage = function () {
+            self.nextPage = function (always) {
                 if (!self.hasNextPage()) return;
                 var nextPageFirstVehicleId = self.vehicles()[self.vehicles().length - 1].id + 1;
                 vehiclesService.list(
@@ -67,19 +61,14 @@ define(['app/service/vehiclesService','app/service/navService', "knockout", 'app
                         self.vehicles(data);
                     },
                     function (data) {
-                        switch (data.status) {
-                            case 403:
-                                navService.navigateTo("login");
-                                break;
-                            default:
-                                navService.navigateTo("error");
-                        }
-                    }
+                        navService.catchError(data);
+                    },
+                    always
                 );
 
             };
 
-            self.previousPage = function () {
+            self.previousPage = function (always) {
                 if (!self.hasPreviousPage()) return;
                 vehiclesService.list(self.vehicles()[0].id, self.VEHICLES_PER_PAGE + 1, false,
                     function (data) {
@@ -93,15 +82,9 @@ define(['app/service/vehiclesService','app/service/navService', "knockout", 'app
                         self.vehicles(data);
                     },
                     function (data) {
-                        switch (data.status) {
-                            case 403:
-                                navService.navigateTo("login");
-                                break;
-                            default:
-                                navService.navigateTo("error");
-                        }
-                    });
-
+                        navService.catchError(data);
+                    },
+                    always);
             };
 
             $('#selectAllCheckbox').on('click', function () {
@@ -139,18 +122,27 @@ define(['app/service/vehiclesService','app/service/navService', "knockout", 'app
                                 return;
                             }
                         });
-                        self.vehicles([]);
-                        self.vehicles(tempArray);
+                        if (tempArray.length === 0) {
+                            if (self.hasPreviousPage() && self.hasNextPage()) {
+                                self.previousPage();
+                            } else
+                            if (self.hasPreviousPage() && !self.hasNextPage()) {
+                                self.previousPage(function() {
+                                    self.hasNextPage(false);
+                                });
+                            } else
+                            if (!self.hasPreviousPage() && self.hasNextPage()) {
+                                self.nextPage(function() {
+                                    self.hasPreviousPage(false);
+                                });
+                            } else {
+                                self.vehicles([]);
+                            }
+                        }
                         self.checkedVehicles([]);
                     },
                     function (data) {
-                        switch (data.status) {
-                            case 403:
-                                navService.navigateTo("login");
-                                break;
-                            default:
-                                navService.navigateTo("error");
-                        }
+                        navService.catchError(data);
                     }
                 );
             };
@@ -195,13 +187,7 @@ define(['app/service/vehiclesService','app/service/navService', "knockout", 'app
                         self.selectedFuel(self.vehicleFuels()[0]);
                     },
                     function (data) {
-                        switch (data.status) {
-                            case 403:
-                                navService.navigateTo("login");
-                                break;
-                            default:
-                                navService.navigateTo("error");
-                        }
+                        navService.catchError(data);
                     });
             };
 
@@ -219,13 +205,7 @@ define(['app/service/vehiclesService','app/service/navService', "knockout", 'app
                         self.selectedFuel(self.vehicleFuels()[0]);
                     },
                     function (data) {
-                        switch (data.status) {
-                            case 403:
-                                navService.navigateTo("login");
-                                break;
-                            default:
-                                navService.navigateTo("error");
-                        }
+                        navService.catchError(data);
                     });
             };
 

@@ -31,6 +31,11 @@
                 </tr>
             </tbody>
         </table>
+        <div class="panel panel-default" data-bind="visible: vehicles().length == 0 && !hasPreviousPage() && !hasNextPage()">
+            <div class="panel-body text-center">
+                Vehicles table is empty.
+            </div>
+        </div>
     </div>
 </div>
 
