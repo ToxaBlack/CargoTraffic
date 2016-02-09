@@ -10,32 +10,24 @@ define(['app/service/accountService', 'app/service/employeesService', 'app/servi
             var MAX_COUNT = 10000000;
             self.drivers = ko.observable([]);
             self.driver = ko.observable();
-            self.driverFullName = function(driver) {return driver.name+' '+driver.surname};
+
             self.vehicles = ko.observable([]);
             self.vehicle = ko.observable();
-            self.vehicleFullName = function(vehicle) {return vehicle.vehicleProducer + ' ' + vehicle.vehicleModel + ' ' + vehicle.licensePlate;};
-            self.Id = function(smth) {return smth.id;};
+
 
             self.manager = ko.observable("");
-            self.managerFullName = function() {
-                return self.manager().username + ', ' + self.manager().name + ' ' + self.manager().surname;};
+
+            self.Id = function(smth) {return smth.id;};
+            self.driverFullName = function(driver) {return driver.name+' '+driver.surname};
+            self.vehicleFullName = function(vehicle) {return vehicle.vehicleProducer + ' ' + vehicle.vehicleModel + ' ' + vehicle.licensePlate;};
+            self.managerFullName = function() {return self.manager().username + ', ' + self.manager().name + ' ' + self.manager().surname;};
             
 
             accountService.get(
                 function (data) {
                     self.manager(data);
-                    console.log(JSON.stringify(data));
-                    console.log(manager);
                 },
-                function (data) {
-                    switch (data.status) {
-                        case 403:
-                            navService.navigateTo("login");
-                            break;
-                        default:
-                            navService.navigateTo("error");
-                    }
-                },
+                function (data) {navService.catchError(data)},
                 function () {
                     bar.go(100);
                 }
@@ -46,15 +38,7 @@ define(['app/service/accountService', 'app/service/employeesService', 'app/servi
                     self.vehicles(data);
                     if(self.vehicles().length == 0) $("#noVehicles").text("No vehicles in your company");
                 },
-                function (data) {
-                    switch (data.status) {
-                        case 403:
-                            navService.navigateTo("login");
-                            break;
-                        default:
-                            navService.navigateTo("error");
-                    }
-                },
+                function (data) {navService.catchError(data)},
                 function () {
                     bar.go(100);
                 }
@@ -65,15 +49,7 @@ define(['app/service/accountService', 'app/service/employeesService', 'app/servi
                     self.drivers(data);
                     if(self.drivers().length == 0) $("#noDrivers").text("No drivers in your company");
                 },
-                function (data) {
-                    switch (data.status) {
-                        case 403:
-                            navService.navigateTo("login");
-                            break;
-                        default:
-                            navService.navigateTo("error");
-                    }
-                },
+                function (data) {navService.catchError(data)},
                 function () {
                     bar.go(100);
                 }
