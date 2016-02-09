@@ -7,13 +7,10 @@ define(["jquery", "knockout", "crossroads", "history"], function ($, ko, crossro
             {url: 'account', params: {page: 'account'}},
             {url: 'clients', params: {page: 'clients'}},
             {url: 'companies', params: {page: 'companies'}},
-            {url: 'warehouses', params: {page: 'warehouses'}},
-            {url:  'packingList',params:{page:'packingList'}},
-            {url: 'home', params: {page: 'home'}},
-            {url: 'packingLists', params:{page: 'packingLists'}},
-            {url: 'checkPackingList', params:{page: 'checkPackingList'}},
-            {url: 'waybill', params:{page: 'waybill'}},
-            {url: 'settings', params: {page: 'settings'}},
+            {url: 'packingList', params: {page: 'packingList'}},
+            {url: 'packingLists', params: {page: 'packingLists'}},
+            {url: 'checkPackingList', params: {page: 'checkPackingList'}},
+            {url: 'waybill', params: {page: 'waybill'}},
             {url: 'error', params: {page: 'error'}},
             {url: 'employees', params: {page: 'employees'}},
             {url: 'addEmployee', params: {page: 'addEmployee'}},
@@ -34,7 +31,7 @@ define(["jquery", "knockout", "crossroads", "history"], function ($, ko, crossro
             function (e) {
                 var title, urlPath;
                 urlPath = $(this).attr("href");
-                if (urlPath !== undefined) {
+                if (urlPath) {
                     if (urlPath.slice(0, 1) == "#") {
                         return true;
                     }

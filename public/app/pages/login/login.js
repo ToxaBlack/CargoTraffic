@@ -15,9 +15,9 @@ define(['app/service/authService', 'app/service/navService', 'app/service/barSer
                         function (data) {
                             var context = ko.contextFor($("body")[0]);
                             context.$data.roles(data);
-                            navService.navigateTo("account");
+                            navService.mainPage();
                         },
-                        function (data) {
+                        function () {
                             validator.showErrors({
                                 "error": "Please enter right user or password."
                             });
