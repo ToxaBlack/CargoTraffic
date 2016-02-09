@@ -3,12 +3,6 @@ define(['app/service/packingListService', 'app/service/navService', 'app/service
     function (packingListService, navService, bar, ko, $, packingListTemplate) {
         "use strict";
 
-        function PackingList(id, createDate) {
-            var self = this;
-            self.id = id;
-            self.createDate = createDate;
-        }
-
         function packingListViewModel() {
             bar.go(50);
             var self = this;
@@ -16,6 +10,14 @@ define(['app/service/packingListService', 'app/service/navService', 'app/service
             self.hasNextPage = ko.observable(false);
             self.hasPreviousPage = ko.observable(false);
             self.PACKINGLISTS_PER_PAGE = 10;
+            var dateOptions = {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+                hour: 'numeric',
+                minute: 'numeric',
+                second: 'numeric'
+            };
 
             packingListService.list(1, self.PACKINGLISTS_PER_PAGE + 1, true,
                 function (data) {
@@ -26,16 +28,11 @@ define(['app/service/packingListService', 'app/service/navService', 'app/service
                         self.hasNextPage(false);
                     }
                     self.hasPreviousPage(false);
+                    toReadableDate(data);
                     self.packingLists(data);
                 },
                 function (data) {
-                    switch (data.status) {
-                        case 403:
-                            navService.navigateTo("login");
-                            break;
-                        default:
-                            navService.navigateTo("error");
-                    }
+                    navService.catchError(data);
                 },
                 function () {
                     bar.go(100);
@@ -58,16 +55,11 @@ define(['app/service/packingListService', 'app/service/navService', 'app/service
                             self.hasNextPage(false);
                         }
                         self.hasPreviousPage(true);
+                        toReadableDate(data);
                         self.packingLists(data);
                     },
                     function (data) {
-                        switch (data.status) {
-                            case 403:
-                                navService.navigateTo("login");
-                                break;
-                            default:
-                                navService.navigateTo("error");
-                        }
+                        navService.catchError(data);
                     }
                 );
             };
@@ -84,22 +76,23 @@ define(['app/service/packingListService', 'app/service/navService', 'app/service
                             self.hasPreviousPage(false);
                         }
                         self.hasNextPage(true);
+                        toReadableDate(data);
                         self.packingLists(data);
                     },
                     function (data) {
-                        switch (data.status) {
-                            case 403:
-                                navService.navigateTo("login");
-                                break;
-                            default:
-                                navService.navigateTo("error");
-                        }
+                        navService.catchError(data);
                     });
             };
 
             self.toPackingList = function () {
                 navService.navigateTo("checkPackingList");
             };
+
+            function toReadableDate(data) {
+                $.each(data, function (index, element) {
+                    element.issueDate = new Date(element.issueDate).toLocaleString("ru", dateOptions);
+                });
+            }
 
             return self;
         }

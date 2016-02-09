@@ -50,7 +50,6 @@ public class PackingListRepository {
         query.setParameter(3, companyId);
         query.setMaxResults(count);
         List<PackingList> packingLists = query.getResultList();
-        LOGGER.debug("Get packingLists: {}", packingLists == null ? "null" : packingLists.size());
         if (CollectionUtils.isEmpty(packingLists))
             return new ArrayList<>();
         if (!ascOrder)

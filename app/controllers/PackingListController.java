@@ -68,7 +68,6 @@ public class PackingListController extends Controller {
         List<PackingList> packingLists;
         try {
             packingLists = service.getPackingLists(id, count, ascOrder);
-            LOGGER.debug("API get packingLists controller: {}", packingLists == null ? "null" : packingLists.size());
         } catch (ServiceException e) {
             LOGGER.error("error = {}", e);
             throw new ControllerException(e.getMessage(), e);
