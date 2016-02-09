@@ -2,6 +2,7 @@ package models;
 
 import be.objectify.deadbolt.core.models.*;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import play.data.validation.Constraints;
 
 import javax.persistence.*;
@@ -11,6 +12,7 @@ import java.util.List;
  * Created by Anton Chernov on 12/26/2015.
  */
 
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Entity
 @Table(name = "user")
 public class User implements Subject {

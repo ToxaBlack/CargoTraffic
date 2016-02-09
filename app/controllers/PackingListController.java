@@ -8,6 +8,7 @@ import models.PackingList;
 import models.ProductInPackingList;
 import models.User;
 import models.statuses.PackingListStatus;
+import org.hibernate.Hibernate;
 import play.Logger;
 import play.mvc.Controller;
 import play.libs.Json;
@@ -18,6 +19,7 @@ import service.PackingListService;
 import service.ServiceException;
 
 import javax.inject.Inject;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
@@ -66,10 +68,15 @@ public class PackingListController extends Controller {
         List<PackingList> packingLists;
         try {
             packingLists = service.getPackingLists(id, count, ascOrder);
+            LOGGER.debug("API get packingLists controller: {}", packingLists == null ? "null" : packingLists.size());
         } catch (ServiceException e) {
             LOGGER.error("error = {}", e);
             throw new ControllerException(e.getMessage(), e);
         }
-        return ok(Json.toJson(packingLists));
+        List<PackingListDTO> packingListDTOs = new ArrayList<>();
+        for (PackingList packingList : packingLists) {
+            packingListDTOs.add(PackingListDTO.toPackingListDTO(packingList));
+        }
+        return ok(Json.toJson(packingListDTOs));
     }
 }
