@@ -13,12 +13,13 @@ public class EmailService {
     @Inject
     private MailerClient mailerClient;
 
-    public void sendEmail(EmailAttributes emailAttributes) throws ServiceException {
+    public Void sendEmail(EmailAttributes emailAttributes) throws ServiceException {
         Email email = new Email()
                 .setSubject(emailAttributes.getEmailTitle())
                 .setFrom(emailAttributes.getFromEmail())
                 .addTo(emailAttributes.getRecipientEmail())
                 .setBodyText(emailAttributes.getEmailText());
         mailerClient.send(email);
+        return null;
     }
 }
