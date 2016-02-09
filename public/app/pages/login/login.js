@@ -7,16 +7,12 @@ define(['app/service/authService', 'app/service/navService', 'app/service/barSer
             var self = this;
             self.user = ko.observable();
             self.password = ko.observable();
-            self.error = ko.observable();
-
-
 
             self.login = function () {
                 var validator = $('#loginForm').validate();
                 if (validator.form())
                     authService.login(self.user(), self.password(),
                         function (data) {
-                            self.error("");
                             var context = ko.contextFor($("body")[0]);
                             context.$data.roles(data);
                             navService.navigateTo("account");
