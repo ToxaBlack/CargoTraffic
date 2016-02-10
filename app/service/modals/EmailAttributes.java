@@ -1,7 +1,7 @@
-package service;
+package service.modals;
 
 /**
- * Created by dmitriy on 29.1.16.
+ * Created by Anton Chernov on 2/10/2016.
  */
 public class EmailAttributes {
     private String fromEmail;

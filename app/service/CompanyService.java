@@ -9,6 +9,7 @@ import play.libs.F;
 import play.mvc.Http;
 import repository.CompanyRepository;
 import repository.UserRepository;
+import service.modals.EmailAttributes;
 
 import javax.inject.Inject;
 import java.util.ArrayList;

@@ -2,6 +2,7 @@ package service;
 
 import play.libs.mailer.Email;
 import play.libs.mailer.MailerClient;
+import service.modals.EmailAttributes;
 
 import javax.inject.Inject;
 
@@ -22,4 +23,6 @@ public class EmailService {
         mailerClient.send(email);
         return null;
     }
+
+
 }
