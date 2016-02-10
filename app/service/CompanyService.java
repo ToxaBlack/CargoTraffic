@@ -5,9 +5,11 @@ import models.User;
 import models.UserRole;
 import play.Logger;
 import play.db.jpa.JPA;
+import play.libs.F;
 import play.mvc.Http;
 import repository.CompanyRepository;
 import repository.UserRepository;
+import service.modals.EmailAttributes;
 
 import javax.inject.Inject;
 import java.util.ArrayList;
@@ -101,6 +103,6 @@ public class CompanyService {
         emailAttributes.setEmailTitle("Login data");
         emailAttributes.setFromEmail(user.email);
         emailAttributes.setRecipientEmail(admin.email);
-        emailService.sendEmail(emailAttributes);
+        F.Promise.promise(() -> emailService.sendEmail(emailAttributes));
     }
 }

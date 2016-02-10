@@ -75,6 +75,16 @@ define(["app/utils/utils"],
                 );
             };
 
+            var getDrivers = function (done, error, always) {
+                utils.send(
+                    "api/drivers",
+                    "GET",
+                    {},
+                    done,
+                    error,
+                    always
+                );
+            };
 
             return {
                 get: get,
@@ -83,7 +93,8 @@ define(["app/utils/utils"],
                 toPreviousPage: toPreviousPage,
                 add: add,
                 remove: remove,
-                update: update
+                update: update,
+                getDrivers: getDrivers
             }
         }
 

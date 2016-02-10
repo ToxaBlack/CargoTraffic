@@ -7,19 +7,23 @@ define(['app/service/authService', 'app/service/navService', 'app/service/barSer
             var self = this;
             self.user = ko.observable();
             self.password = ko.observable();
-            self.error = ko.observable();
+
             self.login = function () {
-                authService.login(self.user(), self.password(),
-                    function (data) {
-                        self.error("");
-                        var context = ko.contextFor($("body")[0]);
-                        context.$data.roles(data);
-                        navService.navigateTo("account");
-                    },
-                    function (data) {
-                        self.error("Invalid login or password");
-                    })
+                var validator = $('#loginForm').validate();
+                if (validator.form())
+                    authService.login(self.user(), self.password(),
+                        function (data) {
+                            var context = ko.contextFor($("body")[0]);
+                            context.$data.roles(data);
+                            navService.mainPage();
+                        },
+                        function () {
+                            validator.showErrors({
+                                "error": "Please enter right user or password."
+                            });
+                        })
             };
+
 
             bar.go(100);
             return self;

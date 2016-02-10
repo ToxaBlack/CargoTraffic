@@ -7,6 +7,7 @@ var require = {
         "history": "lib/navigation/native.history",
         "router": "app/boot/router",
         "jquery": "lib/jquery.min",
+        "validation": "lib/jquery.validate.min",
         "knockout": "lib/knockout",
         "text": "lib/text",
         "nanobar": "lib/nanobar.min"

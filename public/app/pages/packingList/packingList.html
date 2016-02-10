@@ -1,0 +1,78 @@
+<div class="page-header">
+<h1>Create packing list</h1>
+</div>
+<div class="form-horizontal">
+    <div class="form-group">
+        <label class="control-label col-md-3" for="date">Date of creating:</label>
+        <div class="col-md-7">
+            <input type="text" class="form-control" id="date"
+                   maxlength="40" readonly
+                   data-bind="value: packingList.issueDate">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-md-3" for="from">Point of departure*:</label>
+        <div class="col-md-7">
+            <input type="text" class="form-control" id="from"
+                   placeholder="Click to choose departure" maxlength="40" required readonly
+                   data-bind="click: openModal.bind($data,'from'), value: packingList.departureWarehouse().name">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-md-3" for="to">Point of destination*:</label>
+        <div class="col-md-7">
+            <input type="text" class="form-control" id="to"
+                   placeholder="Click to choose destination" maxlength="40" required readonly
+                   data-bind="click: openModal.bind($data,'to'),value: packingList.destinationWarehouse().name">
+        </div>
+    </div>
+</div>
+<div id="warehouses-popup" class="modal fade"  role="dialog">
+    <div class="modal-dialog" style="width: 1000px">
+
+        <div class="modal-content" style="width: 1000px">
+            <div class="modal-header">
+                <button type="button" class="close" data-bind="click: closeDialog">&times;</button>
+                <h4 class="modal-title">Warehouses</h4>
+            </div>
+
+            <warehouses></warehouses>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-bind="click: choose">Choose</button>
+                <button type="button" class="btn btn-default" data-bind="click: closeDialog">Cancel</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!-- ko if: packingList.products().length > 0-->
+<p><strong style="color: #1b6d85">
+    *Choose unit and type storage according to general principles
+    Unit: Kilogram, Liter, Square meter, pieces;
+    Storage type: Refrigerator, tank, boxcar;
+</strong><p>
+<table class="table table-hover">
+    <thead><tr>
+        <th>Goods name</th><th>Quantity</th><th>Unit</th><th>Storage</th><th>Price</th><th></th>
+    </tr></thead>
+    <tbody data-bind="foreach: packingList.products">
+    <tr>
+        <td><input type="text"  data-bind="value: name" maxlength="30"/></td>
+        <td><input type="number" data-bind="value: quantity" min="1"></td>
+        <td><input type="text" data-bind="value: unit" maxlength="30"> </td>
+        <td><input type="text" data-bind="value: storage" maxlength="30"></td>
+        <td><input type="number" data-bind="value: price" step="0.01" min="0"></td>
+        <td><button class="btn btn-danger"  data-bind="click: $parent.removeGoods">&times;</button></td>
+    </tr>
+    </tbody>
+</table>
+<!-- /ko -->
+<button class="btn btn-default" data-bind="click: addGoods,  enable: addEnable">Add goods</button>
+<hr>
+<div class="form-group">
+    <button class="btn btn-success pull-right btn-lg" data-bind="click: create, enable: createEnable">
+        Create list
+    </button>
+</div>

@@ -30,13 +30,7 @@ define(['app/service/navService', 'app/service/clientService', "knockout", 'app/
                     self.clients(data);
                 },
                 function (data) {
-                    switch (data.status) {
-                        case 403:
-                            navService.navigateTo("login");
-                            break;
-                        default:
-                            navService.navigateTo("error");
-                    }
+                    navService.catchError(data);
                 },
                 function () {
                     bar.go(100);
@@ -58,13 +52,7 @@ define(['app/service/navService', 'app/service/clientService', "knockout", 'app/
                         self.clients(data);
                     },
                     function (data) {
-                        switch (data.status) {
-                            case 403:
-                                navService.navigateTo("login");
-                                break;
-                            default:
-                                navService.navigateTo("error");
-                        }
+                        navService.catchError(data);
                     });
 
             };
@@ -83,13 +71,7 @@ define(['app/service/navService', 'app/service/clientService', "knockout", 'app/
                         self.clients(data);
                     },
                     function (data) {
-                        switch (data.status) {
-                            case 403:
-                                navService.navigateTo("login");
-                                break;
-                            default:
-                                navService.navigateTo("error");
-                        }
+                        navService.catchError(data);
                     });
             };
 
@@ -130,13 +112,7 @@ define(['app/service/navService', 'app/service/clientService', "knockout", 'app/
                         self.checkedClients([]);
                     },
                     function (data) {
-                        switch (data.status) {
-                            case 403:
-                                navService.navigateTo("login");
-                                break;
-                            default:
-                                navService.navigateTo("error");
-                        }
+                        navService.catchError(data);
                     });
             });
 
@@ -156,13 +132,7 @@ define(['app/service/navService', 'app/service/clientService', "knockout", 'app/
                         self.checkedClients([]);
                     },
                     function (data) {
-                        switch (data.status) {
-                            case 403:
-                                navService.navigateTo("login");
-                                break;
-                            default:
-                                navService.navigateTo("error");
-                        }
+                        navService.catchError(data);
                     });
             });
 
@@ -223,13 +193,7 @@ define(['app/service/navService', 'app/service/clientService', "knockout", 'app/
                         self.admin.email(null);
                     },
                     function (data) {
-                        switch (data.status) {
-                            case 403:
-                                navService.navigateTo("login");
-                                break;
-                            default:
-                                navService.navigateTo("error");
-                        }
+                        navService.catchError(data);
                     },
                     function () {
                         $('#addClientModal').modal('toggle');

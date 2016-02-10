@@ -21,11 +21,12 @@ import java.util.Objects;
  * Created by Anton Chernov on 1/4/2016.
  */
 public class TokenController {
+    public static final String COOKIE_NAME = "access_token";
     private static final Logger.ALogger LOGGER = Logger.of(TokenController.class);
     private static final SignatureAlgorithm ALGORITHM = SignatureAlgorithm.HS256;
     private static final String KEY = Play.application().configuration().getString("play.crypto.secret");
     private static final int tokenLive = 3600;
-    private static final String COOKIE_NAME = "access_token";
+
 
 
     public static void setToken(User user, String host, Http.Response response) {
@@ -42,7 +43,7 @@ public class TokenController {
         response.discardCookie(COOKIE_NAME);
     }
 
-    private static String createToken(User user, String host) {
+    public static String createToken(User user, String host) {
         LOGGER.debug("Create token for user = {} id = {}", user.username, user.id);
         long nowMillis = System.currentTimeMillis();
         Date now = new Date(nowMillis);
@@ -65,20 +66,24 @@ public class TokenController {
     }
 
     public static boolean validateToken(Http.Context context) throws Throwable {
-        String token = context.request()
-                .cookie(COOKIE_NAME)
-                .value();
+        Http.Cookie cookie = context.request().cookie(COOKIE_NAME);
+
+        if (Objects.isNull(cookie)) {
+            LOGGER.debug("Token cookie is null");
+            return false;
+        }
+
+        String token = cookie.value();
         Claims claims = Jwts.parser()
                 .setSigningKey(DatatypeConverter.parseBase64Binary(KEY))
                 .parseClaimsJws(token).getBody();
 
         User user = (new UserService()).find(Long.parseLong(claims.getId()));
 
-        LOGGER.debug("Validate token for user = {} id = {}", user.username, user.id);
-
         if (!Objects.isNull(user)) context.args.put("user", user);
         else return false;
-        LOGGER.debug("User = {} Roles = {}", user.username, StringUtils.join(user.getRoles()));
+        LOGGER.debug("Validate token for user = {} id = {} roles = {}", user.username, user.id, StringUtils.join(user.getRoles()));
+
         Date exp = claims.getExpiration();
         long nowMillis = System.currentTimeMillis();
         Long expMillis = exp.getTime();

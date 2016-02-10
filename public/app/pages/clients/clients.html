@@ -29,6 +29,11 @@
                 </tr>
             </tbody>
         </table>
+        <div class="panel panel-default" data-bind="visible: clients().length == 0">
+            <div class="panel-body text-center">
+                Clients table is empty.
+            </div>
+        </div>
     </div>
 </div>
 

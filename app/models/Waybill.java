@@ -1,6 +1,6 @@
 package models;
 
-import models.enums.WaybillStatus;
+import models.statuses.WaybillStatus;
 import play.data.validation.Constraints;
 
 import javax.persistence.*;
@@ -23,11 +23,6 @@ public class Waybill {
 
     public Date arrivalDate;
 
-    @ManyToOne
-    public Warehouse departureWarehouse;
-
-    @ManyToOne
-    public Warehouse destinationWarehouse;
 
     @OneToOne
     public PackingList packingList;

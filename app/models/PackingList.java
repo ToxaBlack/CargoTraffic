@@ -1,10 +1,14 @@
 package models;
 
-import models.enums.PackingListStatus;
+import models.statuses.PackingListStatus;
 import play.data.validation.Constraints;
 
+import javax.annotation.concurrent.Immutable;
 import javax.persistence.*;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  * Created by dmitriy on 1.2.16.
@@ -15,17 +19,31 @@ import java.util.Date;
 public class PackingList {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    public long id;
+    public Long id;
 
-    @Constraints.Required
-    public String listNumber;
-
-    @Constraints.Required
+    @Column(name = "issue_date")
     public Date issueDate;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "dispatcher")
     public User dispatcher;
 
-    @Constraints.Required
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "departure_warehouse")
+    public Warehouse departureWarehouse;
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "destination_warehouse")
+    public Warehouse destinationWarehouse;
+
+    @Column(name = "status")
+    @Enumerated(EnumType.STRING)
     public PackingListStatus status;
+
+    @OneToMany(mappedBy = "packingList")
+    public Set<ProductInPackingList> productsInPackingList = new HashSet<>();
+
+    public Set<ProductInPackingList> getProductsInPackingList() {
+        return productsInPackingList;
+    }
 }
