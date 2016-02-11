@@ -8,11 +8,11 @@ define(["jquery", "knockout", "crossroads", "history"], function ($, ko, crossro
             {url: 'clients', params: {page: 'clients'}},
             {url: 'companies', params: {page: 'companies'}},
             {url: 'warehouses', params: {page: 'warehouses'}},
-            {url:  'packingList',params:{page:'packingList'}},
+            {url: 'packingList', params: {page: 'packingList'}},
             {url: 'home', params: {page: 'home'}},
-            {url: 'packingLists', params:{page: 'packingLists'}},
-            {url: 'checkPackingList/{id}', params:{page: 'checkPackingList'}},
-            {url: 'waybill', params:{page: 'waybill'}},
+            {url: 'packingLists', params: {page: 'packingLists'}},
+            {url: 'checkPackingList/{id}', params: {page: 'checkPackingList'}},
+            {url: 'waybill/{id}', params: {page: 'waybill'}},
             {url: 'settings', params: {page: 'settings'}},
             {url: 'error', params: {page: 'error'}},
             {url: 'employees', params: {page: 'employees'}},
@@ -39,7 +39,7 @@ define(["jquery", "knockout", "crossroads", "history"], function ($, ko, crossro
                         return true;
                     }
                     e.preventDefault();
-                    title = $(document).find("title").text();
+                    title = $(this).text();
                     return History.pushState({
                         urlPath: urlPath
                     }, title, urlPath);

@@ -28,17 +28,19 @@ define(['app/service/startupService', 'app/service/navService', 'knockout', 'rou
             function (data) {
                 roles(data);
                 if (window.location.pathname === "/")
-                    navService.navigateTo("account");
+                    navService.mainPage();
 
             }, function () {
                 if (window.location.pathname === "/")
                     navService.navigateTo("login");
             }, function () {
-                ko.applyBindings({
-                    route: router.currentRoute,
-                    roles: roles
-                });
+
             });
+
+        ko.applyBindings({
+            route: router.currentRoute,
+            roles: roles
+        });
 
 
     });

@@ -9,7 +9,7 @@ define(["app/utils/utils", 'knockout'], function(utils, ko) {
         var mainPage = function() {
             var context = ko.contextFor($("body")[0]);
             var roles = context.$data.roles();
-            if (!roles) catchError();
+            if (!roles.length) return utils.goTo("login");
 
             switch (roles[0].name) {
                 case "SYS_ADMIN":
