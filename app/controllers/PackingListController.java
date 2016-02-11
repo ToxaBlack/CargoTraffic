@@ -78,4 +78,40 @@ public class PackingListController extends Controller {
         }
         return ok(Json.toJson(packingListDTOs));
     }
+
+    @Restrict({@Group("MANAGER")})
+    public Result getPackingList(Long id) throws ControllerException {
+        User oldUser = (User) Http.Context.current().args.get("user");
+        LOGGER.debug("API get packingList: {}, {}", oldUser.toString(), id);
+        PackingList packingList;
+        try {
+            packingList = service.getPackingList(id);
+        } catch (ServiceException e) {
+            LOGGER.error("error = {}", e);
+            throw new ControllerException(e.getMessage(), e);
+        }
+        PackingListDTO dto = PackingListDTO.toPackingListDTO(packingList);
+        return ok(Json.toJson(dto));
+    }
+
+    @Restrict({@Group("MANAGER")})
+    @BodyParser.Of(BodyParser.Json.class)
+    public Result changeStatus(Long id) throws ControllerException {
+        User oldUser = (User) Http.Context.current().args.get("user");
+        LOGGER.debug("API change status: {}, {}", oldUser.toString(), id);
+        JsonNode json = request().body().asJson();
+        if (Objects.isNull(json)) {
+            LOGGER.debug("Expecting Json data");
+            return badRequest("Expecting Json data");
+        }
+        String statusName = json.findPath("status").asText();
+        PackingListStatus packingListStatus = PackingListStatus.valueOf(statusName);
+        try {
+            service.changeStatus(id, packingListStatus);
+        } catch (ServiceException e) {
+            LOGGER.error("error = {}", e);
+            throw new ControllerException(e.getMessage(), e);
+        }
+        return ok();
+    }
 }
