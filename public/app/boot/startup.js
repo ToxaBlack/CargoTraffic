@@ -22,7 +22,7 @@ define(['app/service/startupService', 'app/service/navService', 'knockout', 'rou
 
         var roles = ko.observableArray([]);
 
-        startupService.init()
+        startupService.init();
 
         startupService.roles(
             function (data) {

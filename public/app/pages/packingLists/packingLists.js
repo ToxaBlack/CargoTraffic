@@ -84,8 +84,8 @@ define(['app/service/packingListService', 'app/service/navService', 'app/service
                     });
             };
 
-            self.toPackingList = function () {
-                navService.navigateTo("checkPackingList");
+            self.toPackingList = function (packingList) {
+                navService.navigateTo("checkPackingList/" + packingList.id);
             };
 
             function toReadableDate(data) {
