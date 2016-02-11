@@ -26,21 +26,16 @@ define(['app/service/startupService', 'app/service/navService', 'knockout', 'rou
 
         startupService.roles(
             function (data) {
-                roles(data);
+                if (Array.isArray(data)) roles(data);
                 if (window.location.pathname === "/")
                     navService.mainPage();
-
-            }, function () {
-                if (window.location.pathname === "/")
-                    navService.navigateTo("login");
-            }, function () {
-
+                ko.applyBindings({
+                    route: router.currentRoute,
+                    roles: roles
+                });
             });
 
-        ko.applyBindings({
-            route: router.currentRoute,
-            roles: roles
-        });
+
 
 
     });

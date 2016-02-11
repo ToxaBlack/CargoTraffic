@@ -1,15 +1,16 @@
-define(["app/utils/utils", 'knockout'], function(utils, ko) {
+define(["app/utils/utils", 'knockout'], function (utils, ko) {
     "use strict";
-    function NavService(){
+    function NavService() {
 
-        var navigateTo = function(page) {
+        var navigateTo = function (page) {
             utils.goTo(page);
         };
 
-        var mainPage = function() {
+        var mainPage = function () {
             var context = ko.contextFor($("body")[0]);
+            if (!context) return utils.goTo("login");
             var roles = context.$data.roles();
-            if (!roles.length) return utils.goTo("login");
+            if (!roles || !roles.length) return utils.goTo("login");
 
             switch (roles[0].name) {
                 case "SYS_ADMIN":
@@ -30,7 +31,7 @@ define(["app/utils/utils", 'knockout'], function(utils, ko) {
 
         };
 
-        var catchError = function(data) {
+        var catchError = function (data) {
             switch (data.status) {
                 case 403:
                     utils.goTo("login");
