@@ -34,7 +34,7 @@ define(["jquery", "knockout", "crossroads", "history"], function ($, ko, crossro
             function (e) {
                 var title, urlPath;
                 urlPath = $(this).attr("href");
-                if (urlPath !== undefined) {
+                if (urlPath) {
                     if (urlPath.slice(0, 1) == "#") {
                         return true;
                     }

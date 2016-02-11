@@ -1,4 +1,4 @@
-define(["app/utils/utils"], function(utils) {
+define(["app/utils/utils", 'knockout'], function(utils, ko) {
     "use strict";
     function NavService(){
 
@@ -7,7 +7,27 @@ define(["app/utils/utils"], function(utils) {
         };
 
         var mainPage = function() {
-            utils.goTo("account");
+            var context = ko.contextFor($("body")[0]);
+            var roles = context.$data.roles();
+            if (!roles) catchError();
+
+            switch (roles[0].name) {
+                case "SYS_ADMIN":
+                    utils.goTo("clients");
+                    break;
+                case "ADMIN":
+                    utils.goTo("employees");
+                    break;
+                case "DISPATCHER":
+                    utils.goTo("packingList");
+                    break;
+                case "MANAGER":
+                    utils.goTo("packingLists");
+                    break;
+                default:
+                    utils.goTo("error");
+            }
+
         };
 
         var catchError = function(data) {

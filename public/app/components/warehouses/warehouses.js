@@ -1,10 +1,9 @@
-define(['app/utils/messageUtil','app/service/warehouseService', 'app/service/navService', 'app/service/barService',
+define(['app/utils/messageUtil','app/service/warehouseService', 'app/service/navService',
         "knockout", "jquery", "text!./warehouses.html"],
-    function (message,warehouseService, navService, bar, ko, $, listTemplate) {
+    function (message,warehouseService, navService, ko, $, listTemplate) {
         "use strict";
 
         function warehousesViewModel() {
-            bar.go(50);
             var self = this;
             self.idEdit = -1;
             self.warehouses = ko.observableArray();
@@ -49,9 +48,6 @@ define(['app/utils/messageUtil','app/service/warehouseService', 'app/service/nav
                     },
                     function (data) {
                         navService.catchError(data);
-                    },
-                    function () {
-                        bar.go(100);
                     });
             };
 

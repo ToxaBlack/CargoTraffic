@@ -6,30 +6,9 @@
         <div>
             <!-- ko if: $root.roles().length !==0  -->
             <!-- ko foreach: $root.roles() -->
-            <!-- ko if: name == "SYS_ADMIN"  -->
-            <ul class="nav navbar-nav">
-                <li><a href="clients">Clients</a></li>
-            </ul>
-            <!-- /ko -->
             <!-- ko if: name == "ADMIN"  -->
             <ul class="nav navbar-nav">
-                <li><a href="employees">Employees</a></li>
-            </ul>
-            <ul class="nav navbar-nav">
                 <li><a href="vehicles">Vehicles</a></li>
-            </ul>
-            <!-- /ko -->
-            <!-- ko if: name == "DISPATCHER"  -->
-            <ul class="nav navbar-nav">
-                <li><a href="warehouses">Warehouses</a></li>
-            </ul>
-            <ul class="nav navbar-nav">
-                <li><a href="packingList">Create Packing List</a></li>
-            </ul>
-            <!-- /ko -->
-            <!-- ko if: name == "MANAGER"  -->
-            <ul class="nav navbar-nav">
-                <li><a href="packingLists">Filled Packing Lists</a></li>
             </ul>
             <!-- /ko -->
             <!-- /ko -->

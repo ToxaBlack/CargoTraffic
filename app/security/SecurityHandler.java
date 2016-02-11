@@ -22,7 +22,6 @@ public class SecurityHandler implements DeadboltHandler {
 
     @Override
     public F.Promise<Optional<Result>> beforeAuthCheck(Http.Context context) {
-        LOGGER.debug("Before check");
         return F.Promise.promise(Optional::empty);
     }
 
@@ -50,7 +49,7 @@ public class SecurityHandler implements DeadboltHandler {
     @Override
     public F.Promise<Result> onAuthFailure(Http.Context context, String s) {
         LOGGER.debug("Authorization failed");
-        return F.Promise.promise(() -> forbidden());
+        return F.Promise.promise(() -> forbidden("Authorization failed"));
     }
 
 
