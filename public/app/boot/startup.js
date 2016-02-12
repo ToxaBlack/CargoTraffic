@@ -31,7 +31,7 @@ define(['app/service/startupService', 'app/service/navService', 'knockout', 'rou
 
             }, function () {
                 if (window.location.pathname === "/")
-                    navService.mainPage();
+                    navService.mainPage(roles());
                 ko.applyBindings({
                     route: router.currentRoute,
                     roles: roles

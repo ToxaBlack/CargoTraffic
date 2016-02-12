@@ -1,5 +1,6 @@
 <div class="modal-dialog">
     <div class="modal-body">
+        <!-- ko if: $root.roles().length ===0  -->
         <form id="loginForm" class="form col-md-12 center-block">
             <h1 class="text-center">Login</h1>
 
@@ -15,5 +16,9 @@
                 <button class="btn btn-primary btn-lg btn-block" data-bind="click: login">Sign In</button>
             </div>
         </form>
+        <!-- /ko -->
+        <!-- ko if: $root.roles().length !== 0  -->
+        <h1 class="text-center">You already login</h1>
+        <!-- /ko -->
     </div>
 </div>

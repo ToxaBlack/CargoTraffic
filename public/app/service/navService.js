@@ -6,10 +6,12 @@ define(["app/utils/utils", 'knockout'], function (utils, ko) {
             utils.goTo(page);
         };
 
-        var mainPage = function () {
-            var context = ko.contextFor($("body")[0]);
-            if (!context) return utils.goTo("login");
-            var roles = context.$data.roles();
+        var mainPage = function (roles) {
+            if (!roles) {
+                var context = ko.contextFor($("body")[0]);
+                roles = context.$data.roles();
+            }
+
             if (!roles || !roles.length) return utils.goTo("login");
 
             switch (roles[0].name) {
