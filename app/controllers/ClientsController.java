@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import models.Company;
 import models.User;
+import org.apache.commons.collections4.CollectionUtils;
 import play.Logger;
 import play.libs.Json;
 import play.mvc.BodyParser;
@@ -117,6 +118,10 @@ public class ClientsController extends Controller {
         List<Long> clientIds = new ArrayList<>();
         while (iterator.hasNext()) {
             clientIds.add(iterator.next().asLong());
+        }
+        if (CollectionUtils.isEmpty(clientIds)) {
+            LOGGER.debug("Incorrect Json data");
+            return badRequest("Incorrect Json data");
         }
         LOGGER.debug("Unlock clients id: {}", Arrays.toString(clientIds.toArray()));
         try {

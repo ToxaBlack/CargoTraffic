@@ -3,10 +3,10 @@
         <button type="button" class="btn btn-info" title="Add client" data-bind="click: addClient">
             <span class="glyphicon glyphicon-plus"></span> Add
         </button>
-        <button type="button" id="lockButton" class="btn btn-danger" title="Lock company">
+        <button type="button" id="lockButton" class="btn btn-danger" title="Lock company" data-bind="disable: checkedClients().length === 0">
             <span class="glyphicon glyphicon-lock"></span> Lock
         </button>
-        <button type="button" id="unlockButton" class="btn btn-success" title="Unlock company">
+        <button type="button" id="unlockButton" class="btn btn-success" title="Unlock company" data-bind="disable: checkedClients().length === 0">
             <span class="glyphicon glyphicon-briefcase"></span> Unlock
         </button>
     </div>
