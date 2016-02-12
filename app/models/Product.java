@@ -19,8 +19,8 @@ public class Product {
     @JoinColumn(name = "measure_unit_id")
     public MeasureUnit measureUnit;
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "storage_type_id")
+    @Column(name = "storage_type")
+    @Enumerated(EnumType.STRING)
     public StorageType storageType;
 
     public Boolean deleted;

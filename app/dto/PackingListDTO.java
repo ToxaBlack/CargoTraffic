@@ -32,7 +32,7 @@ public class PackingListDTO {
             productInPackingList.product = new Product();
             productInPackingList.product.deleted = false;
             productInPackingList.product.measureUnit = new MeasureUnit(productDTO.unit.toUpperCase().trim());
-            productInPackingList.product.storageType = new StorageType(productDTO.storage.toUpperCase().trim());
+            productInPackingList.product.storageType = StorageType.valueOf(productDTO.storage.toUpperCase().trim());
             productInPackingList.product.name = productDTO.name;
 
             productInPackingList.count = productDTO.quantity;
@@ -58,7 +58,7 @@ public class PackingListDTO {
             productDTO.name = productInPackingList.product.name;
             productDTO.price = productInPackingList.price;
             productDTO.quantity = productInPackingList.count;
-            productDTO.storage = productInPackingList.product.storageType.type;
+            productDTO.storage = productInPackingList.product.storageType.name();
             productDTO.unit = productInPackingList.product.measureUnit.name;
             dto.products.add(productDTO);
         }
