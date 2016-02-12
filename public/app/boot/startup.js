@@ -26,7 +26,10 @@ define(['app/service/startupService', 'app/service/navService', 'knockout', 'rou
 
         startupService.roles(
             function (data) {
-                if (Array.isArray(data)) roles(data);
+                roles(data);
+            }, function () {
+
+            }, function () {
                 if (window.location.pathname === "/")
                     navService.mainPage();
                 ko.applyBindings({
@@ -34,8 +37,5 @@ define(['app/service/startupService', 'app/service/navService', 'knockout', 'rou
                     roles: roles
                 });
             });
-
-
-
 
     });

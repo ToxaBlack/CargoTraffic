@@ -1,6 +1,7 @@
 package controllers;
 
 import be.objectify.deadbolt.java.actions.SubjectNotPresent;
+import be.objectify.deadbolt.java.actions.SubjectPresent;
 import com.fasterxml.jackson.databind.JsonNode;
 import models.User;
 import org.mindrot.jbcrypt.BCrypt;
@@ -15,7 +16,6 @@ import service.ServiceException;
 import service.UserService;
 
 import javax.inject.Inject;
-import java.util.Objects;
 
 /**
  * Created by Anton Chernov on 12/30/2015.
@@ -56,15 +56,11 @@ public class LoginController extends Controller {
         }
     }
 
-
+    @SubjectPresent
     public Result roles() {
         User user = (User) Http.Context.current().args.get("user");
-        if (Objects.isNull(user))
-            return ok(Json.toJson("You don't login!"));
-        else {
-            LOGGER.debug("API Get roles for user = {}", user.toString());
-            return ok(Json.toJson(user.getRoles()));
-        }
+        LOGGER.debug("API Get roles for user = {}", user.toString());
+        return ok(Json.toJson(user.getRoles()));
     }
 
 

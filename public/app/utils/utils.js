@@ -16,7 +16,7 @@ define(['jquery','crossroads','history'],
         function goTo(page) {
             History.pushState({
                 urlPath: '/' + page
-            }, $(this).text(), '/' + page);
+            }, 'CargoTraffic', '/' + page);
         }
 
         return {
