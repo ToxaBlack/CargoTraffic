@@ -22,6 +22,12 @@
             <tbody data-bind="foreach: employees">
                 <tr>
                     <td><input class="idCheck" type="checkbox" data-bind="checked: $parent.checkedEmployees, attr: { value: id }"/></td>
+                    <td>
+                        <button type="button" class="btn btn-link"
+                                data-bind="text: ko.computed(function() {return name + ' ' + patronymic + ' '+ surname; }),
+                                click: $parent.onLink, attr: { value: id } ">
+                        </button>
+                    </td>
                     <td class="link" data-bind="text: username"></td>
                     <td>
                     <ul data-bind="foreach: listOfRoles = ko.observableArray(userRoleList)">
