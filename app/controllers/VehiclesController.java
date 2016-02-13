@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import models.User;
 import models.Vehicle;
+import org.apache.commons.collections4.CollectionUtils;
 import play.Logger;
 import play.libs.Json;
 import play.mvc.BodyParser;
@@ -112,8 +113,17 @@ public class VehiclesController {
         ArrayNode vehicleIdsNode = (ArrayNode) json;
         Iterator<JsonNode> iterator = vehicleIdsNode.elements();
         List<Long> vehicleIds = new ArrayList<>();
-        while (iterator.hasNext()) {
-            vehicleIds.add(iterator.next().asLong());
+        try {
+            while (iterator.hasNext()) {
+                vehicleIds.add(iterator.next().asLong());
+            }
+        } catch (RuntimeException e) {
+            LOGGER.debug("Incorrect Json data");
+            return badRequest("Incorrect Json data");
+        }
+        if (CollectionUtils.isEmpty(vehicleIds)) {
+            LOGGER.debug("Incorrect Json data");
+            return badRequest("Incorrect Json data");
         }
         LOGGER.debug("Delete vehicles id: {}", Arrays.toString(vehicleIds.toArray()));
         try {

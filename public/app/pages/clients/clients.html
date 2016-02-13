@@ -19,6 +19,7 @@
                     <th><input class="selectAll" type="checkbox" data-bind="checked: allChecked" id="selectAllCheckbox"></th>
                     <th>Company</th>
                     <th>Status</th>
+                    <th>Date of status changing</th>
                 </tr>
             </thead>
             <tbody data-bind="foreach: clients">
@@ -26,6 +27,7 @@
                     <td><input class="idCheck" type="checkbox" data-bind="checked: $parent.checkedClients, attr: { value: id }"/></td>
                     <td class="link" data-bind="text: name"></td>
                     <td class="link" data-bind="text: $parent.getClientStatus(locked)"></td>
+                    <td class="link" data-bind="text: date"></td>
                 </tr>
             </tbody>
         </table>

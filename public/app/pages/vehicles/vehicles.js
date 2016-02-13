@@ -2,6 +2,8 @@ define(['app/service/vehiclesService','app/service/navService', "knockout", 'app
     function (vehiclesService, navService, ko, bar, $, listTemplate) {
         "use strict";
 
+        var validator;
+
         function vehiclesViewModel() {
             bar.go(50);
             var self = this;
@@ -15,6 +17,7 @@ define(['app/service/vehiclesService','app/service/navService', "knockout", 'app
             self.vehicleTypes = ko.observableArray(['Box','Refrigerator','Tank']);
             self.selectedType = ko.observable();
             self.submitDialogButtonName = ko.observable("");
+            self.error = ko.observable();
 
             self.checkedVehicles = ko.observableArray([]);
             self.allChecked = ko.computed(function () {
@@ -170,46 +173,76 @@ define(['app/service/vehiclesService','app/service/navService', "knockout", 'app
             };
 
             self.updateVehicle = function () {
-                vehiclesService.update(
-                    self.modalDialogVehicle(),
-                    function (data) {
-                        var auxiliaryArray = self.vehicles().slice();
-                        $.each(auxiliaryArray, function (index, element) {
-                            if ($.inArray(element.id.toString(), data.id.toString()) !== -1) {
-                                auxiliaryArray.splice(index, 1);
-                                auxiliaryArray.splice(index, 0, element);
-                            }
+                if (validate()) {
+                    $('#vehicleModal').modal('hide');
+                    validator.resetForm();
+                    vehiclesService.update(
+                        self.modalDialogVehicle(),
+                        function (data) {
+                            var auxiliaryArray = self.vehicles().slice();
+                            $.each(auxiliaryArray, function (index, element) {
+                                if ($.inArray(element.id.toString(), data.id.toString()) !== -1) {
+                                    auxiliaryArray.splice(index, 1);
+                                    auxiliaryArray.splice(index, 0, element);
+                                }
+                            });
+                            self.vehicles([]);
+                            self.vehicles(auxiliaryArray);
+                            self.modalDialogVehicle({'vehicleFuel': {}, 'vehicleType': {}, 'company': {}});
+                            self.selectedType(self.vehicleTypes()[0]);
+                            self.selectedFuel(self.vehicleFuels()[0]);
+                        },
+                        function (data) {
+                            navService.catchError(data);
                         });
-                        self.vehicles([]);
-                        self.vehicles(auxiliaryArray);
-                        self.modalDialogVehicle({'vehicleFuel':{}, 'vehicleType':{}, 'company':{}});
-                        self.selectedType(self.vehicleTypes()[0]);
-                        self.selectedFuel(self.vehicleFuels()[0]);
-                    },
-                    function (data) {
-                        navService.catchError(data);
-                    });
+                }
             };
 
             self.addVehicle = function () {
-                vehiclesService.add(
-                    self.modalDialogVehicle(),
-                    function (vehicle) {
-                        if (self.vehicles().length < self.VEHICLES_PER_PAGE) {
-                            self.vehicles.push(vehicle);
-                        } else {
-                            self.hasNextPage(true);
-                        }
-                        self.modalDialogVehicle({'vehicleFuel':{}, 'vehicleType':{}, 'company':{}});
-                        self.selectedType(self.vehicleTypes()[0]);
-                        self.selectedFuel(self.vehicleFuels()[0]);
-                    },
-                    function (data) {
-                        navService.catchError(data);
-                    });
+                if (validate()) {
+                    $('#vehicleModal').modal('hide');
+                    validator.resetForm();
+                    vehiclesService.add(
+                        self.modalDialogVehicle(),
+                        function (vehicle) {
+                            if (self.vehicles().length < self.VEHICLES_PER_PAGE) {
+                                self.vehicles.push(vehicle);
+                            } else {
+                                self.hasNextPage(true);
+                            }
+                            self.modalDialogVehicle({'vehicleFuel': {}, 'vehicleType': {}, 'company': {}});
+                            self.selectedType(self.vehicleTypes()[0]);
+                            self.selectedFuel(self.vehicleFuels()[0]);
+                        },
+                        function (data) {
+                            navService.catchError(data);
+                        });
+                }
             };
 
             return self;
+        }
+
+
+        function validate() {
+            validator = $('#vehicleForm').validate({
+                rules: {
+                    manufacturer: "required",
+                    model: "required",
+                    licensePlate: "required",
+                    productsWeight: {
+                        required: true,
+                        number: true
+                    },
+                    fuelType: "required",
+                    fuelConsumption: {
+                        required: true,
+                        number: true
+                    },
+                    vehicleType: "required"
+                }
+            });
+            return validator.form();
         }
 
 
