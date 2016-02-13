@@ -1,14 +1,14 @@
 define(['app/service/packingListService','app/service/navService' ,'app/service/barService', "knockout",
-        'jquery',"app/models/models","text!./packingList.html"],
+        'jquery',"app/models/models","app/utils/messageUtil","text!./packingList.html"],
 
-    function (packingListService, navService ,bar, ko, $,models,ttnTemplate) {
+    function (packingListService, navService ,bar, ko, $,models,message,ttnTemplate) {
         "use strict";
 
         function packingViewModel() {
 
             bar.go(50);
             var self = this;
-            self.units = ko.observableArray(["Kilogram","Liter","Square meter","Pieces"]);
+            self.storages = ko.observableArray(["Refrigerator","Tank","Boxcar"]);
             self.packingList =  {"issueDate":new Date(), "destinationWarehouse": ko.observable({name:""}),
                 "departureWarehouse":ko.observable({name:""}), "products":ko.observableArray()};
 
@@ -54,6 +54,9 @@ define(['app/service/packingListService','app/service/navService' ,'app/service/
 
             self.choose = function() {
                 var context = ko.contextFor($("#warehouses")[0]);
+                if(! context.$data.getChosenWarehouse()){
+                    return false;
+                }
                 switch(self.warehousePoint) {
                     case 'from' :
                         self.packingList.departureWarehouse(context.$data.getChosenWarehouse());
@@ -64,11 +67,11 @@ define(['app/service/packingListService','app/service/navService' ,'app/service/
                     default: return false;
                 }
                 context.$data.checkedWarehouses([]);
+                message.deleteMessage();
                 $('#warehouses-popup').modal("hide");
             };
 
             self.create = function() {
-               // alert(ko.toJSON(self.packingList));
                 packingListService.save(
                     ko.toJSON(self.packingList),
                     function (data) {

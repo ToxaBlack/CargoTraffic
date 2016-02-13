@@ -31,10 +31,15 @@ define(['jquery'],
                 '<strong>'+ message +'</strong></div>');
         }
 
+        function deleteMessage() {
+            $('.message_placeholder').empty();
+        }
+
         return {
             createWarningMessage: createWarningMesssage,
             createSuccessMessage: createSuccessMesssage,
             createInfoMesssage: createInfoMesssage,
-            createErrorMesssage: createErrorMesssage
+            createErrorMesssage: createErrorMesssage,
+            deleteMessage: deleteMessage
         };
     });
