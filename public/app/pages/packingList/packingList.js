@@ -9,7 +9,7 @@ define(['app/service/packingListService','app/service/navService' ,'app/service/
             bar.go(50);
             var self = this;
             self.storages = ko.observableArray(["Refrigerator","Tank","Boxcar"]);
-            self.packingList =  {"issueDate":new Date(), "destinationWarehouse": ko.observable({name:""}),
+            self.packingList =  {"issueDate":(new Date()).toString(), "destinationWarehouse": ko.observable({name:""}),
                 "departureWarehouse":ko.observable({name:""}), "products":ko.observableArray()};
 
             self.addEnable = ko.computed(function() {
