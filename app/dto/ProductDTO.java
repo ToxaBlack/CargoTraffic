@@ -9,5 +9,5 @@ public class ProductDTO {
     public Long quantity;
     public String unit;
     public String storage;
-    public Long price;
+    public Double price;
 }

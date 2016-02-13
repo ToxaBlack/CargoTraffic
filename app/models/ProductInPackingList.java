@@ -47,7 +47,7 @@ public class ProductInPackingList {
     public Id id = new Id();
 
     @Column(name = "price", nullable = false, insertable = true, updatable = true)
-    public Long price;
+    public Double price;
 
     @Column(name = "count", nullable = false, insertable = true, updatable = true)
     public Long count;

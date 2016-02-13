@@ -1,29 +1,27 @@
-<div class="page-header">
+<div class="page-header" xmlns:text="http://www.w3.org/1999/xhtml">
     <h1>Create packing list</h1>
 </div>
 <div class="form-horizontal">
     <div class="form-group">
-        <label class="control-label col-md-3" for="date">Date of creating:</label>
+        <label class="control-label col-md-3">Date of creating:</label>
         <div class="col-md-7">
-            <input type="text" class="form-control" id="date"
-                   maxlength="40" readonly
-                   data-bind="value: packingList.issueDate">
+             <label class="control-label"><span data-bind="text: packingList.issueDate"></span></label>
         </div>
     </div>
     <div class="form-group">
-        <label class="control-label col-md-3" for="from">Point of departure*:</label>
+        <label class="control-label col-md-3">Point of departure*:</label>
         <div class="col-md-7">
-            <input type="text" class="form-control" id="from"
-                   placeholder="Click to choose departure" maxlength="40" required readonly
-                   data-bind="click: openModal.bind($data,'from'), value: packingList.departureWarehouse().name">
+            <label class="control-label" data-bind="click: openModal.bind($data,'from')">
+              <a href="#"> <span class="btn-link" data-bind="text: packingList.departureWarehouse().name"></span></a>
+            </label>
         </div>
     </div>
     <div class="form-group">
-        <label class="control-label col-md-3" for="to">Point of destination*:</label>
+        <label class="control-label col-md-3">Point of destination*:</label>
         <div class="col-md-7">
-            <input type="text" class="form-control" id="to"
-                   placeholder="Click to choose destination" maxlength="40" required readonly
-                   data-bind="click: openModal.bind($data,'to'),value: packingList.destinationWarehouse().name">
+            <label type="text" class="control-label" data-bind="click: openModal.bind($data,'to')">
+             <a href="#"> <span class="btn-link" data-bind="text: packingList.destinationWarehouse().name"></span></a>
+            </label>
         </div>
     </div>
 </div>
@@ -71,7 +69,7 @@
 
             </select>
         </td>
-        <td><input type="number" data-bind="value: price" step="0.01" min="0"></td>
+        <td><input type="number" data-bind="value: price" step="0.01" min="0" max="1000000"></td>
         <td><button class="btn btn-danger"  data-bind="click: $parent.removeGoods">&times;</button></td>
     </tr>
     </tbody>
