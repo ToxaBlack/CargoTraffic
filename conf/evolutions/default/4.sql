@@ -28,7 +28,7 @@ DEFAULT CHARACTER SET = utf8mb4;
 CREATE TABLE `cargo_traffic`.`product_in_packing_list` (
   `product_id` INT(11) UNSIGNED NOT NULL ,
   `packing_list_id` INT(11) UNSIGNED NOT NULL ,
-  `price` INT(11) NULL ,
+  `price` DECIMAL(10,2) NULL ,
   `count` INT(11) NULL ,
   `status` ENUM('ACCEPTED','VERIFICATION_COMPLETED','DELIVERED','LOST'),
   `deleted` BIT(1) NULL DEFAULT FALSE ,
