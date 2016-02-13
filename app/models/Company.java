@@ -3,6 +3,7 @@ package models;
 import play.data.validation.Constraints;
 
 import javax.persistence.*;
+import java.util.Date;
 
 /**
  * Created by Anton Chernov on 12/30/2015.
@@ -18,6 +19,9 @@ public class Company {
 
     @Constraints.Required
     public String name;
+
+    @Constraints.Required
+    public Date date;
 
     @Constraints.Required
     public Boolean locked;

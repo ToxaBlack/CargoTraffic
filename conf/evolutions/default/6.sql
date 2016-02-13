@@ -3,11 +3,11 @@
 # --- !Ups
 
 
-INSERT INTO `cargo_traffic`.`company` (name) VALUES
-  ("TradeCorp"),
-  ("TravelInc"),
-  ("SomeInc"),
-  ("Test");
+INSERT INTO `cargo_traffic`.`company` (name, date) VALUES
+  ("TradeCorp", "2015-01-01 10-00-00"),
+  ("TravelInc", "2010-01-01 11-00-00"),
+  ("SomeInc", "2005-01-01 12-00-00"),
+  ("Test", "2000-01-01 13-00-00");
 
 
 INSERT INTO `address` (country, city, street, house, flat) VALUES
