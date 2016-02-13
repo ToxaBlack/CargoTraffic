@@ -1,5 +1,5 @@
-define(['app/service/navService', "knockout", 'app/service/barService', "jquery", "text!./waypoints.html"],
-    function (navService, ko, bar, $, waypointsTemplate) {
+define(['app/service/waypointsService','app/service/navService', "knockout", 'app/service/barService', "jquery", "text!./waypoints.html"],
+    function (service, navService, ko, bar, $, waypointsTemplate) {
         "use strict";
 
         function waypointsViewModel() {
@@ -20,11 +20,12 @@ define(['app/service/navService', "knockout", 'app/service/barService', "jquery"
                 js.src = "http://maps.googleapis.com/maps/api/js?key=AIzaSyD-OL6Y6UrkY0rhd9rDl70wViuhRXW9OrE";
                 document.body.appendChild(js);
             }
-            $(document).ready(function(){
+
+            $(document).ready(function () {
                 includeJs();
             });
             function initialize() {
-                var center = new google.maps.LatLng(51.508742,-0.120850);
+                var center = new google.maps.LatLng(51.508742, -0.120850);
                 var lastPoint = center;
                 var mapProp = {
                     center: center,
@@ -32,10 +33,10 @@ define(['app/service/navService', "knockout", 'app/service/barService', "jquery"
                     zoom: 7,
                     //mapTypeId:google.maps.MapTypeId.ROADMAP
                 };
-                var map = new google.maps.Map(document.getElementById("googleMap"),mapProp);
-                var marker=new google.maps.Marker({
+                var map = new google.maps.Map(document.getElementById("googleMap"), mapProp);
+                var marker = new google.maps.Marker({
                     position: mapProp.center,
-                    animation:google.maps.Animation.BOUNCE
+                    animation: google.maps.Animation.BOUNCE
                 });
                 marker.setMap(map);
 
@@ -45,31 +46,18 @@ define(['app/service/navService', "knockout", 'app/service/barService', "jquery"
                 var directionsService = new google.maps.DirectionsService();
 
                 function placeMarker(location) {
-                    /*var marker = new google.maps.Marker({
-                        position: location,
-                        map: map,
-                        animation:google.maps.Animation.BOUNCE
-                    });*/
                     self.waypoints().push(location);
                     var infowindow = new google.maps.InfoWindow({
                         content: 'Latitude: ' + location.lat() +
                         '<br>Longitude: ' + location.lng()
                     });
-                    //infowindow.open(map,marker);
-
-                   /* var request = {
-                        destination: location,
-                        origin: lastPoint,
-                        travelMode: google.maps.TravelMode.DRIVING
-                    };*/
-
                     lastPoint = location;
                     var waypts = [];
-                    for (var i = 0; i <  self.waypoints().length; i++) {
+                    for (var i = 0; i < self.waypoints().length - 1; i++) {
                         waypts.push({
-                                location:  self.waypoints()[i],
-                                stopover: true
-                            });
+                            location: self.waypoints()[i],
+                            stopover: true
+                        });
                     }
                     directionsService.route({
                         origin: center,
@@ -77,7 +65,7 @@ define(['app/service/navService', "knockout", 'app/service/barService', "jquery"
                         waypoints: waypts,
                         optimizeWaypoints: true,
                         travelMode: google.maps.TravelMode.DRIVING
-                    }, function(response, status) {
+                    }, function (response, status) {
                         if (status === google.maps.DirectionsStatus.OK) {
                             directionsDisplay.setDirections(response);
                             var route = response.routes[0];
@@ -86,11 +74,12 @@ define(['app/service/navService', "knockout", 'app/service/barService', "jquery"
                         }
                     });
                 }
-                google.maps.event.addListener(marker,'click',function() {
-                    map.setZoom(9);
+
+                google.maps.event.addListener(marker, 'click', function () {
+                    map.setZoom(10);
                     map.setCenter(marker.getPosition());
                 });
-                google.maps.event.addListener(map, 'click', function(event) {
+                google.maps.event.addListener(map, 'click', function (event) {
                     placeMarker(event.latLng);
                 });
 
@@ -98,9 +87,31 @@ define(['app/service/navService', "knockout", 'app/service/barService', "jquery"
 
 
             $('#addButton').click(
-                function(){
+                function () {
                     initialize();
-                    $('#editModal').modal()
+                    $('#editModal').modal();
+                }
+            );
+
+            $('#btnSavePoints').click(
+                function () {
+                    console.log(self.waypoints());
+                    console.log(JSON.stringify(self.waypoints()));
+                    service.save(
+                        self.waypoints(),
+                        function (data) {
+                            self.waypoints([]);
+                            window.location.reload();
+                        },
+                        function (data) {
+                            switch (data.status) {
+                                case 403:
+                                    navService.navigateTo("login");
+                                    break;
+                                default:
+                                    navService.navigateTo("error");
+                            }
+                        });
                 }
             );
 

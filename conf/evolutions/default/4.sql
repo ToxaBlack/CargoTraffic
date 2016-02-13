@@ -53,4 +53,4 @@ INSERT INTO `measure_unit` (name) VALUES
 DROP TABLE IF EXISTS `cargo_traffic`.`product_in_packing_list`;
 DROP TABLE IF EXISTS `cargo_traffic`.`product`;
 DROP TABLE IF EXISTS `cargo_traffic`.`measure_unit`;
-DROP TABLE IF EXISTS `cargo_traffic`.`storage_type`;
+
