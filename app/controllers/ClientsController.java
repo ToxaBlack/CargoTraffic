@@ -95,6 +95,10 @@ public class ClientsController extends Controller {
         while (iterator.hasNext()) {
             clientIds.add(iterator.next().asLong());
         }
+        if (CollectionUtils.isEmpty(clientIds)) {
+            LOGGER.debug("Incorrect Json data");
+            return badRequest("Incorrect Json data");
+        }
         LOGGER.debug("Lock clients id: {}", Arrays.toString(clientIds.toArray()));
         try {
             companyService.lockCompanies(clientIds);
