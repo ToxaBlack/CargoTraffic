@@ -85,7 +85,11 @@ define(['app/service/packingListService', 'app/service/navService', 'app/service
             };
 
             self.toPackingList = function (packingList) {
-                navService.navigateTo("checkPackingList/" + packingList.id);
+                var context = ko.contextFor($("body")[0]);
+                var roles = context.$data.roles();
+                if(roles[0].name === "MANAGER") {
+                    navService.navigateTo("checkPackingList/" + packingList.id);
+                }
             };
 
             function toReadableDate(data) {

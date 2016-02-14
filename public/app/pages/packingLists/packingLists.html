@@ -9,21 +9,7 @@
                 <th>Warehouse address</th>
             </tr>
             </thead>
-            <!-- ko foreach: $root.roles() -->
-            <!-- ko if: name == "DISPATCHER"  -->
-            <tbody class="cursor-hand"  data-bind="foreach: $parent.packingLists">
-            <tr>
-                <td  class="link" data-bind="text: id"></td>
-                <td  class="link" data-bind="text: issueDate"></td>
-                <td  class="link" data-bind="text: ko.computed(function() {return dispatcher.surname + ' ' + dispatcher.name + ' ' + dispatcher.patronymic; })"></td>
-                <td  class="link" data-bind="text: ko.computed(function() {return departureWarehouse.address.country + ', ' + departureWarehouse.address.city + ' city, ' + departureWarehouse.address.street + ' st., ' + departureWarehouse.address.house; })"></td>
-            </tr>
-            </tbody>
-            <!-- /ko -->
-            <!-- /ko -->
-            <!-- ko foreach: $root.roles() -->
-            <!-- ko if: name == "MANAGER"  -->
-            <tbody class="cursor-hand"  data-bind="foreach: $parent.packingLists">
+            <tbody class="cursor-hand" data-bind="foreach: packingLists">
             <tr data-bind="click: $parent.toPackingList">
                 <td  class="link" data-bind="text: id"></td>
                 <td  class="link" data-bind="text: issueDate"></td>
@@ -31,10 +17,6 @@
                 <td  class="link" data-bind="text: ko.computed(function() {return departureWarehouse.address.country + ', ' + departureWarehouse.address.city + ' city, ' + departureWarehouse.address.street + ' st., ' + departureWarehouse.address.house; })"></td>
             </tr>
             </tbody>
-            <!-- /ko -->
-            <!-- /ko -->
-
-
         </table>
         <div class="panel panel-default" data-bind="visible: packingLists().length == 0">
             <div class="panel-body text-center">
