@@ -1,6 +1,6 @@
-define(['app/service/accountService', 'app/service/employeesService', 'app/service/vehiclesService','app/service/packingListService', 'app/service/navService', 'app/service/barService', "knockout", 'jquery',"text!./waybill.html"],
+define(['app/service/waybillService','app/service/accountService', 'app/service/employeesService', 'app/service/vehiclesService','app/service/packingListService', 'app/service/navService', 'app/service/barService', "knockout", 'jquery',"text!./waybill.html"],
 
-    function (accountService, employeesService, vehiclesService, packingListService, navService, bar, ko, $, waybillTemplate) {
+    function (waybillService, accountService, employeesService, vehiclesService, packingListService, navService, bar, ko, $, waybillTemplate) {
         "use strict";
 
         function waybillViewModel(requestParams) {
@@ -242,21 +242,6 @@ define(['app/service/accountService', 'app/service/employeesService', 'app/servi
                         var element2 = document.createTextNode('Latitude: ' + self.waypoints()[i].lat() + ' Longitude: ' + self.waypoints()[i].lng());
                         cell2.appendChild(element2);
                     }
-                    /*service.save(
-                        self.waypoints(),
-                        function (data) {
-                            self.waypoints([]);
-                            window.location.reload();
-                        },
-                        function (data) {
-                            switch (data.status) {
-                                case 403:
-                                    navService.navigateTo("login");
-                                    break;
-                                default:
-                                    navService.navigateTo("error");
-                            }
-                        });*/
                 }
             );
 
@@ -266,7 +251,19 @@ define(['app/service/accountService', 'app/service/employeesService', 'app/servi
               }
             );
 
-
+            $('#btnSendAll').click(
+              function(){
+                  waybillService.save(
+                      self.waybill(),
+                      self.waypoints(),
+                      function(){
+                          self.waybill = ko.observableArray([]);
+                          self.waypoints = ko.observableArray([]);
+                      },
+                      function (data) {navService.catchError(data);}
+                  );
+              }
+            );
             bar.go(100);
             return self;
         }

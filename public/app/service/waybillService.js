@@ -1,14 +1,13 @@
 define(["app/utils/utils"],
     function (utils) {
         "use strict";
-        function WaypointsService() {
+        function WaybillService() {
 
-            var save = function (waypoints, done, error, always) {
+            var save = function (waybill, waypoints, done, error, always) {
                 utils.send(
-                    "api/waypoints",
+                    "api/waybill",
                     "POST",
-                    JSON.stringify(waypoints),
-                    //JSON.stringify({'waypoints' : waypoints}),
+                    JSON.stringify({'waybill' : waybill ,'waypoints' :waypoints}),
                     done,
                     error
                 );
@@ -19,5 +18,5 @@ define(["app/utils/utils"],
             }
         }
 
-        return new WaypointsService();
+        return new WaybillService();
     });

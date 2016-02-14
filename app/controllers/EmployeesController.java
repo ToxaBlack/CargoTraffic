@@ -46,6 +46,7 @@ public class EmployeesController extends Controller {
             User user = new User();
             user = EmployeeDTO.getUser(userDTO, user);
             user.company.id = oldUser.company.id;
+            //TODO Validation
                 /*if (!validateAccountData(user)) {
                     LOGGER.debug("Account data not valid");
                     return badRequest("Account data not valid");
