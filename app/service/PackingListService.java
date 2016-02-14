@@ -57,6 +57,20 @@ public class PackingListService {
         }
     }
 
+    public List<PackingList> getDispatcherPackingLists(Long id, Integer count, Boolean ascOrder) throws ServiceException {
+        LOGGER.debug("API get packingLists for dispatcher: {}, {}, {}", id, count, ascOrder);
+        try {
+            return JPA.withTransaction(() -> {
+                User user = (User) Http.Context.current().args.get("user");
+                return packingListRepository.getDispatcherPackingLists(id, count, ascOrder,user);
+            });
+        } catch (Throwable throwable) {
+            LOGGER.error("Get packingLists for dispatcher error: {}", throwable);
+            throw new ServiceException(throwable.getMessage(), throwable);
+        }
+    }
+
+
     public PackingList getPackingList(Long id) throws ServiceException {
         LOGGER.debug("API get packingList: {}", id);
         try {

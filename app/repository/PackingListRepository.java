@@ -57,6 +57,31 @@ public class PackingListRepository {
         return packingLists;
     }
 
+    public List<PackingList> getDispatcherPackingLists(long id, int count, boolean ascOrder, User user) {
+        LOGGER.debug("Get packingLists for dispatcher: {}, {}, {}, {}", id, count, ascOrder, user);
+        EntityManager em = JPA.em();
+        StringBuilder stringBuilder = new StringBuilder("SELECT pl FROM PackingList pl WHERE pl.status = :status" +
+                " AND pl.dispatcher = :user AND ");
+        if (ascOrder) {
+            stringBuilder.append("pl.id >= :plId AND pl.dispatcher.company.id = :companyId ORDER BY pl.id ASC");
+        } else {
+            stringBuilder.append("pl.id < :plId AND pl.dispatcher.company.id = :companyId ORDER BY pl.id DESC");
+        }
+        Query query = em.createQuery(stringBuilder.toString());
+
+        query.setParameter("status", PackingListStatus.CREATED);
+        query.setParameter("plId", id);
+        query.setParameter("companyId", user.company.id);
+        query.setParameter("user",user);
+        query.setMaxResults(count);
+        List<PackingList> packingLists = query.getResultList();
+        if (CollectionUtils.isEmpty(packingLists))
+            return new ArrayList<>();
+        if (!ascOrder)
+            Collections.reverse(packingLists);
+        return packingLists;
+    }
+
     public PackingList getPackingList(long id, Long companyId) {
         LOGGER.debug("Get packingList: {}, {}", id, companyId);
         EntityManager em = JPA.em();
