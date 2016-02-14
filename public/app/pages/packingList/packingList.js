@@ -77,7 +77,7 @@ define(['app/service/packingListService','app/service/navService' ,'app/service/
                 packingListService.save(
                     ko.toJSON(self.packingList),
                     function (data) {
-                        navService.navigateTo("account");
+                        navService.navigateTo("packingLists");
                     },
                     function (data) {
                         switch (data.status) {

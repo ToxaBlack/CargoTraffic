@@ -22,7 +22,7 @@ define(["app/utils/utils", 'knockout'], function (utils, ko) {
                     utils.goTo("employees");
                     break;
                 case "DISPATCHER":
-                    utils.goTo("packingList");
+                    utils.goTo("packingLists");
                     break;
                 case "MANAGER":
                     utils.goTo("packingLists");
