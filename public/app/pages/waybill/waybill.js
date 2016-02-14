@@ -1,24 +1,28 @@
-define(['app/service/accountService', 'app/service/employeesService', 'app/service/vehiclesService','app/service/navService', 'app/service/barService', "knockout", 'jquery',"text!./waybill.html"],
+define(['app/service/accountService', 'app/service/employeesService', 'app/service/vehiclesService','app/service/packingListService', 'app/service/navService', 'app/service/barService', "knockout", 'jquery',"text!./waybill.html"],
 
-    function (accountService, employeesService, vehiclesService, navService, bar, ko, $, waybillTemplate) {
+    function (accountService, employeesService, vehiclesService, packingListService, navService, bar, ko, $, waybillTemplate) {
         "use strict";
 
-        function waybillViewModel() {
+        function waybillViewModel(requestParams) {
 
             bar.go(50);
             var self = this;
             var MAX_COUNT = 10000000;
             self.drivers = ko.observableArray([]);
-            self.selectedDriver = ko.observable();
+            self.selectedDriver = ko.observable({});
 
             self.vehicles = ko.observableArray([]);
-            self.selectedVehicle = ko.observable();
+            self.selectedVehicle = ko.observable({});
 
+            self.goods = ko.observableArray([]);
+            self.departureAddress = ko.observable({});
+            self.destinationAddress = ko.observable({});
 
+            self.selectedVehicleDriver = ko.observable({});
             //self.manager = ko.observable("");
 
             self.Id = function(smth) {return smth.id;};
-            self.driverFullName = function(driver) {return driver.name+' '+driver.surname};
+            self.driverFullName = function(driver) {if(driver!=undefined) return driver.name+' '+driver.surname};
             self.vehicleFullName = function(vehicle) {return vehicle.vehicleProducer + ' ' + vehicle.vehicleModel + ' ' + vehicle.licensePlate;};
             self.managerFullName = function() {return self.waybill().manager().username + ', ' + self.waybill().manager().name + ' ' + self.waybill().manager().surname;};
 
@@ -40,18 +44,45 @@ define(['app/service/accountService', 'app/service/employeesService', 'app/servi
             };
 
             function VehicleDriver(vehicle,driver) {
-                var self = this;
-                self.vehicle = ko.observable(vehicle);
-                self.driver = ko.observable(driver);
-                self.products = ko.observableArray([]);
+                var vd = this;
+                vd.vehicle = ko.observable(vehicle);
+                vd.driver = ko.observable(driver);
+                vd.products = ko.observableArray([]);
+
+
+                vd.onLink = function () {
+                    console.log({"vehicle":vd.vehicle(),"driver":vd.driver(),"products":vd.products()});
+                    self.selectedVehicleDriver({"vehicle":vd.vehicle,"driver":vd.driver,
+                        "products":ko.observableArray(vd.products())});
+                    if(vd.products().length == 0)
+                    {
+                        console.log( self.selectedVehicleDriver().products);
+                        console.log(vd.products);
+                        self.selectedVehicleDriver().products(self.goods());
+
+                    }
+                    console.log(vd);
+                    $('#addingProducts').modal();
+
+                };
             }
 
             self.waybill = ko.observable({
-                date: new Date(),
+                date: ko.observable(),
                 manager : ko.observable(""),
                 vehicleDrivers : ko.observableArray([
                 ])
             });
+
+            self.addProduct = function (product) {
+                if (self.selectedVehicleDriver()!=null){
+                    console.log(product);
+                    self.selectedVehicleDriver().products.push(product);
+                    console.log("index of product");
+                    console.log(self.waybill().products.indexOf(product));
+                }
+
+            };
 
             accountService.get(
                 function (data) {
@@ -80,10 +111,24 @@ define(['app/service/accountService', 'app/service/employeesService', 'app/servi
                     if(self.drivers().length == 0) $("#noDrivers").text("No drivers in your company");
                 },
                 function (data) {navService.catchError(data)},
-                function () {
-                    bar.go(100);
-                }
+                function () {bar.go(100)}
             );
+
+            packingListService.getPackingList(requestParams.id,
+                function (data) {
+                    self.goods(data.products);
+                    self.goods().forEach(function(product,i,goods){
+                        product.lastQuantity = product.quantity;
+                    });
+                    self.waybill().date(new Date(data.issueDate));
+                    self.departureAddress(data.departureWarehouse.address);
+                    self.destinationAddress(data.destinationWarehouse.address);
+                },
+                function (data) {navService.catchError(data);},
+                function () {bar.go(100);}
+            );
+
+
 
             bar.go(100);
             return self;
