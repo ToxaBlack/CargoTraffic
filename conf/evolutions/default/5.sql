@@ -18,34 +18,13 @@ DEFAULT CHARACTER SET = utf8mb4;
 
 CREATE TABLE IF NOT EXISTS `cargo_traffic`.`product_in_wvd` (
   `product_id` INT(11) UNSIGNED NOT NULL,
-  `waybill_id` INT(11) UNSIGNED NOT NULL,
-  `vehicle_id` INT(11) UNSIGNED NOT NULL,
-  `driver_id` INT(11) UNSIGNED NOT NULL,
   `quantity` INT(11) UNSIGNED NULL DEFAULT 0,
   `wvd_id` INT(11) UNSIGNED NOT NULL,
   PRIMARY KEY (`product_id`, `wvd_id`),
-  INDEX `prod_in_wvd_waybill_fk_idx` (`waybill_id` ASC),
-  INDEX `prod_in_wvd_vehicle_fk_idx` (`vehicle_id` ASC),
-  INDEX `prod_in_wvd_driver_fk_idx` (`driver_id` ASC),
   INDEX `prod_in_wvd_wvd_fk_idx` (`wvd_id` ASC),
   CONSTRAINT `prod_in_wvd_product_fk`
   FOREIGN KEY (`product_id`)
   REFERENCES `cargo_traffic`.`product` (`id`)
-    ON DELETE RESTRICT
-    ON UPDATE RESTRICT,
-  CONSTRAINT `prod_in_wvd_waybill_fk`
-  FOREIGN KEY (`waybill_id`)
-  REFERENCES `cargo_traffic`.`waybill` (`id`)
-    ON DELETE RESTRICT
-    ON UPDATE RESTRICT,
-  CONSTRAINT `prod_in_wvd_vehicle_fk`
-  FOREIGN KEY (`vehicle_id`)
-  REFERENCES `cargo_traffic`.`vehicle` (`id`)
-    ON DELETE RESTRICT
-    ON UPDATE RESTRICT,
-  CONSTRAINT `prod_in_wvd_driver_fk`
-  FOREIGN KEY (`driver_id`)
-  REFERENCES `cargo_traffic`.`user` (`id`)
     ON DELETE RESTRICT
     ON UPDATE RESTRICT,
   CONSTRAINT `prod_in_wvd_wvd_fk`
