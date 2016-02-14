@@ -1,149 +1,241 @@
 <div class="page-header">
     <h1>Create waybill</h1>
 </div>
-<div class="form-horizontal">
-    <div class="form-group">
-        <label class="control-label col-md-3" for="date">Date of creating:</label>
-        <div class="col-md-7">
-            <input type="text" class="form-control" id="date"
-                   maxlength="40" readonly
-                   data-bind="value: waybill().date">
-        </div>
-    </div>
-    <div class="form-group">
-        <label class="control-label col-md-3" for="managerFullName">Checked by:</label>
-        <div class="col-md-7">
-            <input type="text" class="form-control" id="managerFullName"
-                   maxlength="40" readonly
-                   data-bind="value: managerFullName()">
-            <input type="hidden" id="manager" data-bind="value: waybill().manager().username"/>
-        </div>
-    </div>
+<div class="tabbable">
+    <ul class="nav nav-tabs">
+        <li class="active"><a href="#tab1" data-toggle="tab">Step 1</a></li>
+        <li><a href="#tab2" data-toggle="tab">Step 2</a></li>
+    </ul>
+    <div class="tab-content">
+        <div class="tab-pane active" id="tab1">
+            <p>
+            <div class="form-horizontal">
+                <div class="form-group">
+                    <label class="control-label col-md-3" for="date">Date of creating:</label>
+                    <div class="col-md-7">
+                        <input type="text" class="form-control" id="date"
+                               maxlength="40" readonly
+                               data-bind="value: waybill().date">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-md-3" for="managerFullName">Checked by:</label>
+                    <div class="col-md-7">
+                        <input type="text" class="form-control" id="managerFullName"
+                               maxlength="40" readonly
+                               data-bind="value: managerFullName()">
+                        <input type="hidden" id="manager" data-bind="value: waybill().manager().username"/>
+                    </div>
+                </div>
 
 
-    <div class="form-group">
-        <label class="control-label col-md-3" for="driverVehicle">Drivers and vehicles:</label>
-        <div class="col-md-7">
-            <table class="table table-hover" id="driverVehicle">
-                <thead>
-                <tr>
-                    <th><button class="btn btn-sm" data-bind="click: addVehicleDriver, enable: (drivers().length > 0 || vehicles().length > 0)">Add</button></th>
-                    <th>
-                        <div class="input-group">
-                            <label class="input-group-addon" id="labelDriver" for="driver">Driver:</label>
-                            <select class="form-control" id="driver" required
-                                    data-bind="options: drivers,
+                <div class="form-group">
+                    <label class="control-label col-md-3" for="driverVehicle">Drivers and vehicles:</label>
+                    <div class="col-md-7">
+                        <table class="table table-hover" id="driverVehicle">
+                            <thead>
+                            <tr>
+                                <th>
+                                    <button class="btn btn-sm"
+                                            data-bind="click: addVehicleDriver, enable: (drivers().length > 0 || vehicles().length > 0)">
+                                        Add
+                                    </button>
+                                </th>
+                                <th>
+                                    <div class="input-group">
+                                        <label class="input-group-addon" id="labelDriver" for="driver">Driver:</label>
+                                        <select class="form-control" id="driver" required
+                                                data-bind="options: drivers,
                                                      optionsValue: $data,
                                                      value: selectedDriver,
                                                      optionsText: driverFullName,
                                                      enable: drivers().length > 0,
                                                      optionsCaption: 'Choose driver'"
-                                    aria-describedby="labelDriver">
-                            </select>
-                        </div>
-                    </th>
-                    <th>
-                        <div class="input-group">
-                            <label class="input-group-addon" id="labelVehicle" for="vehicle">Vehicle:</label>
-                            <select class="form-control" id="vehicle" required
-                                    data-bind="options: vehicles,
+                                                aria-describedby="labelDriver">
+                                        </select>
+                                    </div>
+                                </th>
+                                <th>
+                                    <div class="input-group">
+                                        <label class="input-group-addon" id="labelVehicle"
+                                               for="vehicle">Vehicle:</label>
+                                        <select class="form-control" id="vehicle" required
+                                                data-bind="options: vehicles,
                                                      optionsValue: $data,
                                                      value: selectedVehicle,
                                                      optionsText: vehicleFullName,
                                                      enable: vehicles().length > 0,
                                                      optionsCaption: 'Choose vehicle'"
-                                    aria-describedby="labelVehicle">
-                            </select>
-                        </div>
-                    </th>
-                </tr>
-
-                </thead>
-                <tbody data-bind="foreach: {data: waybill().vehicleDrivers, as:'vehicleDriver' }">
-                <tr>
-                    <td><button class="btn btn-sm btn-danger" data-bind="click: $parent.removeVehicleDriver">&times;</button></td>
-                    <td data-bind="text: $parent.driverFullName(driver()), click: vehicleDriver.onLink" data-toggle="modal"></td>
-                    <td data-bind="text: $parent.vehicleFullName(vehicle())"></td>
-                </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
-
-    <div class="form-group">
-        <div class="row">
-            <label class="control-label col-md-3" for="listOfGoods">All products:</label>
-            <div class="col-md-9">
-                <ul id="listOfGoods" data-bind="foreach: goods">
-                    <li  data-bind="text: name +' '+quantity+' '+unit">
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </div>
-</div>
-
-
-
-<hr>
-<div class="form-group">
-    <button class="btn btn-success pull-right btn-lg">Proceed to checkpoints</button>
-</div>
-
-<div class="modal fade" id="addingProducts" tabindex="-1" role="dialog" aria-labelledby="addingProductsLabel">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="addingProductsLabel"
-                    data-bind="text: driverFullName(selectedVehicleDriver().driver)"></h4>
-            </div>
-            <div class="modal-body">
-                <div class="row">
-                    <table class="table table-hover">
-                        <thead >
-                        <tr>
-                            <th class="col-md-5">Goods name</th>
-                            <th class="col-md-3">Quantity</th>
-                            <th class="col-md-4"></th>
-                        </tr>
-                        </thead>
-                        <tbody data-bind="foreach: {data:goods,as:'product'}">
-                        <tr>
-                            <td data-bind="text: name"></td>
-                            <td data-bind="text: ko.computed(function() {return quantity + ' ' + unit;})"></td>
-                            <td>
-                                <div class="input-group">
-                                    <input type="number" name="countOfProductToWaybill"
-                                           data-bind="value: product.countOfProductToWaybill,
-                                           attr:{min:0, max:product.lastQuantity}"
-                                            class="form-control">
-                                    <div class="input-group-btn">
-                                        <button type="button" class="btn btn-default"
-                                                data-bind="click: $parent.addProduct">
-                                            <span class="glyphicon glyphicon-plus"></span>
-                                        </button>
+                                                aria-describedby="labelVehicle">
+                                        </select>
                                     </div>
-                                </div>
-                            </td>
-                        </tr>
-                        </tbody>
-                    </table>
+                                </th>
+                            </tr>
+
+                            </thead>
+                            <tbody data-bind="foreach: {data: waybill().vehicleDrivers, as:'vehicleDriver' }">
+                            <tr>
+                                <td>
+                                    <button class="btn btn-sm btn-danger"
+                                            data-bind="click: $parent.removeVehicleDriver">&times;</button>
+                                </td>
+                                <td data-bind="text: $parent.driverFullName(driver()), click: vehicleDriver.onLink"
+                                    data-toggle="modal"></td>
+                                <td data-bind="text: $parent.vehicleFullName(vehicle())"></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
-                <div class="row">
-                    <label class="control-label col-md-3" for="listOfGoods">All products:</label>
-                    <div class="col-md-9">
-                        <ul id="listOfGoodsForDriver" data-bind="foreach: selectedVehicleDriver().products()">
-                            <li  data-bind="ko.computed(function() {return name +' '+quantity+' '+unit;})">
-                            </li>
-                        </ul>
+
+                <div class="form-group">
+                    <div class="row">
+                        <label class="control-label col-md-3" for="listOfGoods">All products:</label>
+                        <div class="col-md-9">
+                            <ul id="listOfGoods" data-bind="foreach: goods">
+                                <li data-bind="text: name +' '+quantity+' '+unit">
+                                </li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
+
+
+            <hr>
+            <div class="form-group">
+                <button class="btn btn-success pull-right btn-lg">Proceed to checkpoints</button>
             </div>
+
+            <div class="modal fade" id="addingProducts" tabindex="-1" role="dialog"
+                 aria-labelledby="addingProductsLabel">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                    aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title" id="addingProductsLabel"
+                                data-bind="text: driverFullName(selectedVehicleDriver().driver)"></h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row">
+                                <table class="table table-hover">
+                                    <thead>
+                                    <tr>
+                                        <th class="col-md-5">Goods name</th>
+                                        <th class="col-md-3">Quantity</th>
+                                        <th class="col-md-4"></th>
+                                    </tr>
+                                    </thead>
+                                    <tbody data-bind="foreach: {data:goods,as:'product'}">
+                                    <tr>
+                                        <td data-bind="text: name"></td>
+                                        <td data-bind="text: ko.computed(function() {return quantity + ' ' + unit;})"></td>
+                                        <td>
+                                            <div class="input-group">
+                                                <input type="number" name="countOfProductToWaybill"
+                                                       data-bind="value: product.countOfProductToWaybill,
+                                           attr:{min:0, max:product.lastQuantity}"
+                                                       class="form-control">
+                                                <div class="input-group-btn">
+                                                    <button type="button" class="btn btn-default"
+                                                            data-bind="click: $parent.addProduct">
+                                                        <span class="glyphicon glyphicon-plus"></span>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="row">
+                                <label class="control-label col-md-3" for="listOfGoods">All products:</label>
+                                <div class="col-md-9">
+                                    <ul id="listOfGoodsForDriver"
+                                        data-bind="foreach: selectedVehicleDriver().products()">
+                                        <li data-bind="ko.computed(function() {return name +' '+quantity+' '+unit;})">
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-primary">Save changes</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </p>
+        </div>
+        <div class="tab-pane" id="tab2">
+            <p>
+
+            <div class="row">
+                <div class="col-sm-offset-9">
+                    <button type="button" id="addButton" class="btn btn-info" title="Add">
+                        <span class="glyphicon glyphicon-plus"></span> Add
+                    </button>
+                    <button type="button" id="removeButton" class="btn btn-danger" title="Delete" >
+                        <span class="glyphicon glyphicon-trash"></span> Delete
+                    </button>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    <table id="waypointsTable" class="table table-hover">
+                        <thead>
+                        <tr>
+                            <th><input class="selectAll" type="checkbox" data-bind="checked: allChecked" id="selectAllCheckbox"></th>
+                            <th>Address</th>
+                        </tr>
+                        </thead>
+                        <tbody data-bind="foreach: waypoints">
+                       <!-- <tr>
+                            <td><input class="idCheck" type="checkbox" data-bind="checked: $parent.checkedWays, attr: { value: id }"/></td>
+                            <td class="link" data-bind="text: 'Latitude: ' + lat() +
+                        '<br>Longitude: ' + lng()"></td>
+                        </tr>-->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+
+            <!-- Modal -->
+
+            <div id="mapModal" class="modal fade" role="dialog">
+                <div class="modal-dialog">
+
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title">Change employee</h4>
+                        </div>
+                        <div class="modal-body form-horizontal">
+                            <div class="form-group">
+                                <label class="control-label col-md-3" for="place">Comment:</label>
+
+                                <div class="col-md-9">
+                                    <input type="text" class="form-control" id="place"
+                                           data-bind="value :waypoints().place"
+                                           placeholder="Enter comment" maxlength="200">
+                                </div>
+                            </div>
+                            <div id="googleMap" style="width:500px;height:380px;"></div>
+
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal" id="btnSavePoints">Save</button>
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            </p>
         </div>
     </div>
 </div>
