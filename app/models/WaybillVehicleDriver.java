@@ -12,20 +12,22 @@ import java.io.Serializable;
 public class WaybillVehicleDriver implements Serializable {
 
     @Id
+    @Column(name="id")
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    public Long id;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "waybill_id",
             referencedColumnName = "id",
             insertable = false, updatable = false)
     public Waybill waybill;
 
-    @Id
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "vehicle_id",
             referencedColumnName = "id",
             insertable = false, updatable = false)
     public Vehicle vehicle;
 
-    @Id
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "driver_id",
             referencedColumnName = "id",

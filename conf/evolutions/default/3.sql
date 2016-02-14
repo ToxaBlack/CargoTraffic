@@ -105,19 +105,18 @@ CREATE TABLE IF NOT EXISTS `cargo_traffic`.`waybill` (
   DEFAULT CHARACTER SET = utf8mb4;
 
 
-CREATE TABLE  IF NOT EXISTS `cargo_traffic`.`waybill_vehicle_driver` (
+CREATE TABLE IF NOT EXISTS `cargo_traffic`.`waybill_vehicle_driver` (
+  `id` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
   `waybill_id` INT(11) UNSIGNED NOT NULL,
   `vehicle_id` INT(11) UNSIGNED NOT NULL,
   `driver_id` INT(11) UNSIGNED NOT NULL,
-  PRIMARY KEY (`vehicle_id`, `driver_id`, `waybill_id`),
-  INDEX (`driver_id` ASC),
-  INDEX (`waybill_id` ASC),
-  FOREIGN KEY (`vehicle_id`)
-  REFERENCES `cargo_traffic`.`vehicle` (`id`)
-    ON DELETE RESTRICT
-    ON UPDATE RESTRICT,
-  FOREIGN KEY (`driver_id`)
-  REFERENCES `cargo_traffic`.`user` (`id`)
+  PRIMARY KEY (`id`),
+  UNIQUE INDEX `waybill_vehicle_driver_UNIQUE` (`waybill_id` ASC, `vehicle_id` ASC, `driver_id` ASC),
+  INDEX `wvd_vehicle_fk_idx` (`vehicle_id` ASC),
+  INDEX `wvd_driver_fk_idx` (`driver_id` ASC),
+  CONSTRAINT `wvd_waybill_fk`
+  FOREIGN KEY (`waybill_id`)
+  REFERENCES `cargo_traffic`.`waybill` (`id`)
     ON DELETE RESTRICT
     ON UPDATE RESTRICT,
   CONSTRAINT `wvd_vehicle_fk`
@@ -125,9 +124,9 @@ CREATE TABLE  IF NOT EXISTS `cargo_traffic`.`waybill_vehicle_driver` (
   REFERENCES `cargo_traffic`.`vehicle` (`id`)
     ON DELETE RESTRICT
     ON UPDATE RESTRICT,
-  CONSTRAINT `wvd_waybill_fk`
-  FOREIGN KEY (`waybill_id`)
-  REFERENCES `cargo_traffic`.`waybill` (`id`)
+  CONSTRAINT `wvd_driver_fk`
+  FOREIGN KEY (`driver_id`)
+  REFERENCES `cargo_traffic`.`user` (`id`)
     ON DELETE RESTRICT
     ON UPDATE RESTRICT)
   ENGINE = InnoDB
