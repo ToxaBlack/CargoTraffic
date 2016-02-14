@@ -133,6 +133,7 @@ define(['app/service/accountService', 'app/service/employeesService', 'app/servi
             // Waypoints logic
 
             self.waypoints = ko.observableArray([]);
+            self.tempWaypoints = ko.observableArray([]);
             self.checkedWays = ko.observableArray([]);
             self.allChecked = ko.computed(function () {
                 var success = $.grep(self.waypoints(), function (element, index) {
@@ -153,7 +154,9 @@ define(['app/service/accountService', 'app/service/employeesService', 'app/servi
             });
             function initialize() {
                 var center = new google.maps.LatLng(51.508742, -0.120850);
-                self.waypoints = ko.observable([]);
+                self.tempWaypoints = ko.observableArray([]);
+                self.tempWaypoints = self.waypoints();
+                self.waypoints = ko.observableArray([]);
                 var lastPoint = center;
                 var mapProp = {
                     center: center,
@@ -257,6 +260,11 @@ define(['app/service/accountService', 'app/service/employeesService', 'app/servi
                 }
             );
 
+            $("#btnCancelPoints").click(
+              function(){
+                  self.waypoints = self.tempWaypoints;
+              }
+            );
 
 
             bar.go(100);
