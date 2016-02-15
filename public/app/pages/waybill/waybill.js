@@ -18,6 +18,8 @@ define(['app/service/waybillService','app/service/accountService', 'app/service/
             self.departureAddress = ko.observable({});
             self.destinationAddress = ko.observable({});
 
+            self.pageInitialised = ko.observable(false);
+
             self.selectedVehicleDriver = ko.observable();
             self.waybill = ko.observable({
                 date: ko.observable(),
@@ -64,8 +66,6 @@ define(['app/service/waybillService','app/service/accountService', 'app/service/
                 };
                 return vd;
             }
-
-
 
 
             accountService.get(
@@ -115,6 +115,7 @@ define(['app/service/waybillService','app/service/accountService', 'app/service/
                     self.waybill().date(new Date(data.issueDate));
                     self.departureAddress(data.departureWarehouse.address);
                     self.destinationAddress(data.destinationWarehouse.address);
+                    self.pageInitialised(true);
                 },
                 function (data) {navService.catchError(data);},
                 function () {bar.go(100);}
