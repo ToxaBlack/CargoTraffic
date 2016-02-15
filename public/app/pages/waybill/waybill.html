@@ -74,16 +74,18 @@
 
                             </thead>
                             <tbody data-bind="foreach: {data: waybill().vehicleDrivers, as:'vehicleDriver' }">
-                            <tr>
-                                <td>
+                            <tr class="cursor-hand">
+                                <td data-bind="click: vehicleDriver.onLink">
                                     <button class="btn btn-sm btn-danger"
                                             data-bind="click: $parent.removeVehicleDriver">&times;</button>
                                 </td>
-                                <td data-bind="text: $parent.driverFullName(driver())+' on '+$parent.vehicleFullName(vehicle()), click: vehicleDriver.onLink"
+                                <td   data-bind="text: $parent.driverFullName(driver())+' on '+$parent.vehicleFullName(vehicle()),
+                                 click: vehicleDriver.onLink"
                                     data-toggle="modal"></td>
                                 <td>
                                     <ul data-bind="foreach: vehicleDriver.products">
-                                        <li data-bind="text: ko.computed(function(){return name +' '+quantity()+' '+unit})">
+                                        <li data-bind="text: ko.computed(function(){return name +' '+quantity()+' '+unit}),
+                                 click: vehicleDriver.onLink">
                                         </li>
                                     </ul>
                                 </td>
@@ -92,7 +94,7 @@
                         </table>
                     </div>
                 </div>
-            <!-- ko if: waybill().date!=undefined -->
+            <!-- ko if: pageInitialised -->
                 <div class="form-group">
                     <div class="row">
                         <label class="control-label col-md-3" for="allGoods">All products:</label>
@@ -106,7 +108,7 @@
                                     <th>Unit</th>
                                 </tr>
                                 </thead>
-                                <tbody data-bind="foreach: {data: goods, as:'product' }">
+                                <tbody data-bind="foreach: {data:goods,as:'product'}">
                                 <tr>
                                     <td data-bind="text: name"></td>
                                     <td data-bind="text: quantity"></td>
