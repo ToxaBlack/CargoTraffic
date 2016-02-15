@@ -79,31 +79,51 @@
                                     <button class="btn btn-sm btn-danger"
                                             data-bind="click: $parent.removeVehicleDriver">&times;</button>
                                 </td>
-                                <td data-bind="text: $parent.driverFullName(driver()), click: vehicleDriver.onLink"
+                                <td data-bind="text: $parent.driverFullName(driver())+' on '+$parent.vehicleFullName(vehicle()), click: vehicleDriver.onLink"
                                     data-toggle="modal"></td>
-                                <td data-bind="text: $parent.vehicleFullName(vehicle())"></td>
+                                <td>
+                                    <ul data-bind="foreach: vehicleDriver.products">
+                                        <li data-bind="text: ko.computed(function(){return name +' '+quantity()+' '+unit})">
+                                        </li>
+                                    </ul>
+                                </td>
                             </tr>
                             </tbody>
                         </table>
                     </div>
                 </div>
-
+            <!-- ko if: waybill().date!=undefined -->
                 <div class="form-group">
                     <div class="row">
-                        <label class="control-label col-md-3" for="listOfGoods">All products:</label>
-                        <div class="col-md-9">
-                            <ul id="listOfGoods" data-bind="foreach: goods">
-                                <li data-bind="text: name +' '+quantity+' '+unit">
-                                </li>
-                            </ul>
+                        <label class="control-label col-md-3" for="allGoods">All products:</label>
+                        <div class="col-md-7">
+                            <table  class="table table-hover" id="allGoods">
+                                <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Common quantity</th>
+                                    <th>Last quantity</th>
+                                    <th>Unit</th>
+                                </tr>
+                                </thead>
+                                <tbody data-bind="foreach: {data: goods, as:'product' }">
+                                <tr>
+                                    <td data-bind="text: name"></td>
+                                    <td data-bind="text: quantity"></td>
+                                    <td data-bind="text: product.lastQuantity"></td>
+                                    <td data-bind="text: unit"></td>
+                                </tr>
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </div>
+            <!-- /ko -->
             </div>
 
 
             <hr>
-
+        <!-- ko if: selectedVehicleDriver()!=undefined -->
             <div class="modal fade" id="addingProducts" tabindex="-1" role="dialog"
                  aria-labelledby="addingProductsLabel">
                 <div class="modal-dialog" role="document">
@@ -112,7 +132,7 @@
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                                     aria-hidden="true">&times;</span></button>
                             <h4 class="modal-title" id="addingProductsLabel"
-                                data-bind="text: driverFullName(selectedVehicleDriver().driver)"></h4>
+                                data-bind="text: driverFullName(selectedVehicleDriver().driver())"></h4>
                         </div>
                         <div class="modal-body">
                             <div class="row">
@@ -127,43 +147,23 @@
                                     <tbody data-bind="foreach: {data:goods,as:'product'}">
                                     <tr>
                                         <td data-bind="text: name"></td>
-                                        <td data-bind="text: ko.computed(function() {return quantity + ' ' + unit;})"></td>
+                                        <td data-bind="text: ko.computed(function() {return lastQuantity() + ' ' + unit;})"></td>
                                         <td>
-                                            <div class="input-group">
-                                                <input type="number" name="countOfProductToWaybill"
-                                                       data-bind="value: product.countOfProductToWaybill,
-                                           attr:{min:0, max:product.lastQuantity}"
-                                                       class="form-control">
-                                                <div class="input-group-btn">
-                                                    <button type="button" class="btn btn-default"
-                                                            data-bind="click: $parent.addProduct">
-                                                        <span class="glyphicon glyphicon-plus"></span>
-                                                    </button>
-                                                </div>
-                                            </div>
+                                            <input type="number"
+                                                   data-bind=
+                                                           "attr:{min:0, max:product.quantity},
+                                                           textInput:   $parent.selectedVehicleDriver().products()[$index()].quantity"
+                                                   class="form-control">
                                         </td>
                                     </tr>
                                     </tbody>
                                 </table>
                             </div>
-                            <div class="row">
-                                <label class="control-label col-md-3" for="listOfGoods">All products:</label>
-                                <div class="col-md-9">
-                                    <ul id="listOfGoodsForDriver"
-                                        data-bind="foreach: selectedVehicleDriver().products()">
-                                        <li data-bind="ko.computed(function() {return name +' '+quantity+' '+unit;})">
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                            <button type="button" class="btn btn-primary">Save changes</button>
                         </div>
                     </div>
                 </div>
             </div>
+        <!-- /ko -->
             </p>
         </div>
         <div class="tab-pane" id="tab2">
