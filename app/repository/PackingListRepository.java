@@ -88,9 +88,11 @@ public class PackingListRepository {
         String sqlQuery = new String("SELECT pl FROM PackingList pl " +
                 "left join fetch pl.departureWarehouse " +
                 "left join fetch pl.destinationWarehouse " +
-                "WHERE pl.dispatcher.company.id = ?");
+                "WHERE pl.dispatcher.company.id = ?" +
+                "and pl.id = ?");
         Query query = em.createQuery(sqlQuery);
         query.setParameter(1, companyId);
+        query.setParameter(2, id);
         query.setMaxResults(1);
         List<PackingList> packingLists = query.getResultList();
         if (CollectionUtils.isEmpty(packingLists))
