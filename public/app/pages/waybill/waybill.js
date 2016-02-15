@@ -18,11 +18,20 @@ define(['app/service/waybillService','app/service/accountService', 'app/service/
             self.departureAddress = ko.observable({});
             self.destinationAddress = ko.observable({});
 
-            self.selectedVehicleDriver = ko.observable({});
-            //self.manager = ko.observable("");
+            self.selectedVehicleDriver = ko.observable();
+            self.waybill = ko.observable({
+                date: ko.observable(),
+                manager : ko.observable(""),
+                vehicleDrivers : ko.observableArray([
+                ])
+            });
 
             self.Id = function(smth) {return smth.id;};
-            self.driverFullName = function(driver) {if(driver!=undefined) return driver.name+' '+driver.surname};
+            self.driverFullName = function(driver) {
+                if(driver!=undefined) {
+                    return driver.name+' '+driver.surname;}
+            return "";
+            };
             self.vehicleFullName = function(vehicle) {return vehicle.vehicleProducer + ' ' + vehicle.vehicleModel + ' ' + vehicle.licensePlate;};
             self.managerFullName = function() {return self.waybill().manager().username + ', ' + self.waybill().manager().name + ' ' + self.waybill().manager().surname;};
 
@@ -37,7 +46,6 @@ define(['app/service/waybillService','app/service/accountService', 'app/service/
             };
 
             self.removeVehicleDriver = function(vehicleDriver){
-                console.log(vehicleDriver);
                 self.vehicles.push(vehicleDriver.vehicle());
                 self.drivers.push(vehicleDriver.driver());
                 self.waybill().vehicleDrivers.remove(vehicleDriver);
@@ -47,42 +55,18 @@ define(['app/service/waybillService','app/service/accountService', 'app/service/
                 var vd = this;
                 vd.vehicle = ko.observable(vehicle);
                 vd.driver = ko.observable(driver);
-                vd.products = ko.observableArray([]);
-
-
+                vd.products = ko.observableArray(jQuery.extend(true,[],self.goods()));
+                for(var i=0;i<vd.products().length;i++)
+                    vd.products()[i].quantity=ko.observable(0);
                 vd.onLink = function () {
-                    console.log({"vehicle":vd.vehicle(),"driver":vd.driver(),"products":vd.products()});
-                    self.selectedVehicleDriver({"vehicle":vd.vehicle,"driver":vd.driver,
-                        "products":ko.observableArray(vd.products())});
-                    if(vd.products().length == 0)
-                    {
-                        console.log( self.selectedVehicleDriver().products);
-                        console.log(vd.products);
-                        self.selectedVehicleDriver().products(self.goods());
-
-                    }
-                    console.log(vd);
+                    self.selectedVehicleDriver(vd);
                     $('#addingProducts').modal();
-
                 };
+                return vd;
             }
 
-            self.waybill = ko.observable({
-                date: ko.observable(),
-                manager : ko.observable(""),
-                vehicleDrivers : ko.observableArray([
-                ])
-            });
 
-            self.addProduct = function (product) {
-                if (self.selectedVehicleDriver()!=null){
-                    console.log(product);
-                    self.selectedVehicleDriver().products.push(product);
-                    console.log("index of product");
-                    console.log(self.waybill().products.indexOf(product));
-                }
 
-            };
 
             accountService.get(
                 function (data) {
@@ -118,7 +102,15 @@ define(['app/service/waybillService','app/service/accountService', 'app/service/
                 function (data) {
                     self.goods(data.products);
                     self.goods().forEach(function(product,i,goods){
-                        product.lastQuantity = product.quantity;
+                        product.lastQuantity = ko.computed(function(){
+                            var quantity = product.quantity;
+                            if(self.waybill().vehicleDrivers().length>0)
+                                self.waybill().vehicleDrivers().forEach(function(vd,j,vds){
+                                    quantity -= vd.products()[i].quantity();
+
+                                });
+                            return quantity;
+                        })
                     });
                     self.waybill().date(new Date(data.issueDate));
                     self.departureAddress(data.departureWarehouse.address);
@@ -217,17 +209,18 @@ define(['app/service/waybillService','app/service/accountService', 'app/service/
             }
 
 
+
             $('#addButton').click(
                 function () {
-                    initialize();
                     $('#mapModal').modal();
+                    setTimeout(initialize, 500);
                 }
             );
 
             $('#btnSavePoints').click(
                 function () {
                     var table = document.getElementById("waypointsTable");
-                    $("#waypointsTable tr").remove();
+                    $("#waypointsTable").find("tr").remove();
                     for (var i = 0;  i < self.waypoints().length; ++i) {
                         var rowCount = table.rows.length;
                         var row = table.insertRow(rowCount);
@@ -253,8 +246,9 @@ define(['app/service/waybillService','app/service/accountService', 'app/service/
 
             $('#btnSendAll').click(
               function(){
+                  //TODO:refactor data structure
                   waybillService.save(
-                      self.waybill(),
+                      ko.toJS(self.waybill()),
                       self.waypoints(),
                       function(){
                           self.waybill = ko.observableArray([]);
