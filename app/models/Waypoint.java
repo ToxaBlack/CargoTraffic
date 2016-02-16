@@ -1,5 +1,6 @@
 package models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import models.statuses.WaypointStatus;
 
 import javax.persistence.*;
@@ -9,22 +10,23 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name = "waypoint")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Waypoint {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 
-    public long id;
+    public Long id;
 
-    public float lat;
+    public Float lat;
 
-    public float lng;
+    public Float lng;
 
     @Column(name = "status")
     @Enumerated(EnumType.STRING)
     public WaypointStatus status;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "waybill_id", nullable = false, referencedColumnName = "id")
+    @JoinColumn(name = "waybill_id")
     public Waybill waybill;
 
     public Waypoint() {

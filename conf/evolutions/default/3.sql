@@ -81,24 +81,18 @@ CREATE TABLE IF NOT EXISTS `cargo_traffic`.`waybill` (
   `id` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
   `departure_date` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `arrival_date` TIMESTAMP NULL DEFAULT NULL,
-  `status` VARCHAR(250) NOT NULL,
+  `status` ENUM('TRANSPORTATION_STARTED', 'TRANSPORTATION_COMPLETED', 'REJECTED') NOT NULL,
   `packing_list_id` INT(11) UNSIGNED NOT NULL,
   `manager_id` INT(11) UNSIGNED NOT NULL,
-  `company_id` INT(11) UNSIGNED NOT NULL,
   PRIMARY KEY (`id`),
   INDEX (`packing_list_id` ASC),
   INDEX (`manager_id` ASC),
-  INDEX (`company_id` ASC),
   FOREIGN KEY (`packing_list_id`)
   REFERENCES `cargo_traffic`.`packing_list` (`id`)
     ON DELETE RESTRICT
     ON UPDATE RESTRICT,
   FOREIGN KEY (`manager_id`)
   REFERENCES `cargo_traffic`.`user` (`id`)
-    ON DELETE RESTRICT
-    ON UPDATE RESTRICT,
-  FOREIGN KEY (`company_id`)
-  REFERENCES `cargo_traffic`.`company` (`id`)
     ON DELETE RESTRICT
     ON UPDATE RESTRICT)
   ENGINE = InnoDB

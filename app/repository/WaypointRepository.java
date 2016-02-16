@@ -18,11 +18,11 @@ public class WaypointRepository {
         Query query = em.createQuery(stringBuilder.toString());
         query.setParameter(1, id);
         List<Waypoint> list = query.getResultList();
-        //TODO DELETE
+       /* //TODO DELETE
         for (Waypoint point: list) {
             point.waybill = new Waybill();
             point.waybill.id = 1;
-        }
+        }*/
         return list;
     }
 }

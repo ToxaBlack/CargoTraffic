@@ -1,5 +1,6 @@
 package models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import models.statuses.WaybillStatus;
 
 import javax.persistence.*;
@@ -12,6 +13,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "waybill")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Waybill {
     @Id
     @Column(name = "id", nullable = false, unique = true)
@@ -27,19 +29,20 @@ public class Waybill {
     public Date arrivalDate;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "packing_list_id", nullable = false, referencedColumnName = "id")
+    @JoinColumn(name = "packing_list_id", nullable = false)
     public PackingList packingList;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "manager_id", nullable = false, referencedColumnName = "id")
+    @JoinColumn(name = "manager_id", nullable = false)
     public User manager;
 
     @Column(name = "status")
+    @Enumerated(EnumType.STRING)
     public WaybillStatus status;
 
-    @OneToMany(mappedBy = "waybill")
+    /*@OneToMany(mappedBy = "waybill", fetch = FetchType.LAZY)
     public List<WaybillVehicleDriver> vehicleDriverList;
 
-    @OneToMany(mappedBy = "waybill")
-    public List<Waypoint> waypointList;
+    @OneToMany(mappedBy = "waybill", fetch = FetchType.LAZY)
+    public List<Waypoint> waypointList;*/
 }
