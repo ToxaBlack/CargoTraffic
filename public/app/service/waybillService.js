@@ -13,8 +13,19 @@ define(["app/utils/utils"],
                 );
             };
 
+            var getWaypints = function (id, done, error, always) {
+                utils.send(
+                    "api/waypoints",
+                    "GET",
+                    {"id": id},
+                    done,
+                    error
+                );
+            };
+
             return {
-                save: save
+                save: save,
+                getWaypints: getWaypints
             }
         }
 

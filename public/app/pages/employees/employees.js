@@ -33,15 +33,7 @@ define(['app/service/employeesService','app/service/navService', "knockout", 'ap
                     self.hasPreviousPage(false);
                     self.employees(data);
                 },
-                function (data) {
-                    switch (data.status) {
-                        case 403:
-                            navService.navigateTo("login");
-                            break;
-                        default:
-                            navService.navigateTo("error");
-                    }
-                },
+                function (data) {navService.catchError(data);},
                 function () {
                     bar.go(100);
                 }
@@ -63,15 +55,7 @@ define(['app/service/employeesService','app/service/navService', "knockout", 'ap
                         self.hasPreviousPage(true);
                         self.employees(data);
                     },
-                    function (data) {
-                        switch (data.status) {
-                            case 403:
-                                navService.navigateTo("login");
-                                break;
-                            default:
-                                navService.navigateTo("error");
-                        }
-                    }
+                    function (data) {navService.catchError(data);}
                 );
 
             };
@@ -91,15 +75,7 @@ define(['app/service/employeesService','app/service/navService', "knockout", 'ap
                         self.hasNextPage(true);
                         self.employees(data);
                     },
-                    function (data) {
-                        switch (data.status) {
-                            case 403:
-                                navService.navigateTo("login");
-                                break;
-                            default:
-                                navService.navigateTo("error");
-                        }
-                    });
+                    function (data) {navService.catchError(data);});
 
             };
 
@@ -139,15 +115,7 @@ define(['app/service/employeesService','app/service/navService', "knockout", 'ap
                         self.checkedEmployees([]);
                         window.location.reload();
                     },
-                    function (data) {
-                        switch (data.status) {
-                            case 403:
-                                navService.navigateTo("login");
-                                break;
-                            default:
-                                navService.navigateTo("error");
-                        }
-                    }
+                    function (data) {navService.catchError(data);}
                 );
             });
 
@@ -160,15 +128,7 @@ define(['app/service/employeesService','app/service/navService', "knockout", 'ap
                         self.selectedRole.push(id.userRoleList[0].name.toLowerCase());
                         $('#editModal').modal();
                     },
-                    function (data) {
-                        switch (data.status) {
-                            case 403:
-                                navService.navigateTo("login");
-                                break;
-                            default:
-                                navService.navigateTo("error");
-                        }
-                    }
+                    function (data) {navService.catchError(data);}
                 );
             };
 
@@ -180,15 +140,7 @@ define(['app/service/employeesService','app/service/navService', "knockout", 'ap
                         self.selectedRole([]);
                         window.location.reload();
                     },
-                    function (data) {
-                        switch (data.status) {
-                            case 403:
-                                navService.navigateTo("login");
-                                break;
-                            default:
-                                navService.navigateTo("error");
-                        }
-                    });
+                    function (data) {navService.catchError(data);});
             };
 
             return self;
