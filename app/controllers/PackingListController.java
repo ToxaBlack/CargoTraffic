@@ -9,11 +9,10 @@ import models.ProductInPackingList;
 import models.User;
 import models.UserRole;
 import models.statuses.PackingListStatus;
-import org.hibernate.Hibernate;
 import play.Logger;
-import play.mvc.Controller;
 import play.libs.Json;
 import play.mvc.BodyParser;
+import play.mvc.Controller;
 import play.mvc.Http;
 import play.mvc.Result;
 import service.PackingListService;
@@ -100,12 +99,27 @@ public class PackingListController extends Controller {
     }
 
     @Restrict({@Group("MANAGER")})
-    public Result getPackingList(Long id) throws ControllerException {
+    public Result getCheckedPackingList(Long id) throws ControllerException {
         User oldUser = (User) Http.Context.current().args.get("user");
         LOGGER.debug("API get packingList: {}, {}", oldUser.toString(), id);
         PackingList packingList;
         try {
-            packingList = service.getPackingList(id);
+            packingList = service.getPackingList(id, PackingListStatus.CHECKED);
+        } catch (ServiceException e) {
+            LOGGER.error("error = {}", e);
+            throw new ControllerException(e.getMessage(), e);
+        }
+        PackingListDTO dto = PackingListDTO.toPackingListDTO(packingList);
+        return ok(Json.toJson(dto));
+    }
+
+    @Restrict({@Group("MANAGER")})
+    public Result getCreatedPackingList(Long id) throws ControllerException {
+        User oldUser = (User) Http.Context.current().args.get("user");
+        LOGGER.debug("API get packingList: {}, {}", oldUser.toString(), id);
+        PackingList packingList;
+        try {
+            packingList = service.getPackingList(id, PackingListStatus.CREATED);
         } catch (ServiceException e) {
             LOGGER.error("error = {}", e);
             throw new ControllerException(e.getMessage(), e);

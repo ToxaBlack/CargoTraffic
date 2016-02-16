@@ -25,6 +25,17 @@ define(["app/utils/utils"],
                 );
             };
 
+            var getCheckedPackingList = function (id, done, error, always) {
+                utils.send(
+                    "api/packingLists/" + id + "/checked",
+                    "GET",
+                    {},
+                    done,
+                    error,
+                    always
+                );
+            };
+
             var save = function (packingList,done, error, always) {
                 utils.send(
                     "api/packingList",
@@ -52,7 +63,8 @@ define(["app/utils/utils"],
                 list: list,
                 getPackingList: getPackingList,
                 save: save,
-                changeStatus: changeStatus
+                changeStatus: changeStatus,
+                getCheckedPackingList: getCheckedPackingList
             }
         }
         return new PackingListService();

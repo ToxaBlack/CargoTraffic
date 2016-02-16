@@ -45,7 +45,7 @@ public class PackingListService {
     }
 
     public List<PackingList> getPackingLists(Long id, Integer count, Boolean ascOrder) throws ServiceException {
-        LOGGER.debug("API get packingLists: {}, {}, {}", id, count, ascOrder);
+        LOGGER.debug("API get packingLists: id {}, count {}, asc {}", id, count, ascOrder);
         try {
             return JPA.withTransaction(() -> {
                 User user = (User) Http.Context.current().args.get("user");
@@ -58,7 +58,7 @@ public class PackingListService {
     }
 
     public List<PackingList> getDispatcherPackingLists(Long id, Integer count, Boolean ascOrder) throws ServiceException {
-        LOGGER.debug("API get packingLists for dispatcher: {}, {}, {}", id, count, ascOrder);
+        LOGGER.debug("API get packingLists for dispatcher: id {}, count {}, asc {}", id, count, ascOrder);
         try {
             return JPA.withTransaction(() -> {
                 User user = (User) Http.Context.current().args.get("user");
@@ -71,12 +71,12 @@ public class PackingListService {
     }
 
 
-    public PackingList getPackingList(Long id) throws ServiceException {
+    public PackingList getPackingList(Long id, PackingListStatus status) throws ServiceException {
         LOGGER.debug("API get packingList: {}", id);
         try {
             return JPA.withTransaction(() -> {
                 User user = (User) Http.Context.current().args.get("user");
-                return packingListRepository.getPackingList(id, user.company.id);
+                return packingListRepository.getPackingList(id, user.company.id, status);
             });
         } catch (Throwable throwable) {
             LOGGER.error("Get packingList error: {}", throwable);
@@ -89,7 +89,7 @@ public class PackingListService {
         try {
             JPA.withTransaction(() -> {
                 User user = (User) Http.Context.current().args.get("user");
-                PackingList packingList = packingListRepository.getPackingList(id, user.company.id);
+                PackingList packingList = packingListRepository.getPackingList(id, user.company.id, PackingListStatus.CREATED);
                 if (packingListStatus == PackingListStatus.CHECKED) {
                     packingList.status = PackingListStatus.CHECKED;
                     for (ProductInPackingList productInPackingList : packingList.getProductsInPackingList()) {

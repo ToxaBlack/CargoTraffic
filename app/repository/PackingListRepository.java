@@ -82,7 +82,7 @@ public class PackingListRepository {
         return packingLists;
     }
 
-    public PackingList getPackingList(long id, Long companyId) {
+    public PackingList getPackingList(long id, Long companyId, PackingListStatus status) {
         LOGGER.debug("Get packingList: {}, {}", id, companyId);
         EntityManager em = JPA.em();
         String sqlQuery = "SELECT pl FROM PackingList pl " +
@@ -93,7 +93,7 @@ public class PackingListRepository {
                 "AND pl.id = :id";
         Query query = em.createQuery(sqlQuery);
         query.setParameter("companyId", companyId);
-        query.setParameter("status", PackingListStatus.CREATED);
+        query.setParameter("status", status);
         query.setParameter("id", id);
         query.setMaxResults(1);
         List<PackingList> packingLists = query.getResultList();

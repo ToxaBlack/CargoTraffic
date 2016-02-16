@@ -35,7 +35,8 @@ PUT         /api/vehicles/delete       controllers.VehiclesController.deleteVehi
 
 POST        /api/packingList           controllers.PackingListController.addPackingList()
 GET         /api/packingLists          controllers.PackingListController.getPackingLists(id :Long, packingLists :Integer, ascOrder :Boolean )
-GET         /api/packingLists/$id<[0-9]+>   controllers.PackingListController.getPackingList(id :Long)
+GET         /api/packingLists/$id<[0-9]+>   controllers.PackingListController.getCreatedPackingList(id :Long)
+GET         /api/packingLists/$id<[0-9]+>/checked   controllers.PackingListController.getCheckedPackingList(id :Long)
 PUT         /api/packingList/$id<[0-9]+>   controllers.PackingListController.changeStatus(id :Long)
 
 POST        /api/waybill               controllers.WaybillController.add()
