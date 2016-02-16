@@ -20,7 +20,8 @@ define(["jquery", "knockout", "crossroads", "history"], function ($, ko, crossro
             {url: 'employees', params: {page: 'employees'}},
             {url: 'addEmployee', params: {page: 'addEmployee'}},
             {url: 'vehicles', params: {page: 'vehicles'}},
-            {url: 'waypoints', params: {page: 'waypoints'}}
+            {url: 'waypoints', params: {page: 'waypoints'}},
+            {url: /.*/, params: {page: 'error'}}
         ]
     });
 
