@@ -19,15 +19,16 @@
                     <th>Max products weight, kg</th>
                 </tr>
             </thead>
-            <tbody data-bind="foreach: vehicles">
+            <tbody class="cursor-hand" data-bind="foreach: vehicles">
                 <tr>
                     <td><input class="idCheck" type="checkbox" data-bind="checked: $parent.checkedVehicles, attr: { value: id }"/></td>
-                    <td>
-                        <a class="cursor-hand" data-bind="text: ko.computed(function() {return vehicleProducer + ' ' + vehicleModel; }),
-                                           click: $parent.onLink, attr: { value: id } "></a>
+                    <td data-bind="text: ko.computed(function() {return vehicleProducer + ' ' + vehicleModel; }),
+                                           click: $parent.onLink, attr: { value: id } ">
                     </td>
-                    <td class="link" data-bind="text: ko.computed(function() {return vehicleFuel.fuelName + '/' + fuelConsumption + ' liters'; })"></td>
-                    <td class="link" data-bind="text: productsConstraintValue"></td>
+                    <td class="link" data-bind="text: ko.computed(function() {return vehicleFuel.fuelName + '/' + fuelConsumption + ' liters'; }),
+                                           click: $parent.onLink, attr: { value: id }"></td>
+                    <td class="link" data-bind="text: productsConstraintValue,
+                                           click: $parent.onLink, attr: { value: id }"></td>
                 </tr>
             </tbody>
         </table>
