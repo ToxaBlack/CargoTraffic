@@ -58,7 +58,7 @@
 <div class="row">
     <div class="col-sm-1 col-sm-offset-9">
         <div class="form-group">
-            <button class="btn btn-success btn-lg" data-bind="disable: allChecked() == false, click: acceptPackingList">Accept</button>
+            <button class="btn btn-success btn-lg" data-bind="disable: allGoods().length !== checkedGoods().length, click: acceptPackingList">Accept</button>
         </div>
     </div>
     <div class="col-sm-2">

@@ -11,15 +11,21 @@ define(['app/service/packingListService', 'app/service/navService', 'app/service
             self.destinationAddress = ko.observable({});
             self.issueDate = ko.observable();
             self.goodsOnPage = ko.observableArray([]);
+            self.allGoods = ko.observableArray([]);
             self.checkedGoods = ko.observableArray([]);
             self.allChecked = ko.computed(function() {
-                return self.checkedGoods().length === self.goodsOnPage().length;
+                var isAllChecked = true;
+                $.each(self.goodsOnPage(), function (index, element) {
+                    if ($.inArray(element.id.toString(), self.checkedGoods()) === -1) {
+                        isAllChecked = false;
+                    }
+                });
+                return isAllChecked;
             }, this);
             self.hasNextPage = ko.observable(false);
             self.hasPreviousPage = ko.observable(false);
             self.GOODS_PER_PAGE = 2;
             var currentPage = 1;
-            var allGoods = [];
             var dateOptions = {
                 year: 'numeric',
                 month: 'long',
@@ -35,12 +41,12 @@ define(['app/service/packingListService', 'app/service/navService', 'app/service
                     if (!data.id)
                         navService.navigateTo("packingLists");
                     else {
-                        allGoods = data.products;
-                        self.goodsOnPage(allGoods.slice(0, self.GOODS_PER_PAGE * currentPage));
+                        self.allGoods(data.products);
+                        self.goodsOnPage(self.allGoods().slice(0, self.GOODS_PER_PAGE * currentPage));
                         self.departureAddress(data.departureWarehouse.address);
                         self.destinationAddress(data.destinationWarehouse.address);
                         self.issueDate(new Date(data.issueDate).toLocaleString("ru", dateOptions));
-                        if (allGoods.length > self.GOODS_PER_PAGE * currentPage) {
+                        if (self.allGoods().length > self.GOODS_PER_PAGE * currentPage) {
                             self.hasNextPage(true);
                         } else {
                             self.hasNextPage(false);
@@ -58,13 +64,13 @@ define(['app/service/packingListService', 'app/service/navService', 'app/service
 
             self.nextPage = function () {
                 if (!self.hasNextPage()) return;
-                if (allGoods.length > self.GOODS_PER_PAGE * (currentPage + 1)) {
+                if (self.allGoods().length > self.GOODS_PER_PAGE * (currentPage + 1)) {
                     self.hasNextPage(true);
                 } else {
                     self.hasNextPage(false);
                 }
                 self.hasPreviousPage(true);
-                self.goodsOnPage(allGoods.slice(self.GOODS_PER_PAGE * currentPage, self.GOODS_PER_PAGE * (currentPage + 1)));
+                self.goodsOnPage(self.allGoods().slice(self.GOODS_PER_PAGE * currentPage, self.GOODS_PER_PAGE * (currentPage + 1)));
                 currentPage++;
             };
 
@@ -77,7 +83,7 @@ define(['app/service/packingListService', 'app/service/navService', 'app/service
                 }
                 self.hasNextPage(true);
                 currentPage--;
-                self.goodsOnPage(allGoods.slice(self.GOODS_PER_PAGE * (currentPage - 1), self.GOODS_PER_PAGE * currentPage));
+                self.goodsOnPage(self.allGoods().slice(self.GOODS_PER_PAGE * (currentPage - 1), self.GOODS_PER_PAGE * currentPage));
             };
 
 
