@@ -40,9 +40,9 @@ public class Waybill {
     @Enumerated(EnumType.STRING)
     public WaybillStatus status;
 
-    /*@OneToMany(mappedBy = "waybill", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "waybill", fetch = FetchType.LAZY)
     public List<WaybillVehicleDriver> vehicleDriverList;
 
     @OneToMany(mappedBy = "waybill", fetch = FetchType.LAZY)
-    public List<Waypoint> waypointList;*/
+    public List<Waypoint> waypointList;
 }
