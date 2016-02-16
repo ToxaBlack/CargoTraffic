@@ -13,8 +13,19 @@ define(["app/utils/utils"],
                 );
             };
 
+            var getProducts = function (done, error) {
+                utils.send(
+                    "api/waybill",
+                    "GET",
+                    JSON.stringify({'trace' : 'trace'}),
+                    done,
+                    error
+                );
+            };
+
             return {
-                save: save
+                save: save,
+                getProducts: getProducts
             }
         }
 

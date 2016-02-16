@@ -11,7 +11,14 @@ define(['knockout'],
             self.price = ko.observable();
         }
 
+        function Checkpoint(coordinates, address) {
+            var self = this;
+            self.coordinates = coordinates;
+            self.address = address;
+        }
+
         return {
-            Goods: Goods
+            Goods: Goods,
+            Checkpoint: Checkpoint
         };
     });

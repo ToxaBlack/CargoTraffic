@@ -1,7 +1,7 @@
 define(['app/service/packingListService','app/service/navService' ,'app/service/barService', "knockout",
         'jquery',"app/models/models","app/utils/messageUtil","text!./packingList.html"],
 
-    function (packingListService, navService ,bar, ko, $,models,message,ttnTemplate) {
+    function (packingListService, navService ,bar, ko, $,models,message,template) {
         "use strict";
 
         function packingViewModel() {
@@ -51,7 +51,7 @@ define(['app/service/packingListService','app/service/navService' ,'app/service/
             };
 
             self.removeGoods = function(goods) {
-                self.packingList.products.remove(goods)
+                self.packingList.products.remove(goods);
             };
 
             self.choose = function() {
@@ -76,7 +76,7 @@ define(['app/service/packingListService','app/service/navService' ,'app/service/
             self.create = function() {
                 packingListService.save(
                     ko.toJSON(self.packingList),
-                    function (data) {
+                    function () {
                         navService.navigateTo("packingLists");
                     },
                     function (data) {
@@ -95,5 +95,5 @@ define(['app/service/packingListService','app/service/navService' ,'app/service/
             return self;
         }
 
-        return {viewModel: packingViewModel, template: ttnTemplate};
+        return {viewModel: packingViewModel, template: template};
     });

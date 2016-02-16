@@ -1,36 +1,26 @@
-<div class="page-header" xmlns:text="http://www.w3.org/1999/xhtml">
+<div class="page-header">
     <h1>Driver's checkpoints</h1>
 </div>
 
 <table class="table table-hover">
     <thead><tr>
-        <th>Goods name</th><th>Quantity</th><th>Unit</th><th>Storage</th><th>Price</th><th></th>
+        <th></th><th>Coordinates</th><th>Address</th>
     </tr></thead>
-    <tbody data-bind="foreach: packingList.products">
+    <tbody data-bind="foreach: checkpoints">
     <tr>
-        <td><input type="text"  data-bind="value: name" maxlength="30"/></td>
-        <td><input type="number" data-bind="value: quantity" min="1"></td>
-        <td><input type="text" data-bind="value: unit" maxlength="30"> </td>
         <td>
-            <select  name="role" class="form-control"
-                     data-bind="
-                                    options: $parent.storages,
-                                    value: storage,
-                                    optionsCaption: 'Select a storage',
-                                    valueAllowUnset: false">
-
-            </select>
+            <button class="btn btn-danger btn-round"  data-bind="click: $parent.checkIn($element)">
+                <span data-bind="text: $parent.giveLetter($index)"></span>
+            </button>
         </td>
-        <td><input type="number" data-bind="value: price" step="0.01" min="0" max="1000000"></td>
-        <td><button class="btn btn-danger"  data-bind="click: $parent.removeGoods">&times;</button></td>
+        <td><span data-bind="text: coordinates"></span></td>
+        <td><span data-bind="text: address"></span></td>
     </tr>
     </tbody>
 </table>
-<!-- /ko -->
-<button class="btn btn-default" data-bind="click: addGoods,  enable: addEnable">Add goods</button>
 <hr>
 <div class="form-group">
-    <button class="btn btn-success pull-right btn-lg" data-bind="click: create, enable: createEnable">
+    <button class="btn btn-success pull-right btn-lg" data-bind="click: toCheckProducts">
         Create list
     </button>
 </div>
