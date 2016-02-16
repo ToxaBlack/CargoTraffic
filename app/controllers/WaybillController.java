@@ -3,13 +3,18 @@ package controllers;
 import be.objectify.deadbolt.java.actions.Group;
 import be.objectify.deadbolt.java.actions.Restrict;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.google.inject.Inject;
+import dto.WaybillDTO;
 import models.User;
+import models.Waybill;
 import play.Logger;
-import play.libs.Json;
 import play.mvc.BodyParser;
 import play.mvc.Controller;
 import play.mvc.Http;
 import play.mvc.Result;
+import play.libs.Json;
+import service.ServiceException;
+import service.WaybillService;
 
 import java.util.Objects;
 
@@ -19,11 +24,14 @@ import java.util.Objects;
 public class WaybillController extends Controller {
     private static final Logger.ALogger LOGGER = Logger.of(WaybillController.class);
 
+    @Inject
+    WaybillService service;
+
     @Restrict({@Group("MANAGER")})
     @BodyParser.Of(BodyParser.Json.class)
     public Result add() throws ControllerException {
-        User oldUser = (User) Http.Context.current().args.get("user");
-        LOGGER.debug("API add employee", oldUser.toString());
+        User user = (User) Http.Context.current().args.get("user");
+        LOGGER.debug("API add waybill, manager {}", user.toString());
         JsonNode json = request().body().asJson();
         if (Objects.isNull(json)) {
             LOGGER.debug("Expecting Json data");
@@ -33,4 +41,20 @@ public class WaybillController extends Controller {
         }
         return ok();
     }
+
+    @Restrict({@Group("MANAGER")})
+    public Result getWaybillWithAdditionalInfo(long id) throws ControllerException {
+        User user = (User) Http.Context.current().args.get("user");
+        LOGGER.debug("API get waybill: {}, {}", user.toString(), id);
+        Waybill waybill;
+        try {
+            waybill = service.getWaybill(id);
+        } catch (ServiceException e) {
+            LOGGER.error("error = {}", e);
+            throw new ControllerException(e.getMessage(), e);
+        }
+        WaybillDTO dto = WaybillDTO.toWaybillDTO(waybill);
+        return ok(Json.toJson(dto));
+    }
+
 }

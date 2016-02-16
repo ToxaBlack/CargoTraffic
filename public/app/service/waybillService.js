@@ -13,6 +13,16 @@ define(["app/utils/utils"],
                 );
             };
 
+            var get = function(id, done, error, always){
+                utils.send(
+                    "api/waybill/"+id,
+                    "GET",
+                    {},
+                    done,
+                    error
+                );
+            };
+
             return {
                 save: save
             }
