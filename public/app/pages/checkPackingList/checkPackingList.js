@@ -9,19 +9,50 @@ define(['app/service/packingListService', 'app/service/navService', 'app/service
             var self = this;
             self.departureAddress = ko.observable({});
             self.destinationAddress = ko.observable({});
-            self.issueDate = new Date();
-            self.goods = ko.observableArray([]);
+            self.issueDate = ko.observable();
+            self.goodsOnPage = ko.observableArray([]);
+            self.allGoods = ko.observableArray([]);
             self.checkedGoods = ko.observableArray([]);
             self.allChecked = ko.computed(function() {
-                return self.checkedGoods().length === self.goods().length;
+                var isAllChecked = true;
+                $.each(self.goodsOnPage(), function (index, element) {
+                    if ($.inArray(element.id.toString(), self.checkedGoods()) === -1) {
+                        isAllChecked = false;
+                    }
+                });
+                return isAllChecked;
             }, this);
+            self.hasNextPage = ko.observable(false);
+            self.hasPreviousPage = ko.observable(false);
+            self.GOODS_PER_PAGE = 2;
+            var currentPage = 1;
+            var dateOptions = {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+                hour: 'numeric',
+                minute: 'numeric',
+                second: 'numeric'
+            };
 
 
             packingListService.getPackingList(requestParams.id,
                 function (data) {
-                    self.goods(data.products);
-                    self.departureAddress(data.departureWarehouse.address);
-                    self.destinationAddress(data.destinationWarehouse.address);
+                    if (!data.id)
+                        navService.navigateTo("packingLists");
+                    else {
+                        self.allGoods(data.products);
+                        self.goodsOnPage(self.allGoods().slice(0, self.GOODS_PER_PAGE * currentPage));
+                        self.departureAddress(data.departureWarehouse.address);
+                        self.destinationAddress(data.destinationWarehouse.address);
+                        self.issueDate(new Date(data.issueDate).toLocaleString("ru", dateOptions));
+                        if (self.allGoods().length > self.GOODS_PER_PAGE * currentPage) {
+                            self.hasNextPage(true);
+                        } else {
+                            self.hasNextPage(false);
+                        }
+                        self.hasPreviousPage(false);
+                    }
                 },
                 function (data) {
                     navService.catchError(data);
@@ -31,16 +62,40 @@ define(['app/service/packingListService', 'app/service/navService', 'app/service
                 }
             );
 
+            self.nextPage = function () {
+                if (!self.hasNextPage()) return;
+                if (self.allGoods().length > self.GOODS_PER_PAGE * (currentPage + 1)) {
+                    self.hasNextPage(true);
+                } else {
+                    self.hasNextPage(false);
+                }
+                self.hasPreviousPage(true);
+                self.goodsOnPage(self.allGoods().slice(self.GOODS_PER_PAGE * currentPage, self.GOODS_PER_PAGE * (currentPage + 1)));
+                currentPage++;
+            };
+
+            self.previousPage = function () {
+                if (!self.hasPreviousPage()) return;
+                if ((currentPage - 1) === 1) {
+                    self.hasPreviousPage(false);
+                } else {
+                    self.hasPreviousPage(true);
+                }
+                self.hasNextPage(true);
+                currentPage--;
+                self.goodsOnPage(self.allGoods().slice(self.GOODS_PER_PAGE * (currentPage - 1), self.GOODS_PER_PAGE * currentPage));
+            };
+
 
             $('#selectAllCheckbox').on('click', function () {
                 if (!self.allChecked()) {
-                    $.each(self.goods(), function (index, element) {
+                    $.each(self.goodsOnPage(), function (index, element) {
                         if ($.inArray(element.id.toString(), self.checkedGoods()) === -1) {
                             self.checkedGoods.push(element.id.toString());
                         }
                     });
                 } else {
-                    $.each(self.goods(), function (index, element) {
+                    $.each(self.goodsOnPage(), function (index, element) {
                         if ($.inArray(element.id.toString(), self.checkedGoods()) !== -1) {
                             self.checkedGoods.remove(element.id.toString());
                         }
@@ -73,7 +128,7 @@ define(['app/service/packingListService', 'app/service/navService', 'app/service
                         bar.go(100);
                     }
                 );
-                navService.navigateTo('account');
+                navService.navigateTo('packingLists');
             };
 
             bar.go(100);
