@@ -8,6 +8,9 @@ define(['app/service/waybillService','app/service/accountService', 'app/service/
             bar.go(50);
             var self = this;
             var MAX_COUNT = 10000000;
+
+            self.packingListDate = ko.observable({});
+
             self.drivers = ko.observableArray([]);
             self.selectedDriver = ko.observable({});
 
@@ -20,12 +23,32 @@ define(['app/service/waybillService','app/service/accountService', 'app/service/
 
             self.pageInitialised = ko.observable(false);
 
+
             self.selectedVehicleDriver = ko.observable();
             self.waybill = ko.observable({
-                date: ko.observable(),
+                packingListId: ko.observable(),
+                departureDate: ko.observable(),
+                arrivalDate: ko.observable(),
                 manager : ko.observable(""),
                 vehicleDrivers : ko.observableArray([
                 ])
+            });
+
+
+            var dateOptions = {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+                hour: 'numeric',
+                minute: 'numeric',
+                second: 'numeric'
+            };
+
+
+            self.localDates = ko.observable({
+                departureDate: ko.computed(function(){
+                    if(self.waybill().departureDate()!=undefined)
+                        return self.waybill().departureDate().toLocaleString("ru", dateOptions);})
             });
 
             self.Id = function(smth) {return smth.id;};
@@ -98,7 +121,7 @@ define(['app/service/waybillService','app/service/accountService', 'app/service/
                 function () {bar.go(100)}
             );
 
-            packingListService.getPackingList(requestParams.id,
+            packingListService.getCheckedPackingList(requestParams.id,
                 function (data) {
                     self.goods(data.products);
                     self.goods().forEach(function(product,i,goods){
@@ -112,7 +135,9 @@ define(['app/service/waybillService','app/service/accountService', 'app/service/
                             return quantity;
                         })
                     });
-                    self.waybill().date(new Date(data.issueDate));
+                    self.packingListDate(new Date(data.issueDate).toLocaleString("ru", dateOptions));
+                    self.waybill().departureDate(new Date());
+                    self.waybill().packingListId(data.id);
                     self.departureAddress(data.departureWarehouse.address);
                     self.destinationAddress(data.destinationWarehouse.address);
                     self.pageInitialised(true);
