@@ -15,19 +15,16 @@ public class ProductInWaybill implements Serializable{
     @JoinColumn(
             name = "product_id",
             referencedColumnName = "id",
-            insertable = false,
             updatable = false)
     public Product product;
 
     @Id
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "wvd_id",
-            referencedColumnName = "id",
-            insertable = false,
-            updatable = false)
+            referencedColumnName = "id")
     public WaybillVehicleDriver waybillVehicleDriver;
 
-    @Column(name = "quantity", updatable = true)
+    @Column(name = "quantity")
     public Long quantity;
 
     @Override

@@ -79,21 +79,21 @@ CREATE TABLE IF NOT EXISTS `cargo_traffic`.`vehicle` (
 
 CREATE TABLE IF NOT EXISTS `cargo_traffic`.`waybill` (
   `id` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `issue_date` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `departure_date` TIMESTAMP NULL DEFAULT NULL,
+  `departure_date` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `arrival_date` TIMESTAMP NULL DEFAULT NULL,
   `status` VARCHAR(250) NOT NULL,
   `packing_list_id` INT(11) UNSIGNED NOT NULL,
-  `manager` INT(11) UNSIGNED NOT NULL,
+  `manager_id` INT(11) UNSIGNED NOT NULL,
   `company_id` INT(11) UNSIGNED NOT NULL,
   PRIMARY KEY (`id`),
   INDEX (`packing_list_id` ASC),
-  INDEX (`manager` ASC),
+  INDEX (`manager_id` ASC),
   INDEX (`company_id` ASC),
   FOREIGN KEY (`packing_list_id`)
   REFERENCES `cargo_traffic`.`packing_list` (`id`)
     ON DELETE RESTRICT
     ON UPDATE RESTRICT,
-  FOREIGN KEY (`manager`)
+  FOREIGN KEY (`manager_id`)
   REFERENCES `cargo_traffic`.`user` (`id`)
     ON DELETE RESTRICT
     ON UPDATE RESTRICT,

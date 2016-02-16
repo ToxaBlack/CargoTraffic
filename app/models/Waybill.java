@@ -1,7 +1,6 @@
 package models;
 
 import models.statuses.WaybillStatus;
-import play.data.validation.Constraints;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -15,23 +14,32 @@ import java.util.List;
 @Table(name = "waybill")
 public class Waybill {
     @Id
+    @Column(name = "id", nullable = false, unique = true)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     public long id;
 
-    @Constraints.Required
+    @Column(name = "departure_date")
+    @Temporal(TemporalType.TIMESTAMP)
     public Date departureDate;
 
+    @Column(name = "arrival_date")
+    @Temporal(TemporalType.TIMESTAMP)
     public Date arrivalDate;
 
-
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "packing_list_id", nullable = false, referencedColumnName = "id")
     public PackingList packingList;
 
-    @OneToMany
-    public List<Vehicle> vehicleList;
-
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "manager_id", nullable = false, referencedColumnName = "id")
     public User manager;
 
+    @Column(name = "status")
     public WaybillStatus status;
+
+    @OneToMany(mappedBy = "waybill")
+    public List<WaybillVehicleDriver> vehicleDriverList;
+
+    @OneToMany(mappedBy = "waybill")
+    public List<Waypoint> waypointList;
 }

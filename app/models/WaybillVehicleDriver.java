@@ -2,6 +2,7 @@ package models;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * Created by Maxim on 2/14/2016.
@@ -13,26 +14,26 @@ public class WaybillVehicleDriver implements Serializable {
 
     @Id
     @Column(name="id")
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     public Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "waybill_id",
-            referencedColumnName = "id",
-            insertable = false, updatable = false)
+            referencedColumnName = "id")
     public Waybill waybill;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "vehicle_id",
-            referencedColumnName = "id",
-            insertable = false, updatable = false)
+            referencedColumnName = "id")
     public Vehicle vehicle;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "driver_id",
-            referencedColumnName = "id",
-            insertable = false, updatable = false)
+            referencedColumnName = "id")
     public User driver;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "product")
+    public List<ProductInWaybill> productsInWaybillList;
 
     @Override
     public int hashCode() {
