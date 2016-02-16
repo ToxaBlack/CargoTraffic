@@ -17,8 +17,18 @@ define(['knockout'],
             self.address = address;
         }
 
+        function CheckProduct(id,name,quantity,measure) {
+            var self = this;
+            self.id = id;
+            self.name = name;
+            self.quantity = quantity;
+            self.measure = measure;
+            self.realQuantity = ko.observable();
+        }
+
         return {
             Goods: Goods,
-            Checkpoint: Checkpoint
+            Checkpoint: Checkpoint,
+            CheckProduct: CheckProduct
         };
     });

@@ -7,10 +7,17 @@
     </tr></thead>
     <tbody data-bind="foreach: products">
     <tr>
-        <td><span data-bind="text: product.name"/></span></td>
+        <td><span data-bind="text: name"/></span></td>
         <td><span data-bind="text: quantity"/></span></td>
-        <td><input type="number" data-bind="value:  $parent.realCount[$index]" min="1"></td>
-        <td><span data-bind="text: product.measureUnit.name"/></span></td>
+        <td><input type="number"  data-bind="value: realQuantity" min="1"></td>
+        <td><span data-bind="text: measure"/></span></td>
     </tr>
     </tbody>
 </table>
+<button class="btn btn-default" data-bind="click: check,  enable: checkEnable">Check</button>
+<hr>
+<div class="form-group">
+    <button class="btn btn-success pull-right btn-lg" data-bind="click: check">
+        Check
+    </button>
+</div>
