@@ -86,12 +86,14 @@ public class PackingListRepository {
         LOGGER.debug("Get packingList: {}, {}", id, companyId);
         EntityManager em = JPA.em();
         String sqlQuery = "SELECT pl FROM PackingList pl " +
-                "left join fetch pl.departureWarehouse " +
-                "left join fetch pl.destinationWarehouse " +
+                "LEFT JOIN FETCH pl.departureWarehouse " +
+                "LEFT JOIN FETCH pl.destinationWarehouse " +
                 "WHERE pl.dispatcher.company.id = :companyId " +
-                "and pl.id = :id";
+                "AND pl.status = :status " +
+                "AND pl.id = :id";
         Query query = em.createQuery(sqlQuery);
         query.setParameter("companyId", companyId);
+        query.setParameter("status", PackingListStatus.CREATED);
         query.setParameter("id", id);
         query.setMaxResults(1);
         List<PackingList> packingLists = query.getResultList();
