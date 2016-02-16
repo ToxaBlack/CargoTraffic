@@ -31,16 +31,26 @@
                 <th>Quantity</th>
             </tr>
         </thead>
-        <tbody data-bind="foreach: goods">
+        <tbody data-bind="foreach: goodsOnPage">
             <tr>
                 <td>
                     <input class="idCheck" type="checkbox" data-bind="checked: $parent.checkedGoods, attr: { value: id }"/>
                 </td>
                 <td data-bind="text: name"></td>
-                <td data-bind="text: ko.computed(function() {return quantity + ' ' + unit;})"></td>
+                <td data-bind="text: ko.computed(function() {return quantity + ' ' + unit.toLowerCase();})"></td>
             </tr>
         </tbody>
     </table>
+</div>
+
+<!-- Pagination -->
+<div class="row text-center">
+    <div class="col-lg-12">
+        <ul class="pager">
+            <li id="previousPage" class="cursor-hand" data-bind="css: { disabled: hasPreviousPage() == false}, click: previousPage"><a>Previous</a></li>
+            <li id="nextPage" class="cursor-hand" data-bind="css: { disabled: hasNextPage() == false}, click: nextPage"><a>Next</a></li>
+        </ul>
+    </div>
 </div>
 
 <hr>
