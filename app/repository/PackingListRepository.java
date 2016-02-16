@@ -60,10 +60,11 @@ public class PackingListRepository {
     public PackingList getPackingList(long id, Long companyId) {
         LOGGER.debug("Get packingList: {}, {}", id, companyId);
         EntityManager em = JPA.em();
-        String sqlQuery = new String("SELECT pl FROM PackingList pl WHERE pl.status = ? AND pl.dispatcher.company.id = ?");
+        String sqlQuery = new String("SELECT pl FROM PackingList pl WHERE pl.status = ? AND pl.dispatcher.company.id = ? AND pl.id = ?");
         Query query = em.createQuery(sqlQuery);
         query.setParameter(1, PackingListStatus.CREATED);
         query.setParameter(2, companyId);
+        query.setParameter(3, id);
         query.setMaxResults(1);
         List<PackingList> packingLists = query.getResultList();
         if (CollectionUtils.isEmpty(packingLists))
