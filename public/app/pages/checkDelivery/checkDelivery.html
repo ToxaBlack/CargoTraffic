@@ -10,12 +10,12 @@
     <tr>
         <td><span data-bind="text: name"/></span></td>
         <td><span data-bind="text: quantity"/></span></td>
-        <td><input type="number"  data-bind="value: realQuantity" min="1"></td>
+        <td><input type="number"  data-bind="value: realQuantity, enable: ! $parent.checked()" min="1"></td>
         <td><span data-bind="text: measure"/></span></td>
     </tr>
     </tbody>
 </table>
-<button class="btn btn-default" data-bind="click: check,  enable: checkEnable">Check</button>
+<button class="btn btn-default" data-bind="click: check,  enable: checkEnable,visible: !checked()">Check</button>
 <hr>
 <div class="form-group">
     <button class="btn btn-success pull-right btn-lg" data-bind="visible: false, click: confirm">
@@ -25,7 +25,7 @@
 <!-- /ko -->
 
 <!-- ko if: lostProducts().length > 0-->
-<h2>Created act</h2>
+<h2 style="color: red">Create act</h2>
 <table class="table table-hover">
     <thead><tr>
         <th>Goods name</th><th>Lost amount</th><th>Unit</th><th><th>
@@ -38,9 +38,19 @@
     </tr>
     </tbody>
 </table>
+<div class="form-group">
+    <button class="btn btn-danger pull-right btn-lg" data-bind="click: createAct">
+        Send act
+    </button>
+</div>
 <!-- /ko -->
 
-<div class="panel panel-default" data-bind="visible: products().length == 0">
+<div class="form-group">
+    <button class="btn btn-success pull-right btn-lg" data-bind="click: confirm, visible: (lostProducts().length == 0 && checked()) ">
+        Confirm delivery
+    </button>
+</div>
+<div class="panel panel-default" data-bind="visible: products().length == 0 ">
     <div class="panel-body text-center">
         Product lists table is empty.
     </div>

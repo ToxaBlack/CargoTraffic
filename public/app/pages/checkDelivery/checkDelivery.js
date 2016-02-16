@@ -7,9 +7,11 @@ define(['app/service/waybillService','app/service/navService' ,'app/service/barS
         function viewModel() {
             bar.go(50);
             var self = this;
+            self.checked = ko.observable(false);
             self.products = ko.observableArray();
             self.lostProducts = ko.observableArray();
             self.check = function (){
+                self.checked(true);
                 ko.utils.arrayForEach(self.products(), function(item) {
                     var diff = item.quantity - item.realQuantity();
                     if(diff > 0){
@@ -32,6 +34,11 @@ define(['app/service/waybillService','app/service/navService' ,'app/service/barS
 
 
             self.confirm = function () {
+                //TODO
+            };
+
+            self.createAct = function () {
+                self.lostProducts([]);
                 //TODO
             };
 
