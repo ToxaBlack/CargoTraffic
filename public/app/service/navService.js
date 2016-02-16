@@ -27,6 +27,9 @@ define(["app/utils/utils", 'knockout'], function (utils, ko) {
                 case "MANAGER":
                     utils.goTo("packingLists");
                     break;
+                case "DRIVER":
+                    utils.goTo("checkpoints");
+                    break;
                 default:
                     utils.goTo("error");
             }

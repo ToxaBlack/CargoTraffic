@@ -22,18 +22,30 @@ define(["app/utils/utils"],
                     error
                 );
             };
-                var getWaybill = function(id, done, error, always){
-                    utils.send(
-                        "api/waybill/"+id,
-                        "GET",
-                        {},
-                        done,
-                        error
-                    );
+
+            var getWaybill = function(id, done, error, always){
+                utils.send(
+                    "api/waybill/"+id,
+                    "GET",
+                    {},
+                    done,
+                    error
+                );
             };
 
 
+            var getProducts = function (done, error) {
+                utils.send(
+                    "api/waybill",
+                    "GET",
+                    JSON.stringify({'trace' : 'trace'}),
+                    done,
+                    error
+                );
+            };
+
             return {
+                getProducts: getProducts,
                 save: save,
                 getWaypints: getWaypints,
                 getWaybill: getWaybill

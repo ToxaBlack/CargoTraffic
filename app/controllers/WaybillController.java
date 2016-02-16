@@ -3,6 +3,7 @@ package controllers;
 import be.objectify.deadbolt.java.actions.Group;
 import be.objectify.deadbolt.java.actions.Restrict;
 import com.fasterxml.jackson.databind.JsonNode;
+import models.ProductInWaybill;
 import com.google.inject.Inject;
 import dto.WaybillDTO;
 import models.User;
@@ -12,10 +13,11 @@ import play.mvc.BodyParser;
 import play.mvc.Controller;
 import play.mvc.Http;
 import play.mvc.Result;
-import play.libs.Json;
 import service.ServiceException;
 import service.WaybillService;
-
+import play.libs.Json;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -26,6 +28,7 @@ public class WaybillController extends Controller {
 
     @Inject
     WaybillService service;
+
 
     @Restrict({@Group("MANAGER")})
     @BodyParser.Of(BodyParser.Json.class)
@@ -41,6 +44,24 @@ public class WaybillController extends Controller {
         }
         return ok();
     }
+
+    @Restrict({@Group("DRIVER")})
+    public Result getProducts() throws ControllerException {
+        List<ProductInWaybill> list;
+        try {
+            list = service.getProducts();
+        } catch (ServiceException e) {
+            LOGGER.error("error = {}", e);
+            throw new ControllerException(e.getMessage(), e);
+        }
+        Iterator<ProductInWaybill> iterator = list.iterator();
+        while(iterator.hasNext()){
+            ProductInWaybill product = iterator.next();
+            product.waybillVehicleDriver = null;
+        }
+        return ok(Json.toJson(list));
+    }
+
 
     @Restrict({@Group("MANAGER")})
     public Result getWaybillWithAdditionalInfo(long id) throws ControllerException {
