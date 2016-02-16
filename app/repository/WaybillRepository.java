@@ -50,9 +50,6 @@ public class WaybillRepository {
         query.setParameter("user", user);
         query.setParameter("status", WaybillStatus.TRANSPORTATION_STARTED);
         List<ProductInWaybill> list = query.getResultList();
-        for (ProductInWaybill product : list) {
-            System.out.println(product.product.name + " " + product.quantity);
-        }
         return list;
     }
 }
