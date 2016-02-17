@@ -32,7 +32,7 @@ public class PackingListDTO {
             productInPackingList.product = new Product();
             productInPackingList.product.deleted = false;
             productInPackingList.product.measureUnit = new MeasureUnit(productDTO.unit.toUpperCase().trim());
-            productInPackingList.product.storageType = new StorageType(productDTO.storage.toUpperCase().trim());
+            productInPackingList.product.storageType = StorageType.valueOf(productDTO.storage.toUpperCase().trim());
             productInPackingList.product.name = productDTO.name;
 
             productInPackingList.count = productDTO.quantity;
@@ -49,8 +49,19 @@ public class PackingListDTO {
         PackingListDTO dto = new PackingListDTO();
         dto.id = packingList.id;
         dto.departureWarehouse = packingList.departureWarehouse;
+        dto.destinationWarehouse = packingList.destinationWarehouse;
         dto.dispatcher = packingList.dispatcher;
         dto.issueDate = packingList.issueDate;
+        for (ProductInPackingList productInPackingList : packingList.getProductsInPackingList()) {
+            ProductDTO productDTO = new ProductDTO();
+            productDTO.id = productInPackingList.id.productId;
+            productDTO.name = productInPackingList.product.name;
+            productDTO.price = productInPackingList.price;
+            productDTO.quantity = productInPackingList.count;
+            productDTO.storage = productInPackingList.product.storageType.name();
+            productDTO.unit = productInPackingList.product.measureUnit.name;
+            dto.products.add(productDTO);
+        }
         return dto;
     }
 }

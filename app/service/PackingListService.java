@@ -4,6 +4,8 @@ import models.PackingList;
 import models.Product;
 import models.ProductInPackingList;
 import models.User;
+import models.statuses.PackingListStatus;
+import models.statuses.ProductStatus;
 import play.Logger;
 import play.db.jpa.JPA;
 import play.mvc.Http;
@@ -24,6 +26,7 @@ public class PackingListService {
     private PackingListRepository packingListRepository;
     @Inject
     private ProductRepository productRepository;
+
     public void addPackingList(PackingList packingList, Set<ProductInPackingList> products) throws ServiceException {
         try {
             JPA.withTransaction(() -> packingListRepository.savePackingList(packingList));
@@ -42,7 +45,7 @@ public class PackingListService {
     }
 
     public List<PackingList> getPackingLists(Long id, Integer count, Boolean ascOrder) throws ServiceException {
-        LOGGER.debug("API get packingLists: {}, {}, {}", id, count, ascOrder);
+        LOGGER.debug("API get packingLists: id {}, count {}, asc {}", id, count, ascOrder);
         try {
             return JPA.withTransaction(() -> {
                 User user = (User) Http.Context.current().args.get("user");
@@ -50,6 +53,55 @@ public class PackingListService {
             });
         } catch (Throwable throwable) {
             LOGGER.error("Get packingLists error: {}", throwable);
+            throw new ServiceException(throwable.getMessage(), throwable);
+        }
+    }
+
+    public List<PackingList> getDispatcherPackingLists(Long id, Integer count, Boolean ascOrder) throws ServiceException {
+        LOGGER.debug("API get packingLists for dispatcher: id {}, count {}, asc {}", id, count, ascOrder);
+        try {
+            return JPA.withTransaction(() -> {
+                User user = (User) Http.Context.current().args.get("user");
+                return packingListRepository.getDispatcherPackingLists(id, count, ascOrder,user);
+            });
+        } catch (Throwable throwable) {
+            LOGGER.error("Get packingLists for dispatcher error: {}", throwable);
+            throw new ServiceException(throwable.getMessage(), throwable);
+        }
+    }
+
+
+    public PackingList getPackingList(Long id, PackingListStatus status) throws ServiceException {
+        LOGGER.debug("API get packingList: {}", id);
+        try {
+            return JPA.withTransaction(() -> {
+                User user = (User) Http.Context.current().args.get("user");
+                return packingListRepository.getPackingList(id, user.company.id, status);
+            });
+        } catch (Throwable throwable) {
+            LOGGER.error("Get packingList error: {}", throwable);
+            throw new ServiceException(throwable.getMessage(), throwable);
+        }
+    }
+
+    public void changeStatus(Long id, PackingListStatus packingListStatus) throws ServiceException {
+        LOGGER.debug("API change status: {}", id);
+        try {
+            JPA.withTransaction(() -> {
+                User user = (User) Http.Context.current().args.get("user");
+                PackingList packingList = packingListRepository.getPackingList(id, user.company.id, PackingListStatus.CREATED);
+                if (packingListStatus == PackingListStatus.CHECKED) {
+                    packingList.status = PackingListStatus.CHECKED;
+                    for (ProductInPackingList productInPackingList : packingList.getProductsInPackingList()) {
+                        productInPackingList.status = ProductStatus.VERIFICATION_COMPLETED;
+                    }
+                } else {
+                    packingList.status = PackingListStatus.REJECTED;
+                }
+                packingListRepository.savePackingList(packingList);
+            });
+        } catch (Throwable throwable) {
+            LOGGER.error("Get packingList error: {}", throwable);
             throw new ServiceException(throwable.getMessage(), throwable);
         }
     }

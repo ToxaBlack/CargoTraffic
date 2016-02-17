@@ -1,5 +1,5 @@
-define(['jquery'],
-    function ($) {
+define(['jquery','crossroads','history'],
+    function ($, crossroads) {
         "use strict";
 
         function send(url, method, data, doneFunk, failFunk, alwaysFunk) {
@@ -14,11 +14,9 @@ define(['jquery'],
         }
 
         function goTo(page) {
-            var link = document.createElement('a');
-            link.href = page;
-            document.body.appendChild(link);
-            link.click();
-            link.parentNode.removeChild(link);
+            History.pushState({
+                urlPath: '/' + page
+            }, 'CargoTraffic', '/' + page);
         }
 
         return {

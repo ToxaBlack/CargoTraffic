@@ -33,7 +33,7 @@ define(['app/service/accountService', 'app/service/navService', "knockout"],
             validator = $('#accountForm').validate({
                 rules: {
                     birthDate: {
-                        customDate: true,
+                        customDate: true
                     },
                     email: {
                         email: true

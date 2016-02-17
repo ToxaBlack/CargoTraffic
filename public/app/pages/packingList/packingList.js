@@ -1,24 +1,25 @@
 define(['app/service/packingListService','app/service/navService' ,'app/service/barService', "knockout",
-        'jquery',"app/models/models","text!./packingList.html"],
+        'jquery',"app/models/models","app/utils/messageUtil","text!./packingList.html"],
 
-    function (packingListService, navService ,bar, ko, $,models,ttnTemplate) {
+    function (packingListService, navService ,bar, ko, $,models,message,template) {
         "use strict";
 
         function packingViewModel() {
 
             bar.go(50);
             var self = this;
-            self.units = ko.observableArray(["Kilogram","Liter","Square meter","Pieces"]);
-            self.packingList =  {"issueDate":new Date(), "destinationWarehouse": ko.observable({name:""}),
-                "departureWarehouse":ko.observable({name:""}), "products":ko.observableArray()};
+            self.label = "Click to choose";
+            self.storages = ko.observableArray(["Refrigerator","Tank","Boxcar"]);
+            self.packingList =  {"issueDate":new Date(), "destinationWarehouse": ko.observable({name: self.label}),
+                "departureWarehouse":ko.observable({name: self.label}), "products":ko.observableArray()};
 
             self.addEnable = ko.computed(function() {
-                var flag = true, MAX_NUMBER = 99999999999;
+                var flag = true, MAX_NUMBER = 99999999999, MAX_PRICE = 1000000;
                 ko.utils.arrayForEach(self.packingList.products(), function(item) {
                     var count = item.quantity(),
                         price = item.price(),
                         fillFields = item.name() && count && item.unit() && item.storage() && price,
-                        correctNumbers = 0 < count && count < MAX_NUMBER && 0 < price && price < MAX_NUMBER;
+                        correctNumbers = 0 < count && count < MAX_NUMBER && 0 < price && price <= MAX_PRICE;
 
                     if(!(fillFields && correctNumbers)) {
                         flag = false;
@@ -29,9 +30,10 @@ define(['app/service/packingListService','app/service/navService' ,'app/service/
             }, this);
 
             self.createEnable = ko.computed(function() {
-                return self.addEnable() && self.packingList.destinationWarehouse().name &&
-                    self.packingList.departureWarehouse().name && self.packingList.products().length > 0;
+                return self.addEnable() && self.packingList.destinationWarehouse().name != self.label &&
+                    self.packingList.departureWarehouse().name != self.label && self.packingList.products().length > 0;
             }, this);
+
 
             self.closeDialog = function () {
                 $('#warehouses-popup').modal("hide");
@@ -49,11 +51,14 @@ define(['app/service/packingListService','app/service/navService' ,'app/service/
             };
 
             self.removeGoods = function(goods) {
-                self.packingList.products.remove(goods)
+                self.packingList.products.remove(goods);
             };
 
             self.choose = function() {
                 var context = ko.contextFor($("#warehouses")[0]);
+                if(! context.$data.getChosenWarehouse()){
+                    return false;
+                }
                 switch(self.warehousePoint) {
                     case 'from' :
                         self.packingList.departureWarehouse(context.$data.getChosenWarehouse());
@@ -64,15 +69,15 @@ define(['app/service/packingListService','app/service/navService' ,'app/service/
                     default: return false;
                 }
                 context.$data.checkedWarehouses([]);
+                message.deleteMessage();
                 $('#warehouses-popup').modal("hide");
             };
 
             self.create = function() {
-               // alert(ko.toJSON(self.packingList));
                 packingListService.save(
                     ko.toJSON(self.packingList),
-                    function (data) {
-                        navService.navigateTo("account");
+                    function () {
+                        navService.navigateTo("packingLists");
                     },
                     function (data) {
                         switch (data.status) {
@@ -90,5 +95,5 @@ define(['app/service/packingListService','app/service/navService' ,'app/service/
             return self;
         }
 
-        return {viewModel: packingViewModel, template: ttnTemplate};
+        return {viewModel: packingViewModel, template: template};
     });

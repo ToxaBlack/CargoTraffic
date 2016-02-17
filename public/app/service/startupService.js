@@ -22,6 +22,11 @@ define(["app/utils/utils", "jquery"],
                     },
                     "Please enter date of birth yyyy-mm-dd."
                 );
+                $.ajaxSetup({
+                   beforeSend: function(xhr, options) {
+                       options.url = window.location.origin + "/" +options.url
+                   }
+                });
             }
 
 

@@ -3,10 +3,10 @@
         <button type="button" class="btn btn-info" title="Add client" data-bind="click: addClient">
             <span class="glyphicon glyphicon-plus"></span> Add
         </button>
-        <button type="button" id="lockButton" class="btn btn-danger" title="Lock company">
+        <button type="button" id="lockButton" class="btn btn-danger" title="Lock company" data-bind="disable: checkedClients().length === 0">
             <span class="glyphicon glyphicon-lock"></span> Lock
         </button>
-        <button type="button" id="unlockButton" class="btn btn-success" title="Unlock company">
+        <button type="button" id="unlockButton" class="btn btn-success" title="Unlock company" data-bind="disable: checkedClients().length === 0">
             <span class="glyphicon glyphicon-briefcase"></span> Unlock
         </button>
     </div>
@@ -19,6 +19,7 @@
                     <th><input class="selectAll" type="checkbox" data-bind="checked: allChecked" id="selectAllCheckbox"></th>
                     <th>Company</th>
                     <th>Status</th>
+                    <th>Date of status changing</th>
                 </tr>
             </thead>
             <tbody data-bind="foreach: clients">
@@ -26,6 +27,7 @@
                     <td><input class="idCheck" type="checkbox" data-bind="checked: $parent.checkedClients, attr: { value: id }"/></td>
                     <td class="link" data-bind="text: name"></td>
                     <td class="link" data-bind="text: $parent.getClientStatus(locked)"></td>
+                    <td class="link" data-bind="text: date"></td>
                 </tr>
             </tbody>
         </table>
@@ -41,8 +43,8 @@
 <div class="row text-center">
     <div class="col-lg-12">
         <ul class="pager">
-            <li id="previousPage" data-bind="css: { disabled: hasPreviousPage() == false}, click: previousPage"><a>Previous</a></li>
-            <li id="nextPage" data-bind="css: { disabled: hasNextPage() == false}, click: nextPage"><a>Next</a></li>
+            <li id="previousPage" class="cursor-hand" data-bind="css: { disabled: hasPreviousPage() == false}, click: previousPage"><a>Previous</a></li>
+            <li id="nextPage" class="cursor-hand" data-bind="css: { disabled: hasNextPage() == false}, click: nextPage"><a>Next</a></li>
         </ul>
     </div>
 </div>

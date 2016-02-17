@@ -16,6 +16,14 @@ define(['app/service/navService', 'app/service/clientService', "knockout", 'app/
                 return success;
             }, this);
             self.CLIENTS_PER_PAGE = 10;
+            var dateOptions = {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+                hour: 'numeric',
+                minute: 'numeric',
+                second: 'numeric'
+            };
 
 
             clientService.list(1, self.CLIENTS_PER_PAGE + 1, true,
@@ -27,6 +35,9 @@ define(['app/service/navService', 'app/service/clientService', "knockout", 'app/
                         self.hasNextPage(false);
                     }
                     self.hasPreviousPage(false);
+                    $.each(data, function (index, element) {
+                        element.date = new Date(element.date).toLocaleString("ru", dateOptions);
+                    });
                     self.clients(data);
                 },
                 function (data) {
@@ -49,6 +60,9 @@ define(['app/service/navService', 'app/service/clientService', "knockout", 'app/
                             self.hasNextPage(false);
                         }
                         self.hasPreviousPage(true);
+                        $.each(data, function (index, element) {
+                            element.date = new Date(element.date).toLocaleString("ru", dateOptions);
+                        });
                         self.clients(data);
                     },
                     function (data) {
@@ -68,6 +82,9 @@ define(['app/service/navService', 'app/service/clientService', "knockout", 'app/
                             self.hasPreviousPage(false);
                         }
                         self.hasNextPage(true);
+                        $.each(data, function (index, element) {
+                            element.date = new Date(element.date).toLocaleString("ru", dateOptions);
+                        });
                         self.clients(data);
                     },
                     function (data) {
@@ -102,6 +119,8 @@ define(['app/service/navService', 'app/service/clientService', "knockout", 'app/
                         var auxiliaryArray = self.clients().slice();
                         $.each(auxiliaryArray, function (index, element) {
                             if ($.inArray(element.id.toString(), self.checkedClients()) !== -1) {
+                                if (!element.locked)
+                                    element.date = new Date().toLocaleString("ru", dateOptions);
                                 element.locked = true;
                                 auxiliaryArray.splice(index, 1);
                                 auxiliaryArray.splice(index, 0, element);
@@ -122,6 +141,8 @@ define(['app/service/navService', 'app/service/clientService', "knockout", 'app/
                         var auxiliaryArray = self.clients().slice();
                         $.each(auxiliaryArray, function (index, element) {
                             if ($.inArray(element.id.toString(), self.checkedClients()) !== -1) {
+                                if (element.locked)
+                                    element.date = new Date().toLocaleString("ru", dateOptions);
                                 element.locked = false;
                                 auxiliaryArray.splice(index, 1);
                                 auxiliaryArray.splice(index, 0, element);
@@ -181,16 +202,18 @@ define(['app/service/navService', 'app/service/clientService', "knockout", 'app/
 
             self.add = function () {
                 if (!self.isValidated()) return;
+                self.company.date = new Date();
                 clientService.add(self.company, self.admin,
                     function (data) {
                         if (self.clients().length < self.CLIENTS_PER_PAGE) {
+                            data.date = new Date().toLocaleString("ru", dateOptions);
                             self.clients.push(data);
                         } else {
                             self.hasNextPage(true);
                         }
                         self.company.name(null);
                         self.admin.surname(null);
-                        self.admin.email(null);
+                        self.admin.email (null);
                     },
                     function (data) {
                         navService.catchError(data);

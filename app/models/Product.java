@@ -1,5 +1,7 @@
 package models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
 
 /**
@@ -8,6 +10,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "product")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -19,8 +22,8 @@ public class Product {
     @JoinColumn(name = "measure_unit_id")
     public MeasureUnit measureUnit;
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "storage_type_id")
+    @Column(name = "storage_type")
+    @Enumerated(EnumType.STRING)
     public StorageType storageType;
 
     public Boolean deleted;

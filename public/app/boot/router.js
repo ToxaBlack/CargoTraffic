@@ -7,14 +7,21 @@ define(["jquery", "knockout", "crossroads", "history"], function ($, ko, crossro
             {url: 'account', params: {page: 'account'}},
             {url: 'clients', params: {page: 'clients'}},
             {url: 'companies', params: {page: 'companies'}},
+            {url: 'warehouses', params: {page: 'warehouses'}},
             {url: 'packingList', params: {page: 'packingList'}},
+            {url: 'home', params: {page: 'home'}},
             {url: 'packingLists', params: {page: 'packingLists'}},
-            {url: 'checkPackingList', params: {page: 'checkPackingList'}},
-            {url: 'waybill', params: {page: 'waybill'}},
+            {url: 'checkPackingList/{id}', params: {page: 'checkPackingList'}},
+            {url: 'checkpoints', params: {page: 'checkpoints'}},
+            {url: 'checkDelivery', params: {page: 'checkDelivery'}},
+            {url: 'waybill/{id}', params: {page: 'waybill'}},
+            {url: 'settings', params: {page: 'settings'}},
             {url: 'error', params: {page: 'error'}},
             {url: 'employees', params: {page: 'employees'}},
             {url: 'addEmployee', params: {page: 'addEmployee'}},
-            {url: 'vehicles', params: {page: 'vehicles'}}
+            {url: 'vehicles', params: {page: 'vehicles'}},
+            {url: 'waypoints', params: {page: 'waypoints'}},
+            {url: /.*/, params: {page: 'error'}}
         ]
     });
 
@@ -36,7 +43,7 @@ define(["jquery", "knockout", "crossroads", "history"], function ($, ko, crossro
                         return true;
                     }
                     e.preventDefault();
-                    title = $(document).find("title").text();
+                    title = $(this).text();
                     return History.pushState({
                         urlPath: urlPath
                     }, title, urlPath);

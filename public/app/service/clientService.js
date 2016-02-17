@@ -19,7 +19,7 @@ define(["app/utils/utils"],
                 utils.send(
                     "api/client",
                     "POST",
-                    JSON.stringify({client: {name: client.name()}, admin: {surname: admin.surname(), email: admin.email()}}),
+                    JSON.stringify({client: {name: client.name(), date: client.date}, admin: {surname: admin.surname(), email: admin.email()}}),
                     done,
                     error,
                     always

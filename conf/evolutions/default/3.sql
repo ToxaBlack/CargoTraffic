@@ -79,26 +79,20 @@ CREATE TABLE IF NOT EXISTS `cargo_traffic`.`vehicle` (
 
 CREATE TABLE IF NOT EXISTS `cargo_traffic`.`waybill` (
   `id` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `issue_date` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `departure_date` TIMESTAMP NULL DEFAULT NULL,
-  `status` VARCHAR(250) NOT NULL,
+  `departure_date` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `arrival_date` TIMESTAMP NULL DEFAULT NULL,
+  `status` ENUM('TRANSPORTATION_STARTED', 'TRANSPORTATION_COMPLETED', 'REJECTED') NOT NULL,
   `packing_list_id` INT(11) UNSIGNED NOT NULL,
-  `manager` INT(11) UNSIGNED NOT NULL,
-  `company_id` INT(11) UNSIGNED NOT NULL,
+  `manager_id` INT(11) UNSIGNED NOT NULL,
   PRIMARY KEY (`id`),
   INDEX (`packing_list_id` ASC),
-  INDEX (`manager` ASC),
-  INDEX (`company_id` ASC),
+  INDEX (`manager_id` ASC),
   FOREIGN KEY (`packing_list_id`)
   REFERENCES `cargo_traffic`.`packing_list` (`id`)
     ON DELETE RESTRICT
     ON UPDATE RESTRICT,
-  FOREIGN KEY (`manager`)
+  FOREIGN KEY (`manager_id`)
   REFERENCES `cargo_traffic`.`user` (`id`)
-    ON DELETE RESTRICT
-    ON UPDATE RESTRICT,
-  FOREIGN KEY (`company_id`)
-  REFERENCES `cargo_traffic`.`company` (`id`)
     ON DELETE RESTRICT
     ON UPDATE RESTRICT)
   ENGINE = InnoDB
@@ -106,22 +100,27 @@ CREATE TABLE IF NOT EXISTS `cargo_traffic`.`waybill` (
 
 
 CREATE TABLE IF NOT EXISTS `cargo_traffic`.`waybill_vehicle_driver` (
+  `id` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `waybill_id` INT(11) UNSIGNED NOT NULL,
   `vehicle_id` INT(11) UNSIGNED NOT NULL,
   `driver_id` INT(11) UNSIGNED NOT NULL,
-  `waybill_id` INT(11) UNSIGNED NOT NULL,
-  PRIMARY KEY (`vehicle_id`, `driver_id`, `waybill_id`),
-  INDEX (`driver_id` ASC),
-  INDEX (`waybill_id` ASC),
+  PRIMARY KEY (`id`),
+  UNIQUE INDEX `waybill_vehicle_driver_UNIQUE` (`waybill_id` ASC, `vehicle_id` ASC, `driver_id` ASC),
+  INDEX `wvd_vehicle_fk_idx` (`vehicle_id` ASC),
+  INDEX `wvd_driver_fk_idx` (`driver_id` ASC),
+  CONSTRAINT `wvd_waybill_fk`
+  FOREIGN KEY (`waybill_id`)
+  REFERENCES `cargo_traffic`.`waybill` (`id`)
+    ON DELETE RESTRICT
+    ON UPDATE RESTRICT,
+  CONSTRAINT `wvd_vehicle_fk`
   FOREIGN KEY (`vehicle_id`)
   REFERENCES `cargo_traffic`.`vehicle` (`id`)
     ON DELETE RESTRICT
     ON UPDATE RESTRICT,
+  CONSTRAINT `wvd_driver_fk`
   FOREIGN KEY (`driver_id`)
   REFERENCES `cargo_traffic`.`user` (`id`)
-    ON DELETE RESTRICT
-    ON UPDATE RESTRICT,
-  FOREIGN KEY (`waybill_id`)
-  REFERENCES `cargo_traffic`.`waybill` (`id`)
     ON DELETE RESTRICT
     ON UPDATE RESTRICT)
   ENGINE = InnoDB

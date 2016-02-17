@@ -1,0 +1,19 @@
+<div id="googleMap" style="width:500px;height:380px;"></div>
+<div class="row">
+    <div class="col-sm-12">
+        <table id="waypointsTable" class="table table-hover">
+            <thead>
+            <tr>
+                <th><input class="selectAll" type="checkbox" data-bind="checked: allChecked" id="selectAllCheckbox"></th>
+                <th>LatLng</th>
+            </tr>
+            </thead>
+            <tbody data-bind="foreach: controlPoints">
+            <tr>
+                <td><input class="idCheck" type="checkbox" data-bind="checked: $parent.checkedWays, attr: { value: id }"/></td>
+                <td class="link" data-bind="text: lat + '  ' + lng "></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

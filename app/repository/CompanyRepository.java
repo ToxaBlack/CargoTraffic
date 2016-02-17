@@ -9,6 +9,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -39,7 +40,7 @@ public class CompanyRepository {
         LOGGER.debug("Update companies status: {}, {}", Arrays.toString(companyIds.toArray()), isLock);
         EntityManager em = JPA.em();
 
-        StringBuilder stringBuilder = new StringBuilder("UPDATE Company c SET c.locked=? WHERE c.id in (");
+        StringBuilder stringBuilder = new StringBuilder("UPDATE Company c SET c.locked=?, c.date=NOW() WHERE c.id in (");
         for (Long id : companyIds) {
             stringBuilder.append(id);
             stringBuilder.append(",");

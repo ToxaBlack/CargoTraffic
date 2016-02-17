@@ -3,7 +3,7 @@
         <button type="button" id="addButton" class="btn btn-info" title="Add employees">
             <span class="glyphicon glyphicon-plus"></span> Add
         </button>
-        <button type="button" id="removeButton" class="btn btn-danger" title="Delete employees" >
+        <button type="button" id="removeButton" class="btn btn-danger" title="Delete employees">
             <span class="glyphicon glyphicon-trash"></span> Delete
         </button>
     </div>
@@ -12,33 +12,27 @@
     <div class="col-sm-12">
         <table class="table table-hover">
             <thead>
-                <tr>
-                    <th><input class="selectAll" type="checkbox" data-bind="checked: allChecked" id="selectAllCheckbox"></th>
-                    <th>Full name</th>
-                    <th>Username</th>
-                    <th>Roles</th>
-                </tr>
+            <tr>
+                <th><input class="selectAll" type="checkbox" data-bind="checked: allChecked" id="selectAllCheckbox">
+                </th>
+                <th>Full name</th>
+                <th>Username</th>
+                <th>Roles</th>
+            </tr>
             </thead>
-            <tbody data-bind="foreach: employees">
-                <tr>
-                    <td><input class="idCheck" type="checkbox" data-bind="checked: $parent.checkedEmployees, attr: { value: id }"/></td>
-                    <td>
-                  <!--      <a data-bind="text: ko.computed(function() {return name + ' ' + patronymic + ' '+ surname; }),
-                                   attr: { href: 'addEmployee?id=' + id }"> </a> -->
-                        <button type="button" class="btn btn-link"
-                                data-bind="text: ko.computed(function() {return name + ' ' + patronymic + ' '+ surname; }),
-                                           click: $parent.onLink, attr: { value: id } ">
-                        </button>
-                    </td>
-                    <td class="link" data-bind="text: username"></td>
-                    <td>
-                    <ul data-bind="foreach: listOfRoles = ko.observableArray(userRoleList)">
-                        <li>
-                            <span data-bind="text: name"></span>
-                        </li>
-                    </ul>
-                    </td>
-                </tr>
+            <tbody class="cursor-hand" data-bind="foreach: employees">
+            <tr>
+                <td><input class="idCheck" type="checkbox"
+                           data-bind="checked: $parent.checkedEmployees, attr: { value: id }, clickBubble: false"/></td>
+                <td class="link" data-bind="text: ko.computed(function() {return name + ' ' + patronymic + ' '+ surname; }),
+                                click: $parent.onLink, attr: { value: id } ">
+                </td>
+                <td class="link" data-bind="text: username, click: $parent.onLink, attr: { value: id }"></td>
+                <td class="link" data-bind="foreach: listOfRoles = ko.observableArray(userRoleList), click: $parent.onLink, attr: { value: id }">
+                    <span data-bind="text: name"></span>
+                </td>
+            </tr>
+            </tbody>
             </tbody>
         </table>
     </div>
@@ -48,7 +42,8 @@
 <div class="row text-center">
     <div class="col-lg-12">
         <ul class="pager">
-            <li id="previousPage" data-bind="css: { disabled: hasPreviousPage() == false}, click: previousPage"><a>Previous</a></li>
+            <li id="previousPage" data-bind="css: { disabled: hasPreviousPage() == false}, click: previousPage"><a>Previous</a>
+            </li>
             <li id="nextPage" data-bind="css: { disabled: hasNextPage() == false}, click: nextPage"><a>Next</a></li>
         </ul>
     </div>
@@ -122,7 +117,7 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="control-label col-md-3" for="role" >Role</label>
+                    <label class="control-label col-md-3" for="role">Role</label>
                     <div class="col-sm-9">
                         <select id="role" name="role" class="form-control"
                                 data-bind="
@@ -181,7 +176,9 @@
             </div>
 
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal"  data-bind="click: updateEmployee">Update</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal" data-bind="click: updateEmployee">
+                    Update
+                </button>
                 <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
             </div>
         </div>

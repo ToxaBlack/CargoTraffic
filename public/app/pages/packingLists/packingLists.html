@@ -2,20 +2,20 @@
     <div class="col-sm-12">
         <table class="table table-hover">
             <thead>
-                <tr>
-                    <th>Number</th>
-                    <th>Date of creating</th>
-                    <th>Dispatcher full name</th>
-                    <th>Warehouse address</th>
-                </tr>
+            <tr>
+                <th>Number</th>
+                <th>Date of creating</th>
+                <th>Dispatcher full name</th>
+                <th>Warehouse address</th>
+            </tr>
             </thead>
             <tbody class="cursor-hand" data-bind="foreach: packingLists">
-                <tr data-bind="click: $parent.toPackingList">
-                    <td  class="link" data-bind="text: id"></td>
-                    <td  class="link" data-bind="text: issueDate"></td>
-                    <td  class="link" data-bind="text: ko.computed(function() {return dispatcher.surname + ' ' + dispatcher.name + ' ' + dispatcher.patronymic; })"></td>
-                    <td  class="link" data-bind="text: ko.computed(function() {return departureWarehouse.address.country + ', ' + departureWarehouse.address.city + ' city, ' + departureWarehouse.address.street + ' st., ' + departureWarehouse.address.house; })"></td>
-                </tr>
+            <tr data-bind="click: $parent.toPackingList">
+                <td  class="link" data-bind="text: id"></td>
+                <td  class="link" data-bind="text: issueDate"></td>
+                <td  class="link" data-bind="text: ko.computed(function() {return dispatcher.surname + ' ' + dispatcher.name + ' ' + dispatcher.patronymic; })"></td>
+                <td  class="link" data-bind="text: ko.computed(function() {return departureWarehouse.address.country + ', ' + departureWarehouse.address.city + ' city, ' + departureWarehouse.address.street + ' st., ' + departureWarehouse.address.house; })"></td>
+            </tr>
             </tbody>
         </table>
         <div class="panel panel-default" data-bind="visible: packingLists().length == 0">

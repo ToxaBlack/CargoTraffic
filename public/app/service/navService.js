@@ -1,15 +1,18 @@
-define(["app/utils/utils", 'knockout'], function(utils, ko) {
+define(["app/utils/utils", 'knockout'], function (utils, ko) {
     "use strict";
-    function NavService(){
+    function NavService() {
 
-        var navigateTo = function(page) {
+        var navigateTo = function (page) {
             utils.goTo(page);
         };
 
-        var mainPage = function() {
-            var context = ko.contextFor($("body")[0]);
-            var roles = context.$data.roles();
-            if (!roles) catchError();
+        var mainPage = function (roles) {
+            if (!roles) {
+                var context = ko.contextFor($("body")[0]);
+                roles = context.$data.roles();
+            }
+
+            if (!roles || !roles.length) return utils.goTo("login");
 
             switch (roles[0].name) {
                 case "SYS_ADMIN":
@@ -19,10 +22,13 @@ define(["app/utils/utils", 'knockout'], function(utils, ko) {
                     utils.goTo("employees");
                     break;
                 case "DISPATCHER":
-                    utils.goTo("packingList");
+                    utils.goTo("packingLists");
                     break;
                 case "MANAGER":
                     utils.goTo("packingLists");
+                    break;
+                case "DRIVER":
+                    utils.goTo("checkpoints");
                     break;
                 default:
                     utils.goTo("error");
@@ -30,7 +36,7 @@ define(["app/utils/utils", 'knockout'], function(utils, ko) {
 
         };
 
-        var catchError = function(data) {
+        var catchError = function (data) {
             switch (data.status) {
                 case 403:
                     utils.goTo("login");

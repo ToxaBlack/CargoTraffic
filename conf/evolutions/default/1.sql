@@ -5,6 +5,7 @@
 CREATE TABLE IF NOT EXISTS `cargo_traffic`.`company` (
   `id`      INTEGER(11) UNSIGNED NOT NULL AUTO_INCREMENT UNIQUE,
   `name`    VARCHAR(250)         NOT NULL,
+  `date`    DATETIME,
   `locked` BIT(1)                        DEFAULT FALSE,
   PRIMARY KEY (`id`)
 )

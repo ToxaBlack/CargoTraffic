@@ -56,4 +56,49 @@ public class PackingListRepository {
             Collections.reverse(packingLists);
         return packingLists;
     }
+
+    public List<PackingList> getDispatcherPackingLists(long id, int count, boolean ascOrder, User user) {
+        LOGGER.debug("Get packingLists for dispatcher: {}, {}, {}, {}", id, count, ascOrder, user);
+        EntityManager em = JPA.em();
+        StringBuilder stringBuilder = new StringBuilder("SELECT pl FROM PackingList pl WHERE pl.status = :status" +
+                " AND pl.dispatcher = :user AND ");
+        if (ascOrder) {
+            stringBuilder.append("pl.id >= :plId AND pl.dispatcher.company.id = :companyId ORDER BY pl.id ASC");
+        } else {
+            stringBuilder.append("pl.id < :plId AND pl.dispatcher.company.id = :companyId ORDER BY pl.id DESC");
+        }
+        Query query = em.createQuery(stringBuilder.toString());
+
+        query.setParameter("status", PackingListStatus.CREATED);
+        query.setParameter("plId", id);
+        query.setParameter("companyId", user.company.id);
+        query.setParameter("user",user);
+        query.setMaxResults(count);
+        List<PackingList> packingLists = query.getResultList();
+        if (CollectionUtils.isEmpty(packingLists))
+            return new ArrayList<>();
+        if (!ascOrder)
+            Collections.reverse(packingLists);
+        return packingLists;
+    }
+
+    public PackingList getPackingList(long id, Long companyId, PackingListStatus status) {
+        LOGGER.debug("Get packingList: {}, {}", id, companyId);
+        EntityManager em = JPA.em();
+        String sqlQuery = "SELECT pl FROM PackingList pl " +
+                "LEFT JOIN FETCH pl.departureWarehouse " +
+                "LEFT JOIN FETCH pl.destinationWarehouse " +
+                "WHERE pl.dispatcher.company.id = :companyId " +
+                "AND pl.status = :status " +
+                "AND pl.id = :id";
+        Query query = em.createQuery(sqlQuery);
+        query.setParameter("companyId", companyId);
+        query.setParameter("status", status);
+        query.setParameter("id", id);
+        query.setMaxResults(1);
+        List<PackingList> packingLists = query.getResultList();
+        if (CollectionUtils.isEmpty(packingLists))
+            return new PackingList();
+        return packingLists.get(0);
+    }
 }
