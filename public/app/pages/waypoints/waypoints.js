@@ -7,7 +7,7 @@ define(['app/service/waybillService', 'app/service/navService', "knockout", 'app
             self.controlPoints = ko.observableArray([]);
             self.waypoints = ko.observableArray([]);
             self.address = ko.observableArray([]);
-
+            self.waybillId = 1;
             self.checkedWays = ko.observableArray([]);
             self.allChecked = ko.computed(function () {
                 var success = $.grep(self.controlPoints(), function (element, index) {
@@ -28,9 +28,6 @@ define(['app/service/waybillService', 'app/service/navService', "knockout", 'app
                 var center;
                 if(self.controlPoints.length > 0 ) center = google.maps.LatLng(self.controlPoints()[0].lat,self.controlPoints()[0].lng);
                 else center =  new google.maps.LatLng(51.508742, -0.120850);
-                self.tempWaypoints = ko.observableArray([]);
-                self.tempWaypoints = self.waypoints();
-                self.waypoints = ko.observableArray([]);
                 var lastPoint = center;
                 var mapProp = {
                     center: center,
@@ -41,14 +38,13 @@ define(['app/service/waybillService', 'app/service/navService', "knockout", 'app
                 var geocoder = new google.maps.Geocoder();
                 var marker = new google.maps.Marker({
                     position: mapProp.center,
-                    animation: google.maps.Animation.BOUNCE
+                    animation: google.maps.Animation.BOUNCE,
+                    map: map
                 });
-                marker.setMap(map);
-
 
                 for(var i = 0; i < self.controlPoints().length; ++i){
                     map.setZoom(11);
-                    var marker = new google.maps.Marker({
+                    marker = new google.maps.Marker({
                         position: self.controlPoints()[i],
                         animation: google.maps.Animation.BOUNCE,
                         map: map
@@ -110,6 +106,7 @@ define(['app/service/waybillService', 'app/service/navService', "knockout", 'app
                         drawWay();
                     }
                 );
+                if(self.waypoints().length > 0) drawWay();
             }
 
             function geocodeLatLng(geocoder, latlng, i) {
@@ -129,9 +126,15 @@ define(['app/service/waybillService', 'app/service/navService', "knockout", 'app
 
             $(document).ready(function(){
                 waybilService.getWaypints(
-                    1, // waybill id
+                    self.waybillId,
                     function(data){
                         self.controlPoints(data);
+                        $.each(self.controlPoints(), function (index, element) {
+                            if (element.status == 'CHECKED') {
+                                self.checkedWays.push(element.id.toString());
+                                self.waypoints.push(element);
+                            }
+                        });
                         includeJs();
                         setTimeout(initialize, 500);
                     },
@@ -155,6 +158,18 @@ define(['app/service/waybillService', 'app/service/navService', "knockout", 'app
                 }
             });
 
+            $('#btnSave').on('click', function(){
+                waybilService.putWaypoints(
+                    self.checkedWays(),
+                    function(){
+                        self.waybillId = 0;
+                        self.checkedWays = ko.observableArray([]);
+                        self.controlPoints = ko.observableArray([]);
+                        self.waypoints = ko.observableArray([]);
+                    },
+                    function (data) {navService.catchError(data);}
+            )
+            });
             bar.go(100);
             return self;
         }

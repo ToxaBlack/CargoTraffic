@@ -33,6 +33,15 @@ define(["app/utils/utils"],
                 );
             };
 
+            var putWaypints = function (checkedId, done, error) {
+                utils.send(
+                    "api/waypoints",
+                    "PUT",
+                    JSON.stringify(checkedId),
+                    done,
+                    error
+                );
+            };
 
             var getProducts = function (done, error) {
                 utils.send(
@@ -48,7 +57,8 @@ define(["app/utils/utils"],
                 getProducts: getProducts,
                 save: save,
                 getWaypints: getWaypints,
-                getWaybill: getWaybill
+                getWaybill: getWaybill,
+                putWaypoints: putWaypints
             }
         }
 

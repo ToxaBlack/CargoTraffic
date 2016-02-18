@@ -2,6 +2,8 @@ package repository;
 
 import models.Waybill;
 import models.Waypoint;
+import models.statuses.WaybillStatus;
+import models.statuses.WaypointStatus;
 import play.db.jpa.JPA;
 
 import javax.persistence.EntityManager;
@@ -18,12 +20,37 @@ public class WaypointRepository {
         Query query = em.createQuery(stringBuilder.toString());
         query.setParameter(1, id);
         List<Waypoint> list = query.getResultList();
-        //TODO DELETE
         for (Waypoint point: list) {
-            Long tempId =point.waybill.id;
+            Long tempId = point.waybill.id;
             point.waybill = new Waybill();
             point.waybill.id = tempId;
         }
         return list;
+    }
+
+    public void setChecked(List<Long> ids, boolean isChecked){
+        EntityManager em = JPA.em();
+        StringBuilder stringBuilder = new StringBuilder("UPDATE Waypoint w SET w.status = ? WHERE w.id in (");
+        for (Long id : ids) {
+            stringBuilder.append(id);
+            stringBuilder.append(",");
+        }
+        stringBuilder.deleteCharAt(stringBuilder.length() - 1);
+        stringBuilder.append(")");
+        Query query = em.createQuery(stringBuilder.toString());
+        if(isChecked) query.setParameter(1, WaypointStatus.valueOf("CHECKED"));
+        else query.setParameter(1, WaypointStatus.valueOf("UNCHECKED"));
+        query.executeUpdate();
+    }
+    public List allPoints(Long id){
+        EntityManager em = JPA.em();
+        StringBuilder stringBuilder = new StringBuilder("SELECT w.waybill.id FROM Waypoint w WHERE w.id = ?");
+        Query query = em.createQuery(stringBuilder.toString());
+        query.setParameter(1, id);
+        Long waybillId = (Long) query.getResultList().get(0);
+        stringBuilder = new StringBuilder("SELECT w.id FROM Waypoint w WHERE w.waybill.id = ?");
+        query = em.createQuery(stringBuilder.toString());
+        query.setParameter(1, waybillId);
+        return query.getResultList();
     }
 }
