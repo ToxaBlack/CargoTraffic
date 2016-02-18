@@ -26,7 +26,6 @@ POST        /api/employees             controllers.EmployeesController.addEmploy
 PUT         /api/employees/remove      controllers.EmployeesController.removeEmployees()
 GET         /api/employees/details     controllers.EmployeesController.getEmployee(id: Long)
 PUT         /api/employees/update      controllers.EmployeesController.updateEmployee()
-GET         /api/drivers               controllers.EmployeesController.getDrivers()
 
 GET         /api/vehicles              controllers.VehiclesController.getVehicles(id :Long, vehicles :Integer, ascOrder :Boolean )
 POST        /api/vehicle               controllers.VehiclesController.addVehicle()
@@ -36,11 +35,11 @@ PUT         /api/vehicles/delete       controllers.VehiclesController.deleteVehi
 POST        /api/packingList           controllers.PackingListController.addPackingList()
 GET         /api/packingLists          controllers.PackingListController.getPackingLists(id :Long, packingLists :Integer, ascOrder :Boolean )
 GET         /api/packingLists/$id<[0-9]+>   controllers.PackingListController.getCreatedPackingList(id :Long)
-GET         /api/packingLists/$id<[0-9]+>/checked   controllers.PackingListController.getCheckedPackingList(id :Long)
 PUT         /api/packingList/$id<[0-9]+>   controllers.PackingListController.changeStatus(id :Long)
 
 POST        /api/waybill               controllers.WaybillController.add()
-GET         /api/waybill/$id<[0-9]+>   controllers.WaybillController.getWaybillWithAdditionalInfo(id :Long)
+GET         /api/waybill/$id<[0-9]+>   controllers.WaybillController.getAdditionalInfoForWaybill(id :Long)
+GET         /api/waybill/$id<[0-9]+>/edit   controllers.WaybillController.getWaybillWithAdditionalInfoEdit(id :Long)
 GET         /api/waypoints             controllers.WaypointController.get(id : Long)
 PUT         /api/waypoints             controllers.WaypointController.set()
 

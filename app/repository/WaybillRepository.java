@@ -1,20 +1,17 @@
 package repository;
 
 
-import models.Product;
-import models.ProductInWaybill;
-import models.User;
+import models.*;
 import models.statuses.WaybillStatus;
-import models.Waybill;
 import org.apache.commons.collections4.CollectionUtils;
 import play.Logger;
 import play.db.jpa.JPA;
-import javax.persistence.TypedQuery;
-import java.util.List;
+
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by Maxim on 2/16/2016.
@@ -27,19 +24,42 @@ public class WaybillRepository {
         LOGGER.debug("Get waybill: {}, {}", id, companyId);
         EntityManager em = JPA.em();
         String sqlQuery = "SELECT wb FROM Waybill wb " +
-                "left join fetch wb.packingList " +
-                "left join fetch wb.waypointList " +
-                "left join fetch wb.vehicleDriverList " +
+                "LEFT JOIN FETCH wb.packingList " +
+                "LEFT JOIN FETCH wb.waypoints " +
+                "LEFT JOIN FETCH wb.vehicleDrivers " +
                 "WHERE wb.manager.company.id = :companyId " +
                 "AND wb.id = :id";
         Query query = em.createQuery(sqlQuery);
         query.setParameter("companyId", companyId);
         query.setParameter("id", id);
         query.setMaxResults(1);
-        List<Waybill> packingLists = query.getResultList();
-        if (CollectionUtils.isEmpty(packingLists))
+        List<Waybill> waybills = query.getResultList();
+        if (CollectionUtils.isEmpty(waybills))
             return new Waybill();
-        return packingLists.get(0);
+        return waybills.get(0);
+    }
+
+
+    public Waybill saveWaybill(Waybill waybill) {
+        Set<WaybillVehicleDriver> wvds = waybill.vehicleDrivers;
+        List<ProductInWaybill> piws;
+        EntityManager em = JPA.em();
+        em.persist(waybill);
+        em.flush();
+        em.refresh(waybill);
+        for(WaybillVehicleDriver wvd : wvds)
+        {
+            piws = wvd.productsInWaybill;
+            em.persist(wvd);
+            em.flush();
+            em.refresh(wvd);
+            for(ProductInWaybill piw : piws){
+                em.persist(piw);
+                em.flush();
+                em.refresh(piw);
+            }
+        }
+        return waybill;
     }
 
     public List<ProductInWaybill> getProducts(User user) {

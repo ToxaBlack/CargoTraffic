@@ -32,14 +32,6 @@ public class EmployeesService {
         }
     }
 
-    public List<User> getDrivers(long companyId) throws ServiceException {
-        try {
-            return JPA.withTransaction(() -> userRepository.getDrivers(companyId));
-        } catch (Throwable throwable) {
-            LOGGER.error("Get drivers in EmployeesService error = {}", throwable);
-            throw new ServiceException(throwable.getMessage(), throwable);
-        }
-    }
 
     public User getEmployee(long id) throws ServiceException {
         try {

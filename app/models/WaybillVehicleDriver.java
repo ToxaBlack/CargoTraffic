@@ -33,7 +33,7 @@ public class WaybillVehicleDriver implements Serializable {
     public User driver;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "product")
-    public List<ProductInWaybill> productsInWaybillList;
+    public List<ProductInWaybill> productsInWaybill;
 
     @Override
     public int hashCode() {

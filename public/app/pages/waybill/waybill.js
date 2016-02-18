@@ -91,37 +91,8 @@ define(['app/service/waybillService','app/service/accountService', 'app/service/
             }
 
 
-            accountService.get(
-                function (data) {
-                    self.waybill().manager(data);
-                },
-                function (data) {navService.catchError(data)},
-                function () {
-                    bar.go(100);
-                }
-            );
-
-            vehiclesService.list(1, MAX_COUNT, true,
-                function (data) {
-                    self.vehicles(data);
-                    if(self.vehicles().length == 0) $("#noVehicles").text("No vehicles in your company");
-                },
-                function (data) {navService.catchError(data)},
-                function () {
-                    bar.go(100);
-                }
-            );
-
-            employeesService.getDrivers(
-                function (data) {
-                    self.drivers(data);
-                    if(self.drivers().length == 0) $("#noDrivers").text("No drivers in your company");
-                },
-                function (data) {navService.catchError(data)},
-                function () {bar.go(100)}
-            );
-
-            packingListService.getCheckedPackingList(requestParams.id,
+            /*packingListService.getCheckedPackingList(
+                requestParams.id,
                 function (data) {
                     self.goods(data.products);
                     self.goods().forEach(function(product,i,goods){
@@ -130,7 +101,6 @@ define(['app/service/waybillService','app/service/accountService', 'app/service/
                             if(self.waybill().vehicleDrivers().length>0)
                                 self.waybill().vehicleDrivers().forEach(function(vd,j,vds){
                                     quantity -= vd.products()[i].quantity();
-
                                 });
                             return quantity;
                         })
@@ -140,6 +110,60 @@ define(['app/service/waybillService','app/service/accountService', 'app/service/
                     self.waybill().packingListId(data.id);
                     self.departureAddress(data.departureWarehouse.address);
                     self.destinationAddress(data.destinationWarehouse.address);
+                    self.pageInitialised(true);
+                },
+            function (data) {navService.catchError(data);},
+            function () {bar.go(100);}
+            );*/
+
+
+            /*accountService.get(
+                function (data) {
+                    self.waybill().manager(data);
+                },
+                function (data) {navService.catchError(data)},
+                function () {}
+            );*/
+
+            /*vehiclesService.list(1, MAX_COUNT, true,
+                function (data) {
+                    self.vehicles(data);
+                },
+                function (data) {navService.catchError(data)},
+                function () {}
+            );*/
+
+            /*employeesService.getDrivers(
+                function (data) {
+                    self.drivers(data);
+                },
+                function (data) {navService.catchError(data)},
+                function () {}
+            );*/
+
+            waybillService.getWaybill(
+                requestParams.id,
+                function (data) {
+                    self.goods(data.packingList.products);
+                    self.goods().forEach(function(product,i,goods){
+                        product.lastQuantity = ko.computed(function(){
+                            var quantity = product.quantity;
+                            if(self.waybill().vehicleDrivers().length>0)
+                                self.waybill().vehicleDrivers().forEach(function(vd,j,vds){
+                                    quantity -= vd.products()[i].quantity();
+                                });
+                            return quantity;
+                        })
+                    });
+                    self.packingListDate(new Date(data.packingList.issueDate).toLocaleString("ru", dateOptions));
+                    self.waybill().departureDate(new Date());
+                    self.waybill().packingListId(data.packingList.id);
+                    self.departureAddress(data.packingList.departureWarehouse.address);
+                    self.destinationAddress(data.packingList.destinationWarehouse.address);
+                    self.drivers(data.drivers);
+                    self.vehicles(data.vehicles);
+                    self.waybill().manager(data.manager);
+
                     self.pageInitialised(true);
                 },
                 function (data) {navService.catchError(data);},
@@ -272,10 +296,13 @@ define(['app/service/waybillService','app/service/accountService', 'app/service/
 
             $('#btnSendAll').click(
               function(){
-                  //TODO:refactor data structure
                   waybillService.save(
-                      ko.toJS(self.waybill()),
-                      self.waypoints(),
+                      ko.toJS(self.waybill().manager),
+                      ko.toJS(self.waybill().departureDate),
+                      ko.toJS(self.waybill().arrivalDate),
+                      ko.toJS(self.waybill().vehicleDrivers),
+                      ko.toJS(self.waybill().packingListId),
+                      ko.toJS(self.waypoints()),
                       function(){
                           self.waybill = ko.observableArray([]);
                           self.waypoints = ko.observableArray([]);

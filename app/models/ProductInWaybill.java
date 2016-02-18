@@ -1,5 +1,7 @@
 package models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.io.Serializable;
 
@@ -19,6 +21,7 @@ public class ProductInWaybill implements Serializable{
     public Product product;
 
     @Id
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "wvd_id",
             referencedColumnName = "id")
@@ -45,5 +48,12 @@ public class ProductInWaybill implements Serializable{
         return (product != null ? product.equals(that.product) : that.product == null)
                 && (waybillVehicleDriver != null ? waybillVehicleDriver.equals(that.waybillVehicleDriver) : that.waybillVehicleDriver == null)
                 && (quantity != null ? quantity.equals(that.quantity) : that.quantity == null);
+    }
+
+    public ProductInWaybill(){}
+
+    public ProductInWaybill(Product product, Long quantity){
+        this.product = product;
+        this.quantity = quantity;
     }
 }

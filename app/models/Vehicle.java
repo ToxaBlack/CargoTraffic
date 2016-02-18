@@ -14,7 +14,7 @@ public class Vehicle {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    public long id;
+    public Long id;
 
     @Constraints.Required
     @Column(name = "vehicle_producer")
@@ -52,4 +52,23 @@ public class Vehicle {
     public User driver;
 
     public Boolean deleted;
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+
+        Vehicle that = (Vehicle) obj;
+
+        return (id != null ? id.equals(that.id) : that.id == null)
+                && (vehicleProducer != null ? vehicleProducer.equals(that.vehicleProducer) : that.vehicleProducer == null)
+                && (vehicleModel != null ? vehicleModel.equals(that.vehicleModel) : that.vehicleModel == null)
+                && (productsConstraintValue != null ? productsConstraintValue.equals(that.productsConstraintValue) : that.productsConstraintValue == null)
+                && (licensePlate != null ? licensePlate.equals(that.licensePlate) : that.licensePlate == null)
+                && (fuelConsumption != null ? fuelConsumption.equals(that.fuelConsumption) : that.fuelConsumption == null)
+                && (vehicleFuel != null ? vehicleFuel.equals(that.vehicleFuel) : that.vehicleFuel == null)
+                && (vehicleType != null ? vehicleType.equals(that.vehicleType) : that.vehicleType == null)
+                && (company != null ? company.equals(that.company) : that.company == null)
+                && (deleted != null ? deleted.equals(that.deleted) : that.deleted == null);
+    }
 }

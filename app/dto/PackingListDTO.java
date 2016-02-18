@@ -1,7 +1,6 @@
 package dto;
 
 import models.*;
-import models.statuses.PackingListStatus;
 import models.statuses.ProductStatus;
 
 import java.util.ArrayList;
@@ -20,7 +19,7 @@ public class PackingListDTO {
     public Warehouse departureWarehouse;
     public User dispatcher;
 
-    public static PackingList getPackingList(PackingListDTO dto){
+    public static PackingList getPackingList(PackingListDTO dto, ProductStatus status){
         PackingList packingList = new PackingList();
         packingList.departureWarehouse = dto.departureWarehouse;
         packingList.destinationWarehouse = dto.destinationWarehouse;
@@ -37,7 +36,7 @@ public class PackingListDTO {
 
             productInPackingList.count = productDTO.quantity;
             productInPackingList.price = productDTO.price;
-            productInPackingList.status = ProductStatus.ACCEPTED;
+            productInPackingList.status = status;
             productInPackingList.packingList = packingList;
 
             packingList.productsInPackingList.add(productInPackingList);
