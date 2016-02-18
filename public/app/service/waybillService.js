@@ -3,11 +3,18 @@ define(["app/utils/utils"],
         "use strict";
         function WaybillService() {
 
-            var save = function (waybill, waypoints, done, error, always) {
+            var save = function (manager,departureDate,arrivalDate,vehicleDrivers,packingListId,waypoints, done, error, always) {
                 utils.send(
                     "api/waybill",
                     "POST",
-                    JSON.stringify({'waybill' : waybill ,'waypoints' :waypoints}),
+
+                    JSON.stringify({
+                        'manager':manager,
+                        'departureDate':departureDate,
+                        'arrivalDate':arrivalDate,
+                        'vehicleDrivers':vehicleDrivers,
+                        'packingList':{'id' : packingListId},
+                        'waypoints':waypoints}),
                     done,
                     error
                 );

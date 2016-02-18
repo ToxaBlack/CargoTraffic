@@ -9,6 +9,7 @@ import models.ProductInPackingList;
 import models.User;
 import models.UserRole;
 import models.statuses.PackingListStatus;
+import models.statuses.ProductStatus;
 import play.Logger;
 import play.libs.Json;
 import play.mvc.BodyParser;
@@ -45,7 +46,7 @@ public class PackingListController extends Controller {
         } else {
             LOGGER.debug("Packing list: {}", json.toString());
             PackingListDTO packingListDTO = Json.fromJson(json, PackingListDTO.class);
-            PackingList packingList = PackingListDTO.getPackingList(packingListDTO);
+            PackingList packingList = PackingListDTO.getPackingList(packingListDTO, ProductStatus.ACCEPTED);
             packingList.dispatcher = oldUser;
             packingList.status = PackingListStatus.CREATED;
             Set<ProductInPackingList> products = packingList.productsInPackingList;

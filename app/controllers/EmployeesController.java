@@ -142,18 +142,4 @@ public class EmployeesController extends Controller {
         }
 
     }
-
-    @Restrict({@Group("MANAGER")})
-    public Result getDrivers() throws ControllerException {
-        Long companyId = ((User) Http.Context.current().args.get("user")).company.id;
-        LOGGER.debug("company_id: {}", companyId);
-        List<User> drivers;
-        try {
-            drivers = employeeService.getDrivers(companyId);
-        } catch (ServiceException e) {
-            LOGGER.error("error = {}", e);
-            throw new ControllerException(e.getMessage(), e);
-        }
-        return ok(Json.toJson(drivers));
-    }
 }
