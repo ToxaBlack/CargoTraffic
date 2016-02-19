@@ -46,8 +46,7 @@ public class ProductInPackingList {
     @EmbeddedId
     public Id id = new Id();
 
-    @Column(name = "price", nullable = false, insertable = true, updatable = true)
-    public Double price;
+
 
     @Column(name = "count", nullable = false, insertable = true, updatable = true)
     public Long count;

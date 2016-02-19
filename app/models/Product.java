@@ -26,6 +26,8 @@ public class Product {
     @Enumerated(EnumType.STRING)
     public StorageType storageType;
 
-    public Boolean deleted;
+    @Column(name = "price", nullable = false, insertable = true, updatable = true)
+    public Double price;
 
+    public Boolean deleted;
 }
