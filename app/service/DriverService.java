@@ -56,11 +56,16 @@ public class DriverService {
         try {
             JPA.withTransaction(() -> {
                 WaybillVehicleDriver wvd = waybillRepository.getWVDByDriver(user);
-                waybillRepository.completeTransporationWaybill(wvd);
+                waybillRepository.completeTransporationWVD(wvd);
                 Waybill waybill = wvd.waybill;
+
+                //Check whether all cargo is delivered, then end up delivery
                 if(waybillRepository.IsCompleteAllDeliveries(waybill)) {
+                    waybillRepository.completeTransporationWaybill(waybill);
+
                     PackingList packingList = waybill.packingList;
                     packingListRepository.completeTransporationPackList(packingList);
+
                     for(ProductInPackingList product: packingList.productsInPackingList) {
                         long missed = productRepository.findOutCountOfMiss(product.product);
                         product.count -= missed;

@@ -12,6 +12,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
@@ -87,10 +88,17 @@ public class WaybillRepository {
         return wvd;
     }
 
-    public void completeTransporationWaybill(WaybillVehicleDriver wvd) {
+    public void completeTransporationWVD(WaybillVehicleDriver wvd) {
         EntityManager em = JPA.em();
         wvd.status = WaybillStatus.TRANSPORTATION_COMPLETED;
         em.merge(wvd);
+    }
+
+    public void completeTransporationWaybill(Waybill waybill) {
+        EntityManager em = JPA.em();
+        waybill.status = WaybillStatus.TRANSPORTATION_COMPLETED;
+        waybill.arrivalDate = new Date();
+        em.merge(waybill);
     }
 
     public boolean IsCompleteAllDeliveries(Waybill waybill) {

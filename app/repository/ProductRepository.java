@@ -8,6 +8,7 @@ import models.statuses.ProductStatus;
 import play.db.jpa.JPA;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import java.util.List;
@@ -45,7 +46,10 @@ public class ProductRepository {
         TypedQuery<LostProduct> query = em.createQuery("Select lp from LostProduct lp WHERE lp.product = :product",
                 LostProduct.class);
         query.setParameter("product",product);
-        LostProduct lostProduct = query.getSingleResult();
+        LostProduct lostProduct = null;
+        try {
+            lostProduct = query.getSingleResult();
+        } catch (NoResultException ex){}
         return lostProduct == null ? 0 : lostProduct.quantity;
     }
 
