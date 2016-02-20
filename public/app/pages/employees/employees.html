@@ -15,7 +15,7 @@
             <tr>
                 <th><input class="selectAll" type="checkbox" data-bind="checked: allChecked" id="selectAllCheckbox">
                 </th>
-                <th>Full name</th>
+                <th>Surname</th>
                 <th>Username</th>
                 <th>Roles</th>
             </tr>
@@ -23,8 +23,8 @@
             <tbody class="cursor-hand" data-bind="foreach: employees">
             <tr>
                 <td><input class="idCheck" type="checkbox"
-                           data-bind="checked: $parent.checkedEmployees, attr: { value: id }, clickBubble: false"/></td>
-                <td class="link" data-bind="text: ko.computed(function() {return name + ' ' + patronymic + ' '+ surname; }),
+                           data-bind="checked: $parent.checkedEmployees, attr: { value: id }"/></td>
+                <td class="link" data-bind="text: surname,
                                 click: $parent.onLink, attr: { value: id } ">
                 </td>
                 <td class="link" data-bind="text: username, click: $parent.onLink, attr: { value: id }"></td>

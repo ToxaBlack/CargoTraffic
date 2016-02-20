@@ -11,8 +11,7 @@ define(['app/service/accountService', 'app/service/navService', "knockout"],
 
             self.updateAccount = function () {
                 if (validate()) {
-                    $('#accountModal').modal('hide');
-                    validator.resetForm();
+                    hideForm(self);
                     accountService.updateAccount(self.account(),
                         function (data) {
                             navService.mainPage();
@@ -24,9 +23,13 @@ define(['app/service/accountService', 'app/service/navService', "knockout"],
             };
 
             self.cancel = function() {
-                $('#accountModal').modal('hide');
-                if (validator) validator.resetForm();
+                hideForm(self);
             };
+        }
+
+        function hideForm(self) {
+            $('#accountModal').modal('hide');
+            if (validator) validator.resetForm();
         }
 
         function validate() {

@@ -69,14 +69,14 @@ public class EmployeesController extends Controller {
         }
         Long companyId = ((User) Http.Context.current().args.get("user")).company.id;
         LOGGER.debug("company_id, id, companies, ascOrder: {}, {}, {}, {}", companyId, id, employees, ascOrder);
-        List<User> companyList;
+        List<User> employeeLit;
         try {
-            companyList = employeeService.getEmployees(companyId, id, employees, ascOrder);
+            employeeLit = employeeService.getEmployees(companyId, id, employees, ascOrder);
         } catch (ServiceException e) {
             LOGGER.error("error = {}", e);
             throw new ControllerException(e.getMessage(), e);
         }
-        return ok(Json.toJson(companyList));
+        return ok(Json.toJson(employeeLit));
     }
 
     @Restrict({@Group("ADMIN")})
@@ -110,7 +110,6 @@ public class EmployeesController extends Controller {
         User user;
         try {
             user = employeeService.getEmployee(id);
-            user.password = null;
         } catch (ServiceException e) {
             LOGGER.error("error = {}", e);
             throw new ControllerException(e.getMessage(), e);

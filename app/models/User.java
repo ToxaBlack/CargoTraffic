@@ -21,9 +21,11 @@ public class User implements Subject {
     public Long id;
 
     @ManyToOne
+    @JsonIgnore
     public Company company;
 
     @OneToOne(cascade = CascadeType.ALL)
+    @JsonIgnore
     public Address address;
 
     @Constraints.Required
@@ -35,6 +37,7 @@ public class User implements Subject {
     public String surname;
 
     @Constraints.Required
+    @JsonIgnore
     public String password;
 
     public String patronymic;
@@ -44,6 +47,7 @@ public class User implements Subject {
 
     public String birthday;
 
+    @JsonIgnore
     public Boolean deleted;
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)

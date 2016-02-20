@@ -22,6 +22,15 @@ define(["app/utils/utils", "jquery"],
                     },
                     "Please enter date of birth yyyy-mm-dd."
                 );
+                $.validator.addMethod( "pattern", function( value, element, param ) {
+                    if ( this.optional( element ) ) {
+                        return true;
+                    }
+                    if ( typeof param === "string" ) {
+                        param = new RegExp( "^(?:" + param + ")$" );
+                    }
+                    return param.test( value );
+                }, "Invalid format." );
                 $.ajaxSetup({
                    beforeSend: function(xhr, options) {
                        options.url = window.location.origin + "/" +options.url
@@ -40,7 +49,7 @@ define(["app/utils/utils", "jquery"],
                 var month = parseInt(parts[1], 10);
                 var year = parseInt(parts[0], 10);
 
-                if (year < 1900 || year > 2100 || month == 0 || month > 12)
+                if (year < 1940 || year > 2010 || month == 0 || month > 12)
                     return false;
 
                 var monthLength = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];

@@ -119,13 +119,13 @@ define(['app/service/employeesService','app/service/navService', "knockout", 'ap
                 );
             });
 
-            self.onLink = function (id) {
+            self.onLink = function (attr) {
                 employeesService.getUser(
-                    id.id,
+                    attr.id,
                     function (data) {
                         self.edit(data);
-                        self.edit().id = id.id;
-                        self.selectedRole.push(id.userRoleList[0].name.toLowerCase());
+                        self.edit().id = attr.id;
+                        self.selectedRole.push(attr.userRoleList[0].name.toLowerCase());
                         $('#editModal').modal();
                     },
                     function (data) {navService.catchError(data);}

@@ -14,8 +14,7 @@ define(['app/service/accountService', 'app/service/navService', "knockout"],
 
             self.updatePassword = function () {
                 if (validate()) {
-                    $('#passwordModal').modal('hide');
-                    validator.resetForm();
+                    hideForm(self);
                     accountService.updatePassword(self.oldPassword(), self.newPassword(),
                         function (data) {
                             navService.mainPage();
@@ -33,9 +32,16 @@ define(['app/service/accountService', 'app/service/navService', "knockout"],
             };
 
             self.cancel = function() {
-                $('#passwordModal').modal('hide');
-                if (validator) validator.resetForm();
+               hideForm(self);
             };
+        }
+
+        function hideForm(self) {
+            $('#passwordModal').modal('hide');
+            self.oldPassword(null);
+            self.newPassword(null);
+            self.confirmPassword(null);
+            if (validator) validator.resetForm();
         }
 
         function validate() {
@@ -48,6 +54,9 @@ define(['app/service/accountService', 'app/service/navService', "knockout"],
                 messages: {
                     confirmPassword: {
                         equalTo: "Please enter same password"
+                    },
+                    newPassword: {
+                        pattern: "Password should contain only letters and digits"
                     }
                 }
             });
