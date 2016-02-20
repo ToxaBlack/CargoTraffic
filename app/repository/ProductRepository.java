@@ -1,5 +1,6 @@
 package repository;
 
+import models.LostProduct;
 import models.MeasureUnit;
 import models.Product;
 import play.db.jpa.JPA;
@@ -22,6 +23,14 @@ public class ProductRepository {
             em.flush();
             em.refresh(product.measureUnit);
         }
+        em.persist(product);
+        em.flush();
+        em.refresh(product);
+        return product;
+    }
+
+    public LostProduct saveActOfLost(LostProduct product) {
+        EntityManager em = JPA.em();
         em.persist(product);
         em.flush();
         em.refresh(product);

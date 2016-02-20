@@ -119,8 +119,12 @@ public class WarehouseController extends Controller {
             }
             warehouses.add(warehouse);
         }
-
-        warehouseService.removeWarehouses(warehouses);
+        try {
+            warehouseService.removeWarehouses(warehouses);
+        } catch (ServiceException e) {
+            LOGGER.error("error = {}", e);
+            throw new ControllerException(e.getMessage(), e);
+        }
         return ok();
     }
 }

@@ -41,7 +41,6 @@ define(["app/utils/utils"],
                     "api/packingList",
                     "POST",
                     packingList,
-                    //JSON.stringify({"departureWarehouse": from, "destinationWarehouse": to, "products": products, "issueDate": date }),
                     done,
                     error,
                     always

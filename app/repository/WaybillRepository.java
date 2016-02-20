@@ -8,6 +8,7 @@ import play.Logger;
 import play.db.jpa.JPA;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import java.util.List;
@@ -78,6 +79,10 @@ public class WaybillRepository {
         query.setParameter("user", user);
         query.setMaxResults(1);
         query.setParameter("status", WaybillStatus.TRANSPORTATION_STARTED);
-        return query.getSingleResult();
+        Waybill waybill = null;
+        try {
+            waybill = query.getSingleResult();
+        } catch (NoResultException ex){}
+        return waybill;
     }
 }

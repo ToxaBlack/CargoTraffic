@@ -1,6 +1,7 @@
 package dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import models.LostProduct;
 import models.MeasureUnit;
 import models.Product;
 import models.StorageType;
@@ -34,5 +35,16 @@ public class ProductDTO {
         pr.measureUnit = new MeasureUnit(unit);
         pr.storageType = StorageType.valueOf(storage);
         return pr;
+    }
+
+    public LostProduct toLostProduct(){
+        LostProduct lostProduct = new LostProduct();
+        Product pr = new Product();
+        pr.id = id;
+        pr.name = name;
+        pr.measureUnit = new MeasureUnit(unit);
+        lostProduct.product = pr;
+        lostProduct.quantity = quantity;
+        return lostProduct;
     }
 }

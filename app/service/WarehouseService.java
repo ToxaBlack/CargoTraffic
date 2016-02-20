@@ -25,8 +25,13 @@ public class WarehouseService {
         }
     }
 
-    public void removeWarehouses(List<Warehouse> warehouses) {
-        JPA.withTransaction(() -> warehouseRepository.removeWarehouses(warehouses));
+    public void removeWarehouses(List<Warehouse> warehouses) throws ServiceException {
+        try {
+            JPA.withTransaction(() -> warehouseRepository.removeWarehouses(warehouses));
+        } catch (Throwable throwable) {
+            LOGGER.error("Remove warehouses error");
+            throw new ServiceException(throwable.getMessage(), throwable);
+        }
     }
 
     public Warehouse addWarehouse(Warehouse warehouse) throws ServiceException {

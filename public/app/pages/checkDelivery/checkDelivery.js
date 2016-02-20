@@ -1,7 +1,7 @@
-define(['app/service/waybillService','app/service/navService' ,'app/service/barService', "knockout",
+define(['app/service/driverService','app/service/navService' ,'app/service/barService', "knockout",
         'jquery',"app/models/models","app/utils/messageUtil","text!./checkDelivery.html"],
 
-    function (waybillService, navService ,bar, ko, $,models,message,template) {
+    function (driverService, navService ,bar, ko, $,models,message,template) {
         "use strict";
 
         function viewModel() {
@@ -15,10 +15,10 @@ define(['app/service/waybillService','app/service/navService' ,'app/service/barS
                 ko.utils.arrayForEach(self.products(), function(item) {
                     var diff = item.quantity - item.realQuantity();
                     if(diff > 0){
-                        self.lostProducts.push(new models.CheckProduct(null,item.name,diff, item.measure));
+                        self.lostProducts.push(new models.CheckProduct(item.id,item.name,diff, item.unit));
                     }
                 });
-                console.log(self.lostProducts());
+                console.log(ko.toJSON(self.lostProducts()));
             };
 
             self.checkEnable = ko.computed(function() {
@@ -38,11 +38,23 @@ define(['app/service/waybillService','app/service/navService' ,'app/service/barS
             };
 
             self.createAct = function () {
-                self.lostProducts([]);
-                //TODO
+                driverService.createAct(
+                    ko.toJSON(self.lostProducts()),
+                    function () {
+                        self.lostProducts([]);
+                    },
+                    function (data) {
+                        switch (data.status) {
+                            case 403:
+                                navService.navigateTo("login");
+                                break;
+                            default:
+                                navService.navigateTo("error");
+                        }
+                    });
             };
 
-            waybillService.getProducts(
+            driverService.getProducts(
                 function (data) {
                     $.each(data, function (index, element) {
                         self.products.push(new models.CheckProduct(element.product.id, element.product.name,

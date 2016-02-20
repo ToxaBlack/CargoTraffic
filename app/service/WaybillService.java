@@ -79,7 +79,9 @@ public class WaybillService {
         User user = (User) Http.Context.current().args.get("user");
         try {
             return JPA.withTransaction(() -> {
+                System.out.println("::"+user);
                 Waybill waybill = waybillRepository.getWaybillByDriver(user);
+                System.out.println("::"+waybill);
                 return waybillRepository.getWaybillProducts(waybill);
             });
         } catch (Throwable throwable) {
