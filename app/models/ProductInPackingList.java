@@ -54,7 +54,6 @@ public class ProductInPackingList {
     @Column(name = "status")
     @Enumerated(EnumType.STRING)
     public ProductStatus status;
-    public Boolean deleted = false;
 
     @ManyToOne
     @JoinColumn(

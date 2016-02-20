@@ -104,6 +104,7 @@ CREATE TABLE IF NOT EXISTS `cargo_traffic`.`waybill_vehicle_driver` (
   `waybill_id` INT(11) UNSIGNED NOT NULL,
   `vehicle_id` INT(11) UNSIGNED NOT NULL,
   `driver_id` INT(11) UNSIGNED NOT NULL,
+  `status` ENUM('TRANSPORTATION_STARTED', 'TRANSPORTATION_COMPLETED'),
   PRIMARY KEY (`id`),
   UNIQUE INDEX `waybill_vehicle_driver_UNIQUE` (`waybill_id` ASC, `vehicle_id` ASC, `driver_id` ASC),
   INDEX `wvd_vehicle_fk_idx` (`vehicle_id` ASC),

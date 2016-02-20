@@ -1,5 +1,7 @@
 package models;
 
+import models.statuses.WaybillStatus;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
@@ -31,6 +33,11 @@ public class WaybillVehicleDriver implements Serializable {
     @JoinColumn(name = "driver_id",
             referencedColumnName = "id")
     public User driver;
+
+    @Column(name = "status")
+    @Enumerated(EnumType.STRING)
+    public WaybillStatus status;
+
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "product")
     public List<ProductInWaybill> productsInWaybill;

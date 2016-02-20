@@ -31,7 +31,6 @@ CREATE TABLE `cargo_traffic`.`product_in_packing_list` (
   `packing_list_id` INT(11) UNSIGNED NOT NULL ,
   `count` INT(11) NULL ,
   `status` ENUM('ACCEPTED','VERIFICATION_COMPLETED','DELIVERED','LOST'),
-  `deleted` BIT(1) NULL DEFAULT FALSE ,
   PRIMARY KEY (`product_id`, `packing_list_id`) ,
   INDEX `packing_list_idx` (`packing_list_id` ASC) ,
   INDEX `product_idx` (`product_id` ASC) ,

@@ -85,4 +85,10 @@ public class WaybillRepository {
         } catch (NoResultException ex){}
         return waybill;
     }
+
+    public void setStatusWaybill(Waybill waybill,WaybillStatus status){
+        EntityManager em = JPA.em();
+        waybill.status = status;
+        em.merge(waybill);
+    }
 }

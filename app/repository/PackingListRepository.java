@@ -102,4 +102,11 @@ public class PackingListRepository {
             return new PackingList();
         return packingLists.get(0);
     }
+
+
+    public void setStatusWaybill(PackingList packinglist,PackingListStatus status){
+        EntityManager em = JPA.em();
+        packinglist.status = status;
+        em.merge(packinglist);
+    }
 }

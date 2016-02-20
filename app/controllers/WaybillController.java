@@ -7,6 +7,7 @@ import com.google.inject.Inject;
 import dto.WaybillDTO;
 import models.*;
 import models.statuses.PackingListStatus;
+import models.statuses.WaybillStatus;
 import play.Logger;
 import play.libs.Json;
 import play.mvc.BodyParser;
@@ -50,6 +51,8 @@ public class WaybillController extends Controller {
             PackingList packingList;
             try {
                 waybill = waybillDTO.toWaybill();
+                System.out.println(":"+waybill.status);
+                waybill.status = WaybillStatus.TRANSPORTATION_STARTED;
                 service.addWaybill(waybill);
             } catch (ServiceException e) {
                 LOGGER.error("error = {}", e);
