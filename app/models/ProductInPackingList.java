@@ -11,7 +11,7 @@ import java.io.Serializable;
  */
 @Entity
 @Table(name = "product_in_packing_list")
-@Immutable
+//@Immutable
 public class ProductInPackingList {
 
     @Embeddable

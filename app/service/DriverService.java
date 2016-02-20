@@ -13,7 +13,7 @@ import javax.inject.Inject;
 import java.util.List;
 
 public class DriverService {
-    private static final Logger.ALogger LOGGER = Logger.of(WaybillService.class);
+    private static final Logger.ALogger LOGGER = Logger.of(DriverService.class);
 
     @Inject
     private ProductRepository productRepository;
@@ -59,7 +59,13 @@ public class DriverService {
                 waybillRepository.completeTransporationWaybill(wvd);
                 Waybill waybill = wvd.waybill;
                 if(waybillRepository.IsCompleteAllDeliveries(waybill)) {
-                    System.out.println(waybill.packingList);
+                    PackingList packingList = waybill.packingList;
+                    packingListRepository.completeTransporationPackList(packingList);
+                    for(ProductInPackingList product: packingList.productsInPackingList) {
+                        long missed = productRepository.findOutCountOfMiss(product.product);
+                        product.count -= missed;
+                        productRepository.saveAfterDelivery(product);
+                    }
                 }
             });
         } catch (Throwable throwable) {

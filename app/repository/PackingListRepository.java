@@ -104,9 +104,9 @@ public class PackingListRepository {
     }
 
 
-    public void setStatusWaybill(PackingList packinglist,PackingListStatus status){
+    public void completeTransporationPackList(PackingList packinglist){
         EntityManager em = JPA.em();
-        packinglist.status = status;
+        packinglist.status = PackingListStatus.DELIVERED;
         em.merge(packinglist);
     }
 }

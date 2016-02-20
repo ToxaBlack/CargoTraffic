@@ -3,10 +3,13 @@ package repository;
 import models.LostProduct;
 import models.MeasureUnit;
 import models.Product;
+import models.ProductInPackingList;
+import models.statuses.ProductStatus;
 import play.db.jpa.JPA;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 import java.util.List;
 
 /**
@@ -35,6 +38,21 @@ public class ProductRepository {
         em.flush();
         em.refresh(product);
         return product;
+    }
+
+    public long findOutCountOfMiss(Product product) {
+        EntityManager em = JPA.em();
+        TypedQuery<LostProduct> query = em.createQuery("Select lp from LostProduct lp WHERE lp.product = :product",
+                LostProduct.class);
+        query.setParameter("product",product);
+        LostProduct lostProduct = query.getSingleResult();
+        return lostProduct == null ? 0 : lostProduct.quantity;
+    }
+
+    public void saveAfterDelivery(ProductInPackingList product) {
+        EntityManager em = JPA.em();
+        product.status = ProductStatus.DELIVERED;
+        em.merge(product);
     }
 
     public List<MeasureUnit> getMeasureUnit(String name){
