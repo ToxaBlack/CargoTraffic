@@ -59,24 +59,6 @@ public class WaybillController extends Controller {
         return ok();
     }
 
-    @Restrict({@Group("DRIVER")})
-    public Result getProducts() throws ControllerException {
-        List<ProductInWaybill> list;
-        try {
-            list = service.getProducts();
-        } catch (ServiceException e) {
-            LOGGER.error("error = {}", e);
-            throw new ControllerException(e.getMessage(), e);
-        }
-        Iterator<ProductInWaybill> iterator = list.iterator();
-        while(iterator.hasNext()){
-            ProductInWaybill product = iterator.next();
-            product.waybillVehicleDriver = null;
-        }
-        return ok(Json.toJson(list));
-    }
-
-
     @Restrict({@Group("MANAGER")})
     public Result getWaybillWithAdditionalInfoEdit(long id) throws ControllerException {
         //TODO: finish getting of waybill

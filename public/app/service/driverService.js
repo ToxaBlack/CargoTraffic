@@ -5,7 +5,7 @@ define(["app/utils/utils"],
 
             var getProducts = function (done, error) {
                 utils.send(
-                    "api/waybill",
+                    "api/driver/products",
                     "GET",
                     {},
                     done,

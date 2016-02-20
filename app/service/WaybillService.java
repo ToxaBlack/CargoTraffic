@@ -74,20 +74,4 @@ public class WaybillService {
         }
     }
 
-    public List<ProductInWaybill> getProducts() throws ServiceException {
-        LOGGER.debug("Get products of waybill");
-        User user = (User) Http.Context.current().args.get("user");
-        try {
-            return JPA.withTransaction(() -> {
-                System.out.println("::"+user);
-                Waybill waybill = waybillRepository.getWaybillByDriver(user);
-                System.out.println("::"+waybill);
-                return waybillRepository.getWaybillProducts(waybill);
-            });
-        } catch (Throwable throwable) {
-            LOGGER.error("Get products of waybill error: {}", throwable);
-            throw new ServiceException(throwable.getMessage(), throwable);
-        }
-    }
-
 }

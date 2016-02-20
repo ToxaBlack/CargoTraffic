@@ -19,7 +19,6 @@ import service.DriverService;
 import service.ServiceException;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
 
@@ -27,7 +26,8 @@ public class DriverController extends Controller {
     private static final Logger.ALogger LOGGER = Logger.of(WaybillController.class);
 
     @Inject
-    DriverService service;
+    DriverService driverService;
+
 
     @Restrict({@Group("DRIVER")})
     public Result createActOfLost() throws ControllerException {
@@ -57,11 +57,24 @@ public class DriverController extends Controller {
         }
 
         try {
-            service.createActOfLost(products);
+            driverService.createActOfLost(products);
         } catch (ServiceException e) {
             LOGGER.error("error: {}", e);
             throw new ControllerException(e.getMessage(), e);
         }
         return ok();
     }
+
+    @Restrict({@Group("DRIVER")})
+    public Result getProducts() throws ControllerException {
+        List<ProductInWaybill> list;
+        try {
+            list = driverService.getProducts();
+        } catch (ServiceException e) {
+            LOGGER.error("error = {}", e);
+            throw new ControllerException(e.getMessage(), e);
+        }
+        return ok(Json.toJson(list));
+    }
+
 }
