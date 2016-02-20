@@ -1,13 +1,11 @@
 package service;
 
 
-import models.LostProduct;
-import models.ProductInWaybill;
-import models.User;
-import models.Waybill;
+import models.*;
 import play.Logger;
 import play.db.jpa.JPA;
 import play.mvc.Http;
+import repository.PackingListRepository;
 import repository.ProductRepository;
 import repository.WaybillRepository;
 
@@ -22,6 +20,9 @@ public class DriverService {
 
     @Inject
     private WaybillRepository waybillRepository;
+
+    @Inject
+    private PackingListRepository packingListRepository;
 
     public void createActOfLost(List<LostProduct> productList) throws ServiceException {
         LOGGER.debug("Create act of lost(service)");
@@ -41,11 +42,28 @@ public class DriverService {
         User user = (User) Http.Context.current().args.get("user");
         try {
             return JPA.withTransaction(() -> {
-                Waybill waybill = waybillRepository.getWaybillByDriver(user);
-                return waybillRepository.getWaybillProducts(waybill);
+                WaybillVehicleDriver wvd = waybillRepository.getWVDByDriver(user);
+                return waybillRepository.getWaybillProducts(wvd.waybill);
             });
         } catch (Throwable throwable) {
             LOGGER.error("Get products of waybill error: {}", throwable);
+            throw new ServiceException(throwable.getMessage(), throwable);
+        }
+    }
+
+    public void completeDelivery(User user) throws ServiceException {
+        LOGGER.debug("Complete delivery of {}", user);
+        try {
+            JPA.withTransaction(() -> {
+                WaybillVehicleDriver wvd = waybillRepository.getWVDByDriver(user);
+                waybillRepository.completeTransporationWaybill(wvd);
+                Waybill waybill = wvd.waybill;
+                if(waybillRepository.IsCompleteAllDeliveries(waybill)) {
+                    System.out.println(waybill.packingList);
+                }
+            });
+        } catch (Throwable throwable) {
+            LOGGER.error("Get list error = {}", throwable);
             throw new ServiceException(throwable.getMessage(), throwable);
         }
     }

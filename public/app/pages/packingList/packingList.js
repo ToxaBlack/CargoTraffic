@@ -80,13 +80,7 @@ define(['app/service/packingListService','app/service/navService' ,'app/service/
                         navService.navigateTo("packingLists");
                     },
                     function (data) {
-                        switch (data.status) {
-                            case 403:
-                                navService.navigateTo("login");
-                                break;
-                            default:
-                                navService.navigateTo("error");
-                        }
+                        navService.catchError(data);
                     });
             };
 

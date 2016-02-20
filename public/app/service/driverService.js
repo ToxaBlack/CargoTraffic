@@ -23,9 +23,20 @@ define(["app/utils/utils"],
                 );
             };
 
+            var completeDelivery = function (done, error) {
+                utils.send(
+                    "api/driver/complete",
+                    "PUT",
+                    JSON.stringify({body: "empty"}),
+                    done,
+                    error
+                );
+            };
+
             return {
                 getProducts: getProducts,
-                createAct: createAct
+                createAct: createAct,
+                completeDelivery: completeDelivery
             }
         }
 

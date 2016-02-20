@@ -77,4 +77,16 @@ public class DriverController extends Controller {
         return ok(Json.toJson(list));
     }
 
+    @Restrict({@Group("DRIVER")})
+    public Result completeDelivery() throws ControllerException {
+        User user = (User) Http.Context.current().args.get("user");
+        try {
+            driverService.completeDelivery(user);
+        } catch (ServiceException e) {
+            LOGGER.error("error = {}", e);
+            throw new ControllerException(e.getMessage(), e);
+        }
+        return ok();
+    }
+
 }

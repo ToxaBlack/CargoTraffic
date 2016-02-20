@@ -5,6 +5,7 @@ import models.*;
 import models.statuses.WaybillStatus;
 import org.apache.commons.collections4.CollectionUtils;
 import play.Logger;
+import play.api.mvc.QueryStringBindable;
 import play.db.jpa.JPA;
 
 import javax.persistence.EntityManager;
@@ -72,23 +73,32 @@ public class WaybillRepository {
         return list;
     }
 
-    public Waybill getWaybillByDriver(User user) {
+    public WaybillVehicleDriver getWVDByDriver(User user) {
         EntityManager em = JPA.em();
-        TypedQuery<Waybill> query = em.createQuery("Select w From WaybillVehicleDriver wvd JOIN wvd.waybill w " +
-                "WHERE wvd.driver = :user AND wvd.waybill.status = :status ",Waybill.class);
+        TypedQuery<WaybillVehicleDriver> query = em.createQuery("Select wvd From WaybillVehicleDriver wvd JOIN wvd.waybill w " +
+                "WHERE wvd.driver = :user AND wvd.waybill.status = :status ",WaybillVehicleDriver.class);
         query.setParameter("user", user);
         query.setMaxResults(1);
         query.setParameter("status", WaybillStatus.TRANSPORTATION_STARTED);
-        Waybill waybill = null;
+        WaybillVehicleDriver wvd = null;
         try {
-            waybill = query.getSingleResult();
+            wvd = query.getSingleResult();
         } catch (NoResultException ex){}
-        return waybill;
+        return wvd;
     }
 
-    public void setStatusWaybill(Waybill waybill,WaybillStatus status){
+    public void completeTransporationWaybill(WaybillVehicleDriver wvd) {
         EntityManager em = JPA.em();
-        waybill.status = status;
-        em.merge(waybill);
+        wvd.status = WaybillStatus.TRANSPORTATION_COMPLETED;
+        em.merge(wvd);
+    }
+
+    public boolean IsCompleteAllDeliveries(Waybill waybill) {
+        EntityManager em = JPA.em();
+        TypedQuery<WaybillVehicleDriver> query = em.createQuery("Select wvd From WaybillVehicleDriver wvd" +
+                " WHERE wvd.status = :status AND wvd.waybill = :waybill ",WaybillVehicleDriver.class);
+        query.setParameter("waybill",waybill);
+        query.setParameter("status",WaybillStatus.TRANSPORTATION_STARTED);
+        return query.getResultList().size() == 0;
     }
 }

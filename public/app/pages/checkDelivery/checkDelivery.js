@@ -34,7 +34,13 @@ define(['app/service/driverService','app/service/navService' ,'app/service/barSe
 
 
             self.confirm = function () {
-                //TODO
+                driverService.completeDelivery(
+                    function () {
+                        navService.navigateTo("checkpoints");
+                    },
+                    function (data) {
+                        navService.catchError(data);
+                    });
             };
 
             self.createAct = function () {
@@ -44,13 +50,7 @@ define(['app/service/driverService','app/service/navService' ,'app/service/barSe
                         self.lostProducts([]);
                     },
                     function (data) {
-                        switch (data.status) {
-                            case 403:
-                                navService.navigateTo("login");
-                                break;
-                            default:
-                                navService.navigateTo("error");
-                        }
+                        navService.catchError(data);
                     });
             };
 
