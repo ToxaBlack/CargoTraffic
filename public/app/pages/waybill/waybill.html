@@ -48,7 +48,7 @@
                             <thead>
                             <tr>
                                 <th>
-                                    <button class="btn btn-sm"
+                                    <button class="btn btn-default"
                                             data-bind="click: addVehicleDriver, enable: (drivers().length > 0 || vehicles().length > 0)">
                                         Add
                                     </button>
@@ -91,7 +91,7 @@
                                     <button class="btn btn-sm btn-danger"
                                             data-bind="click: $parent.removeVehicleDriver">&times;</button>
                                 </td>
-                                <td   data-bind="text: $parent.driverFullName(driver())+' on '+$parent.vehicleFullName(vehicle()),
+                                <td   data-bind="html: '<b><i>'+$parent.driverFullName(driver())+'</i></b>'+'<br>'+$parent.vehicleFullNameInHTML(vehicle()),
                                  click: vehicleDriver.onLink"
                                       data-toggle="modal"></td>
                                 <td>

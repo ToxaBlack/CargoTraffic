@@ -7,7 +7,6 @@ define(['app/service/waybillService','app/service/accountService', 'app/service/
 
             bar.go(50);
             var self = this;
-            var MAX_COUNT = 10000000;
 
             self.packingListDate = ko.observable({});
 
@@ -34,7 +33,6 @@ define(['app/service/waybillService','app/service/accountService', 'app/service/
                 ])
             });
 
-
             var dateOptions = {
                 year: 'numeric',
                 month: 'long',
@@ -44,19 +42,17 @@ define(['app/service/waybillService','app/service/accountService', 'app/service/
                 second: 'numeric'
             };
 
-
             self.localDates = ko.observable({
                 departureDate: ko.computed(function(){
                     if(self.waybill().departureDate()!=undefined)
                         return self.waybill().departureDate().toLocaleString("ru", dateOptions);})
             });
 
-            self.Id = function(smth) {return smth.id;};
             self.driverFullName = function(driver) {
-                if(driver!=undefined) {
-                    return driver.name+' '+driver.surname;}
-            return "";
+                if(driver!=undefined) return driver.name+' '+driver.surname;
+                return "";
             };
+            self.vehicleFullNameInHTML = function(vehicle) {return '<b>'+self.vehicleFullName(vehicle)+'</b>'+' ('+vehicle.vehicleType.vehicleType+')'}
             self.vehicleFullName = function(vehicle) {return vehicle.vehicleProducer + ' ' + vehicle.vehicleModel + ' ' + vehicle.licensePlate;};
             self.managerFullName = function() {return self.waybill().manager().username + ', ' + self.waybill().manager().name + ' ' + self.waybill().manager().surname;};
 
@@ -89,57 +85,6 @@ define(['app/service/waybillService','app/service/accountService', 'app/service/
                 };
                 return vd;
             }
-
-
-            /*packingListService.getCheckedPackingList(
-                requestParams.id,
-                function (data) {
-                    self.goods(data.products);
-                    self.goods().forEach(function(product,i,goods){
-                        product.lastQuantity = ko.computed(function(){
-                            var quantity = product.quantity;
-                            if(self.waybill().vehicleDrivers().length>0)
-                                self.waybill().vehicleDrivers().forEach(function(vd,j,vds){
-                                    quantity -= vd.products()[i].quantity();
-                                });
-                            return quantity;
-                        })
-                    });
-                    self.packingListDate(new Date(data.issueDate).toLocaleString("ru", dateOptions));
-                    self.waybill().departureDate(new Date());
-                    self.waybill().packingListId(data.id);
-                    self.departureAddress(data.departureWarehouse.address);
-                    self.destinationAddress(data.destinationWarehouse.address);
-                    self.pageInitialised(true);
-                },
-            function (data) {navService.catchError(data);},
-            function () {bar.go(100);}
-            );*/
-
-
-            /*accountService.get(
-                function (data) {
-                    self.waybill().manager(data);
-                },
-                function (data) {navService.catchError(data)},
-                function () {}
-            );*/
-
-            /*vehiclesService.list(1, MAX_COUNT, true,
-                function (data) {
-                    self.vehicles(data);
-                },
-                function (data) {navService.catchError(data)},
-                function () {}
-            );*/
-
-            /*employeesService.getDrivers(
-                function (data) {
-                    self.drivers(data);
-                },
-                function (data) {navService.catchError(data)},
-                function () {}
-            );*/
 
             waybillService.getWaybill(
                 requestParams.id,
