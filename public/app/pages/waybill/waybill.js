@@ -120,15 +120,12 @@ define(['app/service/waybillService','app/service/accountService', 'app/service/
             // Waypoints logic
 
             self.waypoints = ko.observableArray([]);
-            self.tempWaypoints = ko.observableArray([]);
+            self.addresses = ko.observableArray([]);
+            self.tempWaypoints = ko.observableArray();
+            self.tempAddress = ko.observableArray();
             self.checkedWays = ko.observableArray([]);
-            self.allChecked = ko.computed(function () {
-                var success = $.grep(self.waypoints(), function (element, index) {
-                        return $.inArray(element.id.toString(), self.checkedWays()) !== -1;
-                    }).length === self.waypoints().length;
-                return success;
-            }, this);
             self.center = ko.observable() ;
+
             function includeJs() {
                 var js = document.createElement("script");
                 js.type = "text/javascript";
@@ -139,8 +136,8 @@ define(['app/service/waybillService','app/service/accountService', 'app/service/
             $(document).ready(function () {
                 includeJs();
             });
+
             function initialize() {
-                //var center = new google.maps.LatLng(51.508742, -0.120850);
                 var geocoder = new google.maps.Geocoder();
                 var centerTemp =  new google.maps.LatLng(51.508742, -0.120850);
                 var mapProp = {
@@ -157,21 +154,24 @@ define(['app/service/waybillService','app/service/accountService', 'app/service/
                 var address = countryCityStreet + ', ' + self.departureAddress().house;
 
                 codeAddress(geocoder, address, map);
-                /*if(self) codeAddress(geocoder, countryCityStreet, map);
-                if(center == null) codeAddress(geocoder, countryCity, map);
-                if(center == null) codeAddress(geocoder, country, map);
-*/
+
                 self.tempWaypoints = ko.observableArray([]);
-                self.tempWaypoints = self.waypoints();
-                self.waypoints = ko.observableArray([]);
-                var lastPoint = self.center();
+                self.tempWaypoints = self.waypoints.slice();
+
+                self.tempAddress = ko.observableArray([]);
+                self.tempAddress = self.addresses.slice();
+
+                self.addresses.removeAll();
+                self.waypoints.removeAll();
+
+                var lastPoint = self.center;
                 var directionsDisplay = new google.maps.DirectionsRenderer({
                     map: map
                 });
                 var directionsService = new google.maps.DirectionsService();
 
                 function placeMarker(location) {
-                    self.waypoints().push(location);
+                    self.waypoints.push(location);
                     var infowindow = new google.maps.InfoWindow({
                         content: 'Latitude: ' + location.lat() +
                         '<br>Longitude: ' + location.lng()
@@ -184,6 +184,7 @@ define(['app/service/waybillService','app/service/accountService', 'app/service/
                             stopover: true
                         });
                     }
+                    geocodeLatLng(geocoder, lastPoint);
                     directionsService.route({
                         origin: self.center,
                         destination: lastPoint,
@@ -200,25 +201,19 @@ define(['app/service/waybillService','app/service/accountService', 'app/service/
                     });
                 }
 
-                /*google.maps.event.addListener(marker, 'click', function () {
-                    map.setZoom(10);
-                    map.setCenter(marker.getPosition());
-                });*/
                 google.maps.event.addListener(map, 'click', function (event) {
                     placeMarker(event.latLng);
                 });
 
             }
 
-            function geocodeLatLng(geocoder, latlng, i) {
-                geocoder.geocode({'location': latlng}, function(results, status) {
+            function geocodeLatLng(geocoder, location) {
+                geocoder.geocode({'location': location}, function(results, status) {
                     if (status === google.maps.GeocoderStatus.OK) {
                         if (results[1]) {
-                            self.address()[i] = results[1].formatted_address;
-                            console.log(self.address()[i]);
+                           self.addresses.push({'address' : results[1].formatted_address});
                         } else {
                             console.log('No results found');
-                            return null;
                         }
                     } else {
                         console.log('Geocoder failed due to: ' + status);
@@ -250,32 +245,29 @@ define(['app/service/waybillService','app/service/accountService', 'app/service/
                     setTimeout(initialize, 500);
                 }
             );
+            $('#removeButton').click(
+              function(){
+                  self.waypoints.removeAll();
+                  self.addresses.removeAll();
+                  self.tempWaypoints = [];
+                  self.tempAddress = [];
+              }
+            );
 
             $('#btnSavePoints').click(
                 function () {
-                    var table = document.getElementById("waypointsTable");
-                    $("#waypointsTable").find("tr").remove();
-                    self.waypoints().unshift(self.center);
-                    for (var i = 0;  i < self.waypoints().length; ++i) {
-                        var rowCount = table.rows.length;
-                        var row = table.insertRow(rowCount);
-
-                        var cell1 = row.insertCell(0);
-                        var element1 = document.createElement("input");
-                        element1.type = "checkbox";
-                        element1.class = "idCheck";
-                        cell1.appendChild(element1);
-
-                        var cell2 = row.insertCell(1);
-                        var element2 = document.createTextNode('Latitude: ' + self.waypoints()[i].lat() + ' Longitude: ' + self.waypoints()[i].lng());
-                        cell2.appendChild(element2);
-                    }
+                    self.waypoints.unshift(self.center);
                 }
             );
 
             $("#btnCancelPoints").click(
               function(){
-                  self.waypoints = self.tempWaypoints;
+                  self.waypoints.removeAll();
+                  self.addresses.removeAll();
+                  for(var i = 0; i < self.tempWaypoints.length; ++i) self.waypoints.push(self.tempWaypoints[i]);
+                  for(var i = 0; i < self.tempAddress.length; ++i) self.addresses.push(self.tempAddress[i]);
+                  self.tempWaypoints = [];
+                  self.tempAddress = [];
               }
             );
 

@@ -198,11 +198,15 @@
                     <table id="waypointsTable" class="table table-hover">
                         <thead>
                         <tr>
-                            <th><input class="selectAll" type="checkbox" data-bind="checked: allChecked" id="selectAllCheckbox"></th>
+                            <th>№</th>
                             <th>Address</th>
                         </tr>
                         </thead>
-                        <tbody>
+                        <tbody class="cursor-hand" data-bind="foreach: addresses">
+                        <tr>
+                            <td class="link" data-bind="text: $index"></td>
+                            <td class="link" data-bind="text: address"></td>
+                        </tr>
                         </tbody>
                     </table>
                 </div>
@@ -221,17 +225,7 @@
                             <h4 class="modal-title">Change employee</h4>
                         </div>
                         <div class="modal-body form-horizontal">
-                            <div class="form-group">
-                                <label class="control-label col-md-3" for="place">Comment:</label>
-
-                                <div class="col-md-9">
-                                    <input type="text" class="form-control" id="place"
-                                           data-bind="value :waypoints().place"
-                                           placeholder="Enter comment" maxlength="200">
-                                </div>
-                            </div>
                             <div id="googleMap" style="width:500px;height:380px;"></div>
-
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-default" data-dismiss="modal" id="btnSavePoints">Save</button>
