@@ -54,11 +54,6 @@ public class WaypointController extends Controller {
             return badRequest("Expecting Json data");
         }
         LOGGER.debug("Driver waypoints = {} ", json);
-      /*  ArrayList<String> checked = Json.fromJson(json, ArrayList.class);
-        ArrayList<Long> ids = new ArrayList<>();
-        for(String id: checked){
-            ids.add(Long.parseLong(id));
-        }*/
         DriverWaypointsDTO dto = Json.fromJson(json, DriverWaypointsDTO.class);
         try {
             service.setChecked(dto);
