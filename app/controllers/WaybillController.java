@@ -6,10 +6,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.google.inject.Inject;
 import dto.WaybillDTO;
 import exception.ControllerException;
-import models.PackingList;
-import models.User;
-import models.Vehicle;
-import models.Waybill;
+import models.*;
 import models.statuses.PackingListStatus;
 import models.statuses.WaybillStatus;
 import play.Logger;
@@ -56,6 +53,8 @@ public class WaybillController extends Controller {
                 waybill = waybillDTO.toWaybill();
                 System.out.println(":"+waybill.status);
                 waybill.status = WaybillStatus.TRANSPORTATION_STARTED;
+                for(WaybillVehicleDriver wvd : waybill.vehicleDrivers)
+                    wvd.status = WaybillStatus.TRANSPORTATION_STARTED;
                 service.addWaybill(waybill);
             } catch (ServiceException e) {
                 LOGGER.error("error = {}", e.getMessage());
