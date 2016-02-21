@@ -33,10 +33,11 @@
             </tr>
             </thead>
             <tbody data-bind="foreach: warehouses">
-            <tr>
+            <tr data-bind="disable: true">
                 <td>
                     <input class="idCheck" type="checkbox"
-                           data-bind="checked: $parent.checkedWarehouses, attr: { value: id}"/></td>
+                           data-bind="checked: $parent.checkedWarehouses, attr: { value: id},
+                            disable: $index()+1 == $parent.chosen()"/>
                 </td>
                 <td class="link" data-bind="text: name"></td>
                 <td data-bind="text: address.country"></td>

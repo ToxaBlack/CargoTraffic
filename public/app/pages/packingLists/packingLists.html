@@ -9,6 +9,8 @@
                 <th>Warehouse address</th>
             </tr>
             </thead>
+            <!-- ko if: $root.roles().length !==0  -->
+            <!-- ko if: $root.roles()[0].name == "MANAGER"-->
             <tbody class="cursor-hand" data-bind="foreach: packingLists">
             <tr data-bind="click: $parent.toPackingList">
                 <td  class="link" data-bind="text: id"></td>
@@ -17,6 +19,18 @@
                 <td  class="link" data-bind="text: ko.computed(function() {return departureWarehouse.address.country + ', ' + departureWarehouse.address.city + ' city, ' + departureWarehouse.address.street + ' st., ' + departureWarehouse.address.house; })"></td>
             </tr>
             </tbody>
+            <!-- /ko -->
+            <!-- ko if: $root.roles()[0].name == "DISPATCHER"-->
+            <tbody data-bind="foreach: packingLists">
+            <tr>
+                <td data-bind="text: id"></td>
+                <td data-bind="text: issueDate"></td>
+                <td data-bind="text: ko.computed(function() {return dispatcher.surname + ' ' + dispatcher.name + ' ' + dispatcher.patronymic; })"></td>
+                <td data-bind="text: ko.computed(function() {return departureWarehouse.address.country + ', ' + departureWarehouse.address.city + ' city, ' + departureWarehouse.address.street + ' st., ' + departureWarehouse.address.house; })"></td>
+            </tr>
+            </tbody>
+            <!-- /ko -->
+            <!-- /ko -->
         </table>
         <div class="panel panel-default" data-bind="visible: packingLists().length == 0">
             <div class="panel-body text-center">

@@ -54,7 +54,7 @@ define(['app/service/packingListService','app/service/navService' ,'app/service/
                 self.packingList.products.remove(goods);
             };
 
-            self.choose = function() {
+            self.choose = function(checkbox) {
                 var context = ko.contextFor($("#warehouses")[0]);
                 if(! context.$data.getChosenWarehouse()){
                     return false;
@@ -68,6 +68,10 @@ define(['app/service/packingListService','app/service/navService' ,'app/service/
                         break;
                     default: return false;
                 }
+
+                //Making disable chosen warehouse
+                context.$data.chosen(context.$data.checkedWarehouses()[0]);
+
                 context.$data.checkedWarehouses([]);
                 message.deleteMessage();
                 $('#warehouses-popup').modal("hide");

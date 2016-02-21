@@ -6,6 +6,7 @@ define(['app/utils/messageUtil','app/service/warehouseService', 'app/service/nav
         function warehousesViewModel() {
             var self = this;
             self.idEdit = -1;
+            self.chosen = ko.observable(-1);
             self.warehouses = ko.observableArray();
             self.checkedWarehouses = ko.observableArray();
             self.hasNextPage = ko.observable(false);
