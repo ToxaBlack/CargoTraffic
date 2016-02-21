@@ -183,7 +183,7 @@ define(['app/service/waybillService','app/service/accountService', 'app/service/
                     }).length === self.waypoints().length;
                 return success;
             }, this);
-
+            self.center = ko.observable() ;
             function includeJs() {
                 var js = document.createElement("script");
                 js.type = "text/javascript";
@@ -195,24 +195,31 @@ define(['app/service/waybillService','app/service/accountService', 'app/service/
                 includeJs();
             });
             function initialize() {
-                var center = new google.maps.LatLng(51.508742, -0.120850);
-                self.tempWaypoints = ko.observableArray([]);
-                self.tempWaypoints = self.waypoints();
-                self.waypoints = ko.observableArray([]);
-                var lastPoint = center;
+                //var center = new google.maps.LatLng(51.508742, -0.120850);
+                var geocoder = new google.maps.Geocoder();
+                var centerTemp =  new google.maps.LatLng(51.508742, -0.120850);
                 var mapProp = {
-                    center: center,
+                    center: centerTemp,
                     scrollwheel: false,
                     zoom: 7,
                     mapTypeId:google.maps.MapTypeId.ROADMAP
                 };
                 var map = new google.maps.Map(document.getElementById("googleMap"), mapProp);
-                var marker = new google.maps.Marker({
-                    position: mapProp.center,
-                    animation: google.maps.Animation.BOUNCE
-                });
-                marker.setMap(map);
 
+                var country = self.departureAddress().country;
+                var countryCity = country + ', ' + self.departureAddress().city;
+                var countryCityStreet = countryCity + ', ' + self.departureAddress().street;
+                var address = countryCityStreet + ', ' + self.departureAddress().house;
+
+                codeAddress(geocoder, address, map);
+                /*if(self) codeAddress(geocoder, countryCityStreet, map);
+                if(center == null) codeAddress(geocoder, countryCity, map);
+                if(center == null) codeAddress(geocoder, country, map);
+*/
+                self.tempWaypoints = ko.observableArray([]);
+                self.tempWaypoints = self.waypoints();
+                self.waypoints = ko.observableArray([]);
+                var lastPoint = self.center();
                 var directionsDisplay = new google.maps.DirectionsRenderer({
                     map: map
                 });
@@ -233,7 +240,7 @@ define(['app/service/waybillService','app/service/accountService', 'app/service/
                         });
                     }
                     directionsService.route({
-                        origin: center,
+                        origin: self.center,
                         destination: lastPoint,
                         waypoints: waypts,
                         optimizeWaypoints: true,
@@ -248,17 +255,49 @@ define(['app/service/waybillService','app/service/accountService', 'app/service/
                     });
                 }
 
-                google.maps.event.addListener(marker, 'click', function () {
+                /*google.maps.event.addListener(marker, 'click', function () {
                     map.setZoom(10);
                     map.setCenter(marker.getPosition());
-                });
+                });*/
                 google.maps.event.addListener(map, 'click', function (event) {
                     placeMarker(event.latLng);
                 });
 
             }
 
+            function geocodeLatLng(geocoder, latlng, i) {
+                geocoder.geocode({'location': latlng}, function(results, status) {
+                    if (status === google.maps.GeocoderStatus.OK) {
+                        if (results[1]) {
+                            self.address()[i] = results[1].formatted_address;
+                            console.log(self.address()[i]);
+                        } else {
+                            console.log('No results found');
+                            return null;
+                        }
+                    } else {
+                        console.log('Geocoder failed due to: ' + status);
+                    }
+                });
+            }
 
+            function codeAddress(geocoder, address, map) {
+                geocoder.geocode( { 'address': address}, function(results, status) {
+                    if (status == google.maps.GeocoderStatus.OK) {
+                        var center = results[0].geometry.location;
+                        map.setCenter(center);
+                        var marker = new google.maps.Marker({
+                            position: center,
+                            animation: google.maps.Animation.BOUNCE,
+                            map: map
+                        });
+                        self.center = center;
+                        console.log(results[0].formatted_address);
+                    } else {
+                        console.log("Geocode was not successful for the following reason: " + status);
+                    }
+                });
+            }
 
             $('#addButton').click(
                 function () {
@@ -271,6 +310,7 @@ define(['app/service/waybillService','app/service/accountService', 'app/service/
                 function () {
                     var table = document.getElementById("waypointsTable");
                     $("#waypointsTable").find("tr").remove();
+                    self.waypoints().unshift(self.center);
                     for (var i = 0;  i < self.waypoints().length; ++i) {
                         var rowCount = table.rows.length;
                         var row = table.insertRow(rowCount);
