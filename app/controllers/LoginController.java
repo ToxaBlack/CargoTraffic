@@ -3,6 +3,7 @@ package controllers;
 import be.objectify.deadbolt.java.actions.SubjectNotPresent;
 import be.objectify.deadbolt.java.actions.SubjectPresent;
 import com.fasterxml.jackson.databind.JsonNode;
+import exception.ControllerException;
 import models.User;
 import org.mindrot.jbcrypt.BCrypt;
 import play.Logger;
@@ -12,7 +13,7 @@ import play.mvc.Controller;
 import play.mvc.Http;
 import play.mvc.Result;
 import security.TokenController;
-import service.ServiceException;
+import exception.ServiceException;
 import service.UserService;
 
 import javax.inject.Inject;
@@ -40,7 +41,7 @@ public class LoginController extends Controller {
         try {
             user = userService.findByUsername(username);
         } catch (ServiceException e) {
-            LOGGER.error("error = {}", e);
+            LOGGER.error("error = {}", e.getMessage());
             throw new ControllerException(e.getMessage(), e);
         }
 

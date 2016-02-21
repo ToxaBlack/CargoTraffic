@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import dto.AccountDTO;
 import dto.EmployeeDTO;
+import exception.ControllerException;
 import models.User;
 import play.Logger;
 import play.libs.Json;
@@ -14,7 +15,7 @@ import play.mvc.Controller;
 import play.mvc.Http;
 import play.mvc.Result;
 import service.EmployeesService;
-import service.ServiceException;
+import exception.ServiceException;
 
 import javax.inject.Inject;
 import java.util.ArrayList;
@@ -54,7 +55,7 @@ public class EmployeesController extends Controller {
             try {
                 employeeService.addEmployee(user);
             } catch (ServiceException e) {
-                LOGGER.error("error = {}", e);
+                LOGGER.error("error = {}", e.getMessage());
                 throw new ControllerException(e.getMessage(), e);
             }
         }
@@ -73,7 +74,7 @@ public class EmployeesController extends Controller {
         try {
             employeeLit = employeeService.getEmployees(companyId, id, employees, ascOrder);
         } catch (ServiceException e) {
-            LOGGER.error("error = {}", e);
+            LOGGER.error("error = {}", e.getMessage());
             throw new ControllerException(e.getMessage(), e);
         }
         return ok(Json.toJson(employeeLit));
@@ -95,7 +96,7 @@ public class EmployeesController extends Controller {
         try {
             employeeService.removeEmployees(clientIds);
         } catch (ServiceException e) {
-            LOGGER.error("error: {}", e);
+            LOGGER.error("error = {}", e.getMessage());
             throw new ControllerException(e.getMessage(), e);
         }
         return ok();
@@ -111,7 +112,7 @@ public class EmployeesController extends Controller {
         try {
             user = employeeService.getEmployee(id);
         } catch (ServiceException e) {
-            LOGGER.error("error = {}", e);
+            LOGGER.error("error = {}", e.getMessage());
             throw new ControllerException(e.getMessage(), e);
         }
         return ok(Json.toJson(AccountDTO.getAccount(user)));
@@ -134,7 +135,7 @@ public class EmployeesController extends Controller {
                 user.company.id = oldUser.company.id;
                 employeeService.updateEmployee(user);
             } catch (ServiceException e) {
-                LOGGER.error("error = {}", e);
+                LOGGER.error("error = {}", e.getMessage());
                 throw new ControllerException(e.getMessage(), e);
             }
             return ok();

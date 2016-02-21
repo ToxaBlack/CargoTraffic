@@ -5,7 +5,11 @@ import be.objectify.deadbolt.java.actions.Restrict;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.google.inject.Inject;
 import dto.WaybillDTO;
-import models.*;
+import exception.ControllerException;
+import models.PackingList;
+import models.User;
+import models.Vehicle;
+import models.Waybill;
 import models.statuses.PackingListStatus;
 import models.statuses.WaybillStatus;
 import play.Logger;
@@ -15,10 +19,9 @@ import play.mvc.Controller;
 import play.mvc.Http;
 import play.mvc.Result;
 import service.PackingListService;
-import service.ServiceException;
+import exception.ServiceException;
 import service.WaybillService;
 
-import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
 
@@ -55,7 +58,7 @@ public class WaybillController extends Controller {
                 waybill.status = WaybillStatus.TRANSPORTATION_STARTED;
                 service.addWaybill(waybill);
             } catch (ServiceException e) {
-                LOGGER.error("error = {}", e);
+                LOGGER.error("error = {}", e.getMessage());
                 throw new ControllerException(e.getMessage(), e);
             }
         }
@@ -75,7 +78,7 @@ public class WaybillController extends Controller {
             drivers = service.getDrivers(user.company.id);
             vehicles = service.getVehicles();
         } catch (ServiceException e) {
-            LOGGER.error("error = {}", e);
+            LOGGER.error("error = {}", e.getMessage());
             throw new ControllerException(e.getMessage(), e);
         }
         WaybillDTO dto = WaybillDTO.toWaybillDTO(user,waybill,drivers,vehicles);
@@ -94,7 +97,7 @@ public class WaybillController extends Controller {
             drivers = service.getDrivers(user.company.id);
             vehicles = service.getVehicles();
         } catch (ServiceException e) {
-            LOGGER.error("error = {}", e);
+            LOGGER.error("error = {}", e.getMessage());
             throw new ControllerException(e.getMessage(), e);
         }
         WaybillDTO dto = WaybillDTO.toWaybillDTO(user,packingList,drivers,vehicles);

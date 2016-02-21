@@ -3,7 +3,7 @@ package dto;
 import models.ProductInWaybill;
 import models.Vehicle;
 import models.WaybillVehicleDriver;
-import service.ServiceException;
+import exception.ServiceException;
 import service.UserService;
 
 import java.util.ArrayList;

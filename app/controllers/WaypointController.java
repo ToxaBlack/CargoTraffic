@@ -4,6 +4,7 @@ import be.objectify.deadbolt.java.actions.Group;
 import be.objectify.deadbolt.java.actions.Restrict;
 import com.fasterxml.jackson.databind.JsonNode;
 import dto.DriverWaypointsDTO;
+import exception.ControllerException;
 import models.User;
 import models.Waypoint;
 import play.Logger;
@@ -12,11 +13,10 @@ import play.mvc.BodyParser;
 import play.mvc.Controller;
 import play.mvc.Http;
 import play.mvc.Result;
-import service.ServiceException;
+import exception.ServiceException;
 import service.WaypointService;
 
 import javax.inject.Inject;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -37,7 +37,7 @@ public class WaypointController extends Controller {
         try {
             points = service.get(id);
         } catch (ServiceException e) {
-            LOGGER.error("error = {}", e);
+            LOGGER.error("error = {}", e.getMessage());
             throw new ControllerException(e.getMessage(), e);
         }
         return ok(Json.toJson(points));
@@ -58,7 +58,7 @@ public class WaypointController extends Controller {
         try {
             service.setChecked(dto);
         } catch (ServiceException e) {
-            LOGGER.error("error = {}", e);
+            LOGGER.error("error = {}", e.getMessage());
             throw new ControllerException(e.getMessage(), e);
         }
         return ok();

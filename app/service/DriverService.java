@@ -1,6 +1,7 @@
 package service;
 
 
+import exception.ServiceException;
 import models.*;
 import play.Logger;
 import play.db.jpa.JPA;
@@ -30,7 +31,7 @@ public class DriverService {
             try {
                 JPA.withTransaction(() -> productRepository.saveActOfLost(lostProduct));
             } catch (Throwable throwable) {
-                LOGGER.error("Get list error = {}", throwable);
+                LOGGER.error("Get list error = {}", throwable.getMessage());
                 throw new ServiceException(throwable.getMessage(), throwable);
             }
         }
@@ -46,7 +47,7 @@ public class DriverService {
                 return waybillRepository.getWaybillProducts(wvd.waybill);
             });
         } catch (Throwable throwable) {
-            LOGGER.error("Get products of waybill error: {}", throwable);
+            LOGGER.error("Get products of waybill error: {}", throwable.getMessage());
             throw new ServiceException(throwable.getMessage(), throwable);
         }
     }
@@ -74,7 +75,7 @@ public class DriverService {
                 }
             });
         } catch (Throwable throwable) {
-            LOGGER.error("Get list error = {}", throwable);
+            LOGGER.error("Get list error = {}", throwable.getMessage());
             throw new ServiceException(throwable.getMessage(), throwable);
         }
     }

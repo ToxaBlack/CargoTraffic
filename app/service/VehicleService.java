@@ -1,5 +1,6 @@
 package service;
 
+import exception.ServiceException;
 import models.User;
 import models.Vehicle;
 import play.Logger;
@@ -32,7 +33,7 @@ public class VehicleService {
                 return vehicleRepository.getVehicles(id, count, ascOrder, user.company.id);
             });
         } catch (Throwable throwable) {
-            LOGGER.error("Get vehicle list error: {}", throwable);
+            LOGGER.error("Get vehicle list error: {}", throwable.getMessage());
             throw new ServiceException(throwable.getMessage(), throwable);
         }
     }
@@ -50,7 +51,7 @@ public class VehicleService {
                 return vehicleRepository.addVehicle(vehicle);
             });
         } catch (Throwable throwable) {
-            LOGGER.error("Adding vehicle error: {}", throwable);
+            LOGGER.error("Adding vehicle error: {}", throwable.getMessage());
             throw new ServiceException(throwable.getMessage(), throwable);
         }
     }
@@ -66,7 +67,7 @@ public class VehicleService {
                 return vehicleRepository.updateVehicle(vehicle);
             });
         } catch (Throwable throwable) {
-            LOGGER.error("Update vehicle error: {}", throwable);
+            LOGGER.error("Update vehicle error: {}", throwable.getMessage());
             throw new ServiceException(throwable.getMessage(), throwable);
         }
     }
@@ -77,7 +78,7 @@ public class VehicleService {
         try {
             JPA.withTransaction(() -> vehicleRepository.deleteVehicles(vehicleIds));
         } catch (Throwable throwable) {
-            LOGGER.error("Delete vehicles error: {}", throwable);
+            LOGGER.error("Delete vehicles error: {}", throwable.getMessage());
             throw new ServiceException(throwable.getMessage(), throwable);
         }
     }

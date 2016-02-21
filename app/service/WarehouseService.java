@@ -1,6 +1,7 @@
 package service;
 
 
+import exception.ServiceException;
 import models.Warehouse;
 import play.Logger;
 import play.db.jpa.JPA;
@@ -20,7 +21,7 @@ public class WarehouseService {
         try {
             return JPA.withTransaction(() -> warehouseRepository.getWarehouses(id, count, ascOrder));
         } catch (Throwable throwable) {
-            LOGGER.error("Get list error = {}", throwable);
+            LOGGER.error("Get list error = {}", throwable.getMessage());
             throw new ServiceException(throwable.getMessage(), throwable);
         }
     }

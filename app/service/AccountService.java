@@ -1,5 +1,6 @@
 package service;
 
+import exception.ServiceException;
 import models.Company;
 import models.User;
 import org.apache.commons.lang3.RandomStringUtils;
@@ -48,7 +49,7 @@ public class AccountService {
                 return checkedUsername.toString();
             });
         } catch (Throwable throwable) {
-            LOGGER.error("Cannot generate username: {}", throwable);
+            LOGGER.error("Cannot generate username: {}", throwable.getMessage());
             throw new ServiceException(throwable.getMessage(), throwable);
         }
     }

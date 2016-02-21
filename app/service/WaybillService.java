@@ -1,7 +1,7 @@
 package service;
 
 
-import models.ProductInWaybill;
+import exception.ServiceException;
 import models.User;
 import models.Vehicle;
 import models.Waybill;
@@ -36,7 +36,7 @@ public class WaybillService {
                 return WaybillRepository.getWaybill(id, user.company.id);
             });
         } catch (Throwable throwable) {
-            LOGGER.error("Get packingList error: {}", throwable);
+            LOGGER.error("Get packingList error: {}", throwable.getMessage());
             throw new ServiceException(throwable.getMessage(), throwable);
         }
     }
@@ -50,7 +50,7 @@ public class WaybillService {
                 return vehicleRepository.getVehicles(1, Integer.MAX_VALUE, true, user.company.id);
             });
         } catch (Throwable throwable) {
-            LOGGER.error("Get packingList error: {}", throwable);
+            LOGGER.error("Get packingList error: {}", throwable.getMessage());
             throw new ServiceException(throwable.getMessage(), throwable);
         }
     }
@@ -60,7 +60,7 @@ public class WaybillService {
             LOGGER.error("Get drivers for company {}",companyId);
             return JPA.withTransaction(() -> userRepository.getDrivers(companyId));
         } catch (Throwable throwable) {
-            LOGGER.error("Get drivers in WaybillService error = {}", throwable);
+            LOGGER.error("Get drivers in WaybillService error = {}", throwable.getMessage());
             throw new ServiceException(throwable.getMessage(), throwable);
         }
     }

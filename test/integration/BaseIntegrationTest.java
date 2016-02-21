@@ -7,7 +7,7 @@ import play.mvc.Http.RequestBuilder;
 import play.test.FakeApplication;
 import play.test.WithApplication;
 import security.TokenController;
-import service.ServiceException;
+import exception.ServiceException;
 import service.UserService;
 
 import java.util.Collections;

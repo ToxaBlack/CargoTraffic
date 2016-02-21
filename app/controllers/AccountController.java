@@ -2,22 +2,27 @@ package controllers;
 
 import be.objectify.deadbolt.java.actions.SubjectPresent;
 import com.fasterxml.jackson.databind.JsonNode;
+import dto.AccountDTO;
+import dto.PasswordDTO;
+import exception.ControllerException;
+import exception.ServiceException;
 import models.User;
-import org.apache.commons.lang3.StringUtils;
 import org.mindrot.jbcrypt.BCrypt;
 import play.Logger;
+import play.data.validation.Validation;
 import play.libs.Json;
 import play.mvc.BodyParser;
 import play.mvc.Controller;
 import play.mvc.Http;
 import play.mvc.Result;
-import service.ServiceException;
 import service.UserService;
-import dto.AccountDTO;
 
 import javax.inject.Inject;
+import javax.validation.ConstraintViolation;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Objects;
+import java.util.Set;
 
 /**
  * Created by Anton Chernov on 1/3/2016.
@@ -47,8 +52,10 @@ public class AccountController extends Controller {
         } else {
 
             AccountDTO account = Json.fromJson(json, AccountDTO.class);
-            if (!validateAccountData(account)) {
-                LOGGER.debug("Account data not valid");
+
+            Set<ConstraintViolation<Object>> errors = Validation.getValidator().validate(account);
+            if(!errors.isEmpty())  {
+                LOGGER.debug("Account data not valid = {}",  Arrays.toString(errors.toArray()));
                 return badRequest("Account data not valid");
             }
 
@@ -57,7 +64,7 @@ public class AccountController extends Controller {
             try {
                 userService.update(user);
             } catch (ServiceException e) {
-                LOGGER.error("error = {}", e);
+                LOGGER.error("error = {}", e.getMessage());
                 throw new ControllerException(e.getMessage(), e);
             }
             return ok();
@@ -75,20 +82,20 @@ public class AccountController extends Controller {
             LOGGER.debug("Expecting Json data");
             return badRequest("Expecting Json data");
         } else {
-            String oldPassword = json.findPath("oldPassword").textValue();
-            String newPassword = json.findPath("newPassword").textValue();
-            if (!validatePasswords(oldPassword, newPassword)) {
-                LOGGER.debug("Password data not valid");
+            PasswordDTO passwordDTO = Json.fromJson(json, PasswordDTO.class);
+            Set<ConstraintViolation<Object>> errors = Validation.getValidator().validate(passwordDTO);
+            if(!errors.isEmpty())  {
+                LOGGER.debug("Password data not valid = {}", Arrays.toString(errors.toArray()));
                 return badRequest("Password data not valid");
             }
 
-            if (BCrypt.checkpw(oldPassword, oldUser.password))
+            if (BCrypt.checkpw(passwordDTO.oldPassword, oldUser.password))
                 try {
-                    oldUser.password = BCrypt.hashpw(newPassword, BCrypt.gensalt());
+                    oldUser.password = BCrypt.hashpw(passwordDTO.newPassword, BCrypt.gensalt());
                     userService.update(oldUser);
                     return ok();
                 } catch (ServiceException e) {
-                    LOGGER.error("error = {}", e);
+                    LOGGER.error("error = {}", e.getMessage());
                     throw new ControllerException(e.getMessage(), e);
                 }
             else {
@@ -99,31 +106,5 @@ public class AccountController extends Controller {
 
 
     }
-
-
-    private boolean validateAccountData(AccountDTO user) {
-        return (validateParam(user.username, 40, true) &&
-                (validateParam(user.name, 40, false)) &&
-                (validateParam(user.surname, 40, true)) &&
-                (validateParam(user.email, 40, true)) &&
-                (validateParam(user.patronymic, 40, false)) &&
-                (validateParam(user.birthday, 40, false)) &&
-                (validateParam(user.country, 40, false)) &&
-                (validateParam(user.city, 40, false)) &&
-                (validateParam(user.street, 40, false)) &&
-                (validateParam(user.house, 40, false)) &&
-                (validateParam(user.flat, 40, false)));
-    }
-
-    private boolean validatePasswords(String oldPassword, String newPassword) {
-        return validateParam(oldPassword, 40, true) && validateParam(newPassword, 40, true);
-    }
-
-    private boolean validateParam(String string, int maxLength, boolean checkEmpty) {
-        if (checkEmpty) {
-            return StringUtils.isNotBlank(string) && string.length() <= maxLength;
-        } else return Objects.isNull(string) || string.length() <= maxLength;
-    }
-
 
 }

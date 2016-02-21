@@ -3,7 +3,7 @@ package dto;
 import models.*;
 import models.statuses.WaybillStatus;
 import models.statuses.WaypointStatus;
-import service.ServiceException;
+import exception.ServiceException;
 import service.UserService;
 
 import java.util.*;

@@ -5,6 +5,7 @@ import be.objectify.deadbolt.java.actions.Restrict;
 import be.objectify.deadbolt.java.actions.SubjectPresent;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
+import exception.ControllerException;
 import models.User;
 import models.Vehicle;
 import org.apache.commons.collections4.CollectionUtils;
@@ -13,7 +14,7 @@ import play.libs.Json;
 import play.mvc.BodyParser;
 import play.mvc.Http;
 import play.mvc.Result;
-import service.ServiceException;
+import exception.ServiceException;
 import service.VehicleService;
 
 import javax.inject.Inject;
@@ -42,7 +43,7 @@ public class VehiclesController {
         try {
             vehicleList = vehicleService.getVehicles(id, count, ascOrder);
         } catch (ServiceException e) {
-            LOGGER.error("error: {}", e);
+            LOGGER.error("error = {}", e.getMessage());
             throw new ControllerException(e.getMessage(), e);
         }
         return ok(Json.toJson(vehicleList));
@@ -69,7 +70,7 @@ public class VehiclesController {
         try {
             savedVehicle = vehicleService.addVehicle(vehicle);
         } catch (ServiceException e) {
-            LOGGER.error("error: {}", e);
+            LOGGER.error("error = {}", e.getMessage());
             throw new ControllerException(e.getMessage(), e);
         }
         return ok(Json.toJson(savedVehicle));
@@ -95,7 +96,7 @@ public class VehiclesController {
         try {
             vehicleService.updateVehicle(vehicle);
         } catch (ServiceException e) {
-            LOGGER.error("error: {}", e);
+            LOGGER.error("error = {}", e.getMessage());
             throw new ControllerException(e.getMessage(), e);
         }
         return ok(Json.toJson(vehicle));
@@ -129,7 +130,7 @@ public class VehiclesController {
         try {
             vehicleService.deleteVehicles(vehicleIds);
         } catch (ServiceException e) {
-            LOGGER.error("error: {}", e);
+            LOGGER.error("error = {}", e.getMessage());
             throw new ControllerException(e.getMessage(), e);
         }
         return ok();

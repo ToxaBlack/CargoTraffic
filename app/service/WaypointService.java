@@ -1,15 +1,14 @@
 package service;
 
 import dto.DriverWaypointsDTO;
+import exception.ServiceException;
 import models.Waypoint;
-import org.apache.commons.collections4.CollectionUtils;
 import play.Logger;
 import play.db.jpa.JPA;
 import repository.WaypointRepository;
 
 import javax.inject.Inject;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -26,7 +25,7 @@ public class WaypointService {
         try {
             return JPA.withTransaction(() -> repository.findByWaybill(id));
         } catch (Throwable throwable) {
-            LOGGER.error("Get list error = {}", throwable);
+            LOGGER.error("Get list error = {}", throwable.getMessage());
             throw new ServiceException(throwable.getMessage(), throwable);
         }
     }
@@ -37,7 +36,7 @@ public class WaypointService {
             List<Long> unchecked = getUnchecked(dto);
             if(unchecked.size() > 0)JPA.withTransaction(() -> repository.setChecked(unchecked, false));
         } catch (Throwable throwable) {
-            LOGGER.error("Update employees error: {}", throwable);
+            LOGGER.error("Update employees error: {}", throwable.getMessage());
             throw new ServiceException(throwable.getMessage(), throwable);
         }
     }

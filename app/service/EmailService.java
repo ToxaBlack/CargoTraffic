@@ -1,8 +1,9 @@
 package service;
 
+import exception.ServiceException;
 import play.libs.mailer.Email;
 import play.libs.mailer.MailerClient;
-import service.modals.EmailAttributes;
+import service.models.EmailAttributes;
 
 import javax.inject.Inject;
 

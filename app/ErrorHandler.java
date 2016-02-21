@@ -22,6 +22,6 @@ public class ErrorHandler extends DefaultHttpErrorHandler {
 
     protected void logServerError(Http.RequestHeader request,
                                   play.api.UsefulException usefulException) {
-        LOGGER.error("Exception = {}", usefulException);
+        LOGGER.error("Exception = {}", usefulException.getMessage());
     }
 }

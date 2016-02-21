@@ -1,5 +1,6 @@
 package service;
 
+import exception.ServiceException;
 import models.Company;
 import models.User;
 import models.UserRole;
@@ -9,7 +10,7 @@ import play.libs.F;
 import play.mvc.Http;
 import repository.CompanyRepository;
 import repository.UserRepository;
-import service.modals.EmailAttributes;
+import service.models.EmailAttributes;
 
 import javax.inject.Inject;
 import java.util.ArrayList;
@@ -35,7 +36,7 @@ public class CompanyService {
         try {
             return JPA.withTransaction(() -> companyRepository.getPage(id, count, ascOrder));
         } catch (Throwable throwable) {
-            LOGGER.error("Get list error: {}", throwable);
+            LOGGER.error("Get list error: {}", throwable.getMessage());
             throw new ServiceException(throwable.getMessage(), throwable);
         }
     }
@@ -45,7 +46,7 @@ public class CompanyService {
         try {
             JPA.withTransaction(() -> companyRepository.updateCompanyStatus(companyIds, true));
         } catch (Throwable throwable) {
-            LOGGER.error("Lock companies error: {}", throwable);
+            LOGGER.error("Lock companies error: {}", throwable.getMessage());
             throw new ServiceException(throwable.getMessage(), throwable);
         }
     }
@@ -55,7 +56,7 @@ public class CompanyService {
         try {
             JPA.withTransaction(() -> companyRepository.updateCompanyStatus(companyIds, false));
         } catch (Throwable throwable) {
-            LOGGER.error("Unlock companies error: {}", throwable);
+            LOGGER.error("Unlock companies error: {}", throwable.getMessage());
             throw new ServiceException(throwable.getMessage(), throwable);
         }
     }
@@ -82,7 +83,7 @@ public class CompanyService {
                     return null;
             });
         } catch (Throwable throwable) {
-            LOGGER.error("Adding client error: {}", throwable);
+            LOGGER.error("Adding client error: {}", throwable.getMessage());
             throw new ServiceException(throwable.getMessage(), throwable);
         }
     }

@@ -1,5 +1,6 @@
 package service;
 
+import exception.ServiceException;
 import models.User;
 import play.Logger;
 import play.db.jpa.JPA;
@@ -24,7 +25,7 @@ public class UserService {
         try {
             return JPA.withTransaction(() -> userRepository.findAll());
         } catch (Throwable throwable) {
-            LOGGER.error("Get user list = {}", throwable);
+            LOGGER.error("Get user list error = {}", throwable.getMessage());
             throw new ServiceException(throwable.getMessage(), throwable);
         }
     }
@@ -34,7 +35,7 @@ public class UserService {
         try {
             return JPA.withTransaction(() -> userRepository.find(id));
         } catch (Throwable throwable) {
-            LOGGER.error("Find user id = {}, error = {}", id, throwable);
+            LOGGER.error("Find user id = {}, error = {}", id, throwable.getMessage());
             throw new ServiceException(throwable.getMessage(), throwable);
         }
     }
@@ -55,7 +56,7 @@ public class UserService {
         try {
             return JPA.withTransaction(() -> userRepository.findByUsername(name));
         } catch (Throwable throwable) {
-            LOGGER.error("Find user name = {}, error = {}", name, throwable);
+            LOGGER.error("Find user name = {}, error = {}", name, throwable.getMessage());
             throw new ServiceException(throwable.getMessage(), throwable);
         }
     }
@@ -65,7 +66,7 @@ public class UserService {
         try {
             JPA.withTransaction(() -> userRepository.update(user));
         } catch (Throwable throwable) {
-            LOGGER.error("Update user id = {}, error = {}", user.id, throwable);
+            LOGGER.error("Update user id = {}, error = {}", user.id, throwable.getMessage());
             throw new ServiceException(throwable.getMessage(), throwable);
         }
     }
