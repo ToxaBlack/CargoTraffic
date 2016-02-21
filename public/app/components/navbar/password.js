@@ -14,7 +14,6 @@ define(['app/service/accountService', 'app/service/navService', "knockout"],
 
             self.updatePassword = function () {
                 if (validate()) {
-                    hideForm(self);
                     accountService.updatePassword(self.oldPassword(), self.newPassword(),
                         function (data) {
                             navService.mainPage();
@@ -28,6 +27,7 @@ define(['app/service/accountService', 'app/service/navService', "knockout"],
                                     navService.catchError(data);
                             }
                         });
+                    hideForm(self);
                 }
             };
 

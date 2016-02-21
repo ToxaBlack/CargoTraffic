@@ -2,6 +2,7 @@ package dto;
 
 import models.Address;
 import models.User;
+import play.data.validation.Constraints;
 
 import java.util.Objects;
 
@@ -9,27 +10,40 @@ import java.util.Objects;
  * Created by Anton Chernov on 2/2/2016.
  */
 public class AccountDTO {
-
+    @Constraints.Required
+    @Constraints.MaxLength(40)
+    @Constraints.MinLength(5)
     public String username;
 
+    @Constraints.MaxLength(40)
     public String name;
 
+    @Constraints.Required
     public String surname;
 
+    @Constraints.MaxLength(40)
     public String patronymic;
 
+    @Constraints.MaxLength(40)
     public String birthday;
 
+    @Constraints.Required
+    @Constraints.Email
     public String email;
 
+    @Constraints.MaxLength(40)
     public String country;
 
+    @Constraints.MaxLength(40)
     public String city;
 
+    @Constraints.MaxLength(40)
     public String street;
 
+    @Constraints.MaxLength(40)
     public String house;
 
+    @Constraints.MaxLength(40)
     public String flat;
 
     public static AccountDTO getAccount(User user) {

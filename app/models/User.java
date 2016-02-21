@@ -3,7 +3,6 @@ package models;
 import be.objectify.deadbolt.core.models.*;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import play.data.validation.Constraints;
 
 import javax.persistence.*;
 import java.util.List;
@@ -28,21 +27,17 @@ public class User implements Subject {
     @JsonIgnore
     public Address address;
 
-    @Constraints.Required
     public String username;
 
     public String name;
 
-    @Constraints.Required
     public String surname;
 
-    @Constraints.Required
     @JsonIgnore
     public String password;
 
     public String patronymic;
 
-    @Constraints.Required
     public String email;
 
     public String birthday;
