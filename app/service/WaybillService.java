@@ -47,7 +47,7 @@ public class WaybillService {
             return JPA.withTransaction(() -> {
                 User user = (User) Http.Context.current().args.get("user");
                 LOGGER.debug("API get list of vehicles for: {}", user.company.id);
-                return vehicleRepository.getVehicles(1, Integer.MAX_VALUE, true, user.company.id);
+                return WaybillRepository.getVehicles(user.company.id);
             });
         } catch (Throwable throwable) {
             LOGGER.error("Get packingList error: {}", throwable.getMessage());

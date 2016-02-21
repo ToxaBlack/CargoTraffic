@@ -5,7 +5,6 @@ import models.*;
 import models.statuses.WaybillStatus;
 import org.apache.commons.collections4.CollectionUtils;
 import play.Logger;
-import play.api.mvc.QueryStringBindable;
 import play.db.jpa.JPA;
 
 import javax.persistence.EntityManager;
@@ -42,6 +41,21 @@ public class WaybillRepository {
         return waybills.get(0);
     }
 
+    public static List<Vehicle> getVehicles(long companyId) {
+        LOGGER.debug("Get vehicles: company {}", companyId);
+        EntityManager em = JPA.em();
+        String stringBuilder = "SELECT v FROM Vehicle v " +
+                "LEFT JOIN FETCH v.vehicleType " +
+                "WHERE  v.company.id = :companyId " +
+                "AND v.deleted = false " +
+                "AND (SELECT count(wvd.id) from WaybillVehicleDriver wvd " +
+                "where v=wvd.vehicle AND wvd.status = 'TRANSPORTATION_STARTED') =0" +
+                "ORDER BY v.id ASC ";
+        Query query = em.createQuery(stringBuilder);
+        query.setParameter("companyId", companyId);
+        List<Vehicle> vehicles = query.getResultList();
+        return vehicles;
+    }
 
     public Waybill saveWaybill(Waybill waybill) {
         Set<WaybillVehicleDriver> wvds = waybill.vehicleDrivers;
@@ -88,13 +102,13 @@ public class WaybillRepository {
         return wvd;
     }
 
-    public void completeTransporationWVD(WaybillVehicleDriver wvd) {
+    public void completeTransportationWVD(WaybillVehicleDriver wvd) {
         EntityManager em = JPA.em();
         wvd.status = WaybillStatus.TRANSPORTATION_COMPLETED;
         em.merge(wvd);
     }
 
-    public void completeTransporationWaybill(Waybill waybill) {
+    public void completeTransportationWaybill(Waybill waybill) {
         EntityManager em = JPA.em();
         waybill.status = WaybillStatus.TRANSPORTATION_COMPLETED;
         waybill.arrivalDate = new Date();
