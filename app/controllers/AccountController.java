@@ -2,6 +2,7 @@ package controllers;
 
 import be.objectify.deadbolt.java.actions.SubjectPresent;
 import com.fasterxml.jackson.databind.JsonNode;
+import exception.ControllerException;
 import models.User;
 import org.apache.commons.lang3.StringUtils;
 import org.mindrot.jbcrypt.BCrypt;
@@ -11,7 +12,7 @@ import play.mvc.BodyParser;
 import play.mvc.Controller;
 import play.mvc.Http;
 import play.mvc.Result;
-import service.ServiceException;
+import exception.ServiceException;
 import service.UserService;
 import dto.AccountDTO;
 
@@ -57,7 +58,7 @@ public class AccountController extends Controller {
             try {
                 userService.update(user);
             } catch (ServiceException e) {
-                LOGGER.error("error = {}", e);
+                LOGGER.error("error = {}", e.getMessage());
                 throw new ControllerException(e.getMessage(), e);
             }
             return ok();
@@ -88,7 +89,7 @@ public class AccountController extends Controller {
                     userService.update(oldUser);
                     return ok();
                 } catch (ServiceException e) {
-                    LOGGER.error("error = {}", e);
+                    LOGGER.error("error = {}", e.getMessage());
                     throw new ControllerException(e.getMessage(), e);
                 }
             else {

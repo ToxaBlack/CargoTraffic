@@ -4,6 +4,7 @@ import be.objectify.deadbolt.java.actions.Group;
 import be.objectify.deadbolt.java.actions.Restrict;
 import com.fasterxml.jackson.databind.JsonNode;
 import dto.PackingListDTO;
+import exception.ControllerException;
 import models.PackingList;
 import models.ProductInPackingList;
 import models.User;
@@ -17,7 +18,7 @@ import play.mvc.Controller;
 import play.mvc.Http;
 import play.mvc.Result;
 import service.PackingListService;
-import service.ServiceException;
+import exception.ServiceException;
 
 import javax.inject.Inject;
 import java.util.ArrayList;
@@ -54,7 +55,7 @@ public class PackingListController extends Controller {
             try {
                 service.addPackingList(packingList, products);
             } catch (ServiceException e) {
-                LOGGER.error("error = {}", e);
+                LOGGER.error("error = {}", e.getMessage());
                 throw new ControllerException(e.getMessage(), e);
             }
         }
@@ -89,7 +90,7 @@ public class PackingListController extends Controller {
                     packingLists = new ArrayList<>();
             }
         } catch (ServiceException e) {
-            LOGGER.error("error = {}", e);
+            LOGGER.error("error = {}", e.getMessage());
             throw new ControllerException(e.getMessage(), e);
         }
         List<PackingListDTO> packingListDTOs = new ArrayList<>();
@@ -107,7 +108,7 @@ public class PackingListController extends Controller {
         try {
             packingList = service.getPackingList(id, PackingListStatus.CHECKED);
         } catch (ServiceException e) {
-            LOGGER.error("error = {}", e);
+            LOGGER.error("error = {}", e.getMessage());
             throw new ControllerException(e.getMessage(), e);
         }
         PackingListDTO dto = PackingListDTO.toPackingListDTO(packingList);
@@ -122,7 +123,7 @@ public class PackingListController extends Controller {
         try {
             packingList = service.getPackingList(id, PackingListStatus.CREATED);
         } catch (ServiceException e) {
-            LOGGER.error("error = {}", e);
+            LOGGER.error("error = {}", e.getMessage());
             throw new ControllerException(e.getMessage(), e);
         }
         PackingListDTO dto = PackingListDTO.toPackingListDTO(packingList);
@@ -144,7 +145,7 @@ public class PackingListController extends Controller {
         try {
             service.changeStatus(id, packingListStatus);
         } catch (ServiceException e) {
-            LOGGER.error("error = {}", e);
+            LOGGER.error("error = {}", e.getMessage());
             throw new ControllerException(e.getMessage(), e);
         }
         return ok();

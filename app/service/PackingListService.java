@@ -1,5 +1,6 @@
 package service;
 
+import exception.ServiceException;
 import models.PackingList;
 import models.Product;
 import models.ProductInPackingList;
@@ -52,7 +53,7 @@ public class PackingListService {
                 return packingListRepository.getPackingLists(id, count, ascOrder, user.company.id);
             });
         } catch (Throwable throwable) {
-            LOGGER.error("Get packingLists error: {}", throwable);
+            LOGGER.error("Get packingLists error: {}", throwable.getMessage());
             throw new ServiceException(throwable.getMessage(), throwable);
         }
     }
@@ -65,7 +66,7 @@ public class PackingListService {
                 return packingListRepository.getDispatcherPackingLists(id, count, ascOrder,user);
             });
         } catch (Throwable throwable) {
-            LOGGER.error("Get packingLists for dispatcher error: {}", throwable);
+            LOGGER.error("Get packingLists for dispatcher error: {}", throwable.getMessage());
             throw new ServiceException(throwable.getMessage(), throwable);
         }
     }
@@ -79,7 +80,7 @@ public class PackingListService {
                 return packingListRepository.getPackingList(id, user.company.id, status);
             });
         } catch (Throwable throwable) {
-            LOGGER.error("Get packingList error: {}", throwable);
+            LOGGER.error("Get packingList error: {}", throwable.getMessage());
             throw new ServiceException(throwable.getMessage(), throwable);
         }
     }
@@ -101,7 +102,7 @@ public class PackingListService {
                 packingListRepository.savePackingList(packingList);
             });
         } catch (Throwable throwable) {
-            LOGGER.error("Get packingList error: {}", throwable);
+            LOGGER.error("Get packingList error: {}", throwable.getMessage());
             throw new ServiceException(throwable.getMessage(), throwable);
         }
     }

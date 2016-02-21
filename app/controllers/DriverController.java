@@ -6,17 +6,17 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.google.inject.Inject;
 import dto.ProductDTO;
+import exception.ControllerException;
 import models.LostProduct;
 import models.ProductInWaybill;
 import models.User;
-import org.apache.commons.collections4.CollectionUtils;
 import play.Logger;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Http;
 import play.mvc.Result;
 import service.DriverService;
-import service.ServiceException;
+import exception.ServiceException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -59,7 +59,7 @@ public class DriverController extends Controller {
         try {
             driverService.createActOfLost(products);
         } catch (ServiceException e) {
-            LOGGER.error("error: {}", e);
+            LOGGER.error("error: {}", e.getMessage());
             throw new ControllerException(e.getMessage(), e);
         }
         return ok();
@@ -71,7 +71,7 @@ public class DriverController extends Controller {
         try {
             list = driverService.getProducts();
         } catch (ServiceException e) {
-            LOGGER.error("error = {}", e);
+            LOGGER.error("error = {}", e.getMessage());
             throw new ControllerException(e.getMessage(), e);
         }
         return ok(Json.toJson(list));
@@ -83,7 +83,7 @@ public class DriverController extends Controller {
         try {
             driverService.completeDelivery(user);
         } catch (ServiceException e) {
-            LOGGER.error("error = {}", e);
+            LOGGER.error("error = {}", e.getMessage());
             throw new ControllerException(e.getMessage(), e);
         }
         return ok();

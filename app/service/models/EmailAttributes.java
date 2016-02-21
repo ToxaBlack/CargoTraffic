@@ -1,4 +1,4 @@
-package service.modals;
+package service.models;
 
 /**
  * Created by Anton Chernov on 2/10/2016.
