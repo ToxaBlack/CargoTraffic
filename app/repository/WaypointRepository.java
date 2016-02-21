@@ -42,15 +42,4 @@ public class WaypointRepository {
         else query.setParameter(1, WaypointStatus.valueOf("UNCHECKED"));
         query.executeUpdate();
     }
-    public List allPoints(Long id){
-        EntityManager em = JPA.em();
-        StringBuilder stringBuilder = new StringBuilder("SELECT w.waybill.id FROM Waypoint w WHERE w.id = ?");
-        Query query = em.createQuery(stringBuilder.toString());
-        query.setParameter(1, id);
-        Long waybillId = (Long) query.getResultList().get(0);
-        stringBuilder = new StringBuilder("SELECT w.id FROM Waypoint w WHERE w.waybill.id = ?");
-        query = em.createQuery(stringBuilder.toString());
-        query.setParameter(1, waybillId);
-        return query.getResultList();
-    }
 }

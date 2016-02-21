@@ -40,11 +40,11 @@ define(["app/utils/utils"],
                 );
             };
 
-            var putWaypints = function (checkedId, done, error) {
+            var putWaypints = function (checkedId, controlPoints, done, error) {
                 utils.send(
                     "api/waypoints",
                     "PUT",
-                    JSON.stringify(checkedId),
+                    JSON.stringify({'checked': checkedId, 'controlPoints': controlPoints}),
                     done,
                     error
                 );

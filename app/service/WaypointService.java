@@ -1,5 +1,6 @@
 package service;
 
+import dto.DriverWaypointsDTO;
 import models.Waypoint;
 import org.apache.commons.collections4.CollectionUtils;
 import play.Logger;
@@ -30,10 +31,10 @@ public class WaypointService {
         }
     }
 
-    public void setChecked(List<Long> checked) throws ServiceException {
+    public void setChecked(DriverWaypointsDTO dto) throws ServiceException {
         try {
-            if(checked.size() > 0) JPA.withTransaction(() -> repository.setChecked(checked, true));
-            List<Long> unchecked = getUnchecked(checked);
+            if(dto.checked.size() > 0) JPA.withTransaction(() -> repository.setChecked(dto.checked, true));
+            List<Long> unchecked = getUnchecked(dto);
             if(unchecked.size() > 0)JPA.withTransaction(() -> repository.setChecked(unchecked, false));
         } catch (Throwable throwable) {
             LOGGER.error("Update employees error: {}", throwable);
@@ -41,10 +42,13 @@ public class WaypointService {
         }
     }
 
-    private List<Long> getUnchecked(List<Long> ids) throws Throwable {
-        List<Long> waypoints = JPA.withTransaction(() -> repository.allPoints(ids.get(0)));
+    private List<Long> getUnchecked(DriverWaypointsDTO dto) throws Throwable {
+        List<Long> waypoints = new ArrayList<>();
+        for(Waypoint wp: dto.controlPoints){
+            waypoints.add(wp.id);
+        }
         Collections.sort(waypoints);
-        for(Long id: ids){
+        for(Long id: dto.checked){
             int index = Collections.binarySearch(waypoints, id);
             if(index >= 0) {
                 waypoints.remove(index);

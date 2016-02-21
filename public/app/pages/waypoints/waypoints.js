@@ -161,6 +161,7 @@ define(['app/service/waybillService', 'app/service/navService', "knockout", 'app
             $('#btnSave').on('click', function(){
                 waybilService.putWaypoints(
                     self.checkedWays(),
+                    self.controlPoints(),
                     function(){
                         self.waybillId = 0;
                         self.checkedWays = ko.observableArray([]);

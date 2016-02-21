@@ -3,6 +3,7 @@ package controllers;
 import be.objectify.deadbolt.java.actions.Group;
 import be.objectify.deadbolt.java.actions.Restrict;
 import com.fasterxml.jackson.databind.JsonNode;
+import dto.DriverWaypointsDTO;
 import models.User;
 import models.Waypoint;
 import play.Logger;
@@ -53,13 +54,14 @@ public class WaypointController extends Controller {
             return badRequest("Expecting Json data");
         }
         LOGGER.debug("Driver waypoints = {} ", json);
-        ArrayList<String> checked = Json.fromJson(json, ArrayList.class);
+      /*  ArrayList<String> checked = Json.fromJson(json, ArrayList.class);
         ArrayList<Long> ids = new ArrayList<>();
         for(String id: checked){
             ids.add(Long.parseLong(id));
-        }
+        }*/
+        DriverWaypointsDTO dto = Json.fromJson(json, DriverWaypointsDTO.class);
         try {
-            service.setChecked(ids);
+            service.setChecked(dto);
         } catch (ServiceException e) {
             LOGGER.error("error = {}", e);
             throw new ControllerException(e.getMessage(), e);
