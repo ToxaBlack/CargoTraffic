@@ -102,13 +102,13 @@ public class WaybillRepository {
         return wvd;
     }
 
-    public void completeTransporationWVD(WaybillVehicleDriver wvd) {
+    public void completeTransportationWVD(WaybillVehicleDriver wvd) {
         EntityManager em = JPA.em();
         wvd.status = WaybillStatus.TRANSPORTATION_COMPLETED;
         em.merge(wvd);
     }
 
-    public void completeTransporationWaybill(Waybill waybill) {
+    public void completeTransportationWaybill(Waybill waybill) {
         EntityManager em = JPA.em();
         waybill.status = WaybillStatus.TRANSPORTATION_COMPLETED;
         waybill.arrivalDate = new Date();

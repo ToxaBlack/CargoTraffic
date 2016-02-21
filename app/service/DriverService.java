@@ -57,12 +57,12 @@ public class DriverService {
         try {
             JPA.withTransaction(() -> {
                 WaybillVehicleDriver wvd = waybillRepository.getWVDByDriver(user);
-                waybillRepository.completeTransporationWVD(wvd);
+                waybillRepository.completeTransportationWVD(wvd);
                 Waybill waybill = wvd.waybill;
 
                 //Check whether all cargo is delivered, then end up delivery
                 if(waybillRepository.IsCompleteAllDeliveries(waybill)) {
-                    waybillRepository.completeTransporationWaybill(waybill);
+                    waybillRepository.completeTransportationWaybill(waybill);
 
                     PackingList packingList = waybill.packingList;
                     packingListRepository.completeTransporationPackList(packingList);
