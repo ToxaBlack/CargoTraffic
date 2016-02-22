@@ -27,6 +27,9 @@ define(["app/utils/utils", 'knockout'], function (utils, ko) {
                 case "MANAGER":
                     utils.goTo("packingLists");
                     break;
+                case "DIRECTOR":
+                    utils.goTo("charts");
+                    break;
                 default:
                     utils.goTo("error");
             }
