@@ -23,7 +23,7 @@ public class WaypointService {
 
     public List<Waypoint> get(Long id) throws ServiceException {
         try {
-            return JPA.withTransaction(() -> repository.findByWaybill(id));
+            return JPA.withTransaction(() -> repository.findByDriver(id));
         } catch (Throwable throwable) {
             LOGGER.error("Get list error = {}", throwable.getMessage());
             throw new ServiceException(throwable.getMessage(), throwable);

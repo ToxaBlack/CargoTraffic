@@ -30,12 +30,12 @@ public class WaypointController extends Controller {
     WaypointService service;
 
     @Restrict({@Group("DRIVER")})
-    public Result get(Long id) throws ControllerException {
+    public Result get() throws ControllerException {
         User user =  (User) Http.Context.current().args.get("user");
         LOGGER.debug("API update account data for user = {}",user.toString());
         List<Waypoint> points;
         try {
-            points = service.get(id);
+            points = service.get(user.id);
         } catch (ServiceException e) {
             LOGGER.error("error = {}", e.getMessage());
             throw new ControllerException(e.getMessage(), e);

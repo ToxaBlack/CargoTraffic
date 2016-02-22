@@ -1,22 +1,31 @@
-<div id="googleMap" style="width:500px;height:380px;"></div>
+<div id="googleMap" style="width:500px;height:380px;" data-bind="visible: controlPoints().length != 0"></div>
 <div class="row">
     <div class="col-sm-12">
         <table id="waypointsTable" class="table table-hover">
             <thead>
             <tr>
                 <th><input class="selectAll" type="checkbox" data-bind="checked: allChecked" id="selectAllCheckbox"></th>
-                <th>LatLng</th>
+                <th>Lat</th>
+                <th>Lng</th>
+                <th>Address</th>
             </tr>
             </thead>
             <tbody data-bind="foreach: controlPoints">
             <tr>
                 <td><input class="idCheck" type="checkbox" data-bind="checked: $parent.checkedWays, attr: { value: id }"/></td>
-                <td class="link" data-bind="text: lat + '  ' + lng "></td>
+                <td class="link" data-bind="text: lat"></td>
+                <td class="link" data-bind="text: lng"></td>
+                <td class="link" data-bind="text: $parent.address()[$index()]"></td>
             </tr>
             </tbody>
         </table>
+        <div class="panel panel-default" data-bind="visible: controlPoints().length == 0">
+            <div class="panel-body text-center">
+                List of waypoints is empty.
+            </div>
+        </div>
     </div>
 </div>
-<div class="form-group">
+<div class="form-group" data-bind="visible: controlPoints().length != 0">
     <button class="btn btn-success pull-right btn-lg" id="btnSave">Save</button>
 </div>

@@ -20,11 +20,11 @@ define(["app/utils/utils"],
                 );
             };
 
-            var getWaypints = function (id, done, error, always) {
+            var getWaypints = function (done, error, always) {
                 utils.send(
                     "api/waypoints",
                     "GET",
-                    {"id": id},
+                    {},
                     done,
                     error
                 );

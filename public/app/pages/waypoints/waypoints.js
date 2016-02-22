@@ -7,7 +7,6 @@ define(['app/service/waybillService', 'app/service/navService', "knockout", 'app
             self.controlPoints = ko.observableArray([]);
             self.waypoints = ko.observableArray([]);
             self.address = ko.observableArray([]);
-            self.waybillId = 1;
             self.checkedWays = ko.observableArray([]);
             self.allChecked = ko.computed(function () {
                 var success = $.grep(self.controlPoints(), function (element, index) {
@@ -26,7 +25,8 @@ define(['app/service/waybillService', 'app/service/navService', "knockout", 'app
 
             function initialize() {
                 var center;
-                if(self.controlPoints.length > 0 ) center = google.maps.LatLng(self.controlPoints()[0].lat,self.controlPoints()[0].lng);
+                if(self.controlPoints.length > 0 )
+                    center = google.maps.LatLng(self.controlPoints()[0].lat,self.controlPoints()[0].lng);
                 else center =  new google.maps.LatLng(51.508742, -0.120850);
                 var lastPoint = center;
                 var mapProp = {
@@ -42,6 +42,7 @@ define(['app/service/waybillService', 'app/service/navService', "knockout", 'app
                     map: map
                 });
 
+                self.address.removeAll();
                 for(var i = 0; i < self.controlPoints().length; ++i){
                     map.setZoom(11);
                     marker = new google.maps.Marker({
@@ -113,8 +114,7 @@ define(['app/service/waybillService', 'app/service/navService', "knockout", 'app
                 geocoder.geocode({'location': latlng}, function(results, status) {
                     if (status === google.maps.GeocoderStatus.OK) {
                         if (results[1]) {
-                            self.address()[i] = results[1].formatted_address;
-                            console.log(self.address()[i]);
+                            self.address.push(results[1].formatted_address);
                         } else {
                             window.alert('No results found');
                         }
@@ -126,7 +126,6 @@ define(['app/service/waybillService', 'app/service/navService', "knockout", 'app
 
             $(document).ready(function(){
                 waybilService.getWaypints(
-                    self.waybillId,
                     function(data){
                         self.controlPoints(data);
                         $.each(self.controlPoints(), function (index, element) {
@@ -163,7 +162,6 @@ define(['app/service/waybillService', 'app/service/navService', "knockout", 'app
                     self.checkedWays(),
                     self.controlPoints(),
                     function(){
-                        self.waybillId = 0;
                         self.checkedWays = ko.observableArray([]);
                         self.controlPoints = ko.observableArray([]);
                         self.waypoints = ko.observableArray([]);

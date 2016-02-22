@@ -40,7 +40,7 @@ PUT         /api/packingList/$id<[0-9]+>   controllers.PackingListController.cha
 POST        /api/waybill               controllers.WaybillController.add()
 GET         /api/waybill/$id<[0-9]+>   controllers.WaybillController.getAdditionalInfoForWaybill(id :Long)
 GET         /api/waybill/$id<[0-9]+>/edit   controllers.WaybillController.getWaybillWithAdditionalInfoEdit(id :Long)
-GET         /api/waypoints             controllers.WaypointController.get(id : Long)
+GET         /api/waypoints             controllers.WaypointController.get()
 PUT         /api/waypoints             controllers.WaypointController.set()
 
 GET         /api/driver/products       controllers.DriverController.getProducts()
