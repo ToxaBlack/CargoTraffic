@@ -121,11 +121,16 @@ define(['app/utils/messageUtil','app/service/warehouseService', 'app/service/nav
             };
 
             self.closeDialog = function () {
-                //Clearing dialog's form
                 self.idEdit = -1;
                 $("#warehouseForm").validate().resetForm();
-                $('#warehouseForm')[0].reset();
+               // $('#warehouseForm')[0].reset();
                 $('#warehouseModal').modal("hide");
+                //Clearing dialog's form
+                self.warehouseName("");
+                self.country("");
+                self.city("");
+                self.street("");
+                self.house("");
             };
 
 
