@@ -9,7 +9,7 @@ import models.StorageType;
 /**
  * Created by Olga on 07.02.2016.
  */
-@JsonIgnoreProperties({"lastQuantity"})
+@JsonIgnoreProperties({"lastQuantity","lastQuantityForSelected"})
 public class ProductDTO {
     public Long id;
     public String name;
