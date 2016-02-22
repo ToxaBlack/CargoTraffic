@@ -1,6 +1,6 @@
-define(['app/service/waybillService','app/service/accountService', 'app/service/employeesService', 'app/service/vehiclesService','app/service/packingListService', 'app/service/navService', 'app/service/barService', "knockout", 'jquery',"text!./waybill.html"],
+define(['app/service/waybillService', 'app/service/navService', 'app/service/barService', "knockout", 'jquery',"app/utils/messageUtil","text!./waybill.html"],
 
-    function (waybillService, accountService, employeesService, vehiclesService, packingListService, navService, bar, ko, $, waybillTemplate) {
+    function (waybillService, navService, bar, ko, $, messageUtil, waybillTemplate) {
         "use strict";
 
         function waybillViewModel(requestParams) {
@@ -22,6 +22,11 @@ define(['app/service/waybillService','app/service/accountService', 'app/service/
 
             self.pageInitialised = ko.observable(false);
 
+            $('#waybillTabs').find('li:eq(1) a').click(function (e) {
+                e.preventDefault();
+                if(validateWaybillInfo())
+                $(this).tab('show');
+            });
 
             self.selectedVehicleDriver = ko.observable();
             self.waybill = ko.observable({
@@ -72,6 +77,37 @@ define(['app/service/waybillService','app/service/accountService', 'app/service/
                 self.waybill().vehicleDrivers.remove(vehicleDriver);
             };
 
+            function validateProducts(){
+                var validator = $('#vehicleDriverModalForm').validate({
+                    messages: {
+                        productVehicleDriver: {
+                            required: "enter quantity of transferable product",
+                            min: "Min is 0",
+                            max: "Should be less"
+                        }
+                    }
+                });
+                return validator.form();
+            }
+
+            function validateWaybillInfo(){
+                var validator = $('#waybillMain').validate({
+                    rules: {
+                        arrivalDate: {
+                            arrivalDateValidation: true
+                        }
+                    }
+                });
+                var productsInVehicles = true;
+                self.goods().forEach(function(product,i,goods){
+                   if(product.lastQuantity()!=0) {
+                       messageUtil.createWarningMessage("Some products are not in vehicle");
+                       console.log("opana");
+                       productsInVehicles = false;}
+                });
+                return validator.form() && productsInVehicles;
+            }
+
             function VehicleDriver(vehicle,driver) {
                 var vd = this;
                 vd.vehicle = ko.observable(vehicle);
@@ -81,7 +117,19 @@ define(['app/service/waybillService','app/service/accountService', 'app/service/
                     vd.products()[i].quantity=ko.observable(0);
                 vd.onLink = function () {
                     self.selectedVehicleDriver(vd);
-                    $('#addingProducts').modal();
+                    var modal = $('#addingProducts');
+                    modal.on('hide.bs.modal', validateProducts);
+                    $("#vehicleDriverModalOK").on('click',function(e){
+                        modal.modal('hide');
+                    });
+                    $("#vehicleDriverModalForm, #vehicleDriverModalOK").on('submit',function(e){
+                        e.preventDefault();
+                        modal.modal('hide');
+                        return false;
+                    });
+
+                    modal.modal();
+
                 };
                 return vd;
             }
@@ -97,6 +145,14 @@ define(['app/service/waybillService','app/service/accountService', 'app/service/
                                 self.waybill().vehicleDrivers().forEach(function(vd,j,vds){
                                     quantity -= vd.products()[i].quantity();
                                 });
+                            return quantity;
+                        });
+                        product.lastQuantityForSelected = ko.computed(function(){
+                            var quantity = product.lastQuantity();
+                            var vd = self.selectedVehicleDriver();
+                            if(vd!= undefined){
+                                quantity += vd.products()[i].quantity();
+                            }
                             return quantity;
                         })
                     });
