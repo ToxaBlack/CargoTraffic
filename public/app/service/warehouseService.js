@@ -16,7 +16,7 @@ define(["app/utils/utils"],
 
             var add = function (name,country,city,street,house,done, error, always) {
                 utils.send(
-                    "/api/warehouses/add",
+                    "api/warehouses/add",
                     "POST",
                     JSON.stringify({name: name ,address:{country: country, city: city, street: street, house: house}}),
                     done,
@@ -27,7 +27,7 @@ define(["app/utils/utils"],
 
             var edit = function (id, name,country,city,street,house,done, error, always) {
                 utils.send(
-                    "/api/warehouses/edit",
+                    "api/warehouses/edit",
                     "PUT",
                     JSON.stringify({id: id, name: name ,address:{country: country, city: city, street: street, house: house}}),
                     done,
@@ -38,7 +38,7 @@ define(["app/utils/utils"],
 
             var remove = function (warehouses,done, error, always) {
                 utils.send(
-                    "/api/warehouses/remove",
+                    "api/warehouses/remove",
                     "PUT",
                     JSON.stringify({array:warehouses }),
                     done,

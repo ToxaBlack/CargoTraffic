@@ -73,7 +73,6 @@ define(['app/service/packingListService','app/service/navService' ,'app/service/
                 context.$data.chosen(context.$data.checkedWarehouses()[0]);
 
                 context.$data.checkedWarehouses([]);
-                message.deleteMessage();
                 $('#warehouses-popup').modal("hide");
             };
 

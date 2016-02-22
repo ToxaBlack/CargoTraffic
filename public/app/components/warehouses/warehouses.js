@@ -19,7 +19,7 @@ define(['app/utils/messageUtil','app/service/warehouseService', 'app/service/nav
             self.street = ko.observable();
             self.house = ko.observable();
 
-            self.warehousesPerPage = ko.observable(10);
+            self.warehousesPerPage = ko.observable(5);
             self.warehousesPerPage.subscribe( function() {
                 self.showWarehouses();
             });
@@ -53,8 +53,6 @@ define(['app/utils/messageUtil','app/service/warehouseService', 'app/service/nav
             };
 
             self.showWarehouses();
-
-            //  $("#warehouseForm").validate();
 
             self.saveWarehouse = function () {
                 if( $("#warehouseForm").valid()){
@@ -125,12 +123,8 @@ define(['app/utils/messageUtil','app/service/warehouseService', 'app/service/nav
             self.closeDialog = function () {
                 //Clearing dialog's form
                 self.idEdit = -1;
-                self.warehouseName("");
-                self.country("");
-                self.city("");
-                self.street("");
-                self.house("");
-
+                $("#warehouseForm").validate().resetForm();
+                $('#warehouseForm')[0].reset();
                 $('#warehouseModal').modal("hide");
             };
 
@@ -153,6 +147,9 @@ define(['app/utils/messageUtil','app/service/warehouseService', 'app/service/nav
                         });
                         if( self.recordCount() === 0) {
                             self.previousPage();
+                        }
+                        if( self.hasNextPage() && self.recordCount() < self.warehousesPerPage()) {
+                            self.showWarehouses();
                         }
                     },
                     function (data) {
