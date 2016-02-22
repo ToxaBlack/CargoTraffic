@@ -24,7 +24,7 @@ define(['app/service/packingListService', 'app/service/navService', 'app/service
             }, this);
             self.hasNextPage = ko.observable(false);
             self.hasPreviousPage = ko.observable(false);
-            self.GOODS_PER_PAGE = 2;
+            self.GOODS_PER_PAGE = 5;
             var currentPage = 1;
             var dateOptions = {
                 year: 'numeric',

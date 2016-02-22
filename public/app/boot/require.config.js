@@ -10,7 +10,16 @@ var require = {
         "validation": "lib/jquery.validate.min",
         "knockout": "lib/knockout",
         "text": "lib/text",
-        "nanobar": "lib/nanobar.min"
+        "nanobar": "lib/nanobar.min",
+        "highcharts": "lib/highcharts",
+        "jqueryUI": "lib/jquery-ui.min",
+        "underscore": "lib/underscore.min",
+        "JSZip": "lib/jszip.min",
+        "require": "lib/require.min",
+        "swfobject": "lib/downloadify/swfobject",
+        "downloadify": "lib/downloadify/downloadify.min",
+        "excel-builder": "lib/excel-builder",
+        "image": "lib/image"
     },
     shim: {
         "bootstrap": {

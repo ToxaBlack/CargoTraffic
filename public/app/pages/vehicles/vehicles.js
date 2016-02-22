@@ -10,7 +10,7 @@ define(['app/service/vehiclesService','app/service/navService', "knockout", 'app
             self.vehicles = ko.observableArray([]);
             self.hasNextPage = ko.observable(false);
             self.hasPreviousPage = ko.observable(false);
-            self.VEHICLES_PER_PAGE = 1;
+            self.VEHICLES_PER_PAGE = 10;
             self.modalDialogVehicle =  ko.observable({'vehicleFuel':{}, 'vehicleType':{}, 'company':{}});
             self.vehicleFuels = ko.observableArray(['Diesel','Bio-diesel','Petrol-95', 'Petrol-98']);
             self.selectedFuel = ko.observable();

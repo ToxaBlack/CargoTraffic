@@ -30,6 +30,9 @@ define(["app/utils/utils", 'knockout'], function (utils, ko) {
                 case "DRIVER":
                     utils.goTo("waypoints");
                     break;
+                case "DIRECTOR":
+                    utils.goTo("charts");
+                    break;
                 default:
                     utils.goTo("error");
             }
