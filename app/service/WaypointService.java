@@ -32,9 +32,9 @@ public class WaypointService {
 
     public void setChecked(DriverWaypointsDTO dto) throws ServiceException {
         try {
-            if(dto.checked.size() > 0) JPA.withTransaction(() -> repository.setChecked(dto.checked, true));
+            if (dto.checked.size() > 0) JPA.withTransaction(() -> repository.setChecked(dto.checked, true));
             List<Long> unchecked = getUnchecked(dto);
-            if(unchecked.size() > 0)JPA.withTransaction(() -> repository.setChecked(unchecked, false));
+            if (unchecked.size() > 0) JPA.withTransaction(() -> repository.setChecked(unchecked, false));
         } catch (Throwable throwable) {
             LOGGER.error("Update employees error: {}", throwable.getMessage());
             throw new ServiceException(throwable.getMessage(), throwable);
@@ -43,13 +43,13 @@ public class WaypointService {
 
     private List<Long> getUnchecked(DriverWaypointsDTO dto) throws Throwable {
         List<Long> waypoints = new ArrayList<>();
-        for(Waypoint wp: dto.controlPoints){
+        for (Waypoint wp : dto.controlPoints) {
             waypoints.add(wp.id);
         }
         Collections.sort(waypoints);
-        for(Long id: dto.checked){
+        for (Long id : dto.checked) {
             int index = Collections.binarySearch(waypoints, id);
-            if(index >= 0) {
+            if (index >= 0) {
                 waypoints.remove(index);
             }
         }

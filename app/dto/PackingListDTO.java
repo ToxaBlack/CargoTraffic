@@ -2,6 +2,7 @@ package dto;
 
 import models.*;
 import models.statuses.ProductStatus;
+import play.data.validation.Constraints;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -15,6 +16,7 @@ public class PackingListDTO {
     public Long id;
     public Warehouse destinationWarehouse;
     public List<ProductDTO> products = new ArrayList<ProductDTO>();
+    @Constraints.MaxLength(40)
     public Date issueDate;
     public Warehouse departureWarehouse;
     public User dispatcher;

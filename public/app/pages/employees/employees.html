@@ -28,7 +28,8 @@
                                 click: $parent.onLink, attr: { value: id } ">
                 </td>
                 <td class="link" data-bind="text: username, click: $parent.onLink, attr: { value: id }"></td>
-                <td class="link" data-bind="foreach: listOfRoles = ko.observableArray(userRoleList), click: $parent.onLink, attr: { value: id }">
+                <td class="link"
+                    data-bind="foreach: listOfRoles = ko.observableArray(userRoleList), click: $parent.onLink, attr: { value: id }">
                     <span data-bind="text: name"></span>
                 </td>
             </tr>

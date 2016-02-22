@@ -6,6 +6,7 @@ import models.User;
 import models.UserRole;
 import org.apache.commons.lang3.StringUtils;
 import org.mindrot.jbcrypt.BCrypt;
+import play.data.validation.Constraints;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -15,7 +16,12 @@ import java.util.Objects;
  */
 public class EmployeeDTO extends AccountDTO {
     public String id;
+
+    @Constraints.Required
+    @Constraints.MaxLength(40)
+    @Constraints.MinLength(8)
     public String password;
+
     public String roles;
 
     public static User getUser(EmployeeDTO userDTO, User user) {
