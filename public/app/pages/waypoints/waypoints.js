@@ -25,8 +25,8 @@ define(['app/service/waybillService', 'app/service/navService', "knockout", 'app
 
             function initialize() {
                 var center;
-                if(self.controlPoints.length > 0 )
-                    center = google.maps.LatLng(self.controlPoints()[0].lat,self.controlPoints()[0].lng);
+                if(self.controlPoints().length > 0 )
+                    center = new google.maps.LatLng(self.controlPoints()[0].lat,self.controlPoints()[0].lng);
                 else center =  new google.maps.LatLng(51.508742, -0.120850);
                 var lastPoint = center;
                 var mapProp = {
@@ -50,7 +50,7 @@ define(['app/service/waybillService', 'app/service/navService', "knockout", 'app
                         animation: google.maps.Animation.BOUNCE,
                         map: map
                     });
-                    geocodeLatLng(geocoder, self.controlPoints()[i], i);
+                   geocodeLatLng(geocoder, self.controlPoints()[i], i);
                 }
 
                 var directionsDisplay = new google.maps.DirectionsRenderer({
@@ -80,7 +80,8 @@ define(['app/service/waybillService', 'app/service/navService', "knockout", 'app
                             directionsDisplay.setDirections(response);
                             var route = response.routes[0];
                         } else {
-                            window.alert('Directions request failed due to ' + status);
+                            console.log('Directions request failed due to ' + status);
+                            //window.alert('Directions request failed due to ' + status);
                         }
                     });
 
@@ -116,10 +117,11 @@ define(['app/service/waybillService', 'app/service/navService', "knockout", 'app
                         if (results[1]) {
                             self.address.push(results[1].formatted_address);
                         } else {
-                            window.alert('No results found');
+                            //window.alert('No results found');
                         }
                     } else {
-                        window.alert('Geocoder failed due to: ' + status);
+                       // setTimeout(geocodeLatLng(geocoder, latlng, i) , 1000);
+                        //window.alert('Geocoder failed due to: ' + status);
                     }
                 });
             }
