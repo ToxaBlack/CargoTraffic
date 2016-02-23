@@ -114,17 +114,20 @@ define(['app/service/vehiclesService','app/service/navService', "knockout", 'app
                 $('#vehicleModal').modal();
             };
 
+
             self.deleteVehicles = function () {
+                this.disabled = true;
+                if (self.checkedVehicles().length === 0) return;
                 vehiclesService.remove(
                     self.checkedVehicles(),
                     function () {
                         var tempArray = self.vehicles().slice();
-                        $.each(tempArray, function (index, element) {
-                            if ($.inArray(element.id.toString(), self.checkedVehicles()) !== -1) {
-                                tempArray.splice(index, 1);
-                                return;
+                        for (var i = 0; i < tempArray.length; i++) {
+                            if ($.inArray(tempArray[i].id.toString(), self.checkedVehicles()) !== -1) {
+                                tempArray.splice(i, 1);
+                                i--;
                             }
-                        });
+                        }
                         if (tempArray.length === 0) {
                             if (self.hasPreviousPage() && self.hasNextPage()) {
                                 self.previousPage();
@@ -141,6 +144,8 @@ define(['app/service/vehiclesService','app/service/navService', "knockout", 'app
                             } else {
                                 self.vehicles([]);
                             }
+                        } else {
+                            self.vehicles(tempArray);
                         }
                         self.checkedVehicles([]);
                     },
