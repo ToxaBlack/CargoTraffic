@@ -6,8 +6,6 @@ import play.Logger;
 import play.db.jpa.JPA;
 import repository.UserRepository;
 
-import java.util.List;
-
 /**
  * Created by Anton Chernov on 12/29/2015.
  */
@@ -20,20 +18,10 @@ public class UserService {
         userRepository = new UserRepository();
     }
 
-    public List<User> getUserList() throws ServiceException {
-        LOGGER.debug("Get user list");
-        try {
-            return JPA.withTransaction(() -> userRepository.findAll());
-        } catch (Throwable throwable) {
-            LOGGER.error("Get user list error = {}", throwable.getMessage());
-            throw new ServiceException(throwable.getMessage(), throwable);
-        }
-    }
-
     public User find(long id) throws ServiceException {
         LOGGER.debug("Get user with id = {}", id);
         try {
-            return JPA.withTransaction(() -> userRepository.find(id));
+            return JPA.withTransaction(() -> userRepository.getUser(id));
         } catch (Throwable throwable) {
             LOGGER.error("Find user id = {}, error = {}", id, throwable.getMessage());
             throw new ServiceException(throwable.getMessage(), throwable);

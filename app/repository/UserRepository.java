@@ -5,6 +5,7 @@ import models.UserRole;
 import org.apache.commons.collections4.CollectionUtils;
 import play.Logger;
 import play.db.jpa.JPA;
+import play.mvc.Http;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
@@ -23,10 +24,7 @@ import java.util.Objects;
 public class UserRepository {
     private static final Logger.ALogger LOGGER = Logger.of(UserRepository.class);
 
-    public User find(long id) {
-        EntityManager em = JPA.em();
-        return em.find(User.class, id);
-    }
+
 
     public User findByUsername(String name) {
         EntityManager em = JPA.em();
@@ -34,23 +32,13 @@ public class UserRepository {
         CriteriaQuery<User> query = builder.createQuery(User.class);
         Root<User> u = query.from(User.class);
         query.select(u).where(builder.equal(u.get("username"), name));
+      //  query.select(u).where(builder.equal(u.get("deleted"), false));
         TypedQuery<User> q = em.createQuery(query);
         List<User> userList = q.getResultList();
         if (CollectionUtils.isNotEmpty(userList)) return userList.get(0);
         return null;
     }
 
-    public List<User> findAll() {
-        EntityManager em = JPA.em();
-        CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();
-        CriteriaQuery<User> criteriaQuery = criteriaBuilder.createQuery(User.class);
-        Root<User> from = criteriaQuery.from(User.class);
-
-        CriteriaQuery<User> select = criteriaQuery.select(from);
-        TypedQuery<User> q = em.createQuery(select);
-
-        return q.getResultList();
-    }
 
     public void update(User user) {
         EntityManager em = JPA.em();
@@ -60,14 +48,17 @@ public class UserRepository {
     public List<User> getList(long companyId, long id, int count, boolean ascOrder) {
         EntityManager em = JPA.em();
         StringBuilder stringBuilder = new StringBuilder("SELECT u FROM User u WHERE u.company.id = ? AND u.deleted = false AND ");
+        stringBuilder.append(" u.id != ? AND ");
         if (ascOrder) {
             stringBuilder.append("u.id >= ? ORDER BY u.id ASC");
         } else {
             stringBuilder.append("u.id < ? ORDER BY u.id DESC");
         }
+
         Query query = em.createQuery(stringBuilder.toString());
         query.setParameter(1, companyId);
-        query.setParameter(2, id);
+        query.setParameter(2, ((User)Http.Context.current().args.get("user")).id);
+        query.setParameter(3, id);
         query.setMaxResults(count);
         List<User> users = query.getResultList();
         if (!ascOrder)
