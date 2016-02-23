@@ -9,6 +9,7 @@ define(['jquery'],
 
         function createWarningMessage(message) {
             var placeholder = $('.message_placeholder');
+            placeholder.stop(true,true);
             placeholder.fadeIn();
             placeholder.html('<div class="alert alert-warning fade in">'+
                '<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>'+
@@ -18,6 +19,7 @@ define(['jquery'],
 
         function createSuccessMessage(message) {
             var placeholder = $('.message_placeholder');
+            placeholder.stop(true,true);
             placeholder.fadeIn();
             placeholder.html('<div class="alert alert-success fade in">'+
                 '<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>'+
@@ -27,6 +29,7 @@ define(['jquery'],
 
         function createInfoMessage(message) {
             var placeholder = $('.message_placeholder');
+            placeholder.stop(true,true);
             placeholder.fadeIn();
             placeholder.html('<div class="alert alert-info fade in">'+
                 '<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>'+
@@ -36,6 +39,7 @@ define(['jquery'],
 
         function createErrorMessage(message) {
             var placeholder = $('.message_placeholder');
+            placeholder.stop(true,true);
             placeholder.fadeIn();
             placeholder.html('<div class="alert alert-danger fade in">'+
                 '<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>'+

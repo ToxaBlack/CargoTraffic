@@ -102,7 +102,6 @@ define(['app/service/waybillService', 'app/service/navService', 'app/service/bar
                 self.goods().forEach(function(product,i,goods){
                    if(product.lastQuantity()!=0) {
                        messageUtil.createWarningMessage("Some products are not in vehicle");
-                       console.log("opana");
                        productsInVehicles = false;}
                 });
                 return validator.form() && productsInVehicles;
@@ -327,7 +326,7 @@ define(['app/service/waybillService', 'app/service/navService', 'app/service/bar
               }
             );
 
-            $('#btnSendAll').click(
+            $('#btnSendAll').one("click",
               function(){
                   waybillService.save(
                       ko.toJS(self.waybill().manager),
