@@ -90,7 +90,7 @@ public class WaybillRepository {
 
     public WaybillVehicleDriver getWVDByDriver(User user) {
         EntityManager em = JPA.em();
-        TypedQuery<WaybillVehicleDriver> query = em.createQuery("Select wvd From WaybillVehicleDriver wvd JOIN wvd.waybill w " +
+        TypedQuery<WaybillVehicleDriver> query = em.createQuery("Select wvd From WaybillVehicleDriver wvd JOIN fetch wvd.waybill w " +
                 "WHERE wvd.driver = :user AND wvd.waybill.status = :status ",WaybillVehicleDriver.class);
         query.setParameter("user", user);
         query.setMaxResults(1);
