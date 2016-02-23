@@ -87,7 +87,7 @@ INSERT INTO `user_role` (user_id, role_id) VALUES
   (5, 3),
   (6, 4),
   (7, 5),
-  (8, 6);
+  (34, 6);
 
 INSERT INTO `vehicle_type` (`name`) VALUES
   ("Box"),
