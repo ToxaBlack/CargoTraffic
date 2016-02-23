@@ -11,7 +11,7 @@ define(['app/service/employeesService','app/service/navService', "knockout", 'ap
             self.EMPLOYEES_PER_PAGE = 10;
             self.edit =  ko.observableArray([]);
             self.rolesList = ko.observableArray(['admin','dispatcher','manager','driver','director']);
-            self.selectedRole = ko.observableArray();
+            self.selectedRole = ko.observableArray([]);
 
             self.checkedEmployees = ko.observableArray([]);
             self.allChecked = ko.computed(function () {
@@ -125,8 +125,9 @@ define(['app/service/employeesService','app/service/navService', "knockout", 'ap
                     function (data) {
                         self.edit(data);
                         self.edit().id = attr.id;
+                        self.selectedRole.removeAll();
                         self.selectedRole.push(attr.userRoleList[0].name.toLowerCase());
-                        $('#editModal').modal();
+                        setTimeout($('#editModal').modal(), 500);
                     },
                     function (data) {navService.catchError(data);}
                 );
