@@ -164,9 +164,10 @@ define(['app/service/waybillService', 'app/service/navService', "knockout", 'app
                     self.checkedWays(),
                     self.controlPoints(),
                     function(){
-                        self.checkedWays = ko.observableArray([]);
-                        self.controlPoints = ko.observableArray([]);
-                        self.waypoints = ko.observableArray([]);
+                        //self.checkedWays = ko.observableArray([]);
+                        //self.controlPoints = ko.observableArray([]);
+                        //self.waypoints = ko.observableArray([]);
+                        navService.navigateTo("checkDelivery");
                     },
                     function (data) {navService.catchError(data);}
             )

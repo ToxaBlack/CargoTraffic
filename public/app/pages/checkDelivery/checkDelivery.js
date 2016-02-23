@@ -18,7 +18,6 @@ define(['app/service/driverService','app/service/navService' ,'app/service/barSe
                         self.lostProducts.push(new models.CheckProduct(item.id,item.name,diff, item.unit));
                     }
                 });
-                console.log(ko.toJSON(self.lostProducts()));
             };
 
             self.checkEnable = ko.computed(function() {
@@ -36,7 +35,7 @@ define(['app/service/driverService','app/service/navService' ,'app/service/barSe
             self.confirm = function () {
                 driverService.completeDelivery(
                     function () {
-                        navService.navigateTo("checkpoints");
+                        navService.navigateTo("waypoints");
                     },
                     function (data) {
                         navService.catchError(data);

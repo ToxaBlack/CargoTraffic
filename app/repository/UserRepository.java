@@ -29,12 +29,6 @@ public class UserRepository {
         query.setParameter(1, name);
         query.setParameter(2, false);
         query.setParameter(3, false);
-         /*
-        CriteriaBuilder builder = em.getCriteriaBuilder();
-        CriteriaQuery<User> query = builder.createQuery(User.class);
-        Root<User> u = query.from(User.class);
-        query.select(u).where(builder.equal(u.get("username"), name));
-        query.select(u).where(builder.equal(u.get("deleted"), false));*/
         List<User> userList = query.getResultList();
         if (CollectionUtils.isNotEmpty(userList)) return userList.get(0);
         return null;
