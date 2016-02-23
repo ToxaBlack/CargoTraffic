@@ -4,10 +4,10 @@
 
 
 INSERT INTO `cargo_traffic`.`company` (name, date, transportation_cost_per_km) VALUES
-("TradeCorp", "2015-01-01 10-00-00", '12.34'),
-("TravelInc", "2010-01-01 11-00-00", '12.34'),
-("SomeInc", "2005-01-01 12-00-00", '12.34'),
-("Test", "2000-01-01 13-00-00", '12.34');
+('TradeCorp', '2015-01-01 10-00-00', '12.34'),
+('TravelInc', '2010-01-01 11-00-00', '12.34'),
+('SomeInc', '2005-01-01 12-00-00', '12.34'),
+('Test', '2000-01-01 13-00-00', '12.34');
 INSERT INTO `cargo_traffic`.`company` (`id`, `name`, `date`, `locked`) VALUES ('5', 'Innovations Group', '2000-01-01 13:00:00', 0);
 INSERT INTO `cargo_traffic`.`company` (`id`, `name`, `date`, `locked`) VALUES ('6', 'Inweb24', '2005-01-01 12:00:00', 0);
 INSERT INTO `cargo_traffic`.`company` (`id`, `name`, `date`, `locked`) VALUES ('7', 'Vitamark', '2005-01-01 12:00:00', 0);
@@ -29,27 +29,27 @@ INSERT INTO `cargo_traffic`.`company` (`id`, `name`, `date`, `locked`) VALUES ('
 
 
 INSERT INTO `address` (country, city, street, house, flat) VALUES
-  ("Belarus", "Minsk", "blabla", "12", "1"),
-  ("Russia", "Moscow", "Sovetskaya", "24", null),
-  ("Ukraine", "Kiev", "B.Xmelniskaga", "24", null),
-  ("Belarus", "Minsk", "Lenina", "3", null),
-  ("Belarus", "Mozyr", "Kirova", "10", null);
+  ('Belarus', 'Minsk', 'blabla', '12', '1'),
+  ('Russia', 'Moscow', 'Sovetskaya', '24', null),
+  ('Ukraine', 'Kiev', 'B.Xmelniskaga', '24', null),
+  ('Belarus', 'Minsk', 'Lenina', '3', null),
+  ('Belarus', 'Mozyr', 'Kirova', '10', null);
 
 INSERT INTO `cargo_traffic`.`warehouse` (name,address_id) VALUES
-  ("Торговая сила",2),
-  ("IBM",3),
-  ("Ашан",4),
-  ("Склад 11",5);
+  ('Торговая сила',2),
+  ('IBM',3),
+  ('Ашан',4),
+  ('Склад 11',5);
 
 
 INSERT INTO `cargo_traffic`.`user` (username, password, name, surname, patronymic, email, birthday, company_id, address_id) VALUES
-  ("sys_admin", "$2a$10$nsE/Rt.2CteTvuLVvp64y.PC2y4/lcGGSIODMAvlCsew6stOoWMFi", "poll", "simson", "васильевич", "test@mail.ru", "1994-1-6", NULL, 1),
-  ("admin1", "$2a$10$ipSFEtPaAjLraBNNezM5UuZImzmjWdQVbFkGMiTLWjoj3HceSh1cS", "tom", "brown", "васильевич", "test@mail.ru", "1994-1-6", 1, 1),
-  ("admin2", "$2a$10$91Y1.6P1D.q67quSRfykuOBvS7NJSHAU.YsXXbLdKeugYcpizvyy.", "bob", "black", "васильевич", "test@mail.ru", "1994-1-6", 2, 1),
-  ("admin3", "$2a$10$tNaKU9sTQJXOgqDso7hameAHdruldJEwtXJOmOo89dR7bzFLTuYQG", "robert", "cottrell", "васильевич", "test@mail.ru", "1994-1-6", 3, 1),
-  ("dispatcher", "$2a$10$Mgs4qaUzqPIIm8TrkIX0ReeVP/1yENNpywjQ3UwWxWgZfmRFUO0ly", "chris", "richards", "васильевич", "test@mail.ru", "1994-1-6", 2, 1),
-  ("manager", "$2a$10$NUbCCT3pBeGnr..Lla7hauWKNpaM.dIalrDUCqeWhKo2DeIZaqUVW", "tom", "brown", "васильевич", "test@mail.ru", "1994-1-6", 2, 1),
-  ("driver", "$2a$10$oKnV374KGmKCBOE0CbYiHeSnV3M9HaBpEXK./rForcOh5yYA4wfR.", "chris", "richards", "васильевич", "test@mail.ru", "1994-1-6", 2, 1);
+  ('sys_admin', '$2a$10$nsE/Rt.2CteTvuLVvp64y.PC2y4/lcGGSIODMAvlCsew6stOoWMFi', 'poll', 'simson', 'васильевич', 'test@mail.ru', '1994-1-6', NULL, 1),
+  ('admin1', '$2a$10$ipSFEtPaAjLraBNNezM5UuZImzmjWdQVbFkGMiTLWjoj3HceSh1cS', 'tom', 'brown', 'васильевич', 'test@mail.ru', '1994-1-6', 1, 1),
+  ('admin2', '$2a$10$91Y1.6P1D.q67quSRfykuOBvS7NJSHAU.YsXXbLdKeugYcpizvyy.', 'bob', 'black', 'васильевич', 'test@mail.ru', '1994-1-6', 2, 1),
+  ('admin3', '$2a$10$tNaKU9sTQJXOgqDso7hameAHdruldJEwtXJOmOo89dR7bzFLTuYQG', 'robert', 'cottrell', 'васильевич', 'test@mail.ru', '1994-1-6', 3, 1),
+  ('dispatcher', '$2a$10$Mgs4qaUzqPIIm8TrkIX0ReeVP/1yENNpywjQ3UwWxWgZfmRFUO0ly', 'chris', 'richards', 'васильевич', 'test@mail.ru', '1994-1-6', 2, 1),
+  ('manager', '$2a$10$NUbCCT3pBeGnr..Lla7hauWKNpaM.dIalrDUCqeWhKo2DeIZaqUVW', 'tom', 'brown', 'васильевич', 'test@mail.ru', '1994-1-6', 2, 1),
+  ('driver', '$2a$10$oKnV374KGmKCBOE0CbYiHeSnV3M9HaBpEXK./rForcOh5yYA4wfR.', 'chris', 'richards', 'васильевич', 'test@mail.ru', '1994-1-6', 2, 1);
 INSERT INTO `cargo_traffic`.`user` (`id`, `username`, `password`, `name`, `surname`, `patronymic`, `email`, `birthday`, `company_id`, `address_id`, `deleted`) VALUES ('8', 'admin6', '$2a$04$FVPXZWib4gwMLUmbiKcBA.A1RzNjHoRglRZgg/20VkevIEpI1upBu', 'Людмила', 'Сысоева', 'Антоновна', 'test@mail.ru', '1994-01-06', '6', '1', 0);
 INSERT INTO `cargo_traffic`.`user` (`id`, `username`, `password`, `name`, `surname`, `patronymic`, `email`, `birthday`, `company_id`, `address_id`, `deleted`) VALUES ('9', 'dispatcher6', '$2a$04$9vrGgGiIs/5CqfH8j4VBQOmOgS7aJ6T2pqOiCPNECWTTmRB0rftOO', 'Александр', 'Наумов', 'Степанович', 'test@mail.ru', '1994-01-06', '6', '1', 0);
 INSERT INTO `cargo_traffic`.`user` (`id`, `username`, `password`, `name`, `surname`, `patronymic`, `email`, `birthday`, `company_id`, `address_id`, `deleted`) VALUES ('10', 'manager6', '$2a$04$2svmKvr0BGmrvUd2VXpaq.o1Wyzgn34VthuHMBIy6GYaf3.u01coi', 'Сергей', 'Власов', 'Степанович', 'test@mail.ru', '1994-01-06', '6', '1', 0);
@@ -76,7 +76,7 @@ INSERT INTO `cargo_traffic`.`user` (`id`, `username`, `password`, `name`, `surna
 INSERT INTO `cargo_traffic`.`user` (`id`, `username`, `password`, `name`, `surname`, `patronymic`, `email`, `birthday`, `company_id`, `address_id`, `deleted`) VALUES ('31', 'driver75', '$2a$04$Gon1.dRGbErcFEJEza8RiusqMpNd.2AhQLuVwMSb6IJe1hSdHgyMq', 'Марина', 'Носова', 'Александровна', 'test@mail.ru', '1994-01-06', '7', '1', 0);
 INSERT INTO `cargo_traffic`.`user` (`id`, `username`, `password`, `name`, `surname`, `patronymic`, `email`, `birthday`, `company_id`, `address_id`, `deleted`) VALUES ('32', 'driver76', '$2a$04$dnG7jWaOLJ47rfqoinfkn.zIFsraj.u25usvX77ClTQ0aLSLNXNLW', 'Людмила', 'Зиновьева', 'Александровна', 'test@mail.ru', '1994-01-06', '7', '1', 0);
 INSERT INTO `cargo_traffic`.`user` (`id`, `username`, `password`, `name`, `surname`, `patronymic`, `email`, `birthday`, `company_id`, `address_id`, `deleted`) VALUES ('33', 'driver77', '$2a$04$rY7s3S./AiaqldQor9F3beUHZH6xNhHPMyNIYi.o8DrFBUthtL4AO', 'Александр', 'Трофимов', 'Александрович', 'test@mail.ru', '1994-01-06', '7', '1', 0);
-INSERT INTO `cargo_traffic`.`user` (username, password, name, surname, patronymic, email, birthday, company_id, address_id) VALUES ("director", "$2a$04$kNbVmykHyClRxbvnr.2Ap.WjrydK8GL8BMEpNk4JyQAMcqUYlRIhq", "chris", "richards", "васильевич", "test@mail.ru", "1994-1-6", 2, 1);
+INSERT INTO `cargo_traffic`.`user` (username, password, name, surname, patronymic, email, birthday, company_id, address_id) VALUES ('director', '$2a$04$kNbVmykHyClRxbvnr.2Ap.WjrydK8GL8BMEpNk4JyQAMcqUYlRIhq', 'chris', 'richards', 'васильевич', 'test@mail.ru', '1994-1-6', 2, 1);
 
 
 INSERT INTO `user_role` (user_id, role_id) VALUES
@@ -90,20 +90,20 @@ INSERT INTO `user_role` (user_id, role_id) VALUES
   (8, 6);
 
 INSERT INTO `vehicle_type` (`name`) VALUES
-  ("Box"),
-  ("Refrigerator"),
-  ("Tank");
+  ('Box'),
+  ('Refrigerator'),
+  ('Tank');
 
 INSERT INTO `vehicle_fuel` (`name`, `cost`) VALUES
-  ("Diesel", "25.03"),
-  ("Bio-diesel", "22.34"),
-  ("Petrol-95", "20.45"),
-  ("Petrol-98", "21.23");
+  ('Diesel', '25.03'),
+  ('Bio-diesel', '22.34'),
+  ('Petrol-95', '20.45'),
+  ('Petrol-98', '21.23');
 
 INSERT INTO `vehicle` (`vehicle_producer`, `vehicle_model`, `license_plate`, `products_constraint`, `fuel_consumption`, `company_id`, `vehicle_type_id`, `vehicle_fuel_id`, `deleted`) VALUES
-  ("Man", "A123", "1234-AB", 1234.3, 15.3, 1, 2, 3, 0),
-  ("Man", "B234", "6543-QW", 2345.6, 20.5, 1, 2, 1, 0),
-  ("Man", "C345", "4567-RT", 3456.75, 17.8, 2, 3, 4, 0);
+  ('Man', 'A123', '1234-AB', 1234.3, 15.3, 1, 2, 3, 0),
+  ('Man', 'B234', '6543-QW', 2345.6, 20.5, 1, 2, 1, 0),
+  ('Man', 'C345', '4567-RT', 3456.75, 17.8, 2, 3, 4, 0);
 
 INSERT INTO `cargo_traffic`.`vehicle` (`id`, `vehicle_producer`, `vehicle_model`, `license_plate`, `products_constraint`, `fuel_consumption`, `company_id`, `vehicle_type_id`, `vehicle_fuel_id`, `deleted`) VALUES ('4', 'Woman', 'B234', '4536-DF', '3456.75', '20.50', '6', '3', '2', 0);
 INSERT INTO `cargo_traffic`.`vehicle` (`id`, `vehicle_producer`, `vehicle_model`, `license_plate`, `products_constraint`, `fuel_consumption`, `company_id`, `vehicle_type_id`, `vehicle_fuel_id`, `deleted`) VALUES ('5', 'Woman', 'C345', '6466-DS', '3456.75', '15.30', '7', '3', '1', 0);
