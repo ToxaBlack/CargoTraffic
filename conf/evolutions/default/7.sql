@@ -3,11 +3,11 @@
 # --- !Ups
 
 
-INSERT INTO `cargo_traffic`.`company` (name, date) VALUES
-  ("TradeCorp", "2015-01-01 10-00-00"),
-  ("TravelInc", "2010-01-01 11-00-00"),
-  ("SomeInc", "2005-01-01 12-00-00"),
-  ("Test", "2000-01-01 13-00-00");
+INSERT INTO `cargo_traffic`.`company` (name, date, transportation_cost_per_km) VALUES
+("TradeCorp", "2015-01-01 10-00-00", '12.34'),
+("TravelInc", "2010-01-01 11-00-00", '12.34'),
+("SomeInc", "2005-01-01 12-00-00", '12.34'),
+("Test", "2000-01-01 13-00-00", '12.34');
 INSERT INTO `cargo_traffic`.`company` (`id`, `name`, `date`, `locked`) VALUES ('5', 'Innovations Group', '2000-01-01 13:00:00', 0);
 INSERT INTO `cargo_traffic`.`company` (`id`, `name`, `date`, `locked`) VALUES ('6', 'Inweb24', '2005-01-01 12:00:00', 0);
 INSERT INTO `cargo_traffic`.`company` (`id`, `name`, `date`, `locked`) VALUES ('7', 'Vitamark', '2005-01-01 12:00:00', 0);
@@ -42,7 +42,7 @@ INSERT INTO `cargo_traffic`.`warehouse` (name,address_id) VALUES
   ("Склад 11",5);
 
 
-INSERT INTO `user` (username, password, name, surname, patronymic, email, birthday, company_id, address_id) VALUES
+INSERT INTO `cargo_traffic`.`user` (username, password, name, surname, patronymic, email, birthday, company_id, address_id) VALUES
   ("sys_admin", "$2a$10$nsE/Rt.2CteTvuLVvp64y.PC2y4/lcGGSIODMAvlCsew6stOoWMFi", "poll", "simson", "васильевич", "test@mail.ru", "1994-1-6", NULL, 1),
   ("admin1", "$2a$10$ipSFEtPaAjLraBNNezM5UuZImzmjWdQVbFkGMiTLWjoj3HceSh1cS", "tom", "brown", "васильевич", "test@mail.ru", "1994-1-6", 1, 1),
   ("admin2", "$2a$10$91Y1.6P1D.q67quSRfykuOBvS7NJSHAU.YsXXbLdKeugYcpizvyy.", "bob", "black", "васильевич", "test@mail.ru", "1994-1-6", 2, 1),
@@ -76,6 +76,8 @@ INSERT INTO `cargo_traffic`.`user` (`id`, `username`, `password`, `name`, `surna
 INSERT INTO `cargo_traffic`.`user` (`id`, `username`, `password`, `name`, `surname`, `patronymic`, `email`, `birthday`, `company_id`, `address_id`, `deleted`) VALUES ('31', 'driver75', '$2a$04$Gon1.dRGbErcFEJEza8RiusqMpNd.2AhQLuVwMSb6IJe1hSdHgyMq', 'Марина', 'Носова', 'Александровна', 'test@mail.ru', '1994-01-06', '7', '1', 0);
 INSERT INTO `cargo_traffic`.`user` (`id`, `username`, `password`, `name`, `surname`, `patronymic`, `email`, `birthday`, `company_id`, `address_id`, `deleted`) VALUES ('32', 'driver76', '$2a$04$dnG7jWaOLJ47rfqoinfkn.zIFsraj.u25usvX77ClTQ0aLSLNXNLW', 'Людмила', 'Зиновьева', 'Александровна', 'test@mail.ru', '1994-01-06', '7', '1', 0);
 INSERT INTO `cargo_traffic`.`user` (`id`, `username`, `password`, `name`, `surname`, `patronymic`, `email`, `birthday`, `company_id`, `address_id`, `deleted`) VALUES ('33', 'driver77', '$2a$04$rY7s3S./AiaqldQor9F3beUHZH6xNhHPMyNIYi.o8DrFBUthtL4AO', 'Александр', 'Трофимов', 'Александрович', 'test@mail.ru', '1994-01-06', '7', '1', 0);
+INSERT INTO `cargo_traffic`.`user` (username, password, name, surname, patronymic, email, birthday, company_id, address_id) VALUES ("director", "$2a$04$kNbVmykHyClRxbvnr.2Ap.WjrydK8GL8BMEpNk4JyQAMcqUYlRIhq", "chris", "richards", "васильевич", "test@mail.ru", "1994-1-6", 2, 1);
+
 
 INSERT INTO `user_role` (user_id, role_id) VALUES
   (1, 1),
@@ -84,7 +86,8 @@ INSERT INTO `user_role` (user_id, role_id) VALUES
   (4, 2),
   (5, 3),
   (6, 4),
-  (7, 5);
+  (7, 5),
+  (8, 6);
 
 INSERT INTO `vehicle_type` (`name`) VALUES
   ("Box"),

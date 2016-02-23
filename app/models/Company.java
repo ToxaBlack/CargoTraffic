@@ -24,5 +24,9 @@ public class Company {
     public Date date;
 
     @Constraints.Required
+    @Column(name = "transportation_cost_per_km")
+    public Double transportationCostPerKm;
+
+    @Constraints.Required
     public Boolean locked;
 }

@@ -15,6 +15,7 @@ import java.util.List;
  * Created by Olga on 15.02.2016.
  */
 public class WaypointRepository {
+
     public List<Waypoint> findByDriver(Long id) {
         EntityManager em = JPA.em();
         StringBuilder stringBuilder = new StringBuilder("SELECT w FROM Waypoint w, WaybillVehicleDriver wvd WHERE wvd.driver.id = ?")
@@ -30,7 +31,7 @@ public class WaypointRepository {
         return list;
     }
 
-    public void setChecked(List<Long> ids, boolean isChecked) {
+    public void setChecked(List<Long> ids, boolean isChecked) {         // TODO add: change status of WaybillVehicleDriver and Waypoint
         EntityManager em = JPA.em();
         StringBuilder stringBuilder = new StringBuilder("UPDATE Waypoint w SET w.status = ? WHERE w.id in (");
         for (Long id : ids) {

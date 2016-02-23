@@ -21,5 +21,24 @@ CREATE TABLE IF NOT EXISTS `cargo_traffic`.`lost_product` (
   DEFAULT CHARACTER SET = utf8mb4;
 
 
+CREATE TABLE IF NOT EXISTS `cargo_traffic`.`financial_highlights` (
+  `id` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `delivered_date` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `transportation_income` DOUBLE(10,4) UNSIGNED NOT NULL,
+  `vehicle_fuel_loss` DOUBLE(10,4) UNSIGNED NOT NULL,
+  `products_loss` DOUBLE(10,4) UNSIGNED DEFAULT '0.00',
+  `profit` DOUBLE(10,4) UNSIGNED DEFAULT '0.00',
+  `waybill_vehicle_driver_id` INT(11) UNSIGNED NOT NULL,
+  PRIMARY KEY (`id`),
+  INDEX (`waybill_vehicle_driver_id` ASC),
+  FOREIGN KEY (`waybill_vehicle_driver_id`)
+  REFERENCES `cargo_traffic`.`waybill_vehicle_driver` (`id`)
+    ON DELETE RESTRICT
+    ON UPDATE RESTRICT)
+  ENGINE = InnoDB
+  DEFAULT CHARACTER SET = utf8mb4;
+
+
 # --- !Downs
+DROP TABLE IF EXISTS `cargo_traffic`.`financial_highlights`;
 DROP TABLE IF EXISTS `cargo_traffic`.`lost_product`;

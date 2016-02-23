@@ -39,7 +39,7 @@ public class LostProduct implements Serializable {
         if (this == obj) return true;
         if (obj == null || getClass() != obj.getClass()) return false;
 
-        ProductInWaybill that = (ProductInWaybill) obj;
+        ProductInWaybill that = (ProductInWaybill) obj;         // TODO wtf
 
         return (product != null ? product.equals(that.product) : that.product == null)
                 && (driver != null ? driver.equals(that.waybillVehicleDriver) : that.waybillVehicleDriver == null)
