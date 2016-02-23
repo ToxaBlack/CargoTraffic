@@ -336,8 +336,7 @@ define(['app/service/waybillService', 'app/service/navService', 'app/service/bar
                       ko.toJS(self.waybill().packingListId),
                       ko.toJS(self.waypoints()),
                       function(){
-                          self.waybill = ko.observableArray([]);
-                          self.waypoints = ko.observableArray([]);
+                          navService.mainPage();
                       },
                       function (data) {navService.catchError(data);}
                   );
