@@ -10,6 +10,7 @@ import play.mvc.Http;
 import repository.MoneyRepository;
 
 import javax.inject.Inject;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -21,7 +22,7 @@ public class MoneyService {
     @Inject
     MoneyRepository moneyRepository;
 
-    public List<FinancialHighlights> getFinancialHighlights(Long minDate, Long maxDate) throws ServiceException {
+    public List<FinancialHighlights> getFinancialHighlights(Date minDate, Date maxDate) throws ServiceException {
         LOGGER.debug("Get financial highlights: {}, {}", minDate, maxDate);
         try {
             return JPA.withTransaction(() -> {

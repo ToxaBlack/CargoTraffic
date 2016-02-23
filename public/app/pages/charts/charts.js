@@ -40,6 +40,7 @@ define(['highcharts', 'jqueryUI', 'excel-builder', 'swfobject', 'downloadify', '
                     if (value - current !== 0) {
                         $el.datepicker("setDate", value);
                     }
+                    self.updateChart();
                 }
             };
 
@@ -58,23 +59,6 @@ define(['highcharts', 'jqueryUI', 'excel-builder', 'swfobject', 'downloadify', '
                 }
             };
 
-
-            function getRandomInt(min, max) {
-                return Math.floor(Math.random() * (max - min + 1) + min);
-            }
-
-            var income = [];
-            var loss = [];
-            var profit = [];
-            for (var i = 0; i < 53; i++) {
-                income[i] = getRandomInt(0, 1000);
-            }
-            for (var i = 0; i < 53; i++) {
-                loss[i] = getRandomInt(0, 700);
-            }
-            for (var i = 0; i < 53; i++) {
-                profit[i] = income[i] - loss[i];
-            }
 
             var chartOptions = {
                 chart: {
@@ -130,19 +114,18 @@ define(['highcharts', 'jqueryUI', 'excel-builder', 'swfobject', 'downloadify', '
                 },
                 series: [{
                     name: 'Income',
-                    data: income,
+                    data: [],
                     pointStart: Date.UTC(self.maxDate().getFullYear(), self.minDate().getMonth(), self.minDate().getDate()),
                     pointInterval: 7 * 24 * 3600 * 1000 // one week
                 }, {
                     name: 'Loss',
-                    data: loss,
+                    data: [],
                     pointStart: Date.UTC(self.minDate().getFullYear(), self.minDate().getMonth(), self.minDate().getDate()),
                     pointInterval: 7 * 24 * 3600 * 1000
                 }, {
                     name: 'Profit',
-                    data: profit,
+                    data: [],
                     pointStart: Date.UTC(self.minDate().getFullYear(), self.minDate().getMonth(), self.minDate().getDate()),
-                    pointEnd: Date.UTC(self.minDate().getFullYear(), self.minDate().getMonth(), self.minDate().getDate()),
                     pointInterval: 7 * 24 * 3600 * 1000
                 }]
             };
@@ -150,6 +133,31 @@ define(['highcharts', 'jqueryUI', 'excel-builder', 'swfobject', 'downloadify', '
             var chart = new Highcharts.Chart(chartOptions);
 
 
+            self.updateChart = function() {
+                chartService.list(self.minDate().getTime(), self.maxDate().getTime(),
+                    function (data) {
+                        var income = [];
+                        var loss = [];
+                        var profit = [];
+                        for (var i = 0; i < data.length; i++) {
+                            income[i] = data[i].transportationIncome;
+                            loss[i] = data[i].vehicleFuelLoss + data[i].productsLoss;
+                            profit[i] = data[i].profit;
+                        }
+                        chart.series[0].setData(income, true);
+                        chart.series[1].setData(loss, true);
+                        chart.series[2].setData(profit, true);
+                        chart.xAxis[0].setExtremes(new Date(self.minDate().getFullYear(), self.minDate().getMonth(), self.minDate().getDate()),
+                            new Date(self.maxDate().getFullYear(), self.maxDate().getMonth(), self.maxDate().getDate()));
+                    },
+                    function (data) {
+                        navService.catchError(data);
+                    },
+                    function () {
+                        bar.go(100);
+                    }
+                );
+            };
 
 
 
@@ -229,6 +237,7 @@ define(['highcharts', 'jqueryUI', 'excel-builder', 'swfobject', 'downloadify', '
                 });
             }
 
+            self.updateChart();
             prepareXLSX();
 
             bar.go(100);

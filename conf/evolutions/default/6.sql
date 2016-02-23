@@ -27,6 +27,7 @@ CREATE TABLE IF NOT EXISTS `cargo_traffic`.`financial_highlights` (
   `transportation_income` DOUBLE(10,4) UNSIGNED NOT NULL,
   `vehicle_fuel_loss` DOUBLE(10,4) UNSIGNED NOT NULL,
   `products_loss` DOUBLE(10,4) UNSIGNED DEFAULT '0.00',
+  `profit` DOUBLE(10,4) UNSIGNED DEFAULT '0.00',
   `waybill_vehicle_driver_id` INT(11) UNSIGNED NOT NULL,
   PRIMARY KEY (`id`),
   INDEX (`waybill_vehicle_driver_id` ASC),

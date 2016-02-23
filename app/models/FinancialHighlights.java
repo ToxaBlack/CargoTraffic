@@ -27,4 +27,7 @@ public class FinancialHighlights {
 
     @Column(name = "products_loss")
     public Double productsLoss;
+
+    @Column(name = "profit")
+    public Double profit;
 }

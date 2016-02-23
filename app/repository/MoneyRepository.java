@@ -10,19 +10,24 @@ import play.db.jpa.JPA;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 
 public class MoneyRepository {
     private static final Logger.ALogger LOGGER = Logger.of(VehicleRepository.class);
 
-    public List<FinancialHighlights> getFinancialHighlights(Long minDate, Long maxDate, long companyId) {
+    public List<FinancialHighlights> getFinancialHighlights(Date minDate, Date maxDate, long companyId) {
         LOGGER.debug("Get financial highlights: {}, {}, {}", minDate, maxDate, companyId);
         EntityManager em = JPA.em();
-        TypedQuery<FinancialHighlights> query = em.createQuery("Select fh From FinancialHighlights fh" +
-                " WHERE fh.deliveredDate >= :minDate AND fh.deliveredDate < :maxDate", FinancialHighlights.class);
+        TypedQuery<FinancialHighlights> query = em.createQuery("Select fh From FinancialHighlights fh " +
+                "WHERE fh.deliveredDate >= :minDate " +
+                "AND fh.deliveredDate < :maxDate " +
+                "AND fh.waybillVehicleDriver.driver.company.id = :companyId",
+                FinancialHighlights.class);
         query.setParameter("minDate",minDate);
         query.setParameter("maxDate",maxDate);
+        query.setParameter("companyId",companyId);
         return query.getResultList();
     }
 

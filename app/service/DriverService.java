@@ -73,6 +73,8 @@ public class DriverService {
                     }
                 }
                 financialHighlights.productsLoss = totalLostProductsCost;
+                financialHighlights.profit = financialHighlights.transportationIncome -
+                        totalLostProductsCost - financialHighlights.vehicleFuelLoss;
                 moneyRepository.updateFinancialHighlights(financialHighlights);
 
                 //Check whether all cargo is delivered, then end up delivery

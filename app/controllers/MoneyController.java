@@ -14,6 +14,7 @@ import service.MoneyService;
 import service.VehicleService;
 
 import javax.inject.Inject;
+import java.util.Date;
 import java.util.List;
 
 import static play.mvc.Results.ok;
@@ -31,7 +32,7 @@ public class MoneyController {
         LOGGER.debug("Get financial highlights - minDate: {}, maxDate: {}", minDate, maxDate);
         List<FinancialHighlights> financialHighlightsList;
         try {
-            financialHighlightsList = moneyService.getFinancialHighlights(minDate, maxDate);
+            financialHighlightsList = moneyService.getFinancialHighlights(new Date(minDate), new Date(maxDate));
         } catch (ServiceException e) {
             LOGGER.error("error = {}", e.getMessage());
             throw new ControllerException(e.getMessage(), e);
