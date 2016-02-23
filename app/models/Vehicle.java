@@ -1,5 +1,6 @@
 package models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import play.data.validation.Constraints;
 
 import javax.persistence.*;
@@ -10,6 +11,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "vehicle")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Vehicle {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
