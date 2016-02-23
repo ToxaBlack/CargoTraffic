@@ -8,6 +8,7 @@ import exception.ControllerException;
 import models.Warehouse;
 import play.Logger;
 import play.libs.Json;
+import play.mvc.BodyParser;
 import play.mvc.Controller;
 import play.mvc.Http;
 import play.mvc.Result;
@@ -42,6 +43,7 @@ public class WarehouseController extends Controller {
     }
 
     @Restrict({@Group("DISPATCHER")})
+    @BodyParser.Of(BodyParser.Json.class)
     public Result addWarehouse() throws ControllerException {
         JsonNode json = request().body().asJson();
         if (Objects.isNull(json)) {
@@ -70,6 +72,7 @@ public class WarehouseController extends Controller {
     }
 
     @Restrict({@Group("DISPATCHER")})
+    @BodyParser.Of(BodyParser.Json.class)
     public Result editWarehouse() throws ControllerException {
         JsonNode json = request().body().asJson();
 
@@ -99,6 +102,7 @@ public class WarehouseController extends Controller {
     }
 
     @Restrict({@Group("DISPATCHER")})
+    @BodyParser.Of(BodyParser.Json.class)
     public Result removeWarehouse() throws ControllerException {
         JsonNode json = request().body().asJson();
 

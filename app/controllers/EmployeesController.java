@@ -3,10 +3,10 @@ package controllers;
 import be.objectify.deadbolt.java.actions.Group;
 import be.objectify.deadbolt.java.actions.Restrict;
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.node.ArrayNode;
 import dto.AccountDTO;
 import dto.EmployeeDTO;
 import exception.ControllerException;
+import exception.ServiceException;
 import models.User;
 import play.Logger;
 import play.libs.Json;
@@ -15,11 +15,9 @@ import play.mvc.Controller;
 import play.mvc.Http;
 import play.mvc.Result;
 import service.EmployeesService;
-import exception.ServiceException;
 
 import javax.inject.Inject;
-import java.util.ArrayList;
-import java.util.Iterator;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
@@ -81,22 +79,10 @@ public class EmployeesController extends Controller {
     }
 
     @Restrict({@Group("ADMIN")})
-    @BodyParser.Of(BodyParser.Json.class)
-    public Result removeEmployees() throws ControllerException {
-        JsonNode json = request().body().asJson();
-        if (Objects.isNull(json)) {
-            return badRequest("Expecting Json data");
-        }
-        ArrayNode idsNode = (ArrayNode) json;
-        Iterator<JsonNode> iterator = idsNode.elements();
-        List<Long> clientIds = new ArrayList<>();
-
-        while (iterator.hasNext()) {
-            clientIds.add(iterator.next().asLong());
-        }
-        if (clientIds.isEmpty()) return badRequest("Array is empty");
+    public Result removeEmployees(Long id) throws ControllerException {
+        if (Objects.isNull(id)) return badRequest();
         try {
-            employeeService.removeEmployees(clientIds);
+            employeeService.removeEmployees(Arrays.asList(id));
         } catch (ServiceException e) {
             LOGGER.error("error = {}", e.getMessage());
             throw new ControllerException(e.getMessage(), e);

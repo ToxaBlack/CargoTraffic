@@ -39,7 +39,7 @@ define(["app/utils/utils"],
             var remove = function (warehouses,done, error, always) {
                 utils.send(
                     "api/warehouses/remove",
-                    "PUT",
+                    "DELETE",
                     JSON.stringify({array:warehouses }),
                     done,
                     error,

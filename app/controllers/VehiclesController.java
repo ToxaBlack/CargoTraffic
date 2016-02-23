@@ -4,21 +4,21 @@ import be.objectify.deadbolt.java.actions.Group;
 import be.objectify.deadbolt.java.actions.Restrict;
 import be.objectify.deadbolt.java.actions.SubjectPresent;
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.node.ArrayNode;
 import exception.ControllerException;
+import exception.ServiceException;
 import models.User;
 import models.Vehicle;
-import org.apache.commons.collections4.CollectionUtils;
 import play.Logger;
 import play.libs.Json;
 import play.mvc.BodyParser;
 import play.mvc.Http;
 import play.mvc.Result;
-import exception.ServiceException;
 import service.VehicleService;
 
 import javax.inject.Inject;
-import java.util.*;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Objects;
 
 import static play.mvc.Controller.request;
 import static play.mvc.Results.badRequest;
@@ -103,32 +103,13 @@ public class VehiclesController {
     }
 
     @Restrict({@Group("ADMIN")})
-    public Result deleteVehicles() throws ControllerException {
+    public Result deleteVehicles(Long id) throws ControllerException {
         User oldUser = (User) Http.Context.current().args.get("user");
         LOGGER.debug("API delete vehicle", oldUser.toString());
-        JsonNode json = request().body().asJson();
-        if (Objects.isNull(json)) {
-            LOGGER.debug("Expecting Json data");
-            return badRequest("Expecting Json data");
-        }
-        ArrayNode vehicleIdsNode = (ArrayNode) json;
-        Iterator<JsonNode> iterator = vehicleIdsNode.elements();
-        List<Long> vehicleIds = new ArrayList<>();
+        if (Objects.isNull(id)) return badRequest();
+        LOGGER.debug("Delete vehicle id: {}", id);
         try {
-            while (iterator.hasNext()) {
-                vehicleIds.add(iterator.next().asLong());
-            }
-        } catch (RuntimeException e) {
-            LOGGER.debug("Incorrect Json data");
-            return badRequest("Incorrect Json data");
-        }
-        if (CollectionUtils.isEmpty(vehicleIds)) {
-            LOGGER.debug("Incorrect Json data");
-            return badRequest("Incorrect Json data");
-        }
-        LOGGER.debug("Delete vehicles id: {}", Arrays.toString(vehicleIds.toArray()));
-        try {
-            vehicleService.deleteVehicles(vehicleIds);
+            vehicleService.deleteVehicles(Arrays.asList(id));
         } catch (ServiceException e) {
             LOGGER.error("error = {}", e.getMessage());
             throw new ControllerException(e.getMessage(), e);

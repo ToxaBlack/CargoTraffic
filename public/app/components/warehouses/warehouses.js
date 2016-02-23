@@ -145,7 +145,7 @@ define(['app/utils/messageUtil','app/service/warehouseService', 'app/service/nav
                 warehouseService.remove(deletingWarehouse,
                     function () {
                         //Pass id of first row
-                        self.lastId = self.warehouses()[0].id;
+
 
                         self.warehouses.remove( function(item) {
                             return $.inArray(item.id.toString(), self.checkedWarehouses()) !== -1;
@@ -189,11 +189,9 @@ define(['app/utils/messageUtil','app/service/warehouseService', 'app/service/nav
                 if (!self.hasPreviousPage()) return;
 
                 //Check case, when user have deleted all rows in table
-                if(self.lastId) {
-                    var id = self.lastId;
-                } else {
-                    id = self.warehouses()[0].id;
-                }
+
+                var  id = self.warehouses()[0].id;
+
 
                 warehouseService.list(id, self.warehousesPerPage() + 1, false,
                     function (data) {

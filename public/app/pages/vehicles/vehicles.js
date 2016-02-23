@@ -19,13 +19,6 @@ define(['app/service/vehiclesService','app/service/navService', "knockout", 'app
             self.submitDialogButtonName = ko.observable("");
             self.error = ko.observable();
 
-            self.checkedVehicles = ko.observableArray([]);
-            self.allChecked = ko.computed(function () {
-                var success = $.grep(self.vehicles(), function (element, index) {
-                        return $.inArray(element.id.toString(), self.checkedVehicles()) !== -1;
-                    }).length === self.vehicles().length;
-                return success;
-            }, this);
 
             vehiclesService.list(1, self.VEHICLES_PER_PAGE + 1, true,
                 function (data) {
@@ -90,21 +83,6 @@ define(['app/service/vehiclesService','app/service/navService', "knockout", 'app
                     always);
             };
 
-            $('#selectAllCheckbox').on('click', function () {
-                if (!self.allChecked()) {
-                    $.each(self.vehicles(), function (index, element) {
-                        if ($.inArray(element.id.toString(), self.checkedVehicles()) === -1) {
-                            self.checkedVehicles.push(element.id.toString());
-                        }
-                    });
-                } else {
-                    $.each(self.vehicles(), function (index, element) {
-                        if ($.inArray(element.id.toString(), self.checkedVehicles()) !== -1) {
-                            self.checkedVehicles.remove(element.id.toString());
-                        }
-                    });
-                }
-            });
 
             self.addVehicleDialog = function () {
                 self.modalDialogVehicle({'vehicleFuel':{}, 'vehicleType':{}, 'company':{}});
@@ -115,15 +93,14 @@ define(['app/service/vehiclesService','app/service/navService', "knockout", 'app
             };
 
 
-            self.deleteVehicles = function () {
+            self.remove = function (attr) {
                 this.disabled = true;
-                if (self.checkedVehicles().length === 0) return;
                 vehiclesService.remove(
-                    self.checkedVehicles(),
+                    attr.id,
                     function () {
                         var tempArray = self.vehicles().slice();
                         for (var i = 0; i < tempArray.length; i++) {
-                            if ($.inArray(tempArray[i].id.toString(), self.checkedVehicles()) !== -1) {
+                            if (tempArray[i].id === attr.id) {
                                 tempArray.splice(i, 1);
                                 i--;
                             }
@@ -147,12 +124,10 @@ define(['app/service/vehiclesService','app/service/navService', "knockout", 'app
                         } else {
                             self.vehicles(tempArray);
                         }
-                        self.checkedVehicles([]);
                     },
-                    function (data) {
-                        navService.catchError(data);
-                    }
+                    function (data) {navService.catchError(data);}
                 );
+                this.disabled = false;
             };
 
             self.onLink = function (vehicle) {

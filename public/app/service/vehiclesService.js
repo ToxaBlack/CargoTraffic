@@ -25,11 +25,11 @@ define(["app/utils/utils"],
                 );
             };
 
-            var remove = function (ids, done, error, always) {
+            var remove = function (id, done, error, always) {
                 utils.send(
-                    "api/vehicles/delete",
-                    "PUT",
-                    JSON.stringify(ids),
+                    "api/vehicle/" + id,
+                    "DELETE",
+                    {},
                     done,
                     error,
                     always

@@ -13,14 +13,6 @@ define(['app/service/employeesService','app/service/navService', "knockout", 'ap
             self.rolesList = ko.observableArray(['admin','dispatcher','manager','driver','director']);
             self.selectedRole = ko.observableArray([]);
 
-            self.checkedEmployees = ko.observableArray([]);
-            self.allChecked = ko.computed(function () {
-                var success = $.grep(self.employees(), function (element, index) {
-                        return $.inArray(element.id.toString(), self.checkedEmployees()) !== -1;
-                    }).length === self.employees().length;
-                return success;
-            }, this);
-
             employeesService.get(
                 self.EMPLOYEES_PER_PAGE + 1,
                 function (data) {
@@ -79,46 +71,30 @@ define(['app/service/employeesService','app/service/navService', "knockout", 'ap
 
             };
 
-            $('#selectAllCheckbox').on('click', function () {
-                if (!self.allChecked()) {
-                    $.each(self.employees(), function (index, element) {
-                        if ($.inArray(element.id.toString(), self.checkedEmployees()) === -1) {
-                            self.checkedEmployees.push(element.id.toString());
-                        }
-                    });
-                } else {
-                    $.each(self.employees(), function (index, element) {
-                        if ($.inArray(element.id.toString(), self.checkedEmployees()) !== -1) {
-                            self.checkedEmployees.remove(element.id.toString());
-                        }
-                    });
-                }
-            });
 
             $('#addButton').on('click', function () {
                 navService.navigateTo("addEmployee");
             });
 
-            $('#removeButton').on('click', function () {
+
+            self.remove = function (attr) {
                 this.disabled = true;
-                if (self.checkedEmployees().length === 0) return;
                 employeesService.remove(
-                    self.checkedEmployees(),
+                    attr.id,
                     function () {
                         var tempArray = self.employees().slice();
                         for (var i = 0; i < tempArray.length; i++) {
-                            if ($.inArray(tempArray[i].id.toString(), self.checkedEmployees()) !== -1) {
+                            if (tempArray[i].id === attr.id) {
                                 tempArray.splice(i, 1);
                                 i--;
                             }
                         }
                         self.employees(tempArray);
-                        self.checkedEmployees([]);
                     },
                     function (data) {navService.catchError(data);}
                 );
                 this.disabled = false;
-            });
+            };
 
             self.onLink = function (attr) {
                 employeesService.getUser(
