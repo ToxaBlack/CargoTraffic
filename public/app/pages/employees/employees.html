@@ -36,6 +36,11 @@
             </tbody>
             </tbody>
         </table>
+        <div class="panel panel-default" data-bind="visible: employees().length === 0">
+            <div class="panel-body text-center">
+                List of employees is empty.
+            </div>
+        </div>
     </div>
 </div>
 

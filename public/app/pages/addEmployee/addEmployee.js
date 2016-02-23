@@ -10,6 +10,7 @@ define(['app/service/employeesService', 'app/service/navService', 'app/service/b
             self.rolesList = ko.observableArray(['Admin', 'Dispatcher', 'Manager', 'Driver', 'Director']);
             self.addEmployee = function () {
                 if (validate()) {
+                    this.disabled = true;
                     employeesService.add(
                         self.employee(),
                         function (data) {
@@ -24,6 +25,7 @@ define(['app/service/employeesService', 'app/service/navService', 'app/service/b
                                     navService.navigateTo("error");
                             }
                         });
+                    this.disabled = false;
                 }
             };
 

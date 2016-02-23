@@ -100,23 +100,24 @@ define(['app/service/employeesService','app/service/navService', "knockout", 'ap
             });
 
             $('#removeButton').on('click', function () {
+                this.disabled = true;
+                if (self.checkedEmployees().length === 0) return;
                 employeesService.remove(
                     self.checkedEmployees(),
                     function () {
                         var tempArray = self.employees().slice();
-                        $.each(tempArray, function (index, element) {
-                            if ($.inArray(element.id.toString(), self.checkedEmployees()) !== -1) {
-                                tempArray.splice(index, 1);
-                                tempArray.splice(index, 0, element);
+                        for (var i = 0; i < tempArray.length; i++) {
+                            if ($.inArray(tempArray[i].id.toString(), self.checkedEmployees()) !== -1) {
+                                tempArray.splice(i, 1);
+                                i--;
                             }
-                        });
-                        self.employees([]);
+                        }
                         self.employees(tempArray);
                         self.checkedEmployees([]);
-                        window.location.reload();
                     },
                     function (data) {navService.catchError(data);}
                 );
+                this.disabled = false;
             });
 
             self.onLink = function (attr) {

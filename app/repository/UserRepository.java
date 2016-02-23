@@ -9,10 +9,6 @@ import play.mvc.Http;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
-import javax.persistence.TypedQuery;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Root;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -28,13 +24,18 @@ public class UserRepository {
 
     public User findByUsername(String name) {
         EntityManager em = JPA.em();
+        StringBuilder sb = new StringBuilder("SELECT u FROM User u WHERE u.username = ? AND u.company.locked = ? AND u.deleted = ?");
+        Query query = em.createQuery(sb.toString());
+        query.setParameter(1, name);
+        query.setParameter(2, false);
+        query.setParameter(3, false);
+         /*
         CriteriaBuilder builder = em.getCriteriaBuilder();
         CriteriaQuery<User> query = builder.createQuery(User.class);
         Root<User> u = query.from(User.class);
         query.select(u).where(builder.equal(u.get("username"), name));
-      //  query.select(u).where(builder.equal(u.get("deleted"), false));
-        TypedQuery<User> q = em.createQuery(query);
-        List<User> userList = q.getResultList();
+        query.select(u).where(builder.equal(u.get("deleted"), false));*/
+        List<User> userList = query.getResultList();
         if (CollectionUtils.isNotEmpty(userList)) return userList.get(0);
         return null;
     }

@@ -90,9 +90,11 @@ public class EmployeesController extends Controller {
         ArrayNode idsNode = (ArrayNode) json;
         Iterator<JsonNode> iterator = idsNode.elements();
         List<Long> clientIds = new ArrayList<>();
+
         while (iterator.hasNext()) {
             clientIds.add(iterator.next().asLong());
         }
+        if (clientIds.isEmpty()) return badRequest("Array is empty");
         try {
             employeeService.removeEmployees(clientIds);
         } catch (ServiceException e) {
