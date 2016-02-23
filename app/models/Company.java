@@ -24,5 +24,8 @@ public class Company {
     public Date date;
 
     @Constraints.Required
+    public Double transportationCostPerKm;
+
+    @Constraints.Required
     public Boolean locked;
 }
