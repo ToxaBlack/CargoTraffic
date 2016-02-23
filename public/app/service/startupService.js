@@ -78,7 +78,7 @@ define(["app/utils/utils", "jquery"],
                 var day = parseInt(parts[2], 10);
 
                 var now = new Date();
-                var newDate = new Date(year,month-1,day);
+                var newDate = new Date(year,month-1,day+1);
                 if (newDate < now || year > 2100 || month == 0 || month > 12)
                     return false;
 

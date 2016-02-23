@@ -1,6 +1,6 @@
-define(['app/service/waybillService', 'app/service/navService', 'app/service/barService', "knockout", 'jquery',"app/utils/messageUtil","text!./waybill.html"],
+define(['app/service/waybillService', 'app/service/navService', 'app/service/barService', "knockout", 'jquery','jqueryUI',"app/utils/messageUtil","text!./waybill.html"],
 
-    function (waybillService, navService, bar, ko, $, messageUtil, waybillTemplate) {
+    function (waybillService, navService, bar, ko, $, jq, messageUtil, waybillTemplate) {
         "use strict";
 
         function waybillViewModel(requestParams) {
@@ -21,6 +21,9 @@ define(['app/service/waybillService', 'app/service/navService', 'app/service/bar
             self.destinationAddress = ko.observable({});
 
             self.pageInitialised = ko.observable(false);
+
+            $('#arrivalDate').datepicker({dateFormat:"yy-mm-dd",minDate:new Date()});
+            $('#driver').zIndex(0);
 
             $('#waybillTabs').find('li:eq(1) a').click(function (e) {
                 e.preventDefault();
