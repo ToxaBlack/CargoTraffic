@@ -12,7 +12,6 @@ define(['app/service/startupService', 'app/service/navService', 'knockout', 'rou
         ko.components.register('packingList', {require: 'app/pages/packingList/packingList'});
         ko.components.register('packingLists', {require: 'app/pages/packingLists/packingLists'});
         ko.components.register('checkPackingList', {require: 'app/pages/checkPackingList/checkPackingList'});
-        ko.components.register('checkpoints', {require: 'app/pages/checkpoints/checkpoints'});
         ko.components.register('checkDelivery', {require: 'app/pages/checkDelivery/checkDelivery'});
 
         ko.components.register('waybill', {require: 'app/pages/waybill/waybill'});

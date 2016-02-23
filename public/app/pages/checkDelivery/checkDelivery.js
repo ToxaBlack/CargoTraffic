@@ -36,7 +36,7 @@ define(['app/service/driverService','app/service/navService' ,'app/service/barSe
             self.confirm = function () {
                 driverService.completeDelivery(
                     function () {
-                        navService.navigateTo("checkpoints");
+                        navService.navigateTo("waypoints");
                     },
                     function (data) {
                         navService.catchError(data);
