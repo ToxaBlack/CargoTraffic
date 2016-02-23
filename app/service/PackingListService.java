@@ -102,7 +102,7 @@ public class PackingListService {
                 packingListRepository.savePackingList(packingList);
             });
         } catch (Throwable throwable) {
-            LOGGER.error("Get packingList error: {}", throwable.getMessage());
+            LOGGER.error("Change status packingList error: {}", throwable.getMessage());
             throw new ServiceException(throwable.getMessage(), throwable);
         }
     }

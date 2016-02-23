@@ -1,10 +1,8 @@
 package repository;
 
-import models.LostProduct;
-import models.MeasureUnit;
-import models.Product;
-import models.ProductInPackingList;
+import models.*;
 import models.statuses.ProductStatus;
+import models.statuses.WaybillStatus;
 import play.db.jpa.JPA;
 
 import javax.persistence.EntityManager;
@@ -41,7 +39,19 @@ public class ProductRepository {
         return product;
     }
 
-    public long findOutCountOfMiss(Product product) {
+    public List<LostProduct> getLostProducts(User driver) {
+        EntityManager em = JPA.em();
+        TypedQuery<LostProduct> query = em.createQuery("Select lp From LostProduct lp, WaybillVehicleDriver wvd " +
+                "WHERE wvd.status = :status " +
+                "AND wvd.driver = :driver " +
+                "AND lp.driver = :driver",
+                LostProduct.class);
+        query.setParameter("status", WaybillStatus.TRANSPORTATION_STARTED);
+        query.setParameter("driver",driver);
+        return query.getResultList();
+    }
+
+    public long findOutCountOfMiss(Product product) {       // TODO status unnecessary?
         EntityManager em = JPA.em();
         TypedQuery<LostProduct> query = em.createQuery("Select lp from LostProduct lp WHERE lp.product = :product",
                 LostProduct.class);

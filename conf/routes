@@ -3,6 +3,7 @@
 # ~~~~
 
 # REST API
+
 POST          /api/login                           controllers.LoginController.login()
 POST          /api/logout                          controllers.LoginController.logout()
 GET           /api/roles                           controllers.LoginController.roles()
@@ -46,6 +47,9 @@ PUT           /api/waypoints                       controllers.WaypointControlle
 GET           /api/driver/products                 controllers.DriverController.getProducts()
 POST          /api/driver/act                      controllers.DriverController.createActOfLost()
 PUT           /api/driver/complete                 controllers.DriverController.completeDelivery()
+
+GET         /api/money                 controllers.MoneyController.getFinancialHighlights(minDate :Long, maxDate :Long)
+
 # Map static resources from the /public folder to the /assets URL path
 GET           /assets/*file                        controllers.Assets.versioned(path="/public", file: Asset)
 

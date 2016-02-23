@@ -6,12 +6,14 @@ import models.*;
 import play.Logger;
 import play.db.jpa.JPA;
 import play.mvc.Http;
+import repository.MoneyRepository;
 import repository.PackingListRepository;
 import repository.ProductRepository;
 import repository.WaybillRepository;
 
 import javax.inject.Inject;
 import java.util.List;
+import java.util.Objects;
 
 public class DriverService {
     private static final Logger.ALogger LOGGER = Logger.of(DriverService.class);
@@ -24,6 +26,9 @@ public class DriverService {
 
     @Inject
     private PackingListRepository packingListRepository;
+
+    @Inject
+    private MoneyRepository moneyRepository;
 
     public void createActOfLost(List<LostProduct> productList) throws ServiceException {
         LOGGER.debug("Create act of lost(service)");
@@ -44,7 +49,7 @@ public class DriverService {
         try {
             return JPA.withTransaction(() -> {
                 WaybillVehicleDriver wvd = waybillRepository.getWVDByDriver(user);
-                return waybillRepository.getWaybillProducts(wvd.waybill);
+                return wvd.productsInWaybill;
             });
         } catch (Throwable throwable) {
             LOGGER.error("Get products of waybill error: {}", throwable.getMessage());
@@ -59,6 +64,18 @@ public class DriverService {
                 WaybillVehicleDriver wvd = waybillRepository.getWVDByDriver(user);
                 waybillRepository.completeTransportationWVD(wvd);
                 Waybill waybill = wvd.waybill;
+                List<LostProduct> lostProducts = productRepository.getLostProducts(user);
+                FinancialHighlights financialHighlights = moneyRepository.getFinancialHighlights(wvd);
+                Double totalLostProductsCost = 0d;
+                if (Objects.nonNull(lostProducts)) {
+                    for (LostProduct lostProduct : lostProducts) {
+                        totalLostProductsCost += lostProduct.product.price * lostProduct.quantity;
+                    }
+                }
+                financialHighlights.productsLoss = totalLostProductsCost;
+                financialHighlights.profit = financialHighlights.transportationIncome -
+                        totalLostProductsCost - financialHighlights.vehicleFuelLoss;
+                moneyRepository.updateFinancialHighlights(financialHighlights);
 
                 //Check whether all cargo is delivered, then end up delivery
                 if(waybillRepository.IsCompleteAllDeliveries(waybill)) {

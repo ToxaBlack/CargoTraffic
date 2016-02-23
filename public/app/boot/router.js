@@ -12,7 +12,6 @@ define(["jquery", "knockout", "crossroads", "history"], function ($, ko, crossro
             {url: 'home', params: {page: 'home'}},
             {url: 'packingLists', params: {page: 'packingLists'}},
             {url: 'checkPackingList/{id}', params: {page: 'checkPackingList'}},
-            {url: 'checkpoints', params: {page: 'checkpoints'}},
             {url: 'checkDelivery', params: {page: 'checkDelivery'}},
             {url: 'waybill/{id}', params: {page: 'waybill'}},
             {url: 'settings', params: {page: 'settings'}},
