@@ -15,7 +15,7 @@ public class FinancialHighlights {
     public Date deliveredDate;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "waybill_vehicle_driver",
+    @JoinColumn(name = "waybill_vehicle_driver_id",
             referencedColumnName = "id")
     public WaybillVehicleDriver waybillVehicleDriver;
 

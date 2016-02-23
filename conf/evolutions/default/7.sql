@@ -3,11 +3,11 @@
 # --- !Ups
 
 
-INSERT INTO `cargo_traffic`.`company` (name, date) VALUES
-  ("TradeCorp", "2015-01-01 10-00-00"),
-  ("TravelInc", "2010-01-01 11-00-00"),
-  ("SomeInc", "2005-01-01 12-00-00"),
-  ("Test", "2000-01-01 13-00-00");
+INSERT INTO `cargo_traffic`.`company` (name, date, transportation_cost_per_km) VALUES
+  ("TradeCorp", "2015-01-01 10-00-00", '12.34'),
+  ("TravelInc", "2010-01-01 11-00-00", '12.34'),
+  ("SomeInc", "2005-01-01 12-00-00", '12.34'),
+  ("Test", "2000-01-01 13-00-00", '12.34');
 
 
 INSERT INTO `address` (country, city, street, house, flat) VALUES
@@ -31,7 +31,8 @@ INSERT INTO `user` (username, password, name, surname, patronymic, email, birthd
   ("admin3", "$2a$10$tNaKU9sTQJXOgqDso7hameAHdruldJEwtXJOmOo89dR7bzFLTuYQG", "robert", "cottrell", "васильевич", "test@mail.ru", "1994-1-6", 3, 1),
   ("dispatcher", "$2a$10$Mgs4qaUzqPIIm8TrkIX0ReeVP/1yENNpywjQ3UwWxWgZfmRFUO0ly", "chris", "richards", "васильевич", "test@mail.ru", "1994-1-6", 2, 1),
   ("manager", "$2a$10$NUbCCT3pBeGnr..Lla7hauWKNpaM.dIalrDUCqeWhKo2DeIZaqUVW", "tom", "brown", "васильевич", "test@mail.ru", "1994-1-6", 2, 1),
-  ("driver", "$2a$10$oKnV374KGmKCBOE0CbYiHeSnV3M9HaBpEXK./rForcOh5yYA4wfR.", "chris", "richards", "васильевич", "test@mail.ru", "1994-1-6", 2, 1);
+  ("driver", "$2a$10$oKnV374KGmKCBOE0CbYiHeSnV3M9HaBpEXK./rForcOh5yYA4wfR.", "chris", "richards", "васильевич", "test@mail.ru", "1994-1-6", 2, 1),
+  ("director", "$2a$04$kNbVmykHyClRxbvnr.2Ap.WjrydK8GL8BMEpNk4JyQAMcqUYlRIhq", "chris", "richards", "васильевич", "test@mail.ru", "1994-1-6", 2, 1);
 
 
 INSERT INTO `user_role` (user_id, role_id) VALUES
@@ -41,7 +42,8 @@ INSERT INTO `user_role` (user_id, role_id) VALUES
   (4, 2),
   (5, 3),
   (6, 4),
-  (7, 5);
+  (7, 5),
+  (8, 6);
 
 INSERT INTO `vehicle_type` (`name`) VALUES
   ("Box"),

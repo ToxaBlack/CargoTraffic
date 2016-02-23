@@ -29,7 +29,7 @@ CREATE TABLE IF NOT EXISTS `cargo_traffic`.`financial_highlights` (
   `products_loss` DOUBLE(10,4) UNSIGNED DEFAULT '0.00',
   `waybill_vehicle_driver_id` INT(11) UNSIGNED NOT NULL,
   PRIMARY KEY (`id`),
-  INDEX (`waybill_vehicle_driver` ASC),
+  INDEX (`waybill_vehicle_driver_id` ASC),
   FOREIGN KEY (`waybill_vehicle_driver_id`)
   REFERENCES `cargo_traffic`.`waybill_vehicle_driver` (`id`)
     ON DELETE RESTRICT
