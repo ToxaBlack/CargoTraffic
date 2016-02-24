@@ -26,24 +26,6 @@ INSERT INTO `cargo_traffic`.`company` (`id`, `name`, `date`, `locked`) VALUES ('
   ('20', 'Your Rich Way', '2005-01-01 12:00:00', 0),
   ('21', 'Меркурий', '2005-01-01 12:00:00', 0),
   ('22', 'ПАЛЛАДА', '2005-01-01 12:00:00', 0);
-INSERT INTO `cargo_traffic`.`company` (`id`, `name`, `date`, `locked`) VALUES ('5', 'Innovations Group', '2000-01-01 13:00:00', 0);
-INSERT INTO `cargo_traffic`.`company` (`id`, `name`, `date`, `locked`) VALUES ('6', 'Inweb24', '2005-01-01 12:00:00', 0);
-INSERT INTO `cargo_traffic`.`company` (`id`, `name`, `date`, `locked`) VALUES ('7', 'Vitamark', '2005-01-01 12:00:00', 0);
-INSERT INTO `cargo_traffic`.`company` (`id`, `name`, `date`, `locked`) VALUES ('8', 'AliveMax', '2005-01-01 12:00:00', 0);
-INSERT INTO `cargo_traffic`.`company` (`id`, `name`, `date`, `locked`) VALUES ('9', 'Acrux', '2005-01-01 12:00:00', 0);
-INSERT INTO `cargo_traffic`.`company` (`id`, `name`, `date`, `locked`) VALUES ('10', 'Vilavi', '2005-01-01 12:00:00', 0);
-INSERT INTO `cargo_traffic`.`company` (`id`, `name`, `date`, `locked`) VALUES ('11', 'Xango', '2005-01-01 12:00:00', 0);
-INSERT INTO `cargo_traffic`.`company` (`id`, `name`, `date`, `locked`) VALUES ('12', 'Luck Life', '2005-01-01 12:00:00', 0);
-INSERT INTO `cargo_traffic`.`company` (`id`, `name`, `date`, `locked`) VALUES ('13', 'ZeekRewards', '2005-01-01 12:00:00', 0);
-INSERT INTO `cargo_traffic`.`company` (`id`, `name`, `date`, `locked`) VALUES ('14', 'Majeko', '2005-01-01 12:00:00', 0);
-INSERT INTO `cargo_traffic`.`company` (`id`, `name`, `date`, `locked`) VALUES ('15', 'Yofoto', '2005-01-01 12:00:00', 0);
-INSERT INTO `cargo_traffic`.`company` (`id`, `name`, `date`, `locked`) VALUES ('16', 'CBS', '2005-01-01 12:00:00', 0);
-INSERT INTO `cargo_traffic`.`company` (`id`, `name`, `date`, `locked`) VALUES ('17', 'Wallet', '2005-01-01 12:00:00', 0);
-INSERT INTO `cargo_traffic`.`company` (`id`, `name`, `date`, `locked`) VALUES ('18', 'Usana', '2005-01-01 12:00:00', 0);
-INSERT INTO `cargo_traffic`.`company` (`id`, `name`, `date`, `locked`) VALUES ('19', 'IngeniumLab', '2005-01-01 12:00:00', 0);
-INSERT INTO `cargo_traffic`.`company` (`id`, `name`, `date`, `locked`) VALUES ('20', 'Your Rich Way', '2005-01-01 12:00:00', 0);
-INSERT INTO `cargo_traffic`.`company` (`id`, `name`, `date`, `locked`) VALUES ('21', 'Меркурий', '2005-01-01 12:00:00', 0);
-INSERT INTO `cargo_traffic`.`company` (`id`, `name`, `date`, `locked`) VALUES ('22', 'ПАЛЛАДА', '2005-01-01 12:00:00', 0);
 
 
 INSERT INTO `address` (country, city, street, house, flat) VALUES
