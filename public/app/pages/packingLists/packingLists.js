@@ -9,7 +9,7 @@ define(['app/service/packingListService', 'app/service/navService', 'app/service
             self.packingLists = ko.observableArray([]);
             self.hasNextPage = ko.observable(false);
             self.hasPreviousPage = ko.observable(false);
-            self.PACKINGLISTS_PER_PAGE = 10;
+            self.PACKINGLISTS_PER_PAGE = 5;
             var dateOptions = {
                 year: 'numeric',
                 month: 'long',
