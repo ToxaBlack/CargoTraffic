@@ -189,7 +189,7 @@ define(['app/service/packingListService', 'app/service/navService', 'app/service
                 var context = ko.contextFor($("body")[0]);
                 var roles = context.$data.roles();
                 if(roles[0].name === "MANAGER") {
-                    navService.navigateTo("waybill/" + packingList.id);
+                    navService.navigateTo("waybillForPackingList/" + packingList.id);
                 }
             };
 

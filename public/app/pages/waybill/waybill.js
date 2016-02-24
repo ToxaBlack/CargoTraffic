@@ -188,14 +188,12 @@ define(['app/service/waybillService', 'app/service/navService', 'app/service/bar
 
             function includeJs() {
                 var js = document.createElement("script");
-                js.id = "mapper";
                 js.type = "text/javascript";
                 js.src = "http://maps.googleapis.com/maps/api/js?key=AIzaSyD-OL6Y6UrkY0rhd9rDl70wViuhRXW9OrE";
                 document.body.appendChild(js);
             }
 
             $(document).ready(function () {
-                if($("#mapper")==null)
                 includeJs();
             });
 
