@@ -5,5 +5,5 @@ package models.statuses;
  */
 
 public enum PackingListStatus {
-    CREATED, CHECKED, DELIVERED, REJECTED
+    CREATED, CHECKED, TRANSPORTATION_STARTED, DELIVERED, REJECTED
 }

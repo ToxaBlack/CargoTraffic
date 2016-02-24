@@ -3,11 +3,11 @@ define(["app/utils/utils"],
         "use strict";
         function PackingListService() {
 
-            var list = function (id, numberOfPackingLists, ascOrder, done, error, always) {
+            var list = function (id, numberOfPackingLists, ascOrder, isNew, done, error, always) {
                 utils.send(
                     "api/packingLists",
                     "GET",
-                    {"id": id, "packingLists": numberOfPackingLists, "ascOrder": ascOrder},
+                    {"id": id, "packingLists": numberOfPackingLists, "ascOrder": ascOrder, "isNew": isNew},
                     done,
                     error,
                     always

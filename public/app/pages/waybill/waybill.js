@@ -161,7 +161,9 @@ define(['app/service/waybillService', 'app/service/navService', 'app/service/bar
                     self.packingListDate(new Date(data.packingList.issueDate).toLocaleString("ru", dateOptions));
                     self.waybill().departureDate(new Date());
                     self.waybill().packingListId(data.packingList.id);
+                    if(data.packingList.departureWarehouse!=undefined)
                     self.departureAddress(data.packingList.departureWarehouse.address);
+                    if(data.packingList.destinationWarehouse!=undefined)
                     self.destinationAddress(data.packingList.destinationWarehouse.address);
                     self.drivers(data.drivers);
                     self.vehicles(data.vehicles);
@@ -186,12 +188,14 @@ define(['app/service/waybillService', 'app/service/navService', 'app/service/bar
 
             function includeJs() {
                 var js = document.createElement("script");
+                js.id = "mapper";
                 js.type = "text/javascript";
                 js.src = "http://maps.googleapis.com/maps/api/js?key=AIzaSyD-OL6Y6UrkY0rhd9rDl70wViuhRXW9OrE";
                 document.body.appendChild(js);
             }
 
             $(document).ready(function () {
+                if($("#mapper")==null)
                 includeJs();
             });
 

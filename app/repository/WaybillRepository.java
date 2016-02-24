@@ -2,6 +2,7 @@ package repository;
 
 
 import models.*;
+import models.statuses.PackingListStatus;
 import models.statuses.WaybillStatus;
 import org.apache.commons.collections4.CollectionUtils;
 import play.Logger;
@@ -64,6 +65,11 @@ public class WaybillRepository {
         em.persist(waybill);
         em.flush();
         em.refresh(waybill);
+
+        waybill.packingList.status = PackingListStatus.TRANSPORTATION_STARTED;
+        em.persist(waybill.packingList);
+        em.flush();
+        em.refresh(waybill.packingList);
         for(WaybillVehicleDriver wvd : wvds)
         {
             piws = wvd.productsInWaybill;

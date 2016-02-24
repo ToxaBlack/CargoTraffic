@@ -48,10 +48,8 @@ public class WaybillController extends Controller {
             LOGGER.debug("Waybill: {}", json.toString());
             WaybillDTO waybillDTO = Json.fromJson(json, WaybillDTO.class);
             Waybill waybill;
-            PackingList packingList;
             try {
                 waybill = waybillDTO.toWaybill();
-                System.out.println(":"+waybill.status);
                 waybill.status = WaybillStatus.TRANSPORTATION_STARTED;
                 for(WaybillVehicleDriver wvd : waybill.vehicleDrivers)
                     wvd.status = WaybillStatus.TRANSPORTATION_STARTED;

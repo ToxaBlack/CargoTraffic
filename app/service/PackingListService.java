@@ -45,12 +45,12 @@ public class PackingListService {
         }
     }
 
-    public List<PackingList> getPackingLists(Long id, Integer count, Boolean ascOrder) throws ServiceException {
+    public List<PackingList> getPackingLists(Long id, Integer count, Boolean ascOrder, Boolean isNew) throws ServiceException {
         LOGGER.debug("API get packingLists: id {}, count {}, asc {}", id, count, ascOrder);
         try {
             return JPA.withTransaction(() -> {
                 User user = (User) Http.Context.current().args.get("user");
-                return packingListRepository.getPackingLists(id, count, ascOrder, user.company.id);
+                return packingListRepository.getPackingLists(id, count, ascOrder, user.company.id, isNew);
             });
         } catch (Throwable throwable) {
             LOGGER.error("Get packingLists error: {}", throwable.getMessage());
