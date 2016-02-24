@@ -64,24 +64,24 @@ public class PackingListController extends Controller {
 
 
     @Restrict({@Group("MANAGER"), @Group("DISPATCHER")})
-    public Result getPackingLists(Long id, Integer count, Boolean ascOrder) throws ControllerException {
-        User oldUser = (User) Http.Context.current().args.get("user");
+    public Result getPackingLists(Long id, Integer count, Boolean ascOrder, Boolean isNew) throws ControllerException {
+        User user = (User) Http.Context.current().args.get("user");
         String userRole = "";
 
         //Manager has more privileges
-        for(UserRole role: oldUser.userRoleList) {
+        for(UserRole role: user.userRoleList) {
             if("MANAGER".equals(role.getName())) {
                 userRole = role.getName();
                 break;
             }
             if("DISPATCHER".equals(role.getName())) userRole = role.getName();
         }
-        LOGGER.debug("API get packingLists: {}, {}, {}, {}", oldUser.toString(), id, count, ascOrder);
+        LOGGER.debug("API get packingLists: user {}, id {}, count {}, ascOrder {}, isNew: {}", user.toString(), id, count, ascOrder, isNew);
         List<PackingList> packingLists;
         try {
             switch(userRole) {
                 case "MANAGER":
-                    packingLists = service.getPackingLists(id, count, ascOrder);
+                    packingLists = service.getPackingLists(id, count, ascOrder, isNew);
                     break;
                 case "DISPATCHER":
                     packingLists = service.getDispatcherPackingLists(id,count,ascOrder);

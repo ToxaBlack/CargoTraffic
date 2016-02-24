@@ -34,13 +34,12 @@ PUT           /api/vehicle                         controllers.VehiclesControlle
 DELETE        /api/vehicle/:id                controllers.VehiclesController.deleteVehicles(id: Long)
 
 POST          /api/packingList                     controllers.PackingListController.addPackingList()
-GET           /api/packingLists                    controllers.PackingListController.getPackingLists(id :Long, packingLists :Integer, ascOrder :Boolean )
+GET           /api/packingLists                    controllers.PackingListController.getPackingLists(id :Long, packingLists :Integer, ascOrder :Boolean, isNew :Boolean )
 GET           /api/packingLists/$id<[0-9]+>        controllers.PackingListController.getCreatedPackingList(id :Long)
 PUT           /api/packingList/$id<[0-9]+>         controllers.PackingListController.changeStatus(id :Long)
 
 POST          /api/waybill                         controllers.WaybillController.add()
 GET           /api/waybill/$id<[0-9]+>             controllers.WaybillController.getAdditionalInfoForWaybill(id :Long)
-GET           /api/waybill/$id<[0-9]+>/edit        controllers.WaybillController.getWaybillWithAdditionalInfoEdit(id :Long)
 GET           /api/waypoints                       controllers.WaypointController.get()
 PUT           /api/waypoints                       controllers.WaypointController.set()
 

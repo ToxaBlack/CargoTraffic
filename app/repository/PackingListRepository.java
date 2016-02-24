@@ -35,7 +35,7 @@ public class PackingListRepository {
     }
 
 
-    public List<PackingList> getPackingLists(long id, int count, boolean ascOrder, Long companyId) {
+    public List<PackingList> getPackingLists(long id, int count, boolean ascOrder, Long companyId, Boolean isNew) {
         LOGGER.debug("Get packingLists: {}, {}, {}, {}", id, count, ascOrder, companyId);
         EntityManager em = JPA.em();
         StringBuilder stringBuilder = new StringBuilder("SELECT pl FROM PackingList pl WHERE pl.status = ? AND ");
@@ -45,7 +45,10 @@ public class PackingListRepository {
             stringBuilder.append("pl.id < ? AND pl.dispatcher.company.id = ? ORDER BY pl.id DESC");
         }
         Query query = em.createQuery(stringBuilder.toString());
-        query.setParameter(1, PackingListStatus.CREATED);
+        if(isNew)
+            query.setParameter(1, PackingListStatus.CREATED);
+        else
+            query.setParameter(1, PackingListStatus.CHECKED);
         query.setParameter(2, id);
         query.setParameter(3, companyId);
         query.setMaxResults(count);

@@ -94,7 +94,7 @@ define(['app/utils/messageUtil','app/service/warehouseService', 'app/service/nav
             self.getChosenWarehouse = function () {
                 var countChosen = self.checkedWarehouses().length;
                 if(! countChosen || countChosen > 1) {
-                    message.createWarningMessage("Please, choose just only one warehouse.");
+                    message.createWarningMessage("Please, choose only one warehouse.");
                     return false;
                 }
                 for (var i = 0; i < self.warehouses().length; i++) {
@@ -110,7 +110,6 @@ define(['app/utils/messageUtil','app/service/warehouseService', 'app/service/nav
             $("#warehouseForm").validate();
             self.editWarehouse = function () {
                 var editWarehouse = self.getChosenWarehouse();
-                //Feeling dialog's form
                 self.idEdit = editWarehouse.id;
                 self.warehouseName(editWarehouse.name);
                 self.country(editWarehouse.address.country);
@@ -123,9 +122,7 @@ define(['app/utils/messageUtil','app/service/warehouseService', 'app/service/nav
             self.closeDialog = function () {
                 self.idEdit = -1;
                 $("#warehouseForm").validate().resetForm();
-               // $('#warehouseForm')[0].reset();
                 $('#warehouseModal').modal("hide");
-                //Clearing dialog's form
                 self.warehouseName("");
                 self.country("");
                 self.city("");

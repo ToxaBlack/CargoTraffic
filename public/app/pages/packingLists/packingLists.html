@@ -1,51 +1,95 @@
-<div class="row">
-    <div class="col-sm-12">
-        <table class="table table-hover">
-            <thead>
-            <tr>
-                <th>Number</th>
-                <th>Date of creating</th>
-                <th>Dispatcher full name</th>
-                <th>Warehouse address</th>
-            </tr>
-            </thead>
-            <!-- ko if: $root.roles().length !==0  -->
-            <!-- ko if: $root.roles()[0].name == "MANAGER"-->
-            <tbody class="cursor-hand" data-bind="foreach: packingLists">
-            <tr data-bind="click: $parent.toPackingList">
-                <td  class="link" data-bind="text: id"></td>
-                <td  class="link" data-bind="text: issueDate"></td>
-                <td  class="link" data-bind="text: ko.computed(function() {return dispatcher.surname + ' ' + dispatcher.name + ' ' + dispatcher.patronymic; })"></td>
-                <td  class="link" data-bind="text: ko.computed(function() {return departureWarehouse.address.country + ', ' + departureWarehouse.address.city + ' city, ' + departureWarehouse.address.street + ' st., ' + departureWarehouse.address.house; })"></td>
-            </tr>
-            </tbody>
-            <!-- /ko -->
-            <!-- ko if: $root.roles()[0].name == "DISPATCHER"-->
-            <tbody data-bind="foreach: packingLists">
-            <tr>
-                <td data-bind="text: id"></td>
-                <td data-bind="text: issueDate"></td>
-                <td data-bind="text: ko.computed(function() {return dispatcher.surname + ' ' + dispatcher.name + ' ' + dispatcher.patronymic; })"></td>
-                <td data-bind="text: ko.computed(function() {return departureWarehouse.address.country + ', ' + departureWarehouse.address.city + ' city, ' + departureWarehouse.address.street + ' st., ' + departureWarehouse.address.house; })"></td>
-            </tr>
-            </tbody>
-            <!-- /ko -->
-            <!-- /ko -->
-        </table>
-        <div class="panel panel-default" data-bind="visible: packingLists().length == 0">
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">Newly created packing lists</h3>
+    </div>
+    <table class="table table-hover">
+        <thead>
+        <tr>
+            <th>Number</th>
+            <th>Date of creating</th>
+            <th>Dispatcher full name</th>
+            <th>Warehouse address</th>
+        </tr>
+        </thead>
+        <!-- ko if: $root.roles().length !==0  -->
+        <!-- ko if: $root.roles()[0].name == "MANAGER"-->
+        <tbody class="cursor-hand" data-bind="foreach: packingLists">
+        <tr data-bind="click: $parent.toPackingList">
+            <td  class="link" data-bind="text: id"></td>
+            <td  class="link" data-bind="text: issueDate"></td>
+            <td  class="link" data-bind="text: $parent.getFullName(dispatcher)"></td>
+            <td  class="link" data-bind="text: $parent.getFullAddress(departureWarehouse)"></td>
+        </tr>
+        </tbody>
+        <!-- /ko -->
+        <!-- ko if: $root.roles()[0].name == "DISPATCHER"-->
+        <tbody data-bind="foreach: packingLists">
+        <tr>
+            <td data-bind="text: id"></td>
+            <td data-bind="text: issueDate"></td>
+            <td data-bind="text: $parent.getFullName(dispatcher)"></td>
+            <td data-bind="text: $parent.getFullAddress(departureWarehouse)"></td>
+        </tr>
+        </tbody>
+        <!-- /ko -->
+        <!-- /ko -->
+    </table>
+    <div class="panel-body" data-bind="visible: packingLists().length == 0">
+        <div class="panel panel-default" >
             <div class="panel-body text-center">
-                Packing lists table is empty.
+                Packing list table is empty.
             </div>
         </div>
     </div>
-</div>
+    <!-- Pagination -->
 
-<!-- Pagination -->
-<div class="row text-center">
-    <div class="col-lg-12">
-        <ul class="pager">
-            <li id="previousPage" data-bind="css: { disabled: hasPreviousPage() == false}, click: previousPage"><a>Previous</a></li>
-            <li id="nextPage" data-bind="css: { disabled: hasNextPage() == false}, click: nextPage"><a>Next</a></li>
+    <div class="panel-footer" data-bind="visible: packingLists().length > 0">
+        <ul class="pager" style="margin:0">
+            <li id="previousPage" class="cursor-hand" data-bind="css: { disabled: hasPreviousPage() == false}, click: previousPage"><a>Previous</a></li>
+            <li id="nextPage" class="cursor-hand" data-bind="css: { disabled: hasNextPage() == false}, click: nextPage"><a>Next</a></li>
         </ul>
     </div>
 </div>
+
+
+<!-- ko if: $root.roles().length !==0 && $root.roles()[0].name == "MANAGER" -->
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">Pending packing lists</h3>
+    </div>
+    <table class="table table-hover">
+        <thead>
+        <tr>
+            <th>Number</th>
+            <th>Date of creating</th>
+            <th>Dispatcher full name</th>
+            <th>Warehouse address</th>
+        </tr>
+        </thead>
+        <tbody class="cursor-hand" data-bind="foreach: packingListsPending">
+        <tr data-bind="click: $parent.toPackingListPending">
+            <td  class="link" data-bind="text: id"></td>
+            <td  class="link" data-bind="text: issueDate"></td>
+            <td  class="link" data-bind="text: $parent.getFullName(dispatcher)"></td>
+            <td  class="link" data-bind="text: $parent.getFullAddress(departureWarehouse)"></td>
+        </tr>
+        </tbody>
+    </table>
+    <div class="panel-body" data-bind="visible: packingListsPending().length == 0">
+        <div class="panel panel-default" >
+            <div class="panel-body text-center">
+                Packing list table is empty.
+            </div>
+        </div>
+    </div>
+    <!-- Pagination -->
+
+    <div class="panel-footer" data-bind="visible: packingListsPending().length > 0">
+        <ul class="pager" style="margin:0">
+            <li id="previousPagePending" class="cursor-hand" data-bind="css: { disabled: hasPreviousPagePending() == false}, click: previousPagePending"><a>Previous</a></li>
+            <li id="nextPagePending" class="cursor-hand" data-bind="css: { disabled: hasNextPagePending() == false}, click: nextPagePending"><a>Next</a></li>
+        </ul>
+    </div>
+</div>
+
+<!-- /ko -->

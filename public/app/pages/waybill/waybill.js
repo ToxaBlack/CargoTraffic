@@ -161,7 +161,9 @@ define(['app/service/waybillService', 'app/service/navService', 'app/service/bar
                     self.packingListDate(new Date(data.packingList.issueDate).toLocaleString("ru", dateOptions));
                     self.waybill().departureDate(new Date());
                     self.waybill().packingListId(data.packingList.id);
+                    if(data.packingList.departureWarehouse!=undefined)
                     self.departureAddress(data.packingList.departureWarehouse.address);
+                    if(data.packingList.destinationWarehouse!=undefined)
                     self.destinationAddress(data.packingList.destinationWarehouse.address);
                     self.drivers(data.drivers);
                     self.vehicles(data.vehicles);

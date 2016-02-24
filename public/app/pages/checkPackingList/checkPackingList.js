@@ -114,7 +114,7 @@ define(['app/service/packingListService', 'app/service/navService', 'app/service
                         bar.go(100);
                     }
                 );
-                navService.navigateTo('waybill/' + requestParams.id);
+                navService.navigateTo('waybillForPackingList/' + requestParams.id);
             };
 
             self.rejectPackingList = function() {

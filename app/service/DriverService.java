@@ -75,6 +75,7 @@ public class DriverService {
                 financialHighlights.productsLoss = totalLostProductsCost;
                 financialHighlights.profit = financialHighlights.transportationIncome -
                         totalLostProductsCost - financialHighlights.vehicleFuelLoss;
+                LOGGER.debug("completeDelivery: {}, {}", financialHighlights.profit, financialHighlights.profit.getClass().getName());
                 moneyRepository.updateFinancialHighlights(financialHighlights);
 
                 //Check whether all cargo is delivered, then end up delivery

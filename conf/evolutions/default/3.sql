@@ -8,7 +8,7 @@ CREATE TABLE IF NOT EXISTS `cargo_traffic`.`packing_list` (
   `dispatcher` INT(11) UNSIGNED NOT NULL,
   `departure_warehouse` INT(11) UNSIGNED NOT NULL,
   `destination_warehouse` INT(11) UNSIGNED NOT NULL,
-  `status` ENUM('CREATED', 'CHECKED', 'DELIVERED', 'REJECTED'),
+  `status` ENUM('CREATED', 'CHECKED','TRANSPORTATION_STARTED', 'DELIVERED', 'REJECTED'),
   PRIMARY KEY (`id`),
   INDEX (`departure_warehouse` ASC),
   INDEX (`destination_warehouse` ASC),

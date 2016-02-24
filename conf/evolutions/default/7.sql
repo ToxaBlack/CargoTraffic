@@ -4,10 +4,10 @@
 
 
 INSERT INTO `cargo_traffic`.`company` (name, date, transportation_cost_per_km) VALUES
-('TradeCorp', '2015-01-01 10-00-00', '12.34'),
-('TravelInc', '2010-01-01 11-00-00', '12.34'),
-('SomeInc', '2005-01-01 12-00-00', '12.34'),
-('Test', '2000-01-01 13-00-00', '12.34');
+("TradeCorp", "2015-01-01 10-00-00", '120.34'),
+("TravelInc", "2010-01-01 11-00-00", '120.34'),
+("SomeInc", "2005-01-01 12-00-00", '120.34'),
+("Test", "2000-01-01 13-00-00", '120.34');
 INSERT INTO `cargo_traffic`.`company` (`id`, `name`, `date`, `locked`) VALUES ('5', 'Innovations Group', '2000-01-01 13:00:00', 0),
   ('6', 'Inweb24', '2005-01-01 12:00:00', 0),
   ('7', 'Vitamark', '2005-01-01 12:00:00', 0),
@@ -26,6 +26,24 @@ INSERT INTO `cargo_traffic`.`company` (`id`, `name`, `date`, `locked`) VALUES ('
   ('20', 'Your Rich Way', '2005-01-01 12:00:00', 0),
   ('21', 'Меркурий', '2005-01-01 12:00:00', 0),
   ('22', 'ПАЛЛАДА', '2005-01-01 12:00:00', 0);
+INSERT INTO `cargo_traffic`.`company` (`id`, `name`, `date`, `locked`) VALUES ('5', 'Innovations Group', '2000-01-01 13:00:00', 0);
+INSERT INTO `cargo_traffic`.`company` (`id`, `name`, `date`, `locked`) VALUES ('6', 'Inweb24', '2005-01-01 12:00:00', 0);
+INSERT INTO `cargo_traffic`.`company` (`id`, `name`, `date`, `locked`) VALUES ('7', 'Vitamark', '2005-01-01 12:00:00', 0);
+INSERT INTO `cargo_traffic`.`company` (`id`, `name`, `date`, `locked`) VALUES ('8', 'AliveMax', '2005-01-01 12:00:00', 0);
+INSERT INTO `cargo_traffic`.`company` (`id`, `name`, `date`, `locked`) VALUES ('9', 'Acrux', '2005-01-01 12:00:00', 0);
+INSERT INTO `cargo_traffic`.`company` (`id`, `name`, `date`, `locked`) VALUES ('10', 'Vilavi', '2005-01-01 12:00:00', 0);
+INSERT INTO `cargo_traffic`.`company` (`id`, `name`, `date`, `locked`) VALUES ('11', 'Xango', '2005-01-01 12:00:00', 0);
+INSERT INTO `cargo_traffic`.`company` (`id`, `name`, `date`, `locked`) VALUES ('12', 'Luck Life', '2005-01-01 12:00:00', 0);
+INSERT INTO `cargo_traffic`.`company` (`id`, `name`, `date`, `locked`) VALUES ('13', 'ZeekRewards', '2005-01-01 12:00:00', 0);
+INSERT INTO `cargo_traffic`.`company` (`id`, `name`, `date`, `locked`) VALUES ('14', 'Majeko', '2005-01-01 12:00:00', 0);
+INSERT INTO `cargo_traffic`.`company` (`id`, `name`, `date`, `locked`) VALUES ('15', 'Yofoto', '2005-01-01 12:00:00', 0);
+INSERT INTO `cargo_traffic`.`company` (`id`, `name`, `date`, `locked`) VALUES ('16', 'CBS', '2005-01-01 12:00:00', 0);
+INSERT INTO `cargo_traffic`.`company` (`id`, `name`, `date`, `locked`) VALUES ('17', 'Wallet', '2005-01-01 12:00:00', 0);
+INSERT INTO `cargo_traffic`.`company` (`id`, `name`, `date`, `locked`) VALUES ('18', 'Usana', '2005-01-01 12:00:00', 0);
+INSERT INTO `cargo_traffic`.`company` (`id`, `name`, `date`, `locked`) VALUES ('19', 'IngeniumLab', '2005-01-01 12:00:00', 0);
+INSERT INTO `cargo_traffic`.`company` (`id`, `name`, `date`, `locked`) VALUES ('20', 'Your Rich Way', '2005-01-01 12:00:00', 0);
+INSERT INTO `cargo_traffic`.`company` (`id`, `name`, `date`, `locked`) VALUES ('21', 'Меркурий', '2005-01-01 12:00:00', 0);
+INSERT INTO `cargo_traffic`.`company` (`id`, `name`, `date`, `locked`) VALUES ('22', 'ПАЛЛАДА', '2005-01-01 12:00:00', 0);
 
 
 INSERT INTO `address` (country, city, street, house, flat) VALUES
@@ -88,7 +106,7 @@ INSERT INTO `user_role` (user_id, role_id) VALUES
   (5, 3),
   (6, 4),
   (7, 5),
-  (8, 6);
+  (34, 6);
 
 INSERT INTO `vehicle_type` (`name`) VALUES
   ('Box'),
@@ -96,10 +114,10 @@ INSERT INTO `vehicle_type` (`name`) VALUES
   ('Tank');
 
 INSERT INTO `vehicle_fuel` (`name`, `cost`) VALUES
-  ('Diesel', '25.03'),
-  ('Bio-diesel', '22.34'),
-  ('Petrol-95', '20.45'),
-  ('Petrol-98', '21.23');
+  ("Diesel", "2.03"),
+  ("Bio-diesel", "2.34"),
+  ("Petrol-95", "2.45"),
+  ("Petrol-98", "2.23");
 
 INSERT INTO `vehicle` (`vehicle_producer`, `vehicle_model`, `license_plate`, `products_constraint`, `fuel_consumption`, `company_id`, `vehicle_type_id`, `vehicle_fuel_id`, `deleted`) VALUES
   ('Man', 'A123', '1234-AB', 1234.3, 15.3, 1, 2, 3, 0),
