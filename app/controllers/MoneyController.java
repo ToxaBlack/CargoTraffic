@@ -15,6 +15,7 @@ import javax.inject.Inject;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
+import java.util.ArrayList;
 
 import static play.mvc.Results.badRequest;
 import static play.mvc.Results.ok;
@@ -37,11 +38,13 @@ public class MoneyController {
         List<FinancialHighlights> financialHighlightsList;
         try {
             financialHighlightsList = moneyService.getFinancialHighlights(new Date(minDate), new Date(maxDate));
-            LOGGER.debug("TEST: {}, {}", financialHighlightsList.size(), financialHighlightsList.get(0));
+            LOGGER.debug("TEST: {}", financialHighlightsList.size());
         } catch (ServiceException e) {
             LOGGER.error("error = {}", e.getMessage());
             throw new ControllerException(e.getMessage(), e);
         }
+        if (Objects.isNull(financialHighlightsList))
+             financialHighlightsList = new ArrayList<>();
         return ok(Json.toJson(financialHighlightsList));
     }
 }
