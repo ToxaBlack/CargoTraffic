@@ -4,10 +4,10 @@
 
 
 INSERT INTO `cargo_traffic`.`company` (name, date, transportation_cost_per_km) VALUES
-("TradeCorp", "2015-01-01 10-00-00", '12.34'),
-("TravelInc", "2010-01-01 11-00-00", '12.34'),
-("SomeInc", "2005-01-01 12-00-00", '12.34'),
-("Test", "2000-01-01 13-00-00", '12.34');
+("TradeCorp", "2015-01-01 10-00-00", '120.34'),
+("TravelInc", "2010-01-01 11-00-00", '120.34'),
+("SomeInc", "2005-01-01 12-00-00", '120.34'),
+("Test", "2000-01-01 13-00-00", '120.34');
 INSERT INTO `cargo_traffic`.`company` (`id`, `name`, `date`, `locked`) VALUES ('5', 'Innovations Group', '2000-01-01 13:00:00', 0);
 INSERT INTO `cargo_traffic`.`company` (`id`, `name`, `date`, `locked`) VALUES ('6', 'Inweb24', '2005-01-01 12:00:00', 0);
 INSERT INTO `cargo_traffic`.`company` (`id`, `name`, `date`, `locked`) VALUES ('7', 'Vitamark', '2005-01-01 12:00:00', 0);
@@ -95,10 +95,10 @@ INSERT INTO `vehicle_type` (`name`) VALUES
   ("Tank");
 
 INSERT INTO `vehicle_fuel` (`name`, `cost`) VALUES
-  ("Diesel", "25.03"),
-  ("Bio-diesel", "22.34"),
-  ("Petrol-95", "20.45"),
-  ("Petrol-98", "21.23");
+  ("Diesel", "2.03"),
+  ("Bio-diesel", "2.34"),
+  ("Petrol-95", "2.45"),
+  ("Petrol-98", "2.23");
 
 INSERT INTO `vehicle` (`vehicle_producer`, `vehicle_model`, `license_plate`, `products_constraint`, `fuel_consumption`, `company_id`, `vehicle_type_id`, `vehicle_fuel_id`, `deleted`) VALUES
   ("Man", "A123", "1234-AB", 1234.3, 15.3, 1, 2, 3, 0),

@@ -1,5 +1,23 @@
 <div>Charts</div>
-<div id="container"></div>
-<input type="text" id="since" class="date" data-bind="datepicker: minDate, maxDate: maxDate"/>
-<input type="text" id="to" class="date" data-bind="datepicker: maxDate, minDate: minDate, maxDate: new Date()"/>
-<p id="downloader"></p>
+<div class="row">
+    <div id="container"></div>
+</div>
+<div class="row">
+    <div class="col-sm-2">
+        <label>Choose minimal date:</label>
+    </div>
+    <div class="col-sm-2">
+        <label>Choose maximal date:</label>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-2">
+        <input type="text" id="since" class="date" data-bind="datepicker: minDate, maxDate: maxDate"/>
+    </div>
+    <div class="col-sm-2">
+        <input type="text" id="to" class="date" data-bind="datepicker: maxDate, minDate: minDate, maxDate: new Date()"/>
+    </div>
+    <div class="col-sm-2 bottom">
+        <p id="downloader"></p>
+    </div>
+</div>
