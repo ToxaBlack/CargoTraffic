@@ -175,7 +175,7 @@ define(['app/service/navService', 'app/service/clientService', "knockout", 'app/
 
             self.companyNameRegexp = "^[a-zA-Z0-9_-]{1,250}$";
             self.companyTransportationCostRegexp = "^[0-9]+\.[0-9]+$";
-            self.surnameRegexp = "^[a-zA-Z]{1,250}$";
+            self.surnameRegexp = "^[a-zA-Zа-яА-ЯёЁ]{1,250}$";
             self.emailRegexp = "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]{1,210}@[a-zA-Z0-9-]{1,30}\.[a-zA-Z0-9-]{2,3}$";
             self.isCompanyNameCorrect = ko.computed(function() {
                 if (self.company.name())
