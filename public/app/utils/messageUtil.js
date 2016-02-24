@@ -7,8 +7,8 @@ define(['jquery'],
     function ($) {
         "use strict";
 
-        function createWarningMessage(message) {
-            var placeholder = $('.message_placeholder');
+        function createWarningMessage(elementId,message) {
+            var placeholder = $('#'+elementId);
             placeholder.stop(true,true);
             placeholder.fadeIn();
             placeholder.html('<div class="alert alert-warning fade in">'+
@@ -17,8 +17,8 @@ define(['jquery'],
             placeholder.fadeOut(5000);
         }
 
-        function createSuccessMessage(message) {
-            var placeholder = $('.message_placeholder');
+        function createSuccessMessage(elementId,message) {
+            var placeholder = $('#'+elementId);
             placeholder.stop(true,true);
             placeholder.fadeIn();
             placeholder.html('<div class="alert alert-success fade in">'+
@@ -27,8 +27,8 @@ define(['jquery'],
             placeholder.fadeOut(5000);
         }
 
-        function createInfoMessage(message) {
-            var placeholder = $('.message_placeholder');
+        function createInfoMessage(elementId,message) {
+            var placeholder = $('#'+elementId);
             placeholder.stop(true,true);
             placeholder.fadeIn();
             placeholder.html('<div class="alert alert-info fade in">'+
@@ -37,8 +37,8 @@ define(['jquery'],
             placeholder.fadeOut(5000);
         }
 
-        function createErrorMessage(message) {
-            var placeholder = $('.message_placeholder');
+        function createErrorMessage(elementId,message) {
+            var placeholder = $('#'+elementId);
             placeholder.stop(true,true);
             placeholder.fadeIn();
             placeholder.html('<div class="alert alert-danger fade in">'+
