@@ -22,7 +22,7 @@ public class MoneyRepository {
         EntityManager em = JPA.em();
         TypedQuery<FinancialHighlights> query = em.createQuery("Select fh From FinancialHighlights fh " +
                 "WHERE fh.deliveredDate >= :minDate " +
-                "AND fh.deliveredDate < :maxDate " +
+                "AND fh.deliveredDate <= :maxDate " +
                 "AND fh.waybillVehicleDriver.driver.company.id = :companyId",
                 FinancialHighlights.class);
         query.setParameter("minDate",minDate);
@@ -32,16 +32,19 @@ public class MoneyRepository {
     }
 
     public void saveFinancialHighlights(FinancialHighlights financialHighlights) {
+        LOGGER.debug("Save financial highlights: {}", financialHighlights.waybillVehicleDriver.id);
         EntityManager em = JPA.em();
         em.persist(financialHighlights);
     }
 
     public void updateFinancialHighlights(FinancialHighlights financialHighlights) {
+        LOGGER.debug("Update financial highlights: {}", financialHighlights.waybillVehicleDriver.id);
         EntityManager em = JPA.em();
         em.merge(financialHighlights);
     }
 
     public FinancialHighlights getFinancialHighlights(WaybillVehicleDriver wvd) {
+        LOGGER.debug("Get financial highlights: {}", wvd.id);
         EntityManager em = JPA.em();
         TypedQuery<FinancialHighlights> query = em.createQuery("Select fh From FinancialHighlights fh" +
                 " WHERE fh.waybillVehicleDriver = :wvd", FinancialHighlights.class);

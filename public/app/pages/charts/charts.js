@@ -8,12 +8,12 @@ define(['highcharts', 'jqueryUI', 'excel-builder', 'swfobject', 'downloadify', '
             bar.go(50);
             var self = this;
             var currentDate = new Date();
-            self.minDate = ko.observable(new Date(currentDate.getFullYear() - 1, currentDate.getMonth(), currentDate.getDate()));
+            self.minDate = ko.observable(new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate() - 1));
             self.maxDate = ko.observable(new Date());
-
+            var WEEK_IN_MILLISECONDS = 7 * 24 * 3600 * 1000;
 
             $(".date").each(function() {
-                $(this).datepicker();
+                $(this).datepicker({ dateFormat: 'dd-mm-yy' });
             });
 
 
@@ -26,6 +26,7 @@ define(['highcharts', 'jqueryUI', 'excel-builder', 'swfobject', 'downloadify', '
                     ko.utils.registerEventHandler(element, "change", function() {
                         var observable = valueAccessor();
                         observable($el.datepicker("getDate"));
+                        self.updateChart();
                     });
 
                     ko.utils.domNodeDisposal.addDisposeCallback(element, function() {
@@ -40,7 +41,6 @@ define(['highcharts', 'jqueryUI', 'excel-builder', 'swfobject', 'downloadify', '
                     if (value - current !== 0) {
                         $el.datepicker("setDate", value);
                     }
-                    self.updateChart();
                 }
             };
 
@@ -66,7 +66,7 @@ define(['highcharts', 'jqueryUI', 'excel-builder', 'swfobject', 'downloadify', '
                     type: 'area'
                 },
                 title: {
-                    text: 'Income, Loss and Profit of company'
+                    text: 'Financial highlights'
                 },
                 legend: {
                     align: 'left',
@@ -115,40 +115,75 @@ define(['highcharts', 'jqueryUI', 'excel-builder', 'swfobject', 'downloadify', '
                 series: [{
                     name: 'Income',
                     data: [],
-                    pointStart: Date.UTC(self.maxDate().getFullYear(), self.minDate().getMonth(), self.minDate().getDate()),
-                    pointInterval: 7 * 24 * 3600 * 1000 // one week
+                    pointStart: Date.UTC(self.minDate().getFullYear(), self.minDate().getMonth(), self.minDate().getDate()),
+                    pointInterval: WEEK_IN_MILLISECONDS
                 }, {
                     name: 'Loss',
                     data: [],
                     pointStart: Date.UTC(self.minDate().getFullYear(), self.minDate().getMonth(), self.minDate().getDate()),
-                    pointInterval: 7 * 24 * 3600 * 1000
+                    pointInterval: WEEK_IN_MILLISECONDS
                 }, {
                     name: 'Profit',
                     data: [],
                     pointStart: Date.UTC(self.minDate().getFullYear(), self.minDate().getMonth(), self.minDate().getDate()),
-                    pointInterval: 7 * 24 * 3600 * 1000
+                    pointInterval: WEEK_IN_MILLISECONDS
                 }]
             };
 
             var chart = new Highcharts.Chart(chartOptions);
 
 
+            function groupDataByWeek(data) {
+                var initialDate = data[0].deliveredDate;
+                var groupedData = [{
+                    deliveredDate: data[data.length - 1].deliveredDate,
+                    transportationIncome: 0,
+                    loss: 0,
+                    profit: 0
+                }];
+                var groupedDataIndex = 0;
+                for (var i = 0; i < data.length; i++) {
+                    if (data[i].deliveredDate > initialDate + WEEK_IN_MILLISECONDS) {
+                        initialDate = data[i].deliveredDate;
+                        groupedDataIndex++;
+                        groupedData[groupedDataIndex] = {
+                            deliveredDate: data[i].deliveredDate,
+                            transportationIncome: 0,
+                            loss: 0,
+                            profit: 0
+                        };
+                    }
+                    groupedData[groupedDataIndex].transportationIncome += data[i].transportationIncome;
+                    groupedData[groupedDataIndex].loss += data[i].vehicleFuelLoss;
+                    groupedData[groupedDataIndex].loss += data[i].productsLoss;
+                    groupedData[groupedDataIndex].profit += data[i].profit;
+                }
+                return groupedData;
+            }
+
+
             self.updateChart = function() {
                 chartService.list(self.minDate().getTime(), self.maxDate().getTime(),
                     function (data) {
+                        var groupedData = groupDataByWeek(data);
                         var income = [];
                         var loss = [];
                         var profit = [];
-                        for (var i = 0; i < data.length; i++) {
-                            income[i] = data[i].transportationIncome;
-                            loss[i] = data[i].vehicleFuelLoss + data[i].productsLoss;
-                            profit[i] = data[i].profit;
+                        for (var i = 0; i < groupedData.length; i++) {
+                            income[i] = groupedData[i].transportationIncome;
+                            loss[i] = groupedData[i].loss;
+                            profit[i] = groupedData[i].profit;
                         }
                         chart.series[0].setData(income, true);
                         chart.series[1].setData(loss, true);
                         chart.series[2].setData(profit, true);
-                        chart.xAxis[0].setExtremes(new Date(self.minDate().getFullYear(), self.minDate().getMonth(), self.minDate().getDate()),
-                            new Date(self.maxDate().getFullYear(), self.maxDate().getMonth(), self.maxDate().getDate()));
+                        var minDate = new Date(groupedData[0].deliveredDate);
+                        var maxDate = new Date(groupedData[groupedData.length - 1].deliveredDate);
+                        self.minDate(minDate);
+                        self.maxDate(maxDate);
+                        console.log(self.minDate(), self.maxDate());
+                        chart.xAxis[0].setExtremes(new Date(self.minDate().getFullYear(), self.minDate().getMonth(), self.minDate().getDate() - 1),
+                            new Date(self.maxDate().getFullYear(), self.maxDate().getMonth(), self.maxDate().getDate() + 1));
                     },
                     function (data) {
                         navService.catchError(data);
@@ -160,10 +195,14 @@ define(['highcharts', 'jqueryUI', 'excel-builder', 'swfobject', 'downloadify', '
             };
 
 
+            function prepareDataForXLSX() {
+
+            }
+
 
             function prepareXLSX() {
                 var artistWorkbook = EB.createWorkbook();
-                var albumList = artistWorkbook.createWorksheet({name: 'Album List'});
+                var albumList = artistWorkbook.createWorksheet({name: 'Financial Report'});
                 var stylesheet = artistWorkbook.getStyleSheet();
 
                 var red = 'FFFF0000';
@@ -189,7 +228,7 @@ define(['highcharts', 'jqueryUI', 'excel-builder', 'swfobject', 'downloadify', '
 
                 var originalData = [
                     [
-                        {value: 'Start date', metadata: {style: importantFormatter.id}},
+                        {value: 'Start date', metadata: {style: themeColor.id}},
                         {value: 'Final date', metadata: {style: themeColor.id}},
                         {value: 'Loss', metadata: {style: themeColor.id}},
                         {value: 'Income', metadata: {style: themeColor.id}},
@@ -216,7 +255,7 @@ define(['highcharts', 'jqueryUI', 'excel-builder', 'swfobject', 'downloadify', '
                 var data = EB.createFile(artistWorkbook);
 
                 Downloadify.create('downloader', {
-                    filename: 'Artist WB.xlsx',
+                    filename: 'Financial Report.xlsx',
                     data: data,
                     dataType: 'base64',
                     onComplete: function () {
