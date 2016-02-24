@@ -104,7 +104,7 @@ define(['app/service/waybillService', 'app/service/navService', 'app/service/bar
                 var productsInVehicles = true;
                 self.goods().forEach(function(product,i,goods){
                    if(product.lastQuantity()!=0) {
-                       messageUtil.createWarningMessage("Some products are not in vehicle");
+                       messageUtil.createWarningMessage("messageBox","Some products are not in vehicle");
                        productsInVehicles = false;}
                 });
                 return validator.form() && productsInVehicles;
@@ -257,7 +257,7 @@ define(['app/service/waybillService', 'app/service/navService', 'app/service/bar
                             directionsDisplay.setDirections(response);
                             var route = response.routes[0];
                         } else {
-                            window.alert('Directions request failed due to ' + status);
+                            messageUtil.createWarningMessage("googleMessageBox",'Directions request failed due to ' + status);
                         }
                     });
                 }

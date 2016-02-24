@@ -94,7 +94,7 @@ define(['app/utils/messageUtil','app/service/warehouseService', 'app/service/nav
             self.getChosenWarehouse = function () {
                 var countChosen = self.checkedWarehouses().length;
                 if(! countChosen || countChosen > 1) {
-                    message.createWarningMessage("Please, choose only one warehouse.");
+                    message.createWarningMessage("messageBox","Please, choose only one warehouse.");
                     return false;
                 }
                 for (var i = 0; i < self.warehouses().length; i++) {
@@ -133,7 +133,7 @@ define(['app/utils/messageUtil','app/service/warehouseService', 'app/service/nav
 
             self.deleteWarehouse = function () {
                 if(! self.checkedWarehouses().length) {
-                    message.createWarningMessage("Please, choose at least one warehouse.");
+                    message.createWarningMessage("messageBox","Please, choose at least one warehouse.");
                     return false;
                 }
                 var deletingWarehouse =  $.grep(self.warehouses(), function(element) {

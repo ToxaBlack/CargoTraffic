@@ -10,7 +10,7 @@
         <div class="tab-pane active" id="tab1">
             <p>
             <form id="waybillMain" class="form-horizontal">
-            <div class="message_placeholder"></div>
+            <div id="messageBox"></div>
             <div class="form-group">
                 <label class="control-label col-md-3">Packing list №:</label>
                 <div class="col-md-7">
@@ -221,7 +221,7 @@
             <!-- Modal -->
 
             <div id="mapModal" class="modal fade" role="dialog">
-                <div class="modal-dialog">
+                <div class="modal-dialog modal-lg">
 
                     <!-- Modal content-->
                     <div class="modal-content">
@@ -230,7 +230,8 @@
                             <h4 class="modal-title">Adding checkpoints</h4>
                         </div>
                         <div class="modal-body form-horizontal">
-                            <div id="googleMap" style="width:500px;height:380px;"></div>
+                            <div id="googleMessageBox"></div>
+                            <div id="googleMap" style="width:100%;height:500px;"></div>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-default" data-dismiss="modal" id="btnSavePoints">Save</button>
