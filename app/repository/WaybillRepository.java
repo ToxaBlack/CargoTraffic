@@ -85,10 +85,10 @@ public class WaybillRepository {
         return waybill;
     }
 
-    public List<ProductInWaybill> getWaybillProducts(WaybillVehicleDriver wvd) {
+    public List<ProductInWaybill> getWVDProducts(WaybillVehicleDriver wvd) {
         EntityManager em = JPA.em();
-        TypedQuery<ProductInWaybill> query = em.createQuery("Select pwb From ProductInWaybill pwb JOIN pwb.product p WHERE" +
-                " pwb.waybillVehicleDriver = :wvd", ProductInWaybill.class);
+        TypedQuery<ProductInWaybill> query = em.createQuery("Select pwb From ProductInWaybill pwb JOIN FETCH pwb.product p WHERE" +
+                " pwb.waybillVehicleDriver = :wvd AND pwb.quantity > 0", ProductInWaybill.class);
         query.setParameter("wvd", wvd);
         List<ProductInWaybill> list = query.getResultList();
         return list;

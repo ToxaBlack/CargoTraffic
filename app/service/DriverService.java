@@ -49,7 +49,7 @@ public class DriverService {
         try {
             return JPA.withTransaction(() -> {
                 WaybillVehicleDriver wvd = waybillRepository.getWVDByDriver(user);
-                return wvd.productsInWaybill;
+                return  waybillRepository.getWVDProducts(wvd);
             });
         } catch (Throwable throwable) {
             LOGGER.error("Get products of waybill error: {}", throwable.getMessage());
