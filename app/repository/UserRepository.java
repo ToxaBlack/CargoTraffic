@@ -24,11 +24,10 @@ public class UserRepository {
 
     public User findByUsername(String name) {
         EntityManager em = JPA.em();
-        StringBuilder sb = new StringBuilder("SELECT u FROM User u WHERE u.username = ? AND u.company.locked = ? AND u.deleted = ?");
+        StringBuilder sb = new StringBuilder("SELECT u FROM User u LEFT JOIN u.userRoleList r LEFT JOIN u.company c WHERE u.username = :username")
+                .append(" AND u.deleted is false AND (r.id = 1 OR c.locked is false)");
         Query query = em.createQuery(sb.toString());
-        query.setParameter(1, name);
-        query.setParameter(2, false);
-        query.setParameter(3, false);
+        query.setParameter("username", name);
         List<User> userList = query.getResultList();
         if (CollectionUtils.isNotEmpty(userList)) return userList.get(0);
         return null;
