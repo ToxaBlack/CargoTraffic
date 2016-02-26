@@ -7,7 +7,6 @@ define(['app/service/waybillService', 'app/service/navService', "knockout", 'app
             self.controlPoints = ko.observableArray([]);
             self.waypoints = ko.observableArray([]);
             self.address = ko.observableArray([]);
-
             self.checkedWays = ko.observableArray([]);
             self.allChecked = ko.computed(function () {
                 var success = $.grep(self.controlPoints(), function (element, index) {
@@ -21,16 +20,15 @@ define(['app/service/waybillService', 'app/service/navService', "knockout", 'app
                 var js = document.createElement("script");
                 js.type = "text/javascript";
                 js.src = "http://maps.googleapis.com/maps/api/js?key=AIzaSyD-OL6Y6UrkY0rhd9rDl70wViuhRXW9OrE";
+                js.id = "googleScript";
                 document.body.appendChild(js);
             }
 
             function initialize() {
                 var center;
-                if(self.controlPoints.length > 0 ) center = google.maps.LatLng(self.controlPoints()[0].lat,self.controlPoints()[0].lng);
+                if(self.controlPoints().length > 0 )
+                    center = new google.maps.LatLng(self.controlPoints()[0].lat,self.controlPoints()[0].lng);
                 else center =  new google.maps.LatLng(51.508742, -0.120850);
-                self.tempWaypoints = ko.observableArray([]);
-                self.tempWaypoints = self.waypoints();
-                self.waypoints = ko.observableArray([]);
                 var lastPoint = center;
                 var mapProp = {
                     center: center,
@@ -41,19 +39,19 @@ define(['app/service/waybillService', 'app/service/navService', "knockout", 'app
                 var geocoder = new google.maps.Geocoder();
                 var marker = new google.maps.Marker({
                     position: mapProp.center,
-                    animation: google.maps.Animation.BOUNCE
+                    animation: google.maps.Animation.BOUNCE,
+                    map: map
                 });
-                marker.setMap(map);
 
-
+                self.address.removeAll();
                 for(var i = 0; i < self.controlPoints().length; ++i){
                     map.setZoom(11);
-                    var marker = new google.maps.Marker({
+                    marker = new google.maps.Marker({
                         position: self.controlPoints()[i],
                         animation: google.maps.Animation.BOUNCE,
                         map: map
                     });
-                    geocodeLatLng(geocoder, self.controlPoints()[i], i);
+                   geocodeLatLng(geocoder, self.controlPoints()[i], i);
                 }
 
                 var directionsDisplay = new google.maps.DirectionsRenderer({
@@ -83,7 +81,8 @@ define(['app/service/waybillService', 'app/service/navService', "knockout", 'app
                             directionsDisplay.setDirections(response);
                             var route = response.routes[0];
                         } else {
-                            window.alert('Directions request failed due to ' + status);
+                            console.log('Directions request failed due to ' + status);
+                            //window.alert('Directions request failed due to ' + status);
                         }
                     });
 
@@ -110,29 +109,35 @@ define(['app/service/waybillService', 'app/service/navService', "knockout", 'app
                         drawWay();
                     }
                 );
+                if(self.waypoints().length > 0) drawWay();
             }
 
             function geocodeLatLng(geocoder, latlng, i) {
                 geocoder.geocode({'location': latlng}, function(results, status) {
                     if (status === google.maps.GeocoderStatus.OK) {
                         if (results[1]) {
-                            self.address()[i] = results[1].formatted_address;
-                            console.log(self.address()[i]);
+                            self.address.push(results[1].formatted_address);
                         } else {
-                            window.alert('No results found');
+                            //window.alert('No results found');
                         }
                     } else {
-                        window.alert('Geocoder failed due to: ' + status);
+                       // setTimeout(geocodeLatLng(geocoder, latlng, i) , 1000);
+                        //window.alert('Geocoder failed due to: ' + status);
                     }
                 });
             }
 
             $(document).ready(function(){
                 waybilService.getWaypints(
-                    1, // waybill id
                     function(data){
                         self.controlPoints(data);
-                        includeJs();
+                        $.each(self.controlPoints(), function (index, element) {
+                            if (element.status == 'CHECKED') {
+                                self.checkedWays.push(element.id.toString());
+                                self.waypoints.push(element);
+                            }
+                        });
+                        if($('#googleScript').length == 0) includeJs();
                         setTimeout(initialize, 500);
                     },
                     function (data) {navService.catchError(data);}
@@ -155,6 +160,19 @@ define(['app/service/waybillService', 'app/service/navService', "knockout", 'app
                 }
             });
 
+            $('#btnSave').on('click', function(){
+                waybilService.putWaypoints(
+                    self.checkedWays(),
+                    self.controlPoints(),
+                    function(){
+                        //self.checkedWays = ko.observableArray([]);
+                        //self.controlPoints = ko.observableArray([]);
+                        //self.waypoints = ko.observableArray([]);
+                        navService.navigateTo("checkDelivery");
+                    },
+                    function (data) {navService.catchError(data);}
+            )
+            });
             bar.go(100);
             return self;
         }

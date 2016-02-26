@@ -7,22 +7,26 @@ define(['app/service/employeesService', 'app/service/navService', 'app/service/b
             var self = this;
             self.employee = ko.observable({});
             self.confirmPassword = ko.observable();
-            self.rolesList = ko.observableArray(['Admin','Dispatcher','Manager','Driver','Director']);
+            self.rolesList = ko.observableArray(['Admin', 'Dispatcher', 'Manager', 'Driver', 'Director']);
             self.addEmployee = function () {
-                employeesService.add(
-                    self.employee(),
-                    function (data) {
-                        navService.mainPage();
-                    },
-                    function (data) {
-                        switch (data.status) {
-                            case 403:
-                                navService.navigateTo("login");
-                                break;
-                            default:
-                                navService.navigateTo("error");
-                        }
-                    });
+                if (validate()) {
+                    this.disabled = true;
+                    employeesService.add(
+                        self.employee(),
+                        function (data) {
+                            navService.mainPage();
+                        },
+                        function (data) {
+                            switch (data.status) {
+                                case 403:
+                                    navService.navigateTo("login");
+                                    break;
+                                default:
+                                    navService.navigateTo("error");
+                            }
+                        });
+                    this.disabled = false;
+                }
             };
 
 
@@ -30,5 +34,35 @@ define(['app/service/employeesService', 'app/service/navService', 'app/service/b
             return self;
         }
 
+        function validate() {
+            var validator = $('#employeeForm').validate({
+                rules: {
+                    birthDate: {
+                        customDate: true
+                    },
+                    email: {
+                        email: true
+                    },
+                    confirmPassword: {
+                        equalTo: '#password'
+                    }
+                },
+                messages: {
+                    surname: {
+                        required: "Please enter surname."
+                    }
+                },
+                confirmPassword: {
+                    equalTo: "Please enter same password"
+                },
+                password: {
+                    pattern: "Password should contain only letters and digits"
+                }
+            });
+
+            return validator.form();
+        }
+
         return {viewModel: addEmployeeViewModel, template: addEmployeeTemplate};
-    });
+    }
+);

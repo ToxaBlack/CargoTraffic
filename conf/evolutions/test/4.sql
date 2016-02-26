@@ -43,7 +43,7 @@ CREATE TABLE `cargo_traffic`.`product_in_packing_list` (
   `packing_list_id` INT(11) UNSIGNED NOT NULL ,
   `price` INT(11) NULL ,
   `count` INT(11) NULL ,
-  `status` ENUM('ACCEPTED','VERIFICATION_COMPLETED','DELIVERED','LOST'),
+  `status` ENUM('ACCEPTED','TRANSPORTATION_STARTED','VERIFICATION_COMPLETED','DELIVERED','LOST'),
   `deleted` BIT(1) NULL DEFAULT FALSE ,
   PRIMARY KEY (`id`)  COMMENT '',
   INDEX `packing_list_idx` (`packing_list_id` ASC) ,
@@ -59,11 +59,11 @@ CREATE TABLE `cargo_traffic`.`product_in_packing_list` (
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4;
 
-INSERT INTO `measure_unit` (name) VALUES
-  ("KILOGRAM"), ("LITER"), ("SQUARE_METER"), ("PIECES");
+INSERT INTO `cargo_traffic`.`measure_unit` (name) VALUES
+  ('KILOGRAM'), ('LITER'), ('SQUARE_METER'), ('PIECES');
 
-INSERT INTO `storage_type` (type) VALUES
-  ("REFRIGERATOR"), ("TANK"), ("BOXCAR");
+INSERT INTO `cargo_traffic`.`storage_type` (type) VALUES
+  ('REFRIGERATOR'), ('TANK'), ('BOXCAR');
 # --- !Downs
 DROP TABLE IF EXISTS `cargo_traffic`.`product_in_packing_list`;
 DROP TABLE IF EXISTS `cargo_traffic`.`product`;

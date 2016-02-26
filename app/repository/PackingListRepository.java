@@ -35,7 +35,7 @@ public class PackingListRepository {
     }
 
 
-    public List<PackingList> getPackingLists(long id, int count, boolean ascOrder, Long companyId) {
+    public List<PackingList> getPackingLists(long id, int count, boolean ascOrder, Long companyId, Boolean isNew) {
         LOGGER.debug("Get packingLists: {}, {}, {}, {}", id, count, ascOrder, companyId);
         EntityManager em = JPA.em();
         StringBuilder stringBuilder = new StringBuilder("SELECT pl FROM PackingList pl WHERE pl.status = ? AND ");
@@ -45,7 +45,10 @@ public class PackingListRepository {
             stringBuilder.append("pl.id < ? AND pl.dispatcher.company.id = ? ORDER BY pl.id DESC");
         }
         Query query = em.createQuery(stringBuilder.toString());
-        query.setParameter(1, PackingListStatus.CREATED);
+        if(isNew)
+            query.setParameter(1, PackingListStatus.CREATED);
+        else
+            query.setParameter(1, PackingListStatus.CHECKED);
         query.setParameter(2, id);
         query.setParameter(3, companyId);
         query.setMaxResults(count);
@@ -85,20 +88,28 @@ public class PackingListRepository {
     public PackingList getPackingList(long id, Long companyId, PackingListStatus status) {
         LOGGER.debug("Get packingList: {}, {}", id, companyId);
         EntityManager em = JPA.em();
-        String sqlQuery = "SELECT pl FROM PackingList pl " +
-                "LEFT JOIN FETCH pl.departureWarehouse " +
-                "LEFT JOIN FETCH pl.destinationWarehouse " +
-                "WHERE pl.dispatcher.company.id = :companyId " +
-                "AND pl.status = :status " +
-                "AND pl.id = :id";
+        String sqlQuery = new StringBuilder()
+                .append("SELECT pl FROM PackingList pl ")
+                .append("LEFT JOIN FETCH pl.departureWarehouse ")
+                .append("LEFT JOIN FETCH pl.destinationWarehouse ")
+                .append("WHERE pl.dispatcher.company.id = :companyId ")
+                .append(status != null ? "AND pl.status = :status " : "")
+                .append("AND pl.id = :id").toString();
         Query query = em.createQuery(sqlQuery);
         query.setParameter("companyId", companyId);
-        query.setParameter("status", status);
+        if(status != null) query.setParameter("status", status);
         query.setParameter("id", id);
         query.setMaxResults(1);
         List<PackingList> packingLists = query.getResultList();
         if (CollectionUtils.isEmpty(packingLists))
             return new PackingList();
         return packingLists.get(0);
+    }
+
+
+    public void completeTransporationPackList(PackingList packinglist){
+        EntityManager em = JPA.em();
+        packinglist.status = PackingListStatus.DELIVERED;
+        em.merge(packinglist);
     }
 }

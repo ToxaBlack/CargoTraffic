@@ -5,6 +5,7 @@ import be.objectify.deadbolt.java.actions.Restrict;
 import be.objectify.deadbolt.java.actions.SubjectPresent;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
+import exception.ControllerException;
 import models.Company;
 import models.User;
 import org.apache.commons.collections4.CollectionUtils;
@@ -15,7 +16,7 @@ import play.mvc.Controller;
 import play.mvc.Http;
 import play.mvc.Result;
 import service.CompanyService;
-import service.ServiceException;
+import exception.ServiceException;
 
 import javax.inject.Inject;
 import java.util.*;
@@ -37,7 +38,7 @@ public class ClientsController extends Controller {
         try {
             companyList = companyService.getCompanies(id, clients, ascOrder);
         } catch (ServiceException e) {
-            LOGGER.error("error: {}", e);
+            LOGGER.error("error: {}", e.getMessage());
             throw new ControllerException(e.getMessage(), e);
         }
         return ok(Json.toJson(companyList));
@@ -72,7 +73,7 @@ public class ClientsController extends Controller {
         try {
             savedCompany = companyService.addClient(company, admin);
         } catch (ServiceException e) {
-            LOGGER.error("error: {}", e);
+            LOGGER.error("error: {}", e.getMessage());
             throw new ControllerException(e.getMessage(), e);
         }
         if (Objects.isNull(savedCompany)) {
@@ -103,7 +104,7 @@ public class ClientsController extends Controller {
         try {
             companyService.lockCompanies(clientIds);
         } catch (ServiceException e) {
-            LOGGER.error("error: {}", e);
+            LOGGER.error("error: {}", e.getMessage());
             throw new ControllerException(e.getMessage(), e);
         }
         return ok();
@@ -131,7 +132,7 @@ public class ClientsController extends Controller {
         try {
             companyService.unlockCompanies(clientIds);
         } catch (ServiceException e) {
-            LOGGER.error("error: {}", e);
+            LOGGER.error("error: {}", e.getMessage());
             throw new ControllerException(e.getMessage(), e);
         }
         return ok();

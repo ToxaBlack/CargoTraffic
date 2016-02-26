@@ -1,13 +1,11 @@
 package models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import models.statuses.PackingListStatus;
-import play.data.validation.Constraints;
 
-import javax.annotation.concurrent.Immutable;
 import javax.persistence.*;
 import java.util.Date;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 /**
@@ -41,6 +39,7 @@ public class PackingList {
     public PackingListStatus status;
 
     @OneToMany(mappedBy = "packingList")
+    @JsonIgnore
     public Set<ProductInPackingList> productsInPackingList = new HashSet<>();
 
     public Set<ProductInPackingList> getProductsInPackingList() {

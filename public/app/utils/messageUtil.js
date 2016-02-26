@@ -7,39 +7,56 @@ define(['jquery'],
     function ($) {
         "use strict";
 
-        function createWarningMesssage(message) {
-            $('.message_placeholder').html('<div class="alert alert-warning fade in">'+
+        function createWarningMessage(elementId,message) {
+            var placeholder = $('#'+elementId);
+            placeholder.stop(true,true);
+            placeholder.fadeIn();
+            placeholder.html('<div class="alert alert-warning fade in">'+
                '<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>'+
              '<strong>'+ message +'</strong></div>');
+            placeholder.fadeOut(5000);
         }
 
-        function createSuccessMesssage(message) {
-            $('.message_placeholder').html('<div class="alert alert-success fade in">'+
+        function createSuccessMessage(elementId,message) {
+            var placeholder = $('#'+elementId);
+            placeholder.stop(true,true);
+            placeholder.fadeIn();
+            placeholder.html('<div class="alert alert-success fade in">'+
                 '<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>'+
                 '<strong>'+ message +'</strong></div>');
+            placeholder.fadeOut(5000);
         }
 
-        function createInfoMesssage(message) {
-            $('.message_placeholder').html('<div class="alert alert-info fade in">'+
+        function createInfoMessage(elementId,message) {
+            var placeholder = $('#'+elementId);
+            placeholder.stop(true,true);
+            placeholder.fadeIn();
+            placeholder.html('<div class="alert alert-info fade in">'+
                 '<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>'+
                 '<strong>'+ message +'</strong></div>');
+            placeholder.fadeOut(5000);
         }
 
-        function createErrorMesssage(message) {
-            $('.message_placeholder').html('<div class="alert alert-danger fade in">'+
+        function createErrorMessage(elementId,message) {
+            var placeholder = $('#'+elementId);
+            placeholder.stop(true,true);
+            placeholder.fadeIn();
+            placeholder.html('<div class="alert alert-danger fade in">'+
                 '<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>'+
                 '<strong>'+ message +'</strong></div>');
+            placeholder.fadeOut(5000);
         }
 
+        //Deprecated method
         function deleteMessage() {
             $('.message_placeholder').empty();
         }
 
         return {
-            createWarningMessage: createWarningMesssage,
-            createSuccessMessage: createSuccessMesssage,
-            createInfoMesssage: createInfoMesssage,
-            createErrorMesssage: createErrorMesssage,
+            createWarningMessage: createWarningMessage,
+            createSuccessMessage: createSuccessMessage,
+            createInfoMessage: createInfoMessage,
+            createErrorMessage: createErrorMessage,
             deleteMessage: deleteMessage
         };
     });

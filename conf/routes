@@ -3,49 +3,54 @@
 # ~~~~
 
 # REST API
-POST        /api/login                 controllers.LoginController.login()
-POST        /api/logout                controllers.LoginController.logout()
-GET         /api/roles                 controllers.LoginController.roles()
 
-GET         /api/clients               controllers.ClientsController.getClients(id :Long, clients :Integer, ascOrder :Boolean)
-PUT         /api/clients/lock          controllers.ClientsController.lockClients()
-PUT         /api/clients/unlock        controllers.ClientsController.unlockClients()
-POST        /api/client                controllers.ClientsController.addClient()
+POST          /api/login                           controllers.LoginController.login()
+POST          /api/logout                          controllers.LoginController.logout()
+GET           /api/roles                           controllers.LoginController.roles()
 
-GET         /api/warehouses/get        controllers.WarehouseController.getWarehouses(id :Long, warehouses :Integer, ascOrder :Boolean)
-POST        /api/warehouses/add        controllers.WarehouseController.addWarehouse()
-PUT         /api/warehouses/edit       controllers.WarehouseController.editWarehouse()
-PUT         /api/warehouses/remove     controllers.WarehouseController.removeWarehouse()
+GET           /api/clients                         controllers.ClientsController.getClients(id :Long, clients :Integer, ascOrder :Boolean)
+PUT           /api/clients/lock                    controllers.ClientsController.lockClients()
+PUT           /api/clients/unlock                  controllers.ClientsController.unlockClients()
+POST          /api/client                          controllers.ClientsController.addClient()
 
-GET         /api/account               controllers.AccountController.getAccount()
-PUT         /api/account               controllers.AccountController.updateAccount()
-PUT         /api/password              controllers.AccountController.updatePassword()
+GET           /api/warehouses/get                  controllers.WarehouseController.getWarehouses(id :Long, warehouses :Integer, ascOrder :Boolean)
+POST          /api/warehouses/add                  controllers.WarehouseController.addWarehouse()
+PUT           /api/warehouses/edit                 controllers.WarehouseController.editWarehouse()
+DELETE        /api/warehouses/remove               controllers.WarehouseController.removeWarehouse()
 
-GET         /api/employees             controllers.EmployeesController.getEmployees(id :Long, employees :Integer, ascOrder :Boolean )
-POST        /api/employees             controllers.EmployeesController.addEmployees()
-PUT         /api/employees/remove      controllers.EmployeesController.removeEmployees()
-GET         /api/employees/details     controllers.EmployeesController.getEmployee(id: Long)
-PUT         /api/employees/update      controllers.EmployeesController.updateEmployee()
-GET         /api/drivers               controllers.EmployeesController.getDrivers()
+GET           /api/account                         controllers.AccountController.getAccount()
+PUT           /api/account                         controllers.AccountController.updateAccount()
+PUT           /api/password                        controllers.AccountController.updatePassword()
 
-GET         /api/vehicles              controllers.VehiclesController.getVehicles(id :Long, vehicles :Integer, ascOrder :Boolean )
-POST        /api/vehicle               controllers.VehiclesController.addVehicle()
-PUT         /api/vehicle               controllers.VehiclesController.updateVehicle()
-PUT         /api/vehicles/delete       controllers.VehiclesController.deleteVehicles()
+GET           /api/employees                       controllers.EmployeesController.getEmployees(id :Long, employees :Integer, ascOrder :Boolean )
+POST          /api/employees                       controllers.EmployeesController.addEmployees()
+DELETE        /api/employee/:id                controllers.EmployeesController.removeEmployees(id: Long)
+GET           /api/employees/details               controllers.EmployeesController.getEmployee(id: Long)
+PUT           /api/employees/update                controllers.EmployeesController.updateEmployee()
 
-POST        /api/packingList           controllers.PackingListController.addPackingList()
-GET         /api/packingLists          controllers.PackingListController.getPackingLists(id :Long, packingLists :Integer, ascOrder :Boolean )
-GET         /api/packingLists/$id<[0-9]+>   controllers.PackingListController.getCreatedPackingList(id :Long)
-GET         /api/packingLists/$id<[0-9]+>/checked   controllers.PackingListController.getCheckedPackingList(id :Long)
-PUT         /api/packingList/$id<[0-9]+>   controllers.PackingListController.changeStatus(id :Long)
+GET           /api/vehicles                        controllers.VehiclesController.getVehicles(id :Long, vehicles :Integer, ascOrder :Boolean )
+POST          /api/vehicle                         controllers.VehiclesController.addVehicle()
+PUT           /api/vehicle                         controllers.VehiclesController.updateVehicle()
+DELETE        /api/vehicle/:id                controllers.VehiclesController.deleteVehicles(id: Long)
 
-POST        /api/waybill               controllers.WaybillController.add()
-GET         /api/waybill/$id<[0-9]+>   controllers.WaybillController.getWaybillWithAdditionalInfo(id :Long)
-GET         /api/waypoints             controllers.WaypointController.get(id : Long)
+POST          /api/packingList                     controllers.PackingListController.addPackingList()
+GET           /api/packingLists                    controllers.PackingListController.getPackingLists(id :Long, packingLists :Integer, ascOrder :Boolean, isNew :Boolean )
+GET           /api/packingLists/$id<[0-9]+>        controllers.PackingListController.getCreatedPackingList(id :Long)
+PUT           /api/packingList/$id<[0-9]+>         controllers.PackingListController.changeStatus(id :Long)
 
-GET         /api/waybill               controllers.WaybillController.getProducts()
+POST          /api/waybill                         controllers.WaybillController.add()
+GET           /api/waybill/$id<[0-9]+>             controllers.WaybillController.getAdditionalInfoForWaybill(id :Long)
+GET           /api/waypoints                       controllers.WaypointController.get()
+PUT           /api/waypoints                       controllers.WaypointController.set()
+
+GET           /api/driver/products                 controllers.DriverController.getProducts()
+POST          /api/driver/act                      controllers.DriverController.createActOfLost()
+PUT           /api/driver/complete                 controllers.DriverController.completeDelivery()
+
+GET         /api/money                 controllers.MoneyController.getFinancialHighlights(minDate :Long, maxDate :Long)
+
 # Map static resources from the /public folder to the /assets URL path
-GET         /assets/*file              controllers.Assets.versioned(path="/public", file: Asset)
+GET           /assets/*file                        controllers.Assets.versioned(path="/public", file: Asset)
 
 # Home page
-GET         /$path<.*>                 controllers.Application.index(path)
+GET           /$path<.*>                           controllers.Application.index(path)

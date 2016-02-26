@@ -3,21 +3,28 @@ define(["app/utils/utils"],
         "use strict";
         function WaybillService() {
 
-            var save = function (waybill, waypoints, done, error, always) {
+            var save = function (manager,departureDate,arrivalDate,vehicleDrivers,packingListId,waypoints, done, error, always) {
                 utils.send(
                     "api/waybill",
                     "POST",
-                    JSON.stringify({'waybill' : waybill ,'waypoints' :waypoints}),
+
+                    JSON.stringify({
+                        'manager':manager,
+                        'departureDate':departureDate,
+                        'arrivalDate':arrivalDate,
+                        'vehicleDrivers':vehicleDrivers,
+                        'packingList':{'id' : packingListId},
+                        'waypoints':waypoints}),
                     done,
                     error
                 );
             };
 
-            var getWaypints = function (id, done, error, always) {
+            var getWaypints = function (done, error, always) {
                 utils.send(
                     "api/waypoints",
                     "GET",
-                    {"id": id},
+                    {},
                     done,
                     error
                 );
@@ -33,6 +40,15 @@ define(["app/utils/utils"],
                 );
             };
 
+            var putWaypints = function (checkedId, controlPoints, done, error) {
+                utils.send(
+                    "api/waypoints",
+                    "PUT",
+                    JSON.stringify({'checked': checkedId, 'controlPoints': controlPoints}),
+                    done,
+                    error
+                );
+            };
 
             var getProducts = function (done, error) {
                 utils.send(
@@ -48,7 +64,8 @@ define(["app/utils/utils"],
                 getProducts: getProducts,
                 save: save,
                 getWaypints: getWaypints,
-                getWaybill: getWaybill
+                getWaybill: getWaybill,
+                putWaypoints: putWaypints
             }
         }
 

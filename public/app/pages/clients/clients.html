@@ -68,8 +68,18 @@
                     <div class="col-md-10">
                         <input type="text" class="form-control" id="company"
                                data-bind="value : company.name"
-                               placeholder="Enter username" maxlength="250">
+                               placeholder="Enter name" maxlength="250">
                         <span data-bind="visible: !isCompanyNameCorrect()" class="text-danger">Incorrect company name input.</span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-md-2" for="transportationCost">Transportation cost/km*:</label>
+
+                    <div class="col-md-10">
+                        <input type="text" class="form-control" id="transportationCost"
+                               data-bind="value : company.transportationCostPerKm"
+                               placeholder="Enter transportation cost/km" maxlength="250">
+                        <span data-bind="visible: !isTransportationCostCorrect()" class="text-danger">Incorrect transportation cost.</span>
                     </div>
                 </div>
                 <hr>

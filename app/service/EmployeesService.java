@@ -1,5 +1,6 @@
 package service;
 
+import exception.ServiceException;
 import models.User;
 import models.UserRole;
 import org.apache.commons.collections4.CollectionUtils;
@@ -23,32 +24,25 @@ public class EmployeesService {
         userRepository = new UserRepository();
     }
 
-    public List<User> getEmployees(long companyId, long id, int count,  boolean ascOrder) throws ServiceException {
+    public List<User> getEmployees(long companyId, long id, int count, boolean ascOrder) throws ServiceException {
         try {
             return JPA.withTransaction(() -> userRepository.getList(companyId, id, count, ascOrder));
         } catch (Throwable throwable) {
-            LOGGER.error("Get list error = {}", throwable);
+            LOGGER.error("Get list error = {}", throwable.getMessage());
             throw new ServiceException(throwable.getMessage(), throwable);
         }
     }
 
-    public List<User> getDrivers(long companyId) throws ServiceException {
-        try {
-            return JPA.withTransaction(() -> userRepository.getDrivers(companyId));
-        } catch (Throwable throwable) {
-            LOGGER.error("Get drivers in EmployeesService error = {}", throwable);
-            throw new ServiceException(throwable.getMessage(), throwable);
-        }
-    }
 
     public User getEmployee(long id) throws ServiceException {
         try {
             return JPA.withTransaction(() -> userRepository.getUser(id));
         } catch (Throwable throwable) {
-            LOGGER.error("Get list error = {}", throwable);
+            LOGGER.error("Get list error = {}", throwable.getMessage());
             throw new ServiceException(throwable.getMessage(), throwable);
         }
     }
+
     public void addEmployee(User employee) throws ServiceException {
         try {
             JPA.withTransaction(() -> userRepository.addUser(employee));
@@ -62,19 +56,20 @@ public class EmployeesService {
         try {
             JPA.withTransaction(() -> userRepository.removeUser(ids));
         } catch (Throwable throwable) {
-            LOGGER.error("Remove employees error: {}", throwable);
+            LOGGER.error("Remove employees error: {}", throwable.getMessage());
             throw new ServiceException(throwable.getMessage(), throwable);
         }
     }
+
     public void updateEmployee(User employee) throws ServiceException {
         try {
-            List<String> password = JPA.withTransaction(()->userRepository.getPassword(employee.id));
+            List<String> password = JPA.withTransaction(() -> userRepository.getPassword(employee.id));
             employee.password = (CollectionUtils.isNotEmpty(password)) ? password.get(0) : null;
             List<UserRole> roles = JPA.withTransaction(() -> userRepository.getRoleByName(employee.userRoleList.get(0).name));
             employee.setRoles(roles);
             JPA.withTransaction(() -> userRepository.update(employee));
         } catch (Throwable throwable) {
-            LOGGER.error("Update employees error: {}", throwable);
+            LOGGER.error("Update employees error: {}", throwable.getMessage());
             throw new ServiceException(throwable.getMessage(), throwable);
         }
     }

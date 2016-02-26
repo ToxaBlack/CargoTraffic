@@ -11,7 +11,7 @@ import java.io.Serializable;
  */
 @Entity
 @Table(name = "product_in_packing_list")
-@Immutable
+//@Immutable
 public class ProductInPackingList {
 
     @Embeddable
@@ -46,8 +46,7 @@ public class ProductInPackingList {
     @EmbeddedId
     public Id id = new Id();
 
-    @Column(name = "price", nullable = false, insertable = true, updatable = true)
-    public Double price;
+
 
     @Column(name = "count", nullable = false, insertable = true, updatable = true)
     public Long count;
@@ -55,7 +54,6 @@ public class ProductInPackingList {
     @Column(name = "status")
     @Enumerated(EnumType.STRING)
     public ProductStatus status;
-    public Boolean deleted = false;
 
     @ManyToOne
     @JoinColumn(

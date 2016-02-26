@@ -8,7 +8,7 @@ CREATE TABLE IF NOT EXISTS `cargo_traffic`.`packing_list` (
   `dispatcher` INT(11) UNSIGNED NOT NULL,
   `departure_warehouse` INT(11) UNSIGNED NOT NULL,
   `destination_warehouse` INT(11) UNSIGNED NOT NULL,
-  `status` ENUM('CREATED', 'CHECKED', 'DELIVERED', 'REJECTED'),
+  `status` ENUM('CREATED', 'CHECKED','TRANSPORTATION_STARTED', 'DELIVERED', 'REJECTED'),
   PRIMARY KEY (`id`),
   INDEX (`departure_warehouse` ASC),
   INDEX (`destination_warehouse` ASC),
@@ -48,8 +48,8 @@ CREATE TABLE IF NOT EXISTS `cargo_traffic`.`vehicle_fuel` (
 
 CREATE TABLE IF NOT EXISTS `cargo_traffic`.`vehicle` (
   `id` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `vehicle_producer` VARCHAR(250) NOT NULL DEFAULT "",
-  `vehicle_model` VARCHAR(250) NOT NULL DEFAULT "",
+  `vehicle_producer` VARCHAR(250) NOT NULL DEFAULT '',
+  `vehicle_model` VARCHAR(250) NOT NULL DEFAULT '',
   `license_plate` VARCHAR(250) NOT NULL,
   `products_constraint` DOUBLE(10,2) UNSIGNED NOT NULL,
   `fuel_consumption` DOUBLE(10,2) UNSIGNED NOT NULL,
@@ -104,6 +104,7 @@ CREATE TABLE IF NOT EXISTS `cargo_traffic`.`waybill_vehicle_driver` (
   `waybill_id` INT(11) UNSIGNED NOT NULL,
   `vehicle_id` INT(11) UNSIGNED NOT NULL,
   `driver_id` INT(11) UNSIGNED NOT NULL,
+  `status` ENUM('TRANSPORTATION_STARTED', 'TRANSPORTATION_COMPLETED'),
   PRIMARY KEY (`id`),
   UNIQUE INDEX `waybill_vehicle_driver_UNIQUE` (`waybill_id` ASC, `vehicle_id` ASC, `driver_id` ASC),
   INDEX `wvd_vehicle_fk_idx` (`vehicle_id` ASC),

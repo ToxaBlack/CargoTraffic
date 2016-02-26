@@ -1,11 +1,14 @@
 package repository;
 
-import models.MeasureUnit;
-import models.Product;
+import models.*;
+import models.statuses.ProductStatus;
+import models.statuses.WaybillStatus;
 import play.db.jpa.JPA;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 import java.util.List;
 
 /**
@@ -26,6 +29,44 @@ public class ProductRepository {
         em.flush();
         em.refresh(product);
         return product;
+    }
+
+    public LostProduct saveActOfLost(LostProduct product) {
+        EntityManager em = JPA.em();
+        em.persist(product);
+        em.flush();
+        em.refresh(product);
+        return product;
+    }
+
+    public List<LostProduct> getLostProducts(User driver) {
+        EntityManager em = JPA.em();
+        TypedQuery<LostProduct> query = em.createQuery("Select lp From LostProduct lp, WaybillVehicleDriver wvd " +
+                "WHERE wvd.status = :status " +
+                "AND wvd.driver = :driver " +
+                "AND lp.driver = :driver",
+                LostProduct.class);
+        query.setParameter("status", WaybillStatus.TRANSPORTATION_STARTED);
+        query.setParameter("driver",driver);
+        return query.getResultList();
+    }
+
+    public long findOutCountOfMiss(Product product) {       // TODO status unnecessary?
+        EntityManager em = JPA.em();
+        TypedQuery<LostProduct> query = em.createQuery("Select lp from LostProduct lp WHERE lp.product = :product",
+                LostProduct.class);
+        query.setParameter("product",product);
+        LostProduct lostProduct = null;
+        try {
+            lostProduct = query.getSingleResult();
+        } catch (NoResultException ex){}
+        return lostProduct == null ? 0 : lostProduct.quantity;
+    }
+
+    public void saveAfterDelivery(ProductInPackingList product) {
+        EntityManager em = JPA.em();
+        product.status = ProductStatus.DELIVERED;
+        em.merge(product);
     }
 
     public List<MeasureUnit> getMeasureUnit(String name){

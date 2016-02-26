@@ -6,6 +6,7 @@ define(['app/utils/messageUtil','app/service/warehouseService', 'app/service/nav
         function warehousesViewModel() {
             var self = this;
             self.idEdit = -1;
+            self.chosen = ko.observable(-1);
             self.warehouses = ko.observableArray();
             self.checkedWarehouses = ko.observableArray();
             self.hasNextPage = ko.observable(false);
@@ -18,7 +19,7 @@ define(['app/utils/messageUtil','app/service/warehouseService', 'app/service/nav
             self.street = ko.observable();
             self.house = ko.observable();
 
-            self.warehousesPerPage = ko.observable(10);
+            self.warehousesPerPage = ko.observable(5);
             self.warehousesPerPage.subscribe( function() {
                 self.showWarehouses();
             });
@@ -52,8 +53,6 @@ define(['app/utils/messageUtil','app/service/warehouseService', 'app/service/nav
             };
 
             self.showWarehouses();
-
-            //  $("#warehouseForm").validate();
 
             self.saveWarehouse = function () {
                 if( $("#warehouseForm").valid()){
@@ -95,7 +94,7 @@ define(['app/utils/messageUtil','app/service/warehouseService', 'app/service/nav
             self.getChosenWarehouse = function () {
                 var countChosen = self.checkedWarehouses().length;
                 if(! countChosen || countChosen > 1) {
-                    message.createWarningMessage("Please, choose just only one warehouse.");
+                    message.createWarningMessage("messageBox","Please, choose only one warehouse.");
                     return false;
                 }
                 for (var i = 0; i < self.warehouses().length; i++) {
@@ -111,7 +110,6 @@ define(['app/utils/messageUtil','app/service/warehouseService', 'app/service/nav
             $("#warehouseForm").validate();
             self.editWarehouse = function () {
                 var editWarehouse = self.getChosenWarehouse();
-                //Feeling dialog's form
                 self.idEdit = editWarehouse.id;
                 self.warehouseName(editWarehouse.name);
                 self.country(editWarehouse.address.country);
@@ -122,21 +120,20 @@ define(['app/utils/messageUtil','app/service/warehouseService', 'app/service/nav
             };
 
             self.closeDialog = function () {
-                //Clearing dialog's form
                 self.idEdit = -1;
+                $("#warehouseForm").validate().resetForm();
+                $('#warehouseModal').modal("hide");
                 self.warehouseName("");
                 self.country("");
                 self.city("");
                 self.street("");
                 self.house("");
-
-                $('#warehouseModal').modal("hide");
             };
 
 
             self.deleteWarehouse = function () {
                 if(! self.checkedWarehouses().length) {
-                    message.createWarningMessage("Please, choose at least one warehouse.");
+                    message.createWarningMessage("messageBox","Please, choose at least one warehouse.");
                     return false;
                 }
                 var deletingWarehouse =  $.grep(self.warehouses(), function(element) {
@@ -145,13 +142,16 @@ define(['app/utils/messageUtil','app/service/warehouseService', 'app/service/nav
                 warehouseService.remove(deletingWarehouse,
                     function () {
                         //Pass id of first row
-                        self.lastId = self.warehouses()[0].id;
+
 
                         self.warehouses.remove( function(item) {
                             return $.inArray(item.id.toString(), self.checkedWarehouses()) !== -1;
                         });
                         if( self.recordCount() === 0) {
                             self.previousPage();
+                        }
+                        if( self.hasNextPage() && self.recordCount() < self.warehousesPerPage()) {
+                            self.showWarehouses();
                         }
                     },
                     function (data) {
@@ -186,11 +186,9 @@ define(['app/utils/messageUtil','app/service/warehouseService', 'app/service/nav
                 if (!self.hasPreviousPage()) return;
 
                 //Check case, when user have deleted all rows in table
-                if(self.lastId) {
-                    var id = self.lastId;
-                } else {
-                    id = self.warehouses()[0].id;
-                }
+
+                var  id = self.warehouses()[0].id;
+
 
                 warehouseService.list(id, self.warehousesPerPage() + 1, false,
                     function (data) {

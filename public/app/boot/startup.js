@@ -12,7 +12,6 @@ define(['app/service/startupService', 'app/service/navService', 'knockout', 'rou
         ko.components.register('packingList', {require: 'app/pages/packingList/packingList'});
         ko.components.register('packingLists', {require: 'app/pages/packingLists/packingLists'});
         ko.components.register('checkPackingList', {require: 'app/pages/checkPackingList/checkPackingList'});
-        ko.components.register('checkpoints', {require: 'app/pages/checkpoints/checkpoints'});
         ko.components.register('checkDelivery', {require: 'app/pages/checkDelivery/checkDelivery'});
 
         ko.components.register('waybill', {require: 'app/pages/waybill/waybill'});
@@ -22,6 +21,8 @@ define(['app/service/startupService', 'app/service/navService', 'knockout', 'rou
         ko.components.register('addEmployee', {require: 'app/pages/addEmployee/addEmployee'});
         ko.components.register('vehicles', {require: 'app/pages/vehicles/vehicles'});
         ko.components.register('waypoints', {require: 'app/pages/waypoints/waypoints'});
+        ko.components.register('charts', {require: 'app/pages/charts/charts'});
+
 
         var roles = ko.observableArray([]);
 

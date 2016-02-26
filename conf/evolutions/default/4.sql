@@ -12,6 +12,7 @@ DEFAULT CHARACTER SET = utf8mb4;
 CREATE TABLE `cargo_traffic`.`product` (
   `id` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(45) NOT NULL,
+  `price` DECIMAL(10,2) NULL ,
   `measure_unit_id` INT(11) UNSIGNED NULL,
   `storage_type` ENUM ('REFRIGERATOR', 'TANK', 'BOXCAR'),
   `deleted` BIT(1) NULL DEFAULT FALSE,
@@ -28,10 +29,8 @@ DEFAULT CHARACTER SET = utf8mb4;
 CREATE TABLE `cargo_traffic`.`product_in_packing_list` (
   `product_id` INT(11) UNSIGNED NOT NULL ,
   `packing_list_id` INT(11) UNSIGNED NOT NULL ,
-  `price` DECIMAL(10,2) NULL ,
   `count` INT(11) NULL ,
   `status` ENUM('ACCEPTED','VERIFICATION_COMPLETED','DELIVERED','LOST'),
-  `deleted` BIT(1) NULL DEFAULT FALSE ,
   PRIMARY KEY (`product_id`, `packing_list_id`) ,
   INDEX `packing_list_idx` (`packing_list_id` ASC) ,
   INDEX `product_idx` (`product_id` ASC) ,

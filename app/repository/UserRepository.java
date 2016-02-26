@@ -5,13 +5,10 @@ import models.UserRole;
 import org.apache.commons.collections4.CollectionUtils;
 import play.Logger;
 import play.db.jpa.JPA;
+import play.mvc.Http;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
-import javax.persistence.TypedQuery;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Root;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -23,34 +20,19 @@ import java.util.Objects;
 public class UserRepository {
     private static final Logger.ALogger LOGGER = Logger.of(UserRepository.class);
 
-    public User find(long id) {
-        EntityManager em = JPA.em();
-        return em.find(User.class, id);
-    }
+
 
     public User findByUsername(String name) {
         EntityManager em = JPA.em();
-        CriteriaBuilder builder = em.getCriteriaBuilder();
-        CriteriaQuery<User> query = builder.createQuery(User.class);
-        Root<User> u = query.from(User.class);
-        query.select(u).where(builder.equal(u.get("username"), name));
-        TypedQuery<User> q = em.createQuery(query);
-        List<User> userList = q.getResultList();
+        StringBuilder sb = new StringBuilder("SELECT u FROM User u LEFT JOIN u.userRoleList r LEFT JOIN u.company c WHERE u.username = :username")
+                .append(" AND u.deleted is false AND (r.id = 1 OR c.locked is false)");
+        Query query = em.createQuery(sb.toString());
+        query.setParameter("username", name);
+        List<User> userList = query.getResultList();
         if (CollectionUtils.isNotEmpty(userList)) return userList.get(0);
         return null;
     }
 
-    public List<User> findAll() {
-        EntityManager em = JPA.em();
-        CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();
-        CriteriaQuery<User> criteriaQuery = criteriaBuilder.createQuery(User.class);
-        Root<User> from = criteriaQuery.from(User.class);
-
-        CriteriaQuery<User> select = criteriaQuery.select(from);
-        TypedQuery<User> q = em.createQuery(select);
-
-        return q.getResultList();
-    }
 
     public void update(User user) {
         EntityManager em = JPA.em();
@@ -60,14 +42,17 @@ public class UserRepository {
     public List<User> getList(long companyId, long id, int count, boolean ascOrder) {
         EntityManager em = JPA.em();
         StringBuilder stringBuilder = new StringBuilder("SELECT u FROM User u WHERE u.company.id = ? AND u.deleted = false AND ");
+        stringBuilder.append(" u.id != ? AND ");
         if (ascOrder) {
             stringBuilder.append("u.id >= ? ORDER BY u.id ASC");
         } else {
             stringBuilder.append("u.id < ? ORDER BY u.id DESC");
         }
+
         Query query = em.createQuery(stringBuilder.toString());
         query.setParameter(1, companyId);
-        query.setParameter(2, id);
+        query.setParameter(2, ((User)Http.Context.current().args.get("user")).id);
+        query.setParameter(3, id);
         query.setMaxResults(count);
         List<User> users = query.getResultList();
         if (!ascOrder)
@@ -77,10 +62,13 @@ public class UserRepository {
 
     public List<User> getDrivers(long companyId) {
         EntityManager em = JPA.em();
-        StringBuilder stringBuilder = new StringBuilder("SELECT u FROM User u JOIN u.userRoleList role WHERE u.company.id = ? " +
-                "AND u.deleted = false AND role.name = 'DRIVER'");
-        Query query = em.createQuery(stringBuilder.toString());
-        query.setParameter(1, companyId);
+        String stringBuilder = "SELECT u FROM User u " +
+                "JOIN u.userRoleList role WHERE u.company.id = :companyId " +
+                "AND u.deleted = false AND role.name = 'DRIVER' " +
+                "AND (SELECT count(wvd.id) from WaybillVehicleDriver wvd " +
+                "where u=wvd.driver AND wvd.status = 'TRANSPORTATION_STARTED') =0";
+        Query query = em.createQuery(stringBuilder);
+        query.setParameter("companyId", companyId);
         List<User> users = query.getResultList();
         return users;
     }

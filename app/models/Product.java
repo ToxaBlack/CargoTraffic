@@ -3,6 +3,7 @@ package models;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 /**
  * Created by Olga on 07.02.2016.
@@ -26,6 +27,8 @@ public class Product {
     @Enumerated(EnumType.STRING)
     public StorageType storageType;
 
-    public Boolean deleted;
+    @Column(name = "price", nullable = false, insertable = true, updatable = true)
+    public Double price;
 
+    public Boolean deleted;
 }

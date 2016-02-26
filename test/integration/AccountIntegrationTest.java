@@ -5,7 +5,7 @@ import org.junit.Test;
 import play.libs.Json;
 import play.mvc.Http;
 import play.mvc.Result;
-import service.ServiceException;
+import exception.ServiceException;
 
 import static org.junit.Assert.assertEquals;
 import static play.mvc.Http.Status.FORBIDDEN;

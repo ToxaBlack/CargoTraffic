@@ -4,11 +4,13 @@ import be.objectify.deadbolt.java.actions.Group;
 import be.objectify.deadbolt.java.actions.Restrict;
 import com.fasterxml.jackson.databind.JsonNode;
 import dto.PackingListDTO;
+import exception.ControllerException;
 import models.PackingList;
 import models.ProductInPackingList;
 import models.User;
 import models.UserRole;
 import models.statuses.PackingListStatus;
+import models.statuses.ProductStatus;
 import play.Logger;
 import play.libs.Json;
 import play.mvc.BodyParser;
@@ -16,7 +18,7 @@ import play.mvc.Controller;
 import play.mvc.Http;
 import play.mvc.Result;
 import service.PackingListService;
-import service.ServiceException;
+import exception.ServiceException;
 
 import javax.inject.Inject;
 import java.util.ArrayList;
@@ -45,7 +47,7 @@ public class PackingListController extends Controller {
         } else {
             LOGGER.debug("Packing list: {}", json.toString());
             PackingListDTO packingListDTO = Json.fromJson(json, PackingListDTO.class);
-            PackingList packingList = PackingListDTO.getPackingList(packingListDTO);
+            PackingList packingList = PackingListDTO.getPackingList(packingListDTO, ProductStatus.ACCEPTED);
             packingList.dispatcher = oldUser;
             packingList.status = PackingListStatus.CREATED;
             Set<ProductInPackingList> products = packingList.productsInPackingList;
@@ -53,7 +55,7 @@ public class PackingListController extends Controller {
             try {
                 service.addPackingList(packingList, products);
             } catch (ServiceException e) {
-                LOGGER.error("error = {}", e);
+                LOGGER.error("error = {}", e.getMessage());
                 throw new ControllerException(e.getMessage(), e);
             }
         }
@@ -62,24 +64,24 @@ public class PackingListController extends Controller {
 
 
     @Restrict({@Group("MANAGER"), @Group("DISPATCHER")})
-    public Result getPackingLists(Long id, Integer count, Boolean ascOrder) throws ControllerException {
-        User oldUser = (User) Http.Context.current().args.get("user");
+    public Result getPackingLists(Long id, Integer count, Boolean ascOrder, Boolean isNew) throws ControllerException {
+        User user = (User) Http.Context.current().args.get("user");
         String userRole = "";
 
         //Manager has more privileges
-        for(UserRole role: oldUser.userRoleList) {
+        for(UserRole role: user.userRoleList) {
             if("MANAGER".equals(role.getName())) {
                 userRole = role.getName();
                 break;
             }
             if("DISPATCHER".equals(role.getName())) userRole = role.getName();
         }
-        LOGGER.debug("API get packingLists: {}, {}, {}, {}", oldUser.toString(), id, count, ascOrder);
+        LOGGER.debug("API get packingLists: user {}, id {}, count {}, ascOrder {}, isNew: {}", user.toString(), id, count, ascOrder, isNew);
         List<PackingList> packingLists;
         try {
             switch(userRole) {
                 case "MANAGER":
-                    packingLists = service.getPackingLists(id, count, ascOrder);
+                    packingLists = service.getPackingLists(id, count, ascOrder, isNew);
                     break;
                 case "DISPATCHER":
                     packingLists = service.getDispatcherPackingLists(id,count,ascOrder);
@@ -88,7 +90,7 @@ public class PackingListController extends Controller {
                     packingLists = new ArrayList<>();
             }
         } catch (ServiceException e) {
-            LOGGER.error("error = {}", e);
+            LOGGER.error("error = {}", e.getMessage());
             throw new ControllerException(e.getMessage(), e);
         }
         List<PackingListDTO> packingListDTOs = new ArrayList<>();
@@ -106,7 +108,7 @@ public class PackingListController extends Controller {
         try {
             packingList = service.getPackingList(id, PackingListStatus.CHECKED);
         } catch (ServiceException e) {
-            LOGGER.error("error = {}", e);
+            LOGGER.error("error = {}", e.getMessage());
             throw new ControllerException(e.getMessage(), e);
         }
         PackingListDTO dto = PackingListDTO.toPackingListDTO(packingList);
@@ -121,7 +123,7 @@ public class PackingListController extends Controller {
         try {
             packingList = service.getPackingList(id, PackingListStatus.CREATED);
         } catch (ServiceException e) {
-            LOGGER.error("error = {}", e);
+            LOGGER.error("error = {}", e.getMessage());
             throw new ControllerException(e.getMessage(), e);
         }
         PackingListDTO dto = PackingListDTO.toPackingListDTO(packingList);
@@ -143,7 +145,7 @@ public class PackingListController extends Controller {
         try {
             service.changeStatus(id, packingListStatus);
         } catch (ServiceException e) {
-            LOGGER.error("error = {}", e);
+            LOGGER.error("error = {}", e.getMessage());
             throw new ControllerException(e.getMessage(), e);
         }
         return ok();

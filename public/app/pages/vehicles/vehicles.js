@@ -10,7 +10,7 @@ define(['app/service/vehiclesService','app/service/navService', "knockout", 'app
             self.vehicles = ko.observableArray([]);
             self.hasNextPage = ko.observable(false);
             self.hasPreviousPage = ko.observable(false);
-            self.VEHICLES_PER_PAGE = 1;
+            self.VEHICLES_PER_PAGE = 10;
             self.modalDialogVehicle =  ko.observable({'vehicleFuel':{}, 'vehicleType':{}, 'company':{}});
             self.vehicleFuels = ko.observableArray(['Diesel','Bio-diesel','Petrol-95', 'Petrol-98']);
             self.selectedFuel = ko.observable();
@@ -19,13 +19,6 @@ define(['app/service/vehiclesService','app/service/navService', "knockout", 'app
             self.submitDialogButtonName = ko.observable("");
             self.error = ko.observable();
 
-            self.checkedVehicles = ko.observableArray([]);
-            self.allChecked = ko.computed(function () {
-                var success = $.grep(self.vehicles(), function (element, index) {
-                        return $.inArray(element.id.toString(), self.checkedVehicles()) !== -1;
-                    }).length === self.vehicles().length;
-                return success;
-            }, this);
 
             vehiclesService.list(1, self.VEHICLES_PER_PAGE + 1, true,
                 function (data) {
@@ -90,21 +83,6 @@ define(['app/service/vehiclesService','app/service/navService', "knockout", 'app
                     always);
             };
 
-            $('#selectAllCheckbox').on('click', function () {
-                if (!self.allChecked()) {
-                    $.each(self.vehicles(), function (index, element) {
-                        if ($.inArray(element.id.toString(), self.checkedVehicles()) === -1) {
-                            self.checkedVehicles.push(element.id.toString());
-                        }
-                    });
-                } else {
-                    $.each(self.vehicles(), function (index, element) {
-                        if ($.inArray(element.id.toString(), self.checkedVehicles()) !== -1) {
-                            self.checkedVehicles.remove(element.id.toString());
-                        }
-                    });
-                }
-            });
 
             self.addVehicleDialog = function () {
                 self.modalDialogVehicle({'vehicleFuel':{}, 'vehicleType':{}, 'company':{}});
@@ -114,17 +92,19 @@ define(['app/service/vehiclesService','app/service/navService', "knockout", 'app
                 $('#vehicleModal').modal();
             };
 
-            self.deleteVehicles = function () {
+
+            self.remove = function (attr) {
+                this.disabled = true;
                 vehiclesService.remove(
-                    self.checkedVehicles(),
+                    attr.id,
                     function () {
                         var tempArray = self.vehicles().slice();
-                        $.each(tempArray, function (index, element) {
-                            if ($.inArray(element.id.toString(), self.checkedVehicles()) !== -1) {
-                                tempArray.splice(index, 1);
-                                return;
+                        for (var i = 0; i < tempArray.length; i++) {
+                            if (tempArray[i].id === attr.id) {
+                                tempArray.splice(i, 1);
+                                i--;
                             }
-                        });
+                        }
                         if (tempArray.length === 0) {
                             if (self.hasPreviousPage() && self.hasNextPage()) {
                                 self.previousPage();
@@ -141,13 +121,13 @@ define(['app/service/vehiclesService','app/service/navService', "knockout", 'app
                             } else {
                                 self.vehicles([]);
                             }
+                        } else {
+                            self.vehicles(tempArray);
                         }
-                        self.checkedVehicles([]);
                     },
-                    function (data) {
-                        navService.catchError(data);
-                    }
+                    function (data) {navService.catchError(data);}
                 );
+                this.disabled = false;
             };
 
             self.onLink = function (vehicle) {

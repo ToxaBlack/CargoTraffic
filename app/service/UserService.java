@@ -1,11 +1,10 @@
 package service;
 
+import exception.ServiceException;
 import models.User;
 import play.Logger;
 import play.db.jpa.JPA;
 import repository.UserRepository;
-
-import java.util.List;
 
 /**
  * Created by Anton Chernov on 12/29/2015.
@@ -19,22 +18,12 @@ public class UserService {
         userRepository = new UserRepository();
     }
 
-    public List<User> getUserList() throws ServiceException {
-        LOGGER.debug("Get user list");
-        try {
-            return JPA.withTransaction(() -> userRepository.findAll());
-        } catch (Throwable throwable) {
-            LOGGER.error("Get user list = {}", throwable);
-            throw new ServiceException(throwable.getMessage(), throwable);
-        }
-    }
-
     public User find(long id) throws ServiceException {
         LOGGER.debug("Get user with id = {}", id);
         try {
-            return JPA.withTransaction(() -> userRepository.find(id));
+            return JPA.withTransaction(() -> userRepository.getUser(id));
         } catch (Throwable throwable) {
-            LOGGER.error("Find user id = {}, error = {}", id, throwable);
+            LOGGER.error("Find user id = {}, error = {}", id, throwable.getMessage());
             throw new ServiceException(throwable.getMessage(), throwable);
         }
     }
@@ -55,7 +44,7 @@ public class UserService {
         try {
             return JPA.withTransaction(() -> userRepository.findByUsername(name));
         } catch (Throwable throwable) {
-            LOGGER.error("Find user name = {}, error = {}", name, throwable);
+            LOGGER.error("Find user name = {}, error = {}", name, throwable.getMessage());
             throw new ServiceException(throwable.getMessage(), throwable);
         }
     }
@@ -65,7 +54,7 @@ public class UserService {
         try {
             JPA.withTransaction(() -> userRepository.update(user));
         } catch (Throwable throwable) {
-            LOGGER.error("Update user id = {}, error = {}", user.id, throwable);
+            LOGGER.error("Update user id = {}, error = {}", user.id, throwable.getMessage());
             throw new ServiceException(throwable.getMessage(), throwable);
         }
     }

@@ -1,8 +1,8 @@
 package dto;
 
 import models.*;
-import models.statuses.PackingListStatus;
 import models.statuses.ProductStatus;
+import play.data.validation.Constraints;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -16,11 +16,12 @@ public class PackingListDTO {
     public Long id;
     public Warehouse destinationWarehouse;
     public List<ProductDTO> products = new ArrayList<ProductDTO>();
+    @Constraints.MaxLength(40)
     public Date issueDate;
     public Warehouse departureWarehouse;
     public User dispatcher;
 
-    public static PackingList getPackingList(PackingListDTO dto){
+    public static PackingList getPackingList(PackingListDTO dto, ProductStatus status){
         PackingList packingList = new PackingList();
         packingList.departureWarehouse = dto.departureWarehouse;
         packingList.destinationWarehouse = dto.destinationWarehouse;
@@ -34,10 +35,10 @@ public class PackingListDTO {
             productInPackingList.product.measureUnit = new MeasureUnit(productDTO.unit.toUpperCase().trim());
             productInPackingList.product.storageType = StorageType.valueOf(productDTO.storage.toUpperCase().trim());
             productInPackingList.product.name = productDTO.name;
+            productInPackingList.product.price = productDTO.price;
 
             productInPackingList.count = productDTO.quantity;
-            productInPackingList.price = productDTO.price;
-            productInPackingList.status = ProductStatus.ACCEPTED;
+            productInPackingList.status = status;
             productInPackingList.packingList = packingList;
 
             packingList.productsInPackingList.add(productInPackingList);
@@ -56,7 +57,7 @@ public class PackingListDTO {
             ProductDTO productDTO = new ProductDTO();
             productDTO.id = productInPackingList.id.productId;
             productDTO.name = productInPackingList.product.name;
-            productDTO.price = productInPackingList.price;
+            productDTO.price = productInPackingList.product.price;
             productDTO.quantity = productInPackingList.count;
             productDTO.storage = productInPackingList.product.storageType.name();
             productDTO.unit = productInPackingList.product.measureUnit.name;

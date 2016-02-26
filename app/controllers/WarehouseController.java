@@ -4,13 +4,15 @@ import be.objectify.deadbolt.java.actions.Group;
 import be.objectify.deadbolt.java.actions.Restrict;
 import be.objectify.deadbolt.java.actions.SubjectPresent;
 import com.fasterxml.jackson.databind.JsonNode;
+import exception.ControllerException;
 import models.Warehouse;
 import play.Logger;
 import play.libs.Json;
+import play.mvc.BodyParser;
 import play.mvc.Controller;
 import play.mvc.Http;
 import play.mvc.Result;
-import service.ServiceException;
+import exception.ServiceException;
 import service.WarehouseService;
 
 import javax.inject.Inject;
@@ -34,13 +36,14 @@ public class WarehouseController extends Controller {
         try {
             warehouseList = warehouseService.getWarhouses(id, warehouses, ascOrder);
         } catch (ServiceException e) {
-            LOGGER.error("error = {}", e);
+            LOGGER.error("error = {}", e.getMessage());
             throw new ControllerException(e.getMessage(), e);
         }
         return ok(Json.toJson(warehouseList));
     }
 
     @Restrict({@Group("DISPATCHER")})
+    @BodyParser.Of(BodyParser.Json.class)
     public Result addWarehouse() throws ControllerException {
         JsonNode json = request().body().asJson();
         if (Objects.isNull(json)) {
@@ -61,7 +64,7 @@ public class WarehouseController extends Controller {
         try {
             warehouse = warehouseService.addWarehouse(warehouse);
         } catch (ServiceException e) {
-            LOGGER.error("error = {}", e);
+            LOGGER.error("error = {}", e.getMessage());
             throw new ControllerException(e.getMessage(), e);
         }
 
@@ -69,6 +72,7 @@ public class WarehouseController extends Controller {
     }
 
     @Restrict({@Group("DISPATCHER")})
+    @BodyParser.Of(BodyParser.Json.class)
     public Result editWarehouse() throws ControllerException {
         JsonNode json = request().body().asJson();
 
@@ -90,7 +94,7 @@ public class WarehouseController extends Controller {
         try {
             warehouse = warehouseService.editWarehouse(warehouse);
         } catch (ServiceException e) {
-            LOGGER.error("error = {}", e);
+            LOGGER.error("error = {}", e.getMessage());
             throw new ControllerException(e.getMessage(), e);
         }
 
@@ -98,6 +102,7 @@ public class WarehouseController extends Controller {
     }
 
     @Restrict({@Group("DISPATCHER")})
+    @BodyParser.Of(BodyParser.Json.class)
     public Result removeWarehouse() throws ControllerException {
         JsonNode json = request().body().asJson();
 
@@ -119,8 +124,12 @@ public class WarehouseController extends Controller {
             }
             warehouses.add(warehouse);
         }
-
-        warehouseService.removeWarehouses(warehouses);
+        try {
+            warehouseService.removeWarehouses(warehouses);
+        } catch (ServiceException e) {
+            LOGGER.error("error = {}", e.getMessage());
+            throw new ControllerException(e.getMessage(), e);
+        }
         return ok();
     }
 }

@@ -3,11 +3,11 @@ define(["app/utils/utils"],
         "use strict";
         function PackingListService() {
 
-            var list = function (id, numberOfPackingLists, ascOrder, done, error, always) {
+            var list = function (id, numberOfPackingLists, ascOrder, isNew, done, error, always) {
                 utils.send(
                     "api/packingLists",
                     "GET",
-                    {"id": id, "packingLists": numberOfPackingLists, "ascOrder": ascOrder},
+                    {"id": id, "packingLists": numberOfPackingLists, "ascOrder": ascOrder, "isNew": isNew},
                     done,
                     error,
                     always
@@ -41,7 +41,6 @@ define(["app/utils/utils"],
                     "api/packingList",
                     "POST",
                     packingList,
-                    //JSON.stringify({"departureWarehouse": from, "destinationWarehouse": to, "products": products, "issueDate": date }),
                     done,
                     error,
                     always

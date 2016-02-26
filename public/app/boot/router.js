@@ -12,15 +12,15 @@ define(["jquery", "knockout", "crossroads", "history"], function ($, ko, crossro
             {url: 'home', params: {page: 'home'}},
             {url: 'packingLists', params: {page: 'packingLists'}},
             {url: 'checkPackingList/{id}', params: {page: 'checkPackingList'}},
-            {url: 'checkpoints', params: {page: 'checkpoints'}},
             {url: 'checkDelivery', params: {page: 'checkDelivery'}},
-            {url: 'waybill/{id}', params: {page: 'waybill'}},
+            {url: 'waybillForPackingList/{id}', params: {page: 'waybill'}},
             {url: 'settings', params: {page: 'settings'}},
             {url: 'error', params: {page: 'error'}},
             {url: 'employees', params: {page: 'employees'}},
             {url: 'addEmployee', params: {page: 'addEmployee'}},
             {url: 'vehicles', params: {page: 'vehicles'}},
             {url: 'waypoints', params: {page: 'waypoints'}},
+            {url: 'charts', params: {page: 'charts'}},
             {url: /.*/, params: {page: 'error'}}
         ]
     });

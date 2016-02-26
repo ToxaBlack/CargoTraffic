@@ -11,15 +11,7 @@ define(['app/service/employeesService','app/service/navService', "knockout", 'ap
             self.EMPLOYEES_PER_PAGE = 10;
             self.edit =  ko.observableArray([]);
             self.rolesList = ko.observableArray(['admin','dispatcher','manager','driver','director']);
-            self.selectedRole = ko.observableArray();
-
-            self.checkedEmployees = ko.observableArray([]);
-            self.allChecked = ko.computed(function () {
-                var success = $.grep(self.employees(), function (element, index) {
-                        return $.inArray(element.id.toString(), self.checkedEmployees()) !== -1;
-                    }).length === self.employees().length;
-                return success;
-            }, this);
+            self.selectedRole = ko.observableArray([]);
 
             employeesService.get(
                 self.EMPLOYEES_PER_PAGE + 1,
@@ -79,54 +71,40 @@ define(['app/service/employeesService','app/service/navService', "knockout", 'ap
 
             };
 
-            $('#selectAllCheckbox').on('click', function () {
-                if (!self.allChecked()) {
-                    $.each(self.employees(), function (index, element) {
-                        if ($.inArray(element.id.toString(), self.checkedEmployees()) === -1) {
-                            self.checkedEmployees.push(element.id.toString());
-                        }
-                    });
-                } else {
-                    $.each(self.employees(), function (index, element) {
-                        if ($.inArray(element.id.toString(), self.checkedEmployees()) !== -1) {
-                            self.checkedEmployees.remove(element.id.toString());
-                        }
-                    });
-                }
-            });
 
             $('#addButton').on('click', function () {
                 navService.navigateTo("addEmployee");
             });
 
-            $('#removeButton').on('click', function () {
+
+            self.remove = function (attr) {
+                this.disabled = true;
                 employeesService.remove(
-                    self.checkedEmployees(),
+                    attr.id,
                     function () {
                         var tempArray = self.employees().slice();
-                        $.each(tempArray, function (index, element) {
-                            if ($.inArray(element.id.toString(), self.checkedEmployees()) !== -1) {
-                                tempArray.splice(index, 1);
-                                tempArray.splice(index, 0, element);
+                        for (var i = 0; i < tempArray.length; i++) {
+                            if (tempArray[i].id === attr.id) {
+                                tempArray.splice(i, 1);
+                                i--;
                             }
-                        });
-                        self.employees([]);
+                        }
                         self.employees(tempArray);
-                        self.checkedEmployees([]);
-                        window.location.reload();
                     },
                     function (data) {navService.catchError(data);}
                 );
-            });
+                this.disabled = false;
+            };
 
-            self.onLink = function (id) {
+            self.onLink = function (attr) {
                 employeesService.getUser(
-                    id.id,
+                    attr.id,
                     function (data) {
                         self.edit(data);
-                        self.edit().id = id.id;
-                        self.selectedRole.push(id.userRoleList[0].name.toLowerCase());
-                        $('#editModal').modal();
+                        self.edit().id = attr.id;
+                        self.selectedRole.removeAll();
+                        self.selectedRole.push(attr.userRoleList[0].name.toLowerCase());
+                        setTimeout($('#editModal').modal(), 500);
                     },
                     function (data) {navService.catchError(data);}
                 );

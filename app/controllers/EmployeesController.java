@@ -3,9 +3,10 @@ package controllers;
 import be.objectify.deadbolt.java.actions.Group;
 import be.objectify.deadbolt.java.actions.Restrict;
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.node.ArrayNode;
 import dto.AccountDTO;
 import dto.EmployeeDTO;
+import exception.ControllerException;
+import exception.ServiceException;
 import models.User;
 import play.Logger;
 import play.libs.Json;
@@ -14,11 +15,9 @@ import play.mvc.Controller;
 import play.mvc.Http;
 import play.mvc.Result;
 import service.EmployeesService;
-import service.ServiceException;
 
 import javax.inject.Inject;
-import java.util.ArrayList;
-import java.util.Iterator;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
@@ -54,7 +53,7 @@ public class EmployeesController extends Controller {
             try {
                 employeeService.addEmployee(user);
             } catch (ServiceException e) {
-                LOGGER.error("error = {}", e);
+                LOGGER.error("error = {}", e.getMessage());
                 throw new ControllerException(e.getMessage(), e);
             }
         }
@@ -69,33 +68,23 @@ public class EmployeesController extends Controller {
         }
         Long companyId = ((User) Http.Context.current().args.get("user")).company.id;
         LOGGER.debug("company_id, id, companies, ascOrder: {}, {}, {}, {}", companyId, id, employees, ascOrder);
-        List<User> companyList;
+        List<User> employeeLit;
         try {
-            companyList = employeeService.getEmployees(companyId, id, employees, ascOrder);
+            employeeLit = employeeService.getEmployees(companyId, id, employees, ascOrder);
         } catch (ServiceException e) {
-            LOGGER.error("error = {}", e);
+            LOGGER.error("error = {}", e.getMessage());
             throw new ControllerException(e.getMessage(), e);
         }
-        return ok(Json.toJson(companyList));
+        return ok(Json.toJson(employeeLit));
     }
 
     @Restrict({@Group("ADMIN")})
-    @BodyParser.Of(BodyParser.Json.class)
-    public Result removeEmployees() throws ControllerException {
-        JsonNode json = request().body().asJson();
-        if (Objects.isNull(json)) {
-            return badRequest("Expecting Json data");
-        }
-        ArrayNode idsNode = (ArrayNode) json;
-        Iterator<JsonNode> iterator = idsNode.elements();
-        List<Long> clientIds = new ArrayList<>();
-        while (iterator.hasNext()) {
-            clientIds.add(iterator.next().asLong());
-        }
+    public Result removeEmployees(Long id) throws ControllerException {
+        if (Objects.isNull(id)) return badRequest();
         try {
-            employeeService.removeEmployees(clientIds);
+            employeeService.removeEmployees(Arrays.asList(id));
         } catch (ServiceException e) {
-            LOGGER.error("error: {}", e);
+            LOGGER.error("error = {}", e.getMessage());
             throw new ControllerException(e.getMessage(), e);
         }
         return ok();
@@ -110,9 +99,8 @@ public class EmployeesController extends Controller {
         User user;
         try {
             user = employeeService.getEmployee(id);
-            user.password = null;
         } catch (ServiceException e) {
-            LOGGER.error("error = {}", e);
+            LOGGER.error("error = {}", e.getMessage());
             throw new ControllerException(e.getMessage(), e);
         }
         return ok(Json.toJson(AccountDTO.getAccount(user)));
@@ -135,25 +123,11 @@ public class EmployeesController extends Controller {
                 user.company.id = oldUser.company.id;
                 employeeService.updateEmployee(user);
             } catch (ServiceException e) {
-                LOGGER.error("error = {}", e);
+                LOGGER.error("error = {}", e.getMessage());
                 throw new ControllerException(e.getMessage(), e);
             }
             return ok();
         }
 
-    }
-
-    @Restrict({@Group("MANAGER")})
-    public Result getDrivers() throws ControllerException {
-        Long companyId = ((User) Http.Context.current().args.get("user")).company.id;
-        LOGGER.debug("company_id: {}", companyId);
-        List<User> drivers;
-        try {
-            drivers = employeeService.getDrivers(companyId);
-        } catch (ServiceException e) {
-            LOGGER.error("error = {}", e);
-            throw new ControllerException(e.getMessage(), e);
-        }
-        return ok(Json.toJson(drivers));
     }
 }

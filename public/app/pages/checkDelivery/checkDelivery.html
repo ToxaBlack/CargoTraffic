@@ -10,8 +10,8 @@
     <tr>
         <td><span data-bind="text: name"/></span></td>
         <td><span data-bind="text: quantity"/></span></td>
-        <td><input type="number"  data-bind="value: realQuantity, enable: ! $parent.checked()" min="1"></td>
-        <td><span data-bind="text: measure"/></span></td>
+        <td><input type="number" class="form-control" data-bind="value: realQuantity, enable: ! $parent.checked()" min="1"></td>
+        <td><span data-bind="text: unit"/></span></td>
     </tr>
     </tbody>
 </table>
@@ -34,7 +34,7 @@
     <tr>
         <td><span data-bind="text: name"/></span></td>
         <td><span data-bind="text: quantity"/></span></td>
-        <td><span data-bind="text: measure"/></span></td>
+        <td><span data-bind="text: unit"/></span></td>
     </tr>
     </tbody>
 </table>

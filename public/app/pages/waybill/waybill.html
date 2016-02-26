@@ -2,14 +2,21 @@
     <h1>Create waybill</h1>
 </div>
 <div class="tabbable">
-    <ul class="nav nav-tabs">
+    <ul id="waybillTabs" class="nav nav-tabs">
         <li class="active"><a href="#tab1" data-toggle="tab">Step 1</a></li>
-        <li><a href="#tab2" data-toggle="tab">Step 2</a></li>
+        <li ><a href="#tab2">Step 2</a></li>
     </ul>
     <div class="tab-content">
         <div class="tab-pane active" id="tab1">
             <p>
-            <div class="form-horizontal">
+            <form id="waybillMain" class="form-horizontal">
+            <div id="messageBox"></div>
+            <div class="form-group">
+                <label class="control-label col-md-3">Packing list №:</label>
+                <div class="col-md-7">
+                    <div class="form-control-static" data-bind="text: waybill().packingListId"></div>
+                </div>
+            </div>
                 <div class="form-group">
                     <label class="control-label col-md-3">Packing list is issued on:</label>
                     <div class="col-md-7">
@@ -31,7 +38,7 @@
             <div class="form-group">
                 <label class="control-label col-md-3" for="arrivalDate">Date of arrival:</label>
                 <div class="col-md-7">
-                    <input type="text" class="form-control" data-bind="value: waybill().arrivalDate" id="arrivalDate"
+                    <input type="text" class="form-control" required data-bind="value: waybill().arrivalDate" id="arrivalDate" name="arrivalDate"
                            placeholder="Enter probable date of arrival in yyyy-mm-dd format">
                 </div>
             </div>
@@ -42,7 +49,7 @@
                             <thead>
                             <tr>
                                 <th>
-                                    <button class="btn btn-sm"
+                                    <button class="btn btn-default"
                                             data-bind="click: addVehicleDriver, enable: (drivers().length > 0 || vehicles().length > 0)">
                                         Add
                                     </button>
@@ -50,7 +57,7 @@
                                 <th>
                                     <div class="input-group">
                                         <label class="input-group-addon" id="labelDriver" for="driver">Driver:</label>
-                                        <select class="form-control" id="driver" required
+                                        <select class="form-control" id="driver"
                                                 data-bind="options: drivers,
                                                      optionsValue: $data,
                                                      value: selectedDriver,
@@ -65,7 +72,7 @@
                                     <div class="input-group">
                                         <label class="input-group-addon" id="labelVehicle"
                                                for="vehicle">Vehicle:</label>
-                                        <select class="form-control" id="vehicle" required
+                                        <select class="form-control" id="vehicle"
                                                 data-bind="options: vehicles,
                                                      optionsValue: $data,
                                                      value: selectedVehicle,
@@ -85,14 +92,13 @@
                                     <button class="btn btn-sm btn-danger"
                                             data-bind="click: $parent.removeVehicleDriver">&times;</button>
                                 </td>
-                                <td   data-bind="text: $parent.driverFullName(driver())+' on '+$parent.vehicleFullName(vehicle()),
+                                <td  data-bind="html: '<b><i>'+$parent.driverFullName(driver())+
+                                '</i></b>'+'<br>'+$parent.vehicleFullNameInHTML(vehicle()),
                                  click: vehicleDriver.onLink"
                                       data-toggle="modal"></td>
-                                <td>
+                                <td data-bind="click: vehicleDriver.onLink">
                                     <ul data-bind="foreach: vehicleDriver.products">
-                                        <li data-bind="text: ko.computed(function(){return name +' '+quantity()+' '+unit}),
-                                 click: vehicleDriver.onLink">
-                                        </li>
+                                        <li data-bind="text: ko.computed(function(){return name +' '+quantity()+' '+unit})"></li>
                                     </ul>
                                 </td>
                             </tr>
@@ -127,7 +133,7 @@
                     </div>
                 </div>
                 <!-- /ko -->
-            </div>
+            </form>
 
 
             <hr>
@@ -143,30 +149,35 @@
                                 data-bind="text: driverFullName(selectedVehicleDriver().driver())"></h4>
                         </div>
                         <div class="modal-body">
-                            <div class="row">
-                                <table class="table table-hover">
-                                    <thead>
-                                    <tr>
-                                        <th class="col-md-5">Goods name</th>
-                                        <th class="col-md-3">Quantity</th>
-                                        <th class="col-md-4"></th>
-                                    </tr>
-                                    </thead>
-                                    <tbody data-bind="foreach: {data:goods,as:'product'}">
-                                    <tr>
-                                        <td data-bind="text: name"></td>
-                                        <td data-bind="text: ko.computed(function() {return lastQuantity() + ' ' + unit;})"></td>
-                                        <td>
-                                            <input type="number"
-                                                   data-bind=
-                                                           "attr:{min:0, max:product.quantity},
+                            <form id="vehicleDriverModalForm" class="form-horizontal">
+                                <div class="row">
+                                    <table class="table table-hover">
+                                        <thead>
+                                        <tr>
+                                            <th class="col-md-5">Goods name</th>
+                                            <th class="col-md-3">Quantity</th>
+                                            <th class="col-md-4"></th>
+                                        </tr>
+                                        </thead>
+                                        <tbody data-bind="foreach: {data:goods,as:'product'}">
+                                        <tr>
+                                            <td data-bind="text: name"></td>
+                                            <td data-bind="text: ko.computed(function() {return lastQuantity() + ' ' + unit;})"></td>
+                                            <td>
+                                                <input type="number" name="productVehicleDriver"
+                                                       data-bind=
+                                                               "attr:{min:0, max:product.lastQuantityForSelected},
                                                            textInput:   $parent.selectedVehicleDriver().products()[$index()].quantity"
-                                                   class="form-control">
-                                        </td>
-                                    </tr>
-                                    </tbody>
-                                </table>
-                            </div>
+                                                       class="form-control">
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-primary btn-block" id="vehicleDriverModalOK">OK</button>
                         </div>
                     </div>
                 </div>
@@ -192,11 +203,15 @@
                     <table id="waypointsTable" class="table table-hover">
                         <thead>
                         <tr>
-                            <th><input class="selectAll" type="checkbox" data-bind="checked: allChecked" id="selectAllCheckbox"></th>
+                            <th>№</th>
                             <th>Address</th>
                         </tr>
                         </thead>
-                        <tbody>
+                        <tbody class="cursor-hand" data-bind="foreach: addresses">
+                        <tr>
+                            <td class="link" data-bind="text: $index"></td>
+                            <td class="link" data-bind="text: address"></td>
+                        </tr>
                         </tbody>
                     </table>
                 </div>
@@ -206,26 +221,17 @@
             <!-- Modal -->
 
             <div id="mapModal" class="modal fade" role="dialog">
-                <div class="modal-dialog">
+                <div class="modal-dialog modal-lg">
 
                     <!-- Modal content-->
                     <div class="modal-content">
                         <div class="modal-header">
                             <button type="button" class="close" data-dismiss="modal">&times;</button>
-                            <h4 class="modal-title">Change employee</h4>
+                            <h4 class="modal-title">Adding checkpoints</h4>
                         </div>
                         <div class="modal-body form-horizontal">
-                            <div class="form-group">
-                                <label class="control-label col-md-3" for="place">Comment:</label>
-
-                                <div class="col-md-9">
-                                    <input type="text" class="form-control" id="place"
-                                           data-bind="value :waypoints().place"
-                                           placeholder="Enter comment" maxlength="200">
-                                </div>
-                            </div>
-                            <div id="googleMap" style="width:500px;height:380px;"></div>
-
+                            <div id="googleMessageBox"></div>
+                            <div id="googleMap" style="width:100%;height:500px;"></div>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-default" data-dismiss="modal" id="btnSavePoints">Save</button>
@@ -242,3 +248,4 @@
         </div>
     </div>
 </div>
+<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?key=AIzaSyD-OL6Y6UrkY0rhd9rDl70wViuhRXW9OrE"></script>

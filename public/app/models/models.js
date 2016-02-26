@@ -17,12 +17,12 @@ define(['knockout'],
             self.address = address;
         }
 
-        function CheckProduct(id,name,quantity,measure) {
+        function CheckProduct(id,name,quantity,unit) {
             var self = this;
             self.id = id;
             self.name = name;
             self.quantity = quantity;
-            self.measure = measure;
+            self.unit = unit;
             self.realQuantity = ko.observable();
         }
 

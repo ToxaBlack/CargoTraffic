@@ -1,5 +1,9 @@
 package models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import models.statuses.WaybillStatus;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
@@ -10,6 +14,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "waybill_vehicle_driver")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class WaybillVehicleDriver implements Serializable {
 
     @Id
@@ -17,6 +22,7 @@ public class WaybillVehicleDriver implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     public Long id;
 
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "waybill_id",
             referencedColumnName = "id")
@@ -32,8 +38,13 @@ public class WaybillVehicleDriver implements Serializable {
             referencedColumnName = "id")
     public User driver;
 
+    @Column(name = "status")
+    @Enumerated(EnumType.STRING)
+    public WaybillStatus status;
+
+
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "product")
-    public List<ProductInWaybill> productsInWaybillList;
+    public List<ProductInWaybill> productsInWaybill;
 
     @Override
     public int hashCode() {

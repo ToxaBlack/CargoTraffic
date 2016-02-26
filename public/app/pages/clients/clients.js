@@ -169,15 +169,22 @@ define(['app/service/navService', 'app/service/clientService', "knockout", 'app/
             self.company = {};
             self.admin = {};
             self.company.name = ko.observable();
+            self.company.transportationCostPerKm = ko.observable();
             self.admin.surname = ko.observable();
             self.admin.email = ko.observable();
 
             self.companyNameRegexp = "^[a-zA-Z0-9_-]{1,250}$";
-            self.surnameRegexp = "^[a-zA-Z]{1,250}$";
+            self.companyTransportationCostRegexp = "^[0-9]+\.[0-9]+$";
+            self.surnameRegexp = "^[a-zA-Zа-яА-ЯёЁ]{1,250}$";
             self.emailRegexp = "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]{1,210}@[a-zA-Z0-9-]{1,30}\.[a-zA-Z0-9-]{2,3}$";
             self.isCompanyNameCorrect = ko.computed(function() {
                 if (self.company.name())
                     return (!!self.company.name().match(self.companyNameRegexp));
+                return true;
+            });
+            self.isTransportationCostCorrect = ko.computed(function() {
+                if (self.company.transportationCostPerKm())
+                    return (!!self.company.transportationCostPerKm().match(self.companyTransportationCostRegexp));
                 return true;
             });
             self.isAdminSurnameCorrect = ko.computed(function() {
@@ -192,9 +199,11 @@ define(['app/service/navService', 'app/service/clientService', "knockout", 'app/
             });
             self.isValidated = ko.computed(function() {
                 return self.isCompanyNameCorrect() &&
+                    self.isTransportationCostCorrect() &&
                     self.isAdminSurnameCorrect() &&
                     self.isAdminEmailCorrect() &&
                     !!self.company.name() &&
+                    !!self.company.transportationCostPerKm() &&
                     !!self.admin.surname() &&
                     !!self.admin.email();
             });
@@ -212,6 +221,7 @@ define(['app/service/navService', 'app/service/clientService', "knockout", 'app/
                             self.hasNextPage(true);
                         }
                         self.company.name(null);
+                        self.company.transportationCostPerKm(null);
                         self.admin.surname(null);
                         self.admin.email (null);
                     },

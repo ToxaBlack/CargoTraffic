@@ -6,7 +6,7 @@ import org.junit.Test;
 import play.Logger;
 import play.test.FakeApplication;
 import play.test.WithApplication;
-import service.ServiceException;
+import exception.ServiceException;
 import service.UserService;
 
 import java.util.ArrayList;

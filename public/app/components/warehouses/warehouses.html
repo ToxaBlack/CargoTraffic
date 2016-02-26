@@ -1,8 +1,8 @@
-<div class= "message_placeholder"></div>
+<div id="messageBox"></div>
 <div class="row">
     <br/>
     <div class="col-xs-2 selectContainer" style="padding-left: 5%">
-        <select class="form-control" data-bind='options: [10, 20], value: warehousesPerPage'> </select>
+        <select class="form-control" data-bind='options: [5, 10], value: warehousesPerPage'> </select>
     </div>
     <div class="col-sm-offset-9">
         <button type="button" class="btn btn-success" title="Add warehouse" data-toggle="modal" data-target="#warehouseModal">
@@ -33,10 +33,11 @@
             </tr>
             </thead>
             <tbody data-bind="foreach: warehouses">
-            <tr>
+            <tr data-bind="disable: true">
                 <td>
                     <input class="idCheck" type="checkbox"
-                           data-bind="checked: $parent.checkedWarehouses, attr: { value: id}"/></td>
+                           data-bind="checked: $parent.checkedWarehouses, attr: { value: id},
+                            disable: $index()+1 == $parent.chosen()"/>
                 </td>
                 <td class="link" data-bind="text: name"></td>
                 <td data-bind="text: address.country"></td>
@@ -114,8 +115,8 @@
 <div class="row text-center">
     <div class="col-lg-12">
         <ul class="pager">
-            <li id="previousPage" data-bind="css: { disabled: hasPreviousPage() == false}, click: previousPage"><a>Previous</a></li>
-            <li id="nextPage" data-bind="css: { disabled: hasNextPage() == false}, click: nextPage"><a>Next</a></li>
+            <li id="previousPage" class="cursor-hand" data-bind="css: { disabled: hasPreviousPage() == false}, click: previousPage"><a>Previous</a></li>
+            <li id="nextPage" class="cursor-hand" data-bind="css: { disabled: hasNextPage() == false}, click: nextPage"><a>Next</a></li>
         </ul>
     </div>
 </div>

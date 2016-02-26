@@ -4,19 +4,19 @@
 <div class="form-horizontal">
     <div class="form-group">
         <label class="control-label col-md-3">Date of creating:</label>
-        <div class="controls">
+        <div>
             <p class="form-control-static" data-bind="text: issueDate"></p>
         </div>
     </div>
     <div class="form-group">
         <label class="control-label col-md-3">Point of departure:</label>
-        <div class="controls">
+        <div>
             <p class="form-control-static" data-bind="text: ko.computed(function() {return departureAddress().country + ', ' + departureAddress().city + ' city, ' + departureAddress().street + ' st., ' + departureAddress().house;})"></p>
         </div>
     </div>
     <div class="form-group">
         <label class="control-label col-md-3">Point of destination:</label>
-        <div class="controls">
+        <div>
             <p class="form-control-static" data-bind="text: ko.computed(function() {return destinationAddress().country + ', ' + destinationAddress().city + ' city, ' + destinationAddress().street + ' st., ' + destinationAddress().house;})"></p>
         </div>
     </div>
@@ -56,14 +56,11 @@
 <hr>
 
 <div class="row">
-    <div class="col-sm-1 col-sm-offset-9">
-        <div class="form-group">
+    <div class="pull-right">
+
             <button class="btn btn-success btn-lg" data-bind="disable: allGoods().length !== checkedGoods().length, click: acceptPackingList">Accept</button>
-        </div>
-    </div>
-    <div class="col-sm-2">
-        <div class="form-group">
+
             <button class="btn btn-danger btn-lg" data-bind="click: rejectPackingList">Reject</button>
-        </div>
+
     </div>
 </div>

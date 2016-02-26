@@ -14,7 +14,6 @@ import javax.persistence.*;
 public class Waypoint {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-
     public Long id;
 
     public Float lat;

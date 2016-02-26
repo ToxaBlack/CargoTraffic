@@ -1,10 +1,7 @@
 <div class="row">
-    <div class="col-sm-offset-9">
+    <div class="pull-right">
         <button type="button" id="addButton" class="btn btn-info" title="Add vehicle" data-bind="click: addVehicleDialog">
             <span class="glyphicon glyphicon-plus"></span> Add
-        </button>
-        <button type="button" id="removeButton" class="btn btn-danger" title="Delete vehicle" data-bind="disable: checkedVehicles().length === 0, click: deleteVehicles">
-            <span class="glyphicon glyphicon-trash"></span> Delete
         </button>
     </div>
 </div>
@@ -13,7 +10,6 @@
         <table class="table table-hover">
             <thead>
                 <tr>
-                    <th><input class="selectAll" type="checkbox" data-bind="checked: allChecked" id="selectAllCheckbox"></th>
                     <th>Model</th>
                     <th>Fuel type/consumption</th>
                     <th>Max products weight, kg</th>
@@ -29,6 +25,7 @@
                                            click: $parent.onLink, attr: { value: id }"></td>
                     <td class="link" data-bind="text: productsConstraintValue,
                                            click: $parent.onLink, attr: { value: id }"></td>
+                    <td><button class="close"  data-bind="click: $parent.remove, attr: { value: id }">&times;</button></td>
                 </tr>
             </tbody>
         </table>
@@ -44,8 +41,8 @@
 <div class="row text-center">
     <div class="col-lg-12">
         <ul class="pager">
-            <li id="previousPage" data-bind="css: { disabled: hasPreviousPage() == false}, click: previousPage"><a>Previous</a></li>
-            <li id="nextPage" data-bind="css: { disabled: hasNextPage() == false}, click: nextPage"><a>Next</a></li>
+            <li id="previousPage" class="cursor-hand" data-bind="css: { disabled: hasPreviousPage() == false}, click: previousPage"><a>Previous</a></li>
+            <li id="nextPage" class="cursor-hand" data-bind="css: { disabled: hasNextPage() == false}, click: nextPage"><a>Next</a></li>
         </ul>
     </div>
 </div>

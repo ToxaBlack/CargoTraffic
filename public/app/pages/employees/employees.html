@@ -1,10 +1,7 @@
 <div class="row">
-    <div class="col-sm-offset-9">
+    <div class="pull-right">
         <button type="button" id="addButton" class="btn btn-info" title="Add employees">
             <span class="glyphicon glyphicon-plus"></span> Add
-        </button>
-        <button type="button" id="removeButton" class="btn btn-danger" title="Delete employees">
-            <span class="glyphicon glyphicon-trash"></span> Delete
         </button>
     </div>
 </div>
@@ -13,28 +10,33 @@
         <table class="table table-hover">
             <thead>
             <tr>
-                <th><input class="selectAll" type="checkbox" data-bind="checked: allChecked" id="selectAllCheckbox">
-                </th>
-                <th>Full name</th>
                 <th>Username</th>
-                <th>Roles</th>
+                <th>Name</th>
+                <th>Surname</th>
+                <th>Role</th>
+                <th></th>
             </tr>
             </thead>
             <tbody class="cursor-hand" data-bind="foreach: employees">
             <tr>
-                <td><input class="idCheck" type="checkbox"
-                           data-bind="checked: $parent.checkedEmployees, attr: { value: id }, clickBubble: false"/></td>
-                <td class="link" data-bind="text: ko.computed(function() {return name + ' ' + patronymic + ' '+ surname; }),
+                <td class="link" data-bind="text: username, click: $parent.onLink, attr: { value: id }"></td>
+                <td class="link" data-bind="text: name, click: $parent.onLink, attr: { value: id }"></td>
+                <td class="link" data-bind="text: surname,
                                 click: $parent.onLink, attr: { value: id } ">
                 </td>
-                <td class="link" data-bind="text: username, click: $parent.onLink, attr: { value: id }"></td>
                 <td class="link" data-bind="foreach: listOfRoles = ko.observableArray(userRoleList), click: $parent.onLink, attr: { value: id }">
                     <span data-bind="text: name"></span>
                 </td>
+                <td><button class="close"  data-bind="click: $parent.remove, attr: { value: id }">&times;</button></td>
             </tr>
             </tbody>
             </tbody>
         </table>
+        <div class="panel panel-default" data-bind="visible: employees().length === 0">
+            <div class="panel-body text-center">
+                List of employees is empty.
+            </div>
+        </div>
     </div>
 </div>
 
@@ -42,9 +44,9 @@
 <div class="row text-center">
     <div class="col-lg-12">
         <ul class="pager">
-            <li id="previousPage" data-bind="css: { disabled: hasPreviousPage() == false}, click: previousPage"><a>Previous</a>
+            <li id="previousPage" class="cursor-hand" data-bind="css: { disabled: hasPreviousPage() == false}, click: previousPage"><a>Previous</a>
             </li>
-            <li id="nextPage" data-bind="css: { disabled: hasNextPage() == false}, click: nextPage"><a>Next</a></li>
+            <li id="nextPage" class="cursor-hand" data-bind="css: { disabled: hasNextPage() == false}, click: nextPage"><a>Next</a></li>
         </ul>
     </div>
 </div>
@@ -123,8 +125,7 @@
                                 data-bind="
                                     options: rolesList,
                                     value: edit().roles,
-                                    selectedOptions: selectedRole,
-                                    valueAllowUnset: true"></select>
+                                    selectedOptions: selectedRole"></select>
                     </div>
                 </div>
                 <hr>
