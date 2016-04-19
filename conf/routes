@@ -24,14 +24,14 @@ PUT           /api/password                        controllers.AccountController
 
 GET           /api/employees                       controllers.EmployeesController.getEmployees(id :Long, employees :Integer, ascOrder :Boolean )
 POST          /api/employees                       controllers.EmployeesController.addEmployees()
-DELETE        /api/employee/:id                controllers.EmployeesController.removeEmployees(id: Long)
+DELETE        /api/employee/:id                    controllers.EmployeesController.removeEmployees(id: Long)
 GET           /api/employees/details               controllers.EmployeesController.getEmployee(id: Long)
 PUT           /api/employees/update                controllers.EmployeesController.updateEmployee()
 
 GET           /api/vehicles                        controllers.VehiclesController.getVehicles(id :Long, vehicles :Integer, ascOrder :Boolean )
 POST          /api/vehicle                         controllers.VehiclesController.addVehicle()
 PUT           /api/vehicle                         controllers.VehiclesController.updateVehicle()
-DELETE        /api/vehicle/:id                controllers.VehiclesController.deleteVehicles(id: Long)
+DELETE        /api/vehicle/:id                     controllers.VehiclesController.deleteVehicles(id: Long)
 
 POST          /api/packingList                     controllers.PackingListController.addPackingList()
 GET           /api/packingLists                    controllers.PackingListController.getPackingLists(id :Long, packingLists :Integer, ascOrder :Boolean, isNew :Boolean )
@@ -47,7 +47,10 @@ GET           /api/driver/products                 controllers.DriverController.
 POST          /api/driver/act                      controllers.DriverController.createActOfLost()
 PUT           /api/driver/complete                 controllers.DriverController.completeDelivery()
 
-GET         /api/money                 controllers.MoneyController.getFinancialHighlights(minDate :Long, maxDate :Long)
+GET           /api/money                           controllers.MoneyController.getFinancialHighlights(minDate :Long, maxDate :Long)
+GET           /api/reports/excel                   controllers.MoneyController.getFinancialHighlightsExcel(minDate :Long, maxDate :Long)
+GET           /api/reports/pdf                     controllers.MoneyController.getFinancialHighlightsPdf(minDate :Long, maxDate :Long)
+GET           /api/reports/csv                     controllers.MoneyController.getFinancialHighlightsCsv(minDate :Long, maxDate :Long)
 
 # Map static resources from the /public folder to the /assets URL path
 GET           /assets/*file                        controllers.Assets.versioned(path="/public", file: Asset)

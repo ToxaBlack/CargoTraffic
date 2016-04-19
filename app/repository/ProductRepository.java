@@ -3,7 +3,9 @@ package repository;
 import models.*;
 import models.statuses.ProductStatus;
 import models.statuses.WaybillStatus;
+import play.Logger;
 import play.db.jpa.JPA;
+import service.DriverService;
 
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
@@ -15,6 +17,7 @@ import java.util.List;
  * Created by Olga on 08.02.2016.
  */
 public class ProductRepository {
+    private static final Logger.ALogger LOGGER = Logger.of(ProductRepository.class);
 
     public Product save(Product product){
         EntityManager em = JPA.em();
@@ -42,7 +45,7 @@ public class ProductRepository {
     public List<LostProduct> getLostProducts(User driver) {
         EntityManager em = JPA.em();
         TypedQuery<LostProduct> query = em.createQuery("Select lp From LostProduct lp, WaybillVehicleDriver wvd " +
-                "WHERE wvd.status = :status " +
+                "WHERE wvd.waybill.status = :status " +
                 "AND wvd.driver = :driver " +
                 "AND lp.driver = :driver",
                 LostProduct.class);

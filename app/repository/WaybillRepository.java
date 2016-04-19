@@ -104,7 +104,9 @@ public class WaybillRepository {
         WaybillVehicleDriver wvd = null;
         try {
             wvd = query.getSingleResult();
-        } catch (NoResultException ex){}
+        } catch (NoResultException ex){
+            LOGGER.error(ex.getMessage());
+        }
         return wvd;
     }
 

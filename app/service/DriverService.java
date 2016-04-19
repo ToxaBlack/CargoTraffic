@@ -62,9 +62,8 @@ public class DriverService {
         try {
             JPA.withTransaction(() -> {
                 WaybillVehicleDriver wvd = waybillRepository.getWVDByDriver(user);
-                waybillRepository.completeTransportationWVD(wvd);
                 Waybill waybill = wvd.waybill;
-                List<LostProduct> lostProducts = productRepository.getLostProducts(user);
+                List<LostProduct> lostProducts = productRepository.getLostProducts(user);           // TODO why all lost ever products
                 FinancialHighlights financialHighlights = moneyRepository.getFinancialHighlights(wvd);
                 Double totalLostProductsCost = 0d;
                 if (Objects.nonNull(lostProducts)) {
@@ -75,9 +74,10 @@ public class DriverService {
                 financialHighlights.productsLoss = totalLostProductsCost;
                 financialHighlights.profit = financialHighlights.transportationIncome -
                         totalLostProductsCost - financialHighlights.vehicleFuelLoss;
-                LOGGER.debug("completeDelivery: {}, {}", financialHighlights.profit, financialHighlights.profit.getClass().getName());
+                LOGGER.debug("completeDelivery: {}, {}", financialHighlights.profit, financialHighlights.productsLoss);
                 moneyRepository.updateFinancialHighlights(financialHighlights);
 
+                waybillRepository.completeTransportationWVD(wvd);
                 //Check whether all cargo is delivered, then end up delivery
                 if(waybillRepository.IsCompleteAllDeliveries(waybill)) {
                     waybillRepository.completeTransportationWaybill(waybill);

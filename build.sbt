@@ -20,7 +20,10 @@ libraryDependencies ++= Seq(
   "io.jsonwebtoken" % "jjwt" % "0.6.0",
   "de.svenkubiak" % "jBCrypt" % "0.4",
   "com.typesafe.play" %% "play-mailer" % "4.0.0-M1",
-  "org.mockito" % "mockito-core" % "1.10.19"
+  "org.mockito" % "mockito-core" % "1.10.19",
+  "org.apache.poi" % "poi" % "3.14",
+  "com.itextpdf" % "itextpdf" % "5.5.4",
+  "org.apache.commons" % "commons-csv" % "1.2"
 )
 
 routesGenerator := InjectedRoutesGenerator

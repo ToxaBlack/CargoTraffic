@@ -17,7 +17,16 @@
     <div class="col-sm-2">
         <input type="text" id="to" class="date" data-bind="datepicker: maxDate, minDate: minDate, maxDate: new Date()"/>
     </div>
-    <div class="col-sm-2 bottom">
-        <p id="downloader"></p>
+</div>
+<br/>
+<div class="row">
+    <div class="col-sm-2">
+        <button class="btn btn-success" type="button" id="excelReport" data-bind="click: excelReport">Excel Report</button>
+    </div>
+    <div class="col-sm-2">
+        <button class="btn btn-danger" type="button" id="pdfReport" data-bind="click: pdfReport">Pdf Report</button>
+    </div>
+    <div class="col-sm-2">
+        <button class="btn btn-info" type="button" id="csvReport" data-bind="click: csvReport">Csv Report</button>
     </div>
 </div>

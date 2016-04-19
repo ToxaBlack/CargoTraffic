@@ -8,9 +8,24 @@ define(['highcharts', 'jqueryUI', 'excel-builder', 'swfobject', 'downloadify', '
             bar.go(50);
             var self = this;
             var currentDate = new Date();
-            self.minDate = ko.observable(new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate() - 1));
+            self.minDate = ko.observable(new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate()));
             self.maxDate = ko.observable(new Date());
             var WEEK_IN_MILLISECONDS = 7 * 24 * 3600 * 1000;
+            self.excelReport = function () {
+                var url = "api/reports/excel?minDate=" + self.minDate().getTime() +
+                    "&maxDate=" + self.maxDate().getTime();
+                window.open(url, 'Report');
+            };
+            self.pdfReport = function () {
+                var url = "api/reports/pdf?minDate=" + self.minDate().getTime() +
+                    "&maxDate=" + self.maxDate().getTime();
+                window.open(url, 'Report');
+            };
+            self.csvReport = function () {
+                var url = "api/reports/csv?minDate=" + self.minDate().getTime() +
+                    "&maxDate=" + self.maxDate().getTime();
+                window.open(url, 'Report');
+            };
 
             $(".date").each(function() {
                 $(this).datepicker({ dateFormat: 'dd-mm-yy' });
@@ -179,11 +194,12 @@ define(['highcharts', 'jqueryUI', 'excel-builder', 'swfobject', 'downloadify', '
                         chart.series[2].setData(profit, true);
                         var minDate = new Date(groupedData[0].deliveredDate);
                         var maxDate = new Date(groupedData[groupedData.length - 1].deliveredDate);
-                        self.minDate(minDate);
-                        self.maxDate(maxDate);
-                        console.log(self.minDate(), self.maxDate());
-                        chart.xAxis[0].setExtremes(new Date(self.minDate().getFullYear(), self.minDate().getMonth(), self.minDate().getDate() - 1),
-                            new Date(self.maxDate().getFullYear(), self.maxDate().getMonth(), self.maxDate().getDate() + 1));
+                        if (minDate.getTime() < self.minDate().getTime())
+                            self.minDate(minDate);
+                        if (maxDate.getTime() > self.maxDate().getTime())
+                            self.maxDate(maxDate);
+                        chart.xAxis[0].setExtremes(new Date(self.minDate().getFullYear(), self.minDate().getMonth(), self.minDate().getDate() - 3),
+                            new Date(self.maxDate().getFullYear(), self.maxDate().getMonth(), self.maxDate().getDate() + 3));
                     },
                     function (data) {
                         navService.catchError(data);
@@ -195,7 +211,7 @@ define(['highcharts', 'jqueryUI', 'excel-builder', 'swfobject', 'downloadify', '
             };
 
 
-            function prepareDataForXLSX() {
+            /*function prepareDataForXLSX() {
 
             }
 
@@ -274,10 +290,10 @@ define(['highcharts', 'jqueryUI', 'excel-builder', 'swfobject', 'downloadify', '
                     transparent: true,
                     append: false
                 });
-            }
+            }*/
 
             self.updateChart();
-            prepareXLSX();
+            //prepareXLSX();
 
             bar.go(100);
             return self;
