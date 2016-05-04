@@ -24,4 +24,15 @@ public class Address {
     public String house;
 
     public String flat;
+
+    public Address(String country, String city, String street, String house, String flat) {
+        this.country = country;
+        this.city = city;
+        this.street = street;
+        this.house = house;
+        this.flat = flat;
+    }
+
+    public Address() {
+    }
 }

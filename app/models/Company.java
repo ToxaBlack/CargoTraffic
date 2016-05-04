@@ -29,4 +29,14 @@ public class Company {
 
     @Constraints.Required
     public Boolean locked;
+
+    public Company(String name, Date date, Double transportationCostPerKm, Boolean locked) {
+        this.name = name;
+        this.date = date;
+        this.transportationCostPerKm = transportationCostPerKm;
+        this.locked = locked;
+    }
+
+    public Company() {
+    }
 }

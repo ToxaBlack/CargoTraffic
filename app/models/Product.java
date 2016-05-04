@@ -31,4 +31,15 @@ public class Product {
     public Double price;
 
     public Boolean deleted;
+
+    public Product(String name, MeasureUnit measureUnit, StorageType storageType, Double price, Boolean deleted) {
+        this.name = name;
+        this.measureUnit = measureUnit;
+        this.storageType = storageType;
+        this.price = price;
+        this.deleted = deleted;
+    }
+
+    public Product() {
+    }
 }

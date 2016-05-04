@@ -30,4 +30,16 @@ public class FinancialHighlights {
 
     @Column(name = "profit")
     public Double profit;
+
+    public FinancialHighlights(Date deliveredDate, WaybillVehicleDriver waybillVehicleDriver, Double transportationIncome, Double vehicleFuelLoss, Double productsLoss, Double profit) {
+        this.deliveredDate = deliveredDate;
+        this.waybillVehicleDriver = waybillVehicleDriver;
+        this.transportationIncome = transportationIncome;
+        this.vehicleFuelLoss = vehicleFuelLoss;
+        this.productsLoss = productsLoss;
+        this.profit = profit;
+    }
+
+    public FinancialHighlights() {
+    }
 }

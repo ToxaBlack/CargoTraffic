@@ -34,7 +34,7 @@ public class AccountIntegrationTest extends BaseIntegrationTest {
         Result result = route(request);
         assertEquals("application/json", result.contentType());
         assertEquals("utf-8", result.charset());
-        assertEquals("{\"username\":\"sys_admin\",\"name\":\"poll\",\"surname\":\"simson\"," +
+        assertEquals("{\"username\":\"sys_admin\",\"name\":\"tom\",\"surname\":\"simson\"," +
                 "\"patronymic\":\"васильевич\",\"birthday\":\"1994-01-06\",\"email\":\"test@mail.ru\"," +
                 "\"country\":\"Belarus\",\"city\":\"Minsk\",\"street\":\"blabla\",\"house\":\"12\"," +
                 "\"flat\":\"1\"}",contentAsString(result));

@@ -79,4 +79,9 @@ public class User implements Subject {
     public String toString() {
         return username;
     }
+
+    public User() {
+    }
+
+
 }
