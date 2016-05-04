@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>DATABASE</ID>
+  <OriginalElement>e6463eb4-6ccd-4736-8f00-90172b484f36</OriginalElement>
+  <nodes>
+    <node x="11.75" y="370.5">e6463eb4-6ccd-4736-8f00-90172b484f36.TABLE:cargo_traffic.warehouse</node>
+    <node x="835.256609195402" y="963.0">e6463eb4-6ccd-4736-8f00-90172b484f36.TABLE:cargo_traffic.waybill</node>
+    <node x="1261.8686781609194" y="27.0">e6463eb4-6ccd-4736-8f00-90172b484f36.TABLE:cargo_traffic.company</node>
+    <node x="1490.931609195402" y="700.5">e6463eb4-6ccd-4736-8f00-90172b484f36.TABLE:cargo_traffic.vehicle_fuel</node>
+    <node x="45.118678160919444" y="660.0">e6463eb4-6ccd-4736-8f00-90172b484f36.TABLE:cargo_traffic.packing_list</node>
+    <node x="1544.0982758620687" y="909.0">e6463eb4-6ccd-4736-8f00-90172b484f36.TABLE:cargo_traffic.vehicle</node>
+    <node x="820.7011494252872" y="1569.0">e6463eb4-6ccd-4736-8f00-90172b484f36.TABLE:cargo_traffic.product_in_wvd</node>
+    <node x="367.86867816091944" y="1569.0">e6463eb4-6ccd-4736-8f00-90172b484f36.TABLE:cargo_traffic.lost_product</node>
+    <node x="1738.931609195402" y="714.0">e6463eb4-6ccd-4736-8f00-90172b484f36.TABLE:cargo_traffic.vehicle_type</node>
+    <node x="1227.931609195402" y="714.5">e6463eb4-6ccd-4736-8f00-90172b484f36.TABLE:cargo_traffic.user_role</node>
+    <node x="773.506609195402" y="1279.5">e6463eb4-6ccd-4736-8f00-90172b484f36.TABLE:cargo_traffic.waypoint</node>
+    <node x="387.66034482758596" y="0.0">e6463eb4-6ccd-4736-8f00-90172b484f36.TABLE:cargo_traffic.address</node>
+    <node x="0.0" y="1786.0">e6463eb4-6ccd-4736-8f00-90172b484f36.TABLE:cargo_traffic.play_evolutions</node>
+    <node x="506.5066091954021" y="1017.0">e6463eb4-6ccd-4736-8f00-90172b484f36.TABLE:cargo_traffic.measure_unit</node>
+    <node x="1211.4928160919537" y="1515.0">e6463eb4-6ccd-4736-8f00-90172b484f36.TABLE:cargo_traffic.financial_highlights</node>
+    <node x="1306.681609195402" y="397.5">e6463eb4-6ccd-4736-8f00-90172b484f36.TABLE:cargo_traffic.role</node>
+    <node x="1108.7428160919537" y="1279.5">e6463eb4-6ccd-4736-8f00-90172b484f36.TABLE:cargo_traffic.waybill_vehicle_driver</node>
+    <node x="39.868678160919444" y="1555.5">e6463eb4-6ccd-4736-8f00-90172b484f36.TABLE:cargo_traffic.product_in_packing_list</node>
+    <node x="835.8686781609194" y="276.0">e6463eb4-6ccd-4736-8f00-90172b484f36.TABLE:cargo_traffic.user</node>
+    <node x="466.5066091954021" y="1266.0">e6463eb4-6ccd-4736-8f00-90172b484f36.TABLE:cargo_traffic.product</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="e6463eb4-6ccd-4736-8f00-90172b484f36.TABLE:cargo_traffic.packing_list" target="e6463eb4-6ccd-4736-8f00-90172b484f36.TABLE:cargo_traffic.user">
+      <point x="95.66666666666669" y="-99.5" />
+      <point x="284.2853448275862" y="630.0" />
+      <point x="874.5686781609195" y="630.0" />
+      <point x="-154.79999999999995" y="167.0" />
+    </edge>
+    <edge source="e6463eb4-6ccd-4736-8f00-90172b484f36.TABLE:cargo_traffic.waybill_vehicle_driver" target="e6463eb4-6ccd-4736-8f00-90172b484f36.TABLE:cargo_traffic.user">
+      <point x="-1.1368683772161603E-13" y="-86.0" />
+      <point x="1242.2428160919535" y="1241.0" />
+      <point x="1194.006609195402" y="1241.0" />
+      <point x="1194.006609195402" y="640.0" />
+      <point x="1106.7686781609195" y="640.0" />
+      <point x="77.40000000000009" y="167.0" />
+    </edge>
+    <edge source="e6463eb4-6ccd-4736-8f00-90172b484f36.TABLE:cargo_traffic.vehicle" target="e6463eb4-6ccd-4736-8f00-90172b484f36.TABLE:cargo_traffic.vehicle_type">
+      <point x="122.33333333333326" y="-153.5" />
+      <point x="1849.931609195402" y="884.0" />
+      <point x="1842.431609195402" y="884.0" />
+      <point x="0.0" y="45.5" />
+    </edge>
+    <edge source="e6463eb4-6ccd-4736-8f00-90172b484f36.TABLE:cargo_traffic.product_in_wvd" target="e6463eb4-6ccd-4736-8f00-90172b484f36.TABLE:cargo_traffic.product">
+      <point x="-72.0" y="-59.0" />
+      <point x="892.7011494252872" y="1495.0" />
+      <point x="705.6732758620689" y="1495.0" />
+      <point x="95.66666666666674" y="99.5" />
+    </edge>
+    <edge source="e6463eb4-6ccd-4736-8f00-90172b484f36.TABLE:cargo_traffic.waybill_vehicle_driver" target="e6463eb4-6ccd-4736-8f00-90172b484f36.TABLE:cargo_traffic.waybill">
+      <point x="-89.00000000000011" y="-86.0" />
+      <point x="1153.2428160919535" y="1241.0" />
+      <point x="1050.506609195402" y="1241.0" />
+      <point x="71.75" y="99.5" />
+    </edge>
+    <edge source="e6463eb4-6ccd-4736-8f00-90172b484f36.TABLE:cargo_traffic.waybill" target="e6463eb4-6ccd-4736-8f00-90172b484f36.TABLE:cargo_traffic.packing_list">
+      <point x="-71.75" y="-99.5" />
+      <point x="907.006609195402" y="884.0" />
+      <point x="260.36867816091944" y="884.0" />
+      <point x="71.75" y="99.5" />
+    </edge>
+    <edge source="e6463eb4-6ccd-4736-8f00-90172b484f36.TABLE:cargo_traffic.vehicle" target="e6463eb4-6ccd-4736-8f00-90172b484f36.TABLE:cargo_traffic.vehicle_fuel">
+      <point x="-122.33333333333326" y="-153.5" />
+      <point x="0.0" y="59.0" />
+    </edge>
+    <edge source="e6463eb4-6ccd-4736-8f00-90172b484f36.TABLE:cargo_traffic.product_in_packing_list" target="e6463eb4-6ccd-4736-8f00-90172b484f36.TABLE:cargo_traffic.product">
+      <point x="77.0" y="-72.5" />
+      <point x="270.86867816091944" y="1495.0" />
+      <point x="514.3399425287355" y="1495.0" />
+      <point x="-95.66666666666669" y="99.5" />
+    </edge>
+    <edge source="e6463eb4-6ccd-4736-8f00-90172b484f36.TABLE:cargo_traffic.lost_product" target="e6463eb4-6ccd-4736-8f00-90172b484f36.TABLE:cargo_traffic.product">
+      <point x="72.0" y="-59.0" />
+      <point x="583.8686781609194" y="1495.0" />
+      <point x="610.0066091954021" y="1495.0" />
+      <point x="0.0" y="99.5" />
+    </edge>
+    <edge source="e6463eb4-6ccd-4736-8f00-90172b484f36.TABLE:cargo_traffic.product_in_wvd" target="e6463eb4-6ccd-4736-8f00-90172b484f36.TABLE:cargo_traffic.waybill_vehicle_driver">
+      <point x="72.0" y="-59.0" />
+      <point x="1036.7011494252872" y="1495.0" />
+      <point x="1175.4928160919537" y="1495.0" />
+      <point x="-66.75" y="86.0" />
+    </edge>
+    <edge source="e6463eb4-6ccd-4736-8f00-90172b484f36.TABLE:cargo_traffic.user_role" target="e6463eb4-6ccd-4736-8f00-90172b484f36.TABLE:cargo_traffic.role">
+      <point x="60.74999999999977" y="-45.0" />
+      <point x="0.0" y="45.5" />
+    </edge>
+    <edge source="e6463eb4-6ccd-4736-8f00-90172b484f36.TABLE:cargo_traffic.lost_product" target="e6463eb4-6ccd-4736-8f00-90172b484f36.TABLE:cargo_traffic.user">
+      <point x="-72.0" y="-59.0" />
+      <point x="439.86867816091944" y="1485.0" />
+      <point x="434.86867816091944" y="1485.0" />
+      <point x="434.86867816091944" y="640.0" />
+      <point x="951.9686781609194" y="640.0" />
+      <point x="-77.40000000000009" y="167.0" />
+    </edge>
+    <edge source="e6463eb4-6ccd-4736-8f00-90172b484f36.TABLE:cargo_traffic.packing_list" target="e6463eb4-6ccd-4736-8f00-90172b484f36.TABLE:cargo_traffic.warehouse">
+      <point x="0.0" y="-99.5" />
+      <point x="188.61867816091944" y="640.0" />
+      <point x="197.0" y="640.0" />
+      <point x="61.75" y="72.5" />
+    </edge>
+    <edge source="e6463eb4-6ccd-4736-8f00-90172b484f36.TABLE:cargo_traffic.waybill" target="e6463eb4-6ccd-4736-8f00-90172b484f36.TABLE:cargo_traffic.user">
+      <point x="71.75" y="-99.5" />
+      <point x="1050.506609195402" y="640.0" />
+      <point x="1029.3686781609194" y="640.0" />
+      <point x="0.0" y="167.0" />
+    </edge>
+    <edge source="e6463eb4-6ccd-4736-8f00-90172b484f36.TABLE:cargo_traffic.product_in_packing_list" target="e6463eb4-6ccd-4736-8f00-90172b484f36.TABLE:cargo_traffic.packing_list">
+      <point x="-77.0" y="-72.5" />
+      <point x="-71.75" y="99.5" />
+    </edge>
+    <edge source="e6463eb4-6ccd-4736-8f00-90172b484f36.TABLE:cargo_traffic.financial_highlights" target="e6463eb4-6ccd-4736-8f00-90172b484f36.TABLE:cargo_traffic.waybill_vehicle_driver">
+      <point x="0.0" y="-113.0" />
+      <point x="1364.9928160919537" y="1495.0" />
+      <point x="1308.9928160919537" y="1495.0" />
+      <point x="66.75" y="86.0" />
+    </edge>
+    <edge source="e6463eb4-6ccd-4736-8f00-90172b484f36.TABLE:cargo_traffic.vehicle" target="e6463eb4-6ccd-4736-8f00-90172b484f36.TABLE:cargo_traffic.company">
+      <point x="0.0" y="-153.5" />
+      <point x="1728.431609195402" y="251.0" />
+      <point x="1462.1186781609194" y="251.0" />
+      <point x="66.74999999999994" y="86.0" />
+    </edge>
+    <edge source="e6463eb4-6ccd-4736-8f00-90172b484f36.TABLE:cargo_traffic.user_role" target="e6463eb4-6ccd-4736-8f00-90172b484f36.TABLE:cargo_traffic.user">
+      <point x="-60.75000000000023" y="-45.0" />
+      <point x="1288.681609195402" y="630.0" />
+      <point x="1184.1686781609194" y="630.0" />
+      <point x="154.79999999999995" y="167.0" />
+    </edge>
+    <edge source="e6463eb4-6ccd-4736-8f00-90172b484f36.TABLE:cargo_traffic.user" target="e6463eb4-6ccd-4736-8f00-90172b484f36.TABLE:cargo_traffic.company">
+      <point x="96.75" y="-167.0" />
+      <point x="1126.1186781609194" y="251.0" />
+      <point x="1328.6186781609194" y="251.0" />
+      <point x="-66.75" y="86.0" />
+    </edge>
+    <edge source="e6463eb4-6ccd-4736-8f00-90172b484f36.TABLE:cargo_traffic.product" target="e6463eb4-6ccd-4736-8f00-90172b484f36.TABLE:cargo_traffic.measure_unit">
+      <point x="0.0" y="-99.5" />
+      <point x="0.0" y="45.5" />
+    </edge>
+    <edge source="e6463eb4-6ccd-4736-8f00-90172b484f36.TABLE:cargo_traffic.warehouse" target="e6463eb4-6ccd-4736-8f00-90172b484f36.TABLE:cargo_traffic.address">
+      <point x="0.0" y="-72.5" />
+      <point x="135.25" y="251.0" />
+      <point x="464.41034482758596" y="251.0" />
+      <point x="-76.75" y="113.0" />
+    </edge>
+    <edge source="e6463eb4-6ccd-4736-8f00-90172b484f36.TABLE:cargo_traffic.user" target="e6463eb4-6ccd-4736-8f00-90172b484f36.TABLE:cargo_traffic.address">
+      <point x="-96.75" y="-167.0" />
+      <point x="932.6186781609194" y="251.0" />
+      <point x="617.910344827586" y="251.0" />
+      <point x="76.75" y="113.0" />
+    </edge>
+    <edge source="e6463eb4-6ccd-4736-8f00-90172b484f36.TABLE:cargo_traffic.waypoint" target="e6463eb4-6ccd-4736-8f00-90172b484f36.TABLE:cargo_traffic.waybill">
+      <point x="0.0" y="-86.0" />
+      <point x="-71.75" y="99.5" />
+    </edge>
+    <edge source="e6463eb4-6ccd-4736-8f00-90172b484f36.TABLE:cargo_traffic.waybill_vehicle_driver" target="e6463eb4-6ccd-4736-8f00-90172b484f36.TABLE:cargo_traffic.vehicle">
+      <point x="88.99999999999989" y="-86.0" />
+      <point x="1331.2428160919535" y="1241.0" />
+      <point x="1727.5982758620687" y="1241.0" />
+      <point x="0.0" y="153.5" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="0.5946850393700788" x="1138.4372724263487" y="1863.30652101953" />
+  <SelectedNodes />
+  <Categories>
+    <Category>Key columns</Category>
+    <Category>Columns</Category>
+  </Categories>
+</Diagram>
+

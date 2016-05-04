@@ -1,0 +1,964 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement />
+  <nodes>
+    <node x="4329.939751626783" y="3208.0">controllers.DriverController</node>
+    <node x="4449.02304706998" y="2758.0">service.PackingListService</node>
+    <node x="7619.789751626784" y="3208.0">controllers.AccountController</node>
+    <node x="572.666666666667" y="0.0">models.Address</node>
+    <node x="1182.068880403313" y="437.0">models.ProductInPackingList.Id</node>
+    <node x="958.818880403313" y="40.5">models.StorageType</node>
+    <node x="2865.3772516267827" y="3222.0">controllers.WaypointController</node>
+    <node x="87.0" y="315.5">dto.AccountDTO</node>
+    <node x="801.641610512132" y="2274.0">dto.ProductDTO</node>
+    <node x="6559.373084960116" y="2825.5">exception.ControllerException</node>
+    <node x="8143.539751626784" y="3195.0">controllers.ClientsController</node>
+    <node x="5814.841704556802" y="3195.0">controllers.WarehouseController</node>
+    <node x="2300.531418293449" y="1055.5">models.ProductInWaybill</node>
+    <node x="482.73554706997993" y="2717.0">dto.PackingListDTO</node>
+    <node x="892.068880403313" y="410.5">models.Product</node>
+    <node x="6397.585547069981" y="2328.5">service.UserService</node>
+    <node x="2266.1064744479836" y="2315.0">models.Waypoint</node>
+    <node x="5190.543880403314" y="1936.5">exception.ServiceException</node>
+    <node x="8114.8611801982115" y="2342.0">service.AccountService</node>
+    <node x="2005.068880403313" y="39.5">models.UserRole</node>
+    <node x="2344.314751626782" y="491.5">models.statuses</node>
+    <node x="3705.9647137366464" y="2274.5">repository.WaybillRepository</node>
+    <node x="1794.0522516267822" y="961.0">models.Vehicle</node>
+    <node x="0.0" y="40.0">models.MeasureUnit</node>
+    <node x="5348.948084960117" y="3208.5">controllers.WaybillController</node>
+    <node x="2445.0397137366463" y="2798.0">service.WaypointService</node>
+    <node x="6751.373084960116" y="2771.5">service.VehicleService</node>
+    <node x="3380.2897137366463" y="2785.0">service.ReportsGeneratorService</node>
+    <node x="7304.789751626784" y="3181.5">controllers.EmployeesController</node>
+    <node x="5945.668880403313" y="2757.5">security.TokenController</node>
+    <node x="4132.964713736646" y="2301.5">repository.ProductRepository</node>
+    <node x="6618.191266778298" y="3195.0">controllers.VehiclesController</node>
+    <node x="1322.568880403313" y="13.5">models.Company</node>
+    <node x="4460.964713736646" y="2301.5">repository.PackingListRepository</node>
+    <node x="1754.068880403313" y="288.0">models.User</node>
+    <node x="8771.861180198212" y="2369.0">service.EmailService</node>
+    <node x="1932.3167045568027" y="1842.0">models.FinancialHighlights</node>
+    <node x="1425.8167045568027" y="1056.0">models.ProductInPackingList</node>
+    <node x="7897.789751626784" y="3208.5">controllers.LoginController</node>
+    <node x="1489.5249438454653" y="1465.5">models.PackingList</node>
+    <node x="1601.068880403313" y="464.5">models.VehicleType</node>
+    <node x="8210.539751626784" y="2771.5">service.CompanyService</node>
+    <node x="743.7643236044219" y="1069.5">models.Warehouse</node>
+    <node x="5153.668880403314" y="2771.0">service.WaybillService</node>
+    <node x="1871.114713736646" y="2798.5">dto.DriverWaypointsDTO</node>
+    <node x="6986.789751626784" y="2315.0">repository.CompanyRepository</node>
+    <node x="4014.889713736646" y="2784.5">service.DriverService</node>
+    <node x="3557.4605849601157" y="3195.0">controllers.MoneyController</node>
+    <node x="5715.273047069981" y="2301.5">repository.VehicleRepository</node>
+    <node x="1492.974943845465" y="2287.5">dto.UserDTO</node>
+    <node x="3082.6647137366463" y="2328.5">repository.MoneyRepository</node>
+    <node x="4795.448084960116" y="3181.5">controllers.PackingListController</node>
+    <node x="7586.789751626784" y="2315.0">service.EmployeesService</node>
+    <node x="7617.789751626784" y="1815.0">repository.UserRepository</node>
+    <node x="1347.5582771787986" y="2757.5">dto.VehicleDriverDTO</node>
+    <node x="5462.668880403313" y="2771.5">service.WarehouseService</node>
+    <node x="2361.977251626782" y="1452.0">models.WaybillVehicleDriver</node>
+    <node x="5066.731380403314" y="2328.5">repository.WarehouseRepository</node>
+    <node x="2479.1064744479836" y="2355.5">repository.WaypointRepository</node>
+    <node x="1151.150037890136" y="1055.5">models.LostProduct</node>
+    <node x="544.7643236044219" y="1069.0">dto.EmployeeDTO</node>
+    <node x="2896.2897137366463" y="2812.0">service.MoneyService</node>
+    <node x="1428.068880403313" y="451.0">models.VehicleFuel</node>
+    <node x="2593.352251626782" y="1828.5">models.Waybill</node>
+    <node x="8515.861180198212" y="2328.5">service.models.EmailAttributes</node>
+    <node x="1641.1500378901358" y="3100.0">dto.WaybillDTO</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="controllers.WarehouseController" target="exception.ControllerException">
+      <point x="107.0" y="-72.0" />
+      <point x="6135.841704556802" y="3080.0" />
+      <point x="6645.373084960116" y="3080.0" />
+      <point x="0.0" y="18.0" />
+    </edge>
+    <edge source="models.Vehicle" target="models.User">
+      <point x="124.875" y="-180.5" />
+      <point x="2085.427251626782" y="831.0" />
+      <point x="1894.426023260456" y="831.0" />
+      <point x="-56.14285714285688" y="221.5" />
+    </edge>
+    <edge source="controllers.AccountController" target="exception.ControllerException">
+      <point x="-64.5" y="-59.0" />
+      <point x="7684.289751626784" y="3060.0" />
+      <point x="6692.282175869208" y="3060.0" />
+      <point x="46.90909090909099" y="18.0" />
+    </edge>
+    <edge source="service.WaypointService" target="repository.CompanyRepository">
+      <point x="107.5" y="-45.5" />
+      <point x="2681.5397137366463" y="2677.0" />
+      <point x="7058.95641829345" y="2677.0" />
+      <point x="-144.33333333333348" y="85.5" />
+    </edge>
+    <edge source="service.DriverService" target="repository.WaybillRepository">
+      <point x="-74.39999999999964" y="-59.0" />
+      <point x="4126.489713736646" y="2607.0" />
+      <point x="3908.9647137366464" y="2607.0" />
+      <point x="0.0" y="126.0" />
+    </edge>
+    <edge source="security.TokenController" target="service.UserService">
+      <point x="0.0" y="-86.0" />
+      <point x="6088.668880403313" y="2657.0" />
+      <point x="6464.18554706998" y="2657.0" />
+      <point x="-44.40000000000009" y="72.0" />
+    </edge>
+    <edge source="controllers.LoginController" target="exception.ControllerException">
+      <point x="-47.75" y="-58.5" />
+      <point x="7945.539751626784" y="3050.0" />
+      <point x="6707.918539505571" y="3050.0" />
+      <point x="62.545454545454504" y="18.0" />
+    </edge>
+    <edge source="controllers.MoneyController" target="exception.ControllerException">
+      <point x="132.66666666666697" y="-72.0" />
+      <point x="3889.1272516267827" y="3040.0" />
+      <point x="6582.827630414662" y="3040.0" />
+      <point x="-62.545454545454504" y="18.0" />
+    </edge>
+    <edge source="dto.WaybillDTO" target="dto.PackingListDTO">
+      <point x="-173.25" y="-167.0" />
+      <point x="1660.4000378901358" y="3080.0" />
+      <point x="609.2355470699799" y="3080.0" />
+      <point x="0.0" y="126.5" />
+    </edge>
+    <edge source="service.CompanyService" target="repository.UserRepository">
+      <point x="0.0" y="-72.0" />
+      <point x="8437.539751626784" y="2667.0" />
+      <point x="8505.361180198212" y="2667.0" />
+      <point x="8505.361180198212" y="2154.0" />
+      <point x="8001.289751626784" y="2154.0" />
+      <point x="177.0" y="139.5" />
+    </edge>
+    <edge source="controllers.LoginController" target="service.UserService">
+      <point x="47.75" y="-58.5" />
+      <point x="8041.039751626784" y="2617.0" />
+      <point x="6597.38554706998" y="2617.0" />
+      <point x="88.80000000000018" y="72.0" />
+    </edge>
+    <edge source="controllers.ClientsController" target="exception.ControllerException">
+      <point x="-98.0" y="-72.0" />
+      <point x="8241.539751626784" y="3040.0" />
+      <point x="6723.554903141934" y="3040.0" />
+      <point x="78.18181818181802" y="18.0" />
+    </edge>
+    <edge source="service.MoneyService" target="exception.ServiceException">
+      <point x="-116.0" y="-31.5" />
+      <point x="3012.2897137366463" y="2617.0" />
+      <point x="3017.8522137366463" y="2617.0" />
+      <point x="3017.8522137366463" y="2184.0" />
+      <point x="5209.668880403314" y="2184.0" />
+      <point x="-57.375" y="18.0" />
+    </edge>
+    <edge source="dto.WaybillDTO" target="models.Vehicle">
+      <point x="-134.75" y="-167.0" />
+      <point x="1698.9000378901358" y="3070.0" />
+      <point x="1326.0582771787986" y="3070.0" />
+      <point x="1326.0582771787986" y="1392.0" />
+      <point x="1849.5522516267822" y="1392.0" />
+      <point x="-111.0" y="180.5" />
+    </edge>
+    <edge source="service.DriverService" target="repository.ProductRepository">
+      <point x="74.39999999999964" y="-59.0" />
+      <point x="4275.289713736645" y="2637.0" />
+      <point x="4209.964713736646" y="2637.0" />
+      <point x="-77.0" y="99.0" />
+    </edge>
+    <edge source="models.Waybill" target="models.User">
+      <point x="50.600000000000364" y="-126.0" />
+      <point x="2770.4522516267825" y="1745.0" />
+      <point x="2697.9647516267823" y="1745.0" />
+      <point x="2697.9647516267823" y="781.0" />
+      <point x="2062.8545946890276" y="781.0" />
+      <point x="112.28571428571468" y="221.5" />
+    </edge>
+    <edge source="dto.ProductDTO" target="models.Product">
+      <point x="0.0" y="-126.5" />
+      <point x="928.141610512132" y="2244.0" />
+      <point x="1168.5582771787986" y="2244.0" />
+      <point x="1168.5582771787986" y="1362.0" />
+      <point x="924.2643236044219" y="1362.0" />
+      <point x="924.2643236044219" y="941.0" />
+      <point x="955.9688804033126" y="941.0" />
+      <point x="-42.600000000000364" y="99.0" />
+    </edge>
+    <edge source="models.User" target="models.UserRole">
+      <point x="131.0" y="-221.5" />
+      <point x="0.0" y="59.5" />
+    </edge>
+    <edge source="models.WaybillVehicleDriver" target="models.statuses">
+      <point x="101.19999999999982" y="-126.5" />
+      <point x="2589.677251626782" y="1432.0" />
+      <point x="2572.031418293449" y="1432.0" />
+      <point x="2572.031418293449" y="791.0" />
+      <point x="2420.314751626782" y="791.0" />
+      <point x="0.0" y="18.0" />
+    </edge>
+    <edge source="service.WarehouseService" target="exception.ServiceException">
+      <point x="115.75" y="-72.0" />
+      <point x="5809.918880403313" y="2547.0" />
+      <point x="5548.231380403313" y="2547.0" />
+      <point x="5548.231380403313" y="2224.0" />
+      <point x="5273.418880403314" y="2224.0" />
+      <point x="6.375" y="18.0" />
+    </edge>
+    <edge source="dto.PackingListDTO" target="models.ProductInPackingList">
+      <point x="0.0" y="-126.5" />
+      <point x="609.2355470699799" y="2657.0" />
+      <point x="557.2355470699799" y="2657.0" />
+      <point x="557.2355470699799" y="1382.0" />
+      <point x="1455.3167045568027" y="1382.0" />
+      <point x="-59.0" y="85.5" />
+    </edge>
+    <edge source="service.AccountService" target="repository.UserRepository">
+      <point x="95.0" y="-58.5" />
+      <point x="8399.861180198212" y="2164.0" />
+      <point x="7942.289751626784" y="2164.0" />
+      <point x="118.0" y="139.5" />
+    </edge>
+    <edge source="dto.PackingListDTO" target="models.User">
+      <point x="-28.111111111111313" y="-126.5" />
+      <point x="581.1244359588686" y="2667.0" />
+      <point x="546.2355470699799" y="2667.0" />
+      <point x="546.2355470699799" y="1372.0" />
+      <point x="1140.650037890136" y="1372.0" />
+      <point x="1140.650037890136" y="911.0" />
+      <point x="1782.1403089747414" y="911.0" />
+      <point x="-168.42857142857156" y="221.5" />
+    </edge>
+    <edge source="service.MoneyService" target="repository.MoneyRepository">
+      <point x="116.0" y="-31.5" />
+      <point x="3244.2897137366463" y="2627.0" />
+      <point x="3293.0397137366463" y="2627.0" />
+      <point x="-70.125" y="72.0" />
+    </edge>
+    <edge source="dto.WaybillDTO" target="models.Waypoint">
+      <point x="134.75" y="-167.0" />
+      <point x="1968.4000378901358" y="3010.0" />
+      <point x="2097.614713736646" y="3010.0" />
+      <point x="2097.614713736646" y="2637.0" />
+      <point x="2410.8564744479836" y="2637.0" />
+      <point x="48.25" y="85.5" />
+    </edge>
+    <edge source="service.PackingListService" target="exception.ServiceException">
+      <point x="180.66666666666697" y="-85.5" />
+      <point x="4900.689713736647" y="2637.0" />
+      <point x="4986.27304706998" y="2637.0" />
+      <point x="4986.27304706998" y="2214.0" />
+      <point x="5247.918880403314" y="2214.0" />
+      <point x="-19.125" y="18.0" />
+    </edge>
+    <edge source="models.WaybillVehicleDriver" target="models.Vehicle">
+      <point x="-101.19999999999982" y="-126.5" />
+      <point x="2387.2772516267823" y="1402.0" />
+      <point x="2071.552251626782" y="1402.0" />
+      <point x="111.0" y="180.5" />
+    </edge>
+    <edge source="service.CompanyService" target="repository.CompanyRepository">
+      <point x="-194.57142857142844" y="-72.0" />
+      <point x="8242.968323055355" y="2607.0" />
+      <point x="7347.623084960117" y="2607.0" />
+      <point x="144.33333333333348" y="85.5" />
+    </edge>
+    <edge source="service.WaypointService" target="repository.WaypointRepository">
+      <point x="-64.5" y="-45.5" />
+      <point x="2509.5397137366463" y="2607.0" />
+      <point x="2638.1064744479836" y="2607.0" />
+      <point x="0.0" y="45.0" />
+    </edge>
+    <edge source="models.Waybill" target="models.Waypoint">
+      <point x="0.0" y="126.0" />
+      <point x="2719.852251626782" y="2144.0" />
+      <point x="2362.6064744479836" y="2144.0" />
+      <point x="0.0" y="-85.5" />
+    </edge>
+    <edge source="service.VehicleService" target="exception.ServiceException">
+      <point x="150.66666666666697" y="-72.0" />
+      <point x="7128.039751626784" y="2697.0" />
+      <point x="7430.289751626784" y="2697.0" />
+      <point x="7430.289751626784" y="2204.0" />
+      <point x="5298.918880403314" y="2204.0" />
+      <point x="31.875" y="18.0" />
+    </edge>
+    <edge source="controllers.DriverController" target="service.DriverService">
+      <point x="-65.75" y="-59.0" />
+      <point x="4395.689751626783" y="3010.0" />
+      <point x="4200.889713736646" y="3010.0" />
+      <point x="0.0" y="59.0" />
+    </edge>
+    <edge source="controllers.WaypointController" target="exception.ControllerException">
+      <point x="42.75" y="-45.0" />
+      <point x="2993.6272516267827" y="3030.0" />
+      <point x="6567.191266778298" y="3030.0" />
+      <point x="-78.18181818181802" y="18.0" />
+    </edge>
+    <edge source="service.VehicleService" target="repository.VehicleRepository">
+      <point x="-150.66666666666652" y="-72.0" />
+      <point x="6826.70641829345" y="2637.0" />
+      <point x="6087.273047069981" y="2637.0" />
+      <point x="124.0" y="99.0" />
+    </edge>
+    <edge source="models.Vehicle" target="models.Company">
+      <point x="-124.875" y="-180.5" />
+      <point x="1835.6772516267822" y="861.0" />
+      <point x="1417.568880403313" y="861.0" />
+      <point x="0.0" y="85.5" />
+    </edge>
+    <edge source="models.ProductInPackingList" target="models.statuses">
+      <point x="66.375" y="-85.5" />
+      <point x="1580.6917045568027" y="931.0" />
+      <point x="2359.5147516267816" y="931.0" />
+      <point x="-60.80000000000018" y="18.0" />
+    </edge>
+    <edge source="repository.WaypointRepository" target="models.Waybill">
+      <point x="0.0" y="-45.0" />
+      <point x="2638.1064744479836" y="2154.0" />
+      <point x="2770.4522516267825" y="2154.0" />
+      <point x="50.600000000000364" y="126.0" />
+    </edge>
+    <edge source="dto.VehicleDriverDTO" target="dto.UserDTO">
+      <point x="61.0" y="-86.0" />
+      <point x="1530.5582771787986" y="2697.0" />
+      <point x="1531.808277178799" y="2697.0" />
+      <point x="-77.66666666666606" y="113.0" />
+    </edge>
+    <edge source="dto.ProductDTO" target="models.LostProduct">
+      <point x="84.33333333333394" y="-126.5" />
+      <point x="1012.474943845466" y="2254.0" />
+      <point x="1315.0582771787986" y="2254.0" />
+      <point x="1315.0582771787986" y="1372.0" />
+      <point x="1276.150037890136" y="1372.0" />
+      <point x="0.0" y="86.0" />
+    </edge>
+    <edge source="dto.PackingListDTO" target="models.Warehouse">
+      <point x="-56.222222222222626" y="-126.5" />
+      <point x="553.0133248477573" y="2677.0" />
+      <point x="520.1522137366469" y="2677.0" />
+      <point x="520.1522137366469" y="1362.0" />
+      <point x="786.2643236044219" y="1362.0" />
+      <point x="-42.5" y="72.0" />
+    </edge>
+    <edge source="dto.VehicleDriverDTO" target="models.Vehicle">
+      <point x="-20.33333333333303" y="-86.0" />
+      <point x="1449.2249438454655" y="2697.0" />
+      <point x="1464.0582771787986" y="2697.0" />
+      <point x="1464.0582771787986" y="1402.0" />
+      <point x="1960.5522516267822" y="1402.0" />
+      <point x="0.0" y="180.5" />
+    </edge>
+    <edge source="controllers.AccountController" target="service.UserService">
+      <point x="64.5" y="-59.0" />
+      <point x="7813.289751626784" y="2627.0" />
+      <point x="6552.98554706998" y="2627.0" />
+      <point x="44.40000000000009" y="72.0" />
+    </edge>
+    <edge source="controllers.WaybillController" target="service.WaybillService">
+      <point x="0.0" y="-58.5" />
+      <point x="5440.448084960117" y="2990.0" />
+      <point x="5298.168880403314" y="2990.0" />
+      <point x="0.0" y="72.5" />
+    </edge>
+    <edge source="models.WaybillVehicleDriver" target="models.User">
+      <point x="50.600000000000364" y="-126.5" />
+      <point x="2539.0772516267825" y="1432.0" />
+      <point x="2561.031418293449" y="1432.0" />
+      <point x="2561.031418293449" y="801.0" />
+      <point x="2006.7117375461698" y="801.0" />
+      <point x="56.14285714285688" y="221.5" />
+    </edge>
+    <edge source="models.Waybill" target="models.statuses">
+      <point x="101.19999999999982" y="-126.0" />
+      <point x="2821.052251626782" y="1735.0" />
+      <point x="2708.9647516267823" y="1735.0" />
+      <point x="2708.9647516267823" y="771.0" />
+      <point x="2450.7147516267814" y="771.0" />
+      <point x="30.399999999999636" y="18.0" />
+    </edge>
+    <edge source="controllers.MoneyController" target="service.MoneyService">
+      <point x="-132.66666666666697" y="-72.0" />
+      <point x="3623.7939182934488" y="3010.0" />
+      <point x="3128.2897137366463" y="3010.0" />
+      <point x="0.0" y="31.5" />
+    </edge>
+    <edge source="service.UserService" target="repository.UserRepository">
+      <point x="74.0" y="-72.0" />
+      <point x="6582.585547069981" y="2254.0" />
+      <point x="7765.289751626784" y="2254.0" />
+      <point x="-59.0" y="139.5" />
+    </edge>
+    <edge source="service.WarehouseService" target="repository.WarehouseRepository">
+      <point x="-115.75" y="-72.0" />
+      <point x="5578.418880403313" y="2557.0" />
+      <point x="5302.231380403314" y="2557.0" />
+      <point x="0.0" y="72.0" />
+    </edge>
+    <edge source="dto.VehicleDriverDTO" target="dto.ProductDTO">
+      <point x="-61.0" y="-86.0" />
+      <point x="1408.5582771787986" y="2687.0" />
+      <point x="1029.3416105121328" y="2687.0" />
+      <point x="101.20000000000073" y="126.5" />
+    </edge>
+    <edge source="service.PackingListService" target="repository.PackingListRepository">
+      <point x="0.0" y="-85.5" />
+      <point x="4720.02304706998" y="2637.0" />
+      <point x="4779.714713736646" y="2637.0" />
+      <point x="106.25" y="99.0" />
+    </edge>
+    <edge source="service.WaybillService" target="exception.ServiceException">
+      <point x="-36.125" y="-72.5" />
+      <point x="5262.043880403314" y="2577.0" />
+      <point x="5015.543880403314" y="2577.0" />
+      <point x="5015.543880403314" y="2224.0" />
+      <point x="5260.668880403314" y="2224.0" />
+      <point x="-6.375" y="18.0" />
+    </edge>
+    <edge source="models.ProductInWaybill" target="models.Product">
+      <point x="0.0" y="-86.0" />
+      <point x="2425.531418293449" y="811.0" />
+      <point x="1083.7688804033137" y="811.0" />
+      <point x="85.20000000000073" y="99.0" />
+    </edge>
+    <edge source="models.PackingList" target="models.ProductInPackingList">
+      <point x="-46.600000000000364" y="-113.0" />
+      <point x="1559.424943845465" y="1342.0" />
+      <point x="1514.3167045568027" y="1342.0" />
+      <point x="0.0" y="85.5" />
+    </edge>
+    <edge source="dto.VehicleDriverDTO" target="service.UserService">
+      <point x="101.66666666666697" y="-86.0" />
+      <point x="1571.2249438454655" y="2647.0" />
+      <point x="6419.78554706998" y="2647.0" />
+      <point x="-88.80000000000018" y="72.0" />
+    </edge>
+    <edge source="controllers.EmployeesController" target="models.User">
+      <point x="0.0" y="-85.5" />
+      <point x="7452.289751626784" y="751.0" />
+      <point x="2118.9974518318845" y="751.0" />
+      <point x="168.42857142857156" y="221.5" />
+    </edge>
+    <edge source="controllers.ClientsController" target="service.CompanyService">
+      <point x="98.0" y="-72.0" />
+      <point x="0.0" y="72.0" />
+    </edge>
+    <edge source="service.WaypointService" target="repository.WaybillRepository">
+      <point x="64.5" y="-45.5" />
+      <point x="2638.5397137366463" y="2637.0" />
+      <point x="3773.6313804033134" y="2637.0" />
+      <point x="-135.33333333333303" y="126.0" />
+    </edge>
+    <edge source="controllers.DriverController" target="exception.ControllerException">
+      <point x="65.75" y="-59.0" />
+      <point x="4527.189751626783" y="3050.0" />
+      <point x="6598.463994051026" y="3050.0" />
+      <point x="-46.90909090909099" y="18.0" />
+    </edge>
+    <edge source="dto.ProductDTO" target="models.MeasureUnit">
+      <point x="-84.33333333333394" y="-126.5" />
+      <point x="843.8082771787981" y="2254.0" />
+      <point x="626.4855470699799" y="2254.0" />
+      <point x="626.4855470699799" y="1342.0" />
+      <point x="76.5" y="1342.0" />
+      <point x="0.0" y="59.0" />
+    </edge>
+    <edge source="controllers.WaypointController" target="service.WaypointService">
+      <point x="-42.75" y="-45.0" />
+      <point x="2908.1272516267827" y="3010.0" />
+      <point x="2574.0397137366463" y="3010.0" />
+      <point x="0.0" y="45.5" />
+    </edge>
+    <edge source="models.PackingList" target="models.Warehouse">
+      <point x="-93.19999999999982" y="-113.0" />
+      <point x="1512.8249438454654" y="1352.0" />
+      <point x="871.2643236044219" y="1352.0" />
+      <point x="42.5" y="72.0" />
+    </edge>
+    <edge source="controllers.WaybillController" target="service.PackingListService">
+      <point x="-61.0" y="-58.5" />
+      <point x="5379.448084960117" y="3000.0" />
+      <point x="4855.52304706998" y="3000.0" />
+      <point x="135.5" y="85.5" />
+    </edge>
+    <edge source="models.Vehicle" target="models.VehicleType">
+      <point x="41.625" y="-180.5" />
+      <point x="2002.1772516267822" y="841.0" />
+      <point x="1667.568880403313" y="841.0" />
+      <point x="0.0" y="45.0" />
+    </edge>
+    <edge source="models.User" target="models.Address">
+      <point x="-131.0" y="-221.5" />
+      <point x="1819.568880403313" y="228.0" />
+      <point x="747.666666666667" y="228.0" />
+      <point x="70.0" y="99.0" />
+    </edge>
+    <edge source="models.PackingList" target="models.User">
+      <point x="46.600000000000364" y="-113.0" />
+      <point x="1652.6249438454656" y="1412.0" />
+      <point x="2253.114751626782" y="1412.0" />
+      <point x="2253.114751626782" y="821.0" />
+      <point x="1950.568880403313" y="821.0" />
+      <point x="0.0" y="221.5" />
+    </edge>
+    <edge source="service.WaypointService" target="models.FinancialHighlights">
+      <point x="-107.5" y="-45.5" />
+      <point x="2466.5397137366463" y="2617.0" />
+      <point x="2135.216704556803" y="2617.0" />
+      <point x="2135.216704556803" y="2114.0" />
+      <point x="2048.8167045568025" y="2114.0" />
+      <point x="0.0" y="112.5" />
+    </edge>
+    <edge source="service.DriverService" target="repository.PackingListRepository">
+      <point x="148.80000000000018" y="-59.0" />
+      <point x="4349.689713736647" y="2637.0" />
+      <point x="4567.214713736646" y="2637.0" />
+      <point x="-106.25" y="99.0" />
+    </edge>
+    <edge source="dto.EmployeeDTO" target="dto.AccountDTO">
+      <point x="-59.666666666666515" y="-72.5" />
+      <point x="574.5976569377553" y="931.0" />
+      <point x="292.0" y="931.0" />
+      <point x="0.0" y="194.0" />
+    </edge>
+    <edge source="models.WaybillVehicleDriver" target="models.Waybill">
+      <point x="94.875" y="126.5" />
+      <point x="2583.352251626782" y="1755.0" />
+      <point x="2719.852251626782" y="1755.0" />
+      <point x="0.0" y="-126.0" />
+    </edge>
+    <edge source="controllers.VehiclesController" target="exception.ControllerException">
+      <point x="-100.5" y="-72.0" />
+      <point x="6718.691266778298" y="3080.0" />
+      <point x="6661.00944859648" y="3080.0" />
+      <point x="15.636363636363512" y="18.0" />
+    </edge>
+    <edge source="service.ReportsGeneratorService" target="exception.ServiceException">
+      <point x="101.75" y="-58.5" />
+      <point x="3685.5397137366463" y="2627.0" />
+      <point x="3694.2272137366463" y="2627.0" />
+      <point x="3694.2272137366463" y="2194.0" />
+      <point x="5222.418880403314" y="2194.0" />
+      <point x="-44.625" y="18.0" />
+    </edge>
+    <edge source="models.LostProduct" target="models.User">
+      <point x="62.5" y="-86.0" />
+      <point x="1338.650037890136" y="921.0" />
+      <point x="1838.2831661175983" y="921.0" />
+      <point x="-112.28571428571468" y="221.5" />
+    </edge>
+    <edge source="controllers.WaybillController" target="exception.ControllerException">
+      <point x="61.0" y="-58.5" />
+      <point x="5501.448084960117" y="3070.0" />
+      <point x="6629.736721323753" y="3070.0" />
+      <point x="-15.636363636363512" y="18.0" />
+    </edge>
+    <edge source="models.ProductInPackingList" target="models.ProductInPackingList.Id">
+      <point x="22.125" y="-85.5" />
+      <point x="1536.4417045568027" y="871.0" />
+      <point x="1350.818880403313" y="871.0" />
+      <point x="56.25" y="72.5" />
+    </edge>
+    <edge source="controllers.PackingListController" target="service.PackingListService">
+      <point x="-74.0" y="-85.5" />
+      <point x="4869.448084960116" y="3010.0" />
+      <point x="4584.52304706998" y="3010.0" />
+      <point x="-135.5" y="85.5" />
+    </edge>
+    <edge source="service.WaybillService" target="repository.WaybillRepository">
+      <point x="-108.375" y="-72.5" />
+      <point x="5189.793880403314" y="2587.0" />
+      <point x="4044.2980470699795" y="2587.0" />
+      <point x="135.33333333333303" y="126.0" />
+    </edge>
+    <edge source="models.FinancialHighlights" target="models.WaybillVehicleDriver">
+      <point x="0.0" y="-112.5" />
+      <point x="2048.8167045568025" y="1795.0" />
+      <point x="2456.852251626782" y="1795.0" />
+      <point x="-31.625" y="126.5" />
+    </edge>
+    <edge source="service.VehicleService" target="repository.CompanyRepository">
+      <point x="0.0" y="-72.0" />
+      <point x="6977.373084960116" y="2687.0" />
+      <point x="7203.289751626784" y="2687.0" />
+      <point x="0.0" y="85.5" />
+    </edge>
+    <edge source="models.PackingList" target="models.statuses">
+      <point x="93.19999999999982" y="-113.0" />
+      <point x="1699.224943845465" y="1422.0" />
+      <point x="2264.114751626782" y="1422.0" />
+      <point x="2264.114751626782" y="941.0" />
+      <point x="2389.914751626782" y="941.0" />
+      <point x="-30.399999999999636" y="18.0" />
+    </edge>
+    <edge source="models.WaybillVehicleDriver" target="models.ProductInWaybill">
+      <point x="-50.600000000000364" y="-126.5" />
+      <point x="2437.877251626782" y="1432.0" />
+      <point x="2425.531418293449" y="1432.0" />
+      <point x="0.0" y="86.0" />
+    </edge>
+    <edge source="dto.WaybillDTO" target="models.ProductInWaybill">
+      <point x="57.75" y="-167.0" />
+      <point x="1891.4000378901358" y="3020.0" />
+      <point x="1736.474943845465" y="3020.0" />
+      <point x="1736.474943845465" y="1432.0" />
+      <point x="2342.198084960116" y="1432.0" />
+      <point x="-83.33333333333303" y="86.0" />
+    </edge>
+    <edge source="controllers.VehiclesController" target="service.VehicleService">
+      <point x="100.5" y="-72.0" />
+      <point x="6919.691266778298" y="3080.0" />
+      <point x="6977.373084960116" y="3080.0" />
+      <point x="0.0" y="72.0" />
+    </edge>
+    <edge source="models.Warehouse" target="models.Address">
+      <point x="0.0" y="-72.0" />
+      <point x="828.7643236044219" y="921.0" />
+      <point x="677.666666666667" y="921.0" />
+      <point x="0.0" y="99.0" />
+    </edge>
+    <edge source="service.UserService" target="exception.ServiceException">
+      <point x="-74.0" y="-72.0" />
+      <point x="6434.585547069981" y="2214.0" />
+      <point x="5286.168880403314" y="2214.0" />
+      <point x="19.125" y="18.0" />
+    </edge>
+    <edge source="models.ProductInPackingList" target="models.Product">
+      <point x="-66.375" y="-85.5" />
+      <point x="1447.9417045568027" y="891.0" />
+      <point x="1041.1688804033133" y="891.0" />
+      <point x="42.600000000000364" y="99.0" />
+    </edge>
+    <edge source="service.WaybillService" target="repository.UserRepository">
+      <point x="36.125" y="-72.5" />
+      <point x="5334.293880403314" y="2567.0" />
+      <point x="5026.543880403314" y="2567.0" />
+      <point x="5026.543880403314" y="2234.0" />
+      <point x="7647.289751626784" y="2234.0" />
+      <point x="-177.0" y="139.5" />
+    </edge>
+    <edge source="service.WaypointService" target="repository.MoneyRepository">
+      <point x="21.5" y="-45.5" />
+      <point x="2595.5397137366463" y="2627.0" />
+      <point x="3152.7897137366463" y="2627.0" />
+      <point x="-210.375" y="72.0" />
+    </edge>
+    <edge source="models.LostProduct" target="models.Product">
+      <point x="-62.5" y="-86.0" />
+      <point x="1213.650037890136" y="901.0" />
+      <point x="998.568880403313" y="901.0" />
+      <point x="0.0" y="99.0" />
+    </edge>
+    <edge source="dto.WaybillDTO" target="dto.VehicleDriverDTO">
+      <point x="-57.75" y="-167.0" />
+      <point x="1775.9000378901358" y="3050.0" />
+      <point x="1469.5582771787986" y="3050.0" />
+      <point x="0.0" y="86.0" />
+    </edge>
+    <edge source="repository.PackingListRepository" target="models.PackingList">
+      <point x="0.0" y="-99.0" />
+      <point x="4673.464713736646" y="2164.0" />
+      <point x="4315.254166666667" y="2164.0" />
+      <point x="4315.254166666667" y="1725.0" />
+      <point x="1693.3999438454653" y="1725.0" />
+      <point x="87.375" y="113.0" />
+    </edge>
+    <edge source="service.EmployeesService" target="exception.ServiceException">
+      <point x="-158.33333333333337" y="-85.5" />
+      <point x="7665.95641829345" y="2184.0" />
+      <point x="5324.418880403314" y="2184.0" />
+      <point x="57.375" y="18.0" />
+    </edge>
+    <edge source="dto.DriverWaypointsDTO" target="models.Waypoint">
+      <point x="0.0" y="-45.0" />
+      <point x="1979.114713736646" y="2627.0" />
+      <point x="2314.3564744479836" y="2627.0" />
+      <point x="-48.25" y="85.5" />
+    </edge>
+    <edge source="models.Product" target="models.StorageType">
+      <point x="53.25" y="-99.0" />
+      <point x="0.0" y="58.5" />
+    </edge>
+    <edge source="service.CompanyService" target="models.UserRole">
+      <point x="129.71428571428532" y="-72.0" />
+      <point x="8567.254037341068" y="2687.0" />
+      <point x="8761.361180198212" y="2687.0" />
+      <point x="8761.361180198212" y="268.0" />
+      <point x="2132.568880403313" y="268.0" />
+      <point x="51.0" y="59.5" />
+    </edge>
+    <edge source="models.Waypoint" target="models.Waybill">
+      <point x="-64.33333333333303" y="-85.5" />
+      <point x="2298.2731411146506" y="2134.0" />
+      <point x="2669.252251626782" y="2134.0" />
+      <point x="-50.600000000000364" y="126.0" />
+    </edge>
+    <edge source="dto.WaybillDTO" target="service.UserService">
+      <point x="173.25" y="-167.0" />
+      <point x="2006.9000378901358" y="3020.0" />
+      <point x="6242.168880403313" y="3020.0" />
+      <point x="6242.168880403313" y="2667.0" />
+      <point x="6508.585547069981" y="2667.0" />
+      <point x="0.0" y="72.0" />
+    </edge>
+    <edge source="service.AccountService" target="exception.ServiceException">
+      <point x="-95.0" y="-58.5" />
+      <point x="8209.861180198212" y="2174.0" />
+      <point x="5337.168880403314" y="2174.0" />
+      <point x="70.125" y="18.0" />
+    </edge>
+    <edge source="models.Waybill" target="models.WaybillVehicleDriver">
+      <point x="-50.600000000000364" y="-126.0" />
+      <point x="2669.252251626782" y="1765.0" />
+      <point x="2520.102251626782" y="1765.0" />
+      <point x="31.625" y="126.5" />
+    </edge>
+    <edge source="service.CompanyService" target="service.AccountService">
+      <point x="-64.85714285714278" y="-72.0" />
+      <point x="8372.68260876964" y="2587.0" />
+      <point x="8304.861180198212" y="2587.0" />
+      <point x="0.0" y="58.5" />
+    </edge>
+    <edge source="service.ReportsGeneratorService" target="repository.MoneyRepository">
+      <point x="-101.75" y="-58.5" />
+      <point x="3482.0397137366463" y="2627.0" />
+      <point x="3433.2897137366463" y="2627.0" />
+      <point x="70.125" y="72.0" />
+    </edge>
+    <edge source="controllers.PackingListController" target="exception.ControllerException">
+      <point x="74.0" y="-85.5" />
+      <point x="5017.448084960116" y="3060.0" />
+      <point x="6614.100357687389" y="3060.0" />
+      <point x="-31.27272727272748" y="18.0" />
+    </edge>
+    <edge source="dto.EmployeeDTO" target="models.Company">
+      <point x="0.0" y="-72.5" />
+      <point x="634.2643236044219" y="921.0" />
+      <point x="507.5" y="921.0" />
+      <point x="507.5" y="258.0" />
+      <point x="1354.23554706998" y="258.0" />
+      <point x="-63.33333333333303" y="85.5" />
+    </edge>
+    <edge source="dto.PackingListDTO" target="dto.ProductDTO">
+      <point x="84.33333333333394" y="-126.5" />
+      <point x="693.5688804033139" y="2687.0" />
+      <point x="877.5416105121317" y="2687.0" />
+      <point x="-50.600000000000364" y="126.5" />
+    </edge>
+    <edge source="dto.AccountDTO" target="models.Address">
+      <point x="0.0" y="-194.0" />
+      <point x="292.0" y="248.0" />
+      <point x="607.666666666667" y="248.0" />
+      <point x="-70.0" y="99.0" />
+    </edge>
+    <edge source="models.Waybill" target="models.PackingList">
+      <point x="-101.19999999999982" y="-126.0" />
+      <point x="2618.6522516267823" y="1775.0" />
+      <point x="1635.1499438454653" y="1775.0" />
+      <point x="29.125" y="113.0" />
+    </edge>
+    <edge source="service.DriverService" target="repository.MoneyRepository">
+      <point x="-148.80000000000018" y="-59.0" />
+      <point x="4052.089713736646" y="2617.0" />
+      <point x="3573.5397137366463" y="2617.0" />
+      <point x="210.375" y="72.0" />
+    </edge>
+    <edge source="service.CompanyService" target="service.models.EmailAttributes">
+      <point x="64.85714285714289" y="-72.0" />
+      <point x="8502.396894483927" y="2677.0" />
+      <point x="8633.361180198212" y="2677.0" />
+      <point x="0.0" y="72.0" />
+    </edge>
+    <edge source="dto.PackingListDTO" target="models.MeasureUnit">
+      <point x="-112.44444444444525" y="-126.5" />
+      <point x="496.7911026255347" y="2697.0" />
+      <point x="38.0" y="2697.0" />
+      <point x="38.0" y="268.0" />
+      <point x="25.5" y="268.0" />
+      <point x="-51.0" y="59.0" />
+    </edge>
+    <edge source="dto.WaybillDTO" target="models.Waybill">
+      <point x="96.25" y="-167.0" />
+      <point x="1929.9000378901358" y="3010.0" />
+      <point x="1781.6563804033126" y="3010.0" />
+      <point x="1781.6563804033126" y="2124.0" />
+      <point x="2618.6522516267823" y="2124.0" />
+      <point x="-101.19999999999982" y="126.0" />
+    </edge>
+    <edge source="service.CompanyService" target="exception.ServiceException">
+      <point x="-129.71428571428532" y="-72.0" />
+      <point x="8307.825465912498" y="2597.0" />
+      <point x="7441.289751626784" y="2597.0" />
+      <point x="7441.289751626784" y="2194.0" />
+      <point x="5311.668880403314" y="2194.0" />
+      <point x="44.625" y="18.0" />
+    </edge>
+    <edge source="service.PackingListService" target="repository.ProductRepository">
+      <point x="-180.66666666666697" y="-85.5" />
+      <point x="4539.356380403313" y="2627.0" />
+      <point x="4363.964713736646" y="2627.0" />
+      <point x="77.0" y="99.0" />
+    </edge>
+    <edge source="dto.WaybillDTO" target="dto.UserDTO">
+      <point x="19.25" y="-167.0" />
+      <point x="1852.9000378901358" y="3030.0" />
+      <point x="1654.6563804033126" y="3030.0" />
+      <point x="1654.6563804033126" y="2637.0" />
+      <point x="1687.1416105121311" y="2637.0" />
+      <point x="77.66666666666606" y="113.0" />
+    </edge>
+    <edge source="repository.WaybillRepository" target="models.Waybill">
+      <point x="0.0" y="-126.0" />
+      <point x="3908.9647137366464" y="2154.0" />
+      <point x="2821.052251626782" y="2154.0" />
+      <point x="101.19999999999982" y="126.0" />
+    </edge>
+    <edge source="controllers.EmployeesController" target="service.EmployeesService">
+      <point x="98.33333333333303" y="-85.5" />
+      <point x="7550.623084960116" y="3080.0" />
+      <point x="7824.289751626784" y="3080.0" />
+      <point x="0.0" y="85.5" />
+    </edge>
+    <edge source="models.ProductInPackingList" target="models.PackingList">
+      <point x="59.0" y="85.5" />
+      <point x="1573.3167045568027" y="1382.0" />
+      <point x="1606.0249438454653" y="1382.0" />
+      <point x="0.0" y="-113.0" />
+    </edge>
+    <edge source="dto.EmployeeDTO" target="models.UserRole">
+      <point x="59.666666666666515" y="-72.5" />
+      <point x="693.9309902710884" y="931.0" />
+      <point x="654.6143236044222" y="931.0" />
+      <point x="654.6143236044222" y="268.0" />
+      <point x="2030.568880403313" y="268.0" />
+      <point x="-51.0" y="59.5" />
+    </edge>
+    <edge source="service.DriverService" target="exception.ServiceException">
+      <point x="0.0" y="-59.0" />
+      <point x="4200.889713736646" y="2597.0" />
+      <point x="4122.464713736646" y="2597.0" />
+      <point x="4122.464713736646" y="2204.0" />
+      <point x="5235.168880403314" y="2204.0" />
+      <point x="-31.875" y="18.0" />
+    </edge>
+    <edge source="models.Product" target="models.MeasureUnit">
+      <point x="-53.25" y="-99.0" />
+      <point x="945.318880403313" y="238.0" />
+      <point x="127.5" y="238.0" />
+      <point x="51.0" y="59.0" />
+    </edge>
+    <edge source="service.EmployeesService" target="repository.UserRepository">
+      <point x="0.0" y="-85.5" />
+      <point x="0.0" y="139.5" />
+    </edge>
+    <edge source="models.Waypoint" target="models.statuses">
+      <point x="64.33333333333303" y="-85.5" />
+      <point x="2426.9398077813166" y="2164.0" />
+      <point x="2856.852251626782" y="2164.0" />
+      <point x="2856.852251626782" y="761.0" />
+      <point x="2481.114751626782" y="761.0" />
+      <point x="60.80000000000018" y="18.0" />
+    </edge>
+    <edge source="service.WaypointService" target="exception.ServiceException">
+      <point x="-21.5" y="-45.5" />
+      <point x="2552.5397137366463" y="2617.0" />
+      <point x="2807.6064744479836" y="2617.0" />
+      <point x="2807.6064744479836" y="2174.0" />
+      <point x="5196.918880403314" y="2174.0" />
+      <point x="-70.125" y="18.0" />
+    </edge>
+    <edge source="controllers.MoneyController" target="service.ReportsGeneratorService">
+      <point x="0.0" y="-72.0" />
+      <point x="3756.4605849601157" y="3000.0" />
+      <point x="3583.7897137366463" y="3000.0" />
+      <point x="0.0" y="58.5" />
+    </edge>
+    <edge source="models.ProductInWaybill" target="models.WaybillVehicleDriver">
+      <point x="83.33333333333303" y="86.0" />
+      <point x="2508.864751626782" y="1432.0" />
+      <point x="2488.477251626782" y="1432.0" />
+      <point x="0.0" y="-126.5" />
+    </edge>
+    <edge source="dto.PackingListDTO" target="models.Product">
+      <point x="-84.33333333333394" y="-126.5" />
+      <point x="524.902213736646" y="2687.0" />
+      <point x="310.66666666666697" y="2687.0" />
+      <point x="310.66666666666697" y="1352.0" />
+      <point x="534.2643236044219" y="1352.0" />
+      <point x="534.2643236044219" y="941.0" />
+      <point x="913.3688804033122" y="941.0" />
+      <point x="-85.20000000000073" y="99.0" />
+    </edge>
+    <edge source="dto.PackingListDTO" target="models.PackingList">
+      <point x="28.111111111111313" y="-126.5" />
+      <point x="637.3466581810912" y="2647.0" />
+      <point x="568.2355470699799" y="2647.0" />
+      <point x="568.2355470699799" y="1765.0" />
+      <point x="1518.6499438454653" y="1765.0" />
+      <point x="-87.375" y="113.0" />
+    </edge>
+    <edge source="service.CompanyService" target="service.EmailService">
+      <point x="194.57142857142856" y="-72.0" />
+      <point x="8632.111180198212" y="2697.0" />
+      <point x="8910.861180198212" y="2697.0" />
+      <point x="0.0" y="31.5" />
+    </edge>
+    <edge source="controllers.WarehouseController" target="service.WarehouseService">
+      <point x="-107.0" y="-72.0" />
+      <point x="5921.841704556802" y="3010.0" />
+      <point x="5694.168880403313" y="3010.0" />
+      <point x="0.0" y="72.0" />
+    </edge>
+    <edge source="controllers.EmployeesController" target="exception.ControllerException">
+      <point x="-98.33333333333326" y="-85.5" />
+      <point x="7353.95641829345" y="3070.0" />
+      <point x="6676.645812232844" y="3070.0" />
+      <point x="31.27272727272748" y="18.0" />
+    </edge>
+    <edge source="models.User" target="models.Company">
+      <point x="0.0" y="-221.5" />
+      <point x="1950.568880403313" y="218.0" />
+      <point x="1480.902213736646" y="218.0" />
+      <point x="63.33333333333303" y="85.5" />
+    </edge>
+    <edge source="service.WaybillService" target="repository.VehicleRepository">
+      <point x="108.375" y="-72.5" />
+      <point x="5406.543880403314" y="2637.0" />
+      <point x="5839.273047069981" y="2637.0" />
+      <point x="-124.0" y="99.0" />
+    </edge>
+    <edge source="dto.WaybillDTO" target="models.PackingList">
+      <point x="-96.25" y="-167.0" />
+      <point x="1737.4000378901358" y="3060.0" />
+      <point x="1337.0582771787986" y="3060.0" />
+      <point x="1337.0582771787986" y="1775.0" />
+      <point x="1576.8999438454653" y="1775.0" />
+      <point x="-29.125" y="113.0" />
+    </edge>
+    <edge source="models.Vehicle" target="models.VehicleFuel">
+      <point x="-41.625" y="-180.5" />
+      <point x="1918.9272516267822" y="851.0" />
+      <point x="1504.568880403313" y="851.0" />
+      <point x="0.0" y="58.5" />
+    </edge>
+    <edge source="dto.VehicleDriverDTO" target="models.WaybillVehicleDriver">
+      <point x="20.33333333333303" y="-86.0" />
+      <point x="1489.8916105121316" y="2697.0" />
+      <point x="1475.0582771787986" y="2697.0" />
+      <point x="1475.0582771787986" y="1785.0" />
+      <point x="2393.602251626782" y="1785.0" />
+      <point x="-94.875" y="126.5" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="0.9443579766536964" x="4828.71387026949" y="2834.139319737294" />
+  <SelectedNodes />
+  <Categories>
+    <Category>Fields</Category>
+    <Category>Properties</Category>
+    <Category>Methods</Category>
+  </Categories>
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>public</VISIBILITY>
+</Diagram>
+
